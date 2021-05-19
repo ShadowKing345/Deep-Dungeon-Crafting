@@ -3,7 +3,7 @@ using Weapons;
 
 namespace Entity
 {
-    public class Entity : MonoBehaviour
+    public class Entity : MonoBehaviour, IDamageable
     {
         // Entity Stats
         public EntityStats stats;
@@ -22,53 +22,18 @@ namespace Entity
         {
             _health = stats.maxHealth;
         }
-        
-        public void Attack(WeaponAction action)
-        {
-            if (action == null) return;
-            // Play animation
-            
-            // Detect enemies
-            Collider2D[] entitiesHit = Physics2D.OverlapCircleAll((Vector2)transform.position + action.attackPoint, action.range, hitLayers);
-            // Do damage
-            foreach (Collider2D entity in entitiesHit)
-            {
-                //todo: there has got to be a better way to do this.
-                // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
-                entity.GetComponent<Entity>().TakeDamage(action.potency);
-            }
-        }
 
-        public void TakeDamage(int damageAmount)
+        public bool Damage(int potency, WeaponElement element, WeaponAttackType attackType)
         {
             //Damage Animation
 
             //Take Damage
-            _health -= damageAmount;
+            _health -= potency;
+            
+            Debug.Log(potency);
 
             // Death check
-            if (_health <= 0) Die();
-        }
-
-        public virtual void Die()
-        {
-            // Death Animation
-
-            // Disable things
-            // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
-            Collider2D collider2D = GetComponent<Collider2D>();
-            if (collider2D) collider2D.enabled = false;
-
-            // Disable Script
-            isDead = true;
-            enabled = false;
-            Destroy(gameObject);
-        }
-        
-        private void OnDrawGizmosSelected()
-        {
-            if (weaponClass == null) return;
-            // Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+            return true;
         }
     }
 }

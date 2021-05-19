@@ -137,6 +137,8 @@ GameObject:
   - component: {fileID: 328459161}
   - component: {fileID: 328459157}
   - component: {fileID: 328459163}
+  - component: {fileID: 328459162}
+  - component: {fileID: 328459164}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -158,7 +160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 7.5
   rb: {fileID: 328459160}
-  animator: {fileID: 328459161}
+  direction: {x: 0, y: 0}
 --- !u!212 &328459158
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -265,6 +267,29 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &328459162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 328459156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1e507ab9ec0e7dc68735ff3ef79b520, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 328459161}
+  idleAnimations:
+  - Player-Idle-South
+  - Player-Idle-East
+  - Player-Idle-North
+  - Player-Idle-West
+  runningAnimations:
+  - Player-Run-South
+  - Player-Run-East
+  - Player-Run-North
+  - Player-Run-West
 --- !u!114 &328459163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,15 +303,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: 4c758117d59bd14cc962804d500f4930, type: 2}
-  weaponClass: {fileID: 11400000, guid: 77729d7ab99ee75fd9643771bb3b4d26, type: 2}
+  weaponClass:
+    name: 
+    description: 
+    classIcon: {fileID: 0}
+    action1: []
+    action2: []
+    action3: []
   weaponCooldown: 0
   hitLayers:
     serializedVersion: 2
     m_Bits: 4294967295
   isDead: 0
-  playerDied:
-    m_PersistentCalls:
-      m_Calls: []
+--- !u!114 &328459164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 328459156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a35a66088d004b0db9877998b335f7fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  classes: {fileID: 11400000, guid: 61ade0ab4985f3d118d4429f87b2ad14, type: 2}
+  movementController: {fileID: 328459157}
+  attackPoint: {x: 0.5, y: 0.5}
+  range: 0.5
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -402,7 +446,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: cda33322bb1adbe4785f40d6cf71a69e, type: 2}
-  weaponClass: {fileID: 0}
+  weaponClass:
+    name: 
+    description: 
+    classIcon: {fileID: 0}
+    action1: []
+    action2: []
+    action3: []
   weaponCooldown: 0
   hitLayers:
     serializedVersion: 2

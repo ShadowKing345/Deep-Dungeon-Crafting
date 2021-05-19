@@ -20,12 +20,12 @@ namespace Weapons
 
         public float coolDown = 2.5f;
         
-        public WeaponAttackType damageType;
-        public WeaponMagicalElements elementType;
+        public WeaponAttackType attackType;
+        public WeaponElement elementType;
         public Vector2 attackPoint = new Vector2(0,0);
     }
 
-    public enum WeaponMagicalElements
+    public enum WeaponElement
     {
         None,
         Water,
