@@ -4,20 +4,22 @@ using UnityEngine;
 
 namespace Player
 {
+    [RequireComponent(typeof(Rigidbody2D),typeof(EntityAnimator))]
     public class PlayerMovement : MonoBehaviour
     {
         public float moveSpeed = 7.5f;
     
         public Rigidbody2D rb;
+        public EntityAnimator animator;
     
         private Vector2 _movement;
 
-        private EntityAnimation _animatior;
-        public Vector2 direction;
+        public Vector2 Direction => _movement.normalized;
 
         private void Start()
         {
-            _animatior = _animatior != null ? _animatior : GetComponent<EntityAnimation>();
+            rb ??= GetComponent<Rigidbody2D>();
+            animator ??= GetComponent<EntityAnimator>();
         }
 
         private void Update()
@@ -31,8 +33,8 @@ namespace Player
             rb.MovePosition(rb.position + _movement * (moveSpeed * Time.fixedDeltaTime));
             
             // Plays Animation.
-            _animatior.SetDirection(_movement);
-            if (_movement.magnitude > 0.0f) direction = _movement;
+            animator.direction = _movement;
+            animator.isMoving = _movement.magnitude > 0.0f;
         }
     }
 }
