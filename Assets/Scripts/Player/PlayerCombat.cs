@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Collections;
+using Entity;
 using Interfaces;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -11,6 +12,8 @@ namespace Player
     [RequireComponent(typeof(PlayerMovement))]
     public class PlayerCombat : MonoBehaviour
     {
+        public EntityAnimator animator;
+        
         public WeaponClasses classes;
         private WeaponClass _weaponClass;
         
@@ -31,8 +34,8 @@ namespace Player
         
         private void Start()
         {
-            movementController = GetComponent<PlayerMovement>();
-            _weaponClass = classes.gameData[0];
+            movementController ??= GetComponent<PlayerMovement>();
+            _weaponClass ??= classes.gameData[0];
         }
 
         private void Update()
@@ -92,8 +95,8 @@ namespace Player
             {
                 if (action.projectilePreFab == null) return false;
 
-                GameObject projectile = Instantiate(action.projectilePreFab, transform.position + (Vector3)(action.attackPoint * movementController.direction), Quaternion.identity);
-                projectile.GetComponent<IProjectile>().Init(action.attackPoint * movementController.direction);
+                GameObject projectile = Instantiate(action.projectilePreFab, transform.position + (Vector3)(action.attackPoint * movementController.Direction), Quaternion.identity);
+                projectile.GetComponent<IProjectile>().Init(action.attackPoint * movementController.Direction);
             }
             
             return false;
@@ -104,7 +107,7 @@ namespace Player
             List<IDamageable> hitList = new List<IDamageable>();
 
             Collider2D[] entityHitList = Physics2D.OverlapCircleAll(
-                (Vector2) transform.position + action.attackPoint * movementController.direction, action.range);
+                (Vector2) transform.position + action.attackPoint * movementController.Direction, action.range);
 
             foreach (Collider2D entity in entityHitList)
             {
