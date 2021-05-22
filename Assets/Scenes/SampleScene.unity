@@ -160,7 +160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 7.5
   rb: {fileID: 328459160}
-  direction: {x: 0, y: 0}
+  animator: {fileID: 328459162}
 --- !u!212 &328459158
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -201,12 +201,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7cd9b34d0dd4201dabd268b1dae466c3, type: 3}
+  m_Sprite: {fileID: 2747218131344805013, guid: 7385fec0b61de2068874a0edd10546a3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.2, y: 0.27}
+  m_Size: {x: 1.25, y: 1.6875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -280,16 +280,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 328459161}
-  idleAnimations:
-  - Player-Idle-South
-  - Player-Idle-East
-  - Player-Idle-North
-  - Player-Idle-West
-  runningAnimations:
-  - Player-Run-South
-  - Player-Run-East
-  - Player-Run-North
-  - Player-Run-West
+  idleNames:
+  - Idle-South
+  - Idle-East
+  - Idle-North
+  - Idle-West
+  movingName:
+  - Run-South
+  - Run-East
+  - Run-North
+  - Run-West
+  attackName: 
+  direction: {x: 0, y: 0}
+  isMoving: 0
+  state: 0
 --- !u!114 &328459163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,6 +331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a35a66088d004b0db9877998b335f7fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
   classes: {fileID: 11400000, guid: 61ade0ab4985f3d118d4429f87b2ad14, type: 2}
   movementController: {fileID: 328459157}
   attackPoint: {x: 0.5, y: 0.5}
