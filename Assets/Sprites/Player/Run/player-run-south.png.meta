@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 66c85d44f6ee1cc30b467da2d42ecf7c
+guid: c94c0f733311778538ff762f95580b07
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -26,30 +26,6 @@ TextureImporter:
   - first:
       213: 4023449136848005018
     second: player-run-south_7
-  - first:
-      213: -8341825099763691681
-    second: player-run-south_8
-  - first:
-      213: 9044659134871185738
-    second: player-run-south_9
-  - first:
-      213: -528937335686568857
-    second: player-run-south_10
-  - first:
-      213: -5918692229320221808
-    second: player-run-south_11
-  - first:
-      213: -2672828702400048998
-    second: player-run-south_12
-  - first:
-      213: -1342896288693843666
-    second: player-run-south_13
-  - first:
-      213: 4010312804099231610
-    second: player-run-south_14
-  - first:
-      213: -4762904390928553109
-    second: player-run-south_15
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -81,8 +57,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -302,174 +278,6 @@ TextureImporter:
       bones: []
       spriteID: a976dad3ca926d730800000000000000
       internalID: 4023449136848005018
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: player-run-south_8
-      rect:
-        serializedVersion: 2
-        x: 160
-        y: 0
-        width: 20
-        height: 27
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f5fc526c442eb3c80800000000000000
-      internalID: -8341825099763691681
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: player-run-south_9
-      rect:
-        serializedVersion: 2
-        x: 180
-        y: 0
-        width: 20
-        height: 27
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a492d700095158d70800000000000000
-      internalID: 9044659134871185738
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: player-run-south_10
-      rect:
-        serializedVersion: 2
-        x: 200
-        y: 0
-        width: 20
-        height: 27
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 764e5fdab46d8a8f0800000000000000
-      internalID: -528937335686568857
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: player-run-south_11
-      rect:
-        serializedVersion: 2
-        x: 220
-        y: 0
-        width: 20
-        height: 27
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 09bd088a6c49cdda0800000000000000
-      internalID: -5918692229320221808
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: player-run-south_12
-      rect:
-        serializedVersion: 2
-        x: 240
-        y: 0
-        width: 20
-        height: 27
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a901af7d47438ead0800000000000000
-      internalID: -2672828702400048998
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: player-run-south_13
-      rect:
-        serializedVersion: 2
-        x: 260
-        y: 0
-        width: 20
-        height: 27
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e29863eb0f21d5de0800000000000000
-      internalID: -1342896288693843666
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: player-run-south_14
-      rect:
-        serializedVersion: 2
-        x: 280
-        y: 0
-        width: 20
-        height: 27
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a7f098e6f3e77a730800000000000000
-      internalID: 4010312804099231610
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: player-run-south_15
-      rect:
-        serializedVersion: 2
-        x: 300
-        y: 0
-        width: 20
-        height: 27
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b6b2e8ff0b3c6edb0800000000000000
-      internalID: -4762904390928553109
       vertices: []
       indices: 
       edges: []
