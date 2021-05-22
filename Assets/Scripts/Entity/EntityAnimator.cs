@@ -7,31 +7,50 @@ namespace Entity
     public class EntityAnimator : MonoBehaviour
     {
         public Animator animator;
-        public string[] idleNames;
-        public string[] runningNames;
+        
+        public string[] idleNames = new string[4];
+        public string[] movingName = new string[4];
         public string attackName;
+
+        public Vector2 direction;
+        public bool isMoving;
+        
         private int _lastDirection;
+        [SerializeField] private State state;
 
         private void Start()
         {
-            animator = GetComponent<Animator>();
+            animator ??= GetComponent<Animator>();
         }
 
-        public void Move(Vector2 direction)
+        private void Update()
         {
-            string[] directions;
-
-            if (direction.magnitude > 0.0f)
+            if (isMoving && state != State.Attacking)
             {
-                directions = runningNames;
+                state = State.Moving;
                 _lastDirection = DirectionIndex(direction);
             }
-            else
-            {
-                directions = idleNames;
-            }
             
-            animator.Play(directions[_lastDirection]);
+            PlayAnimation();
+        }
+
+        private void PlayAnimation()
+        {
+            switch (state)
+            {
+                case State.Idle:
+                    animator.Play(idleNames[_lastDirection]);
+                    break;
+                case State.Moving:
+                    animator.Play(movingName[_lastDirection]);
+                    break;
+                case State.Attacking:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            state = State.Idle;
         }
 
         private static int DirectionIndex(Vector2 direction)
@@ -51,17 +70,11 @@ namespace Entity
             return Mathf.FloorToInt(angle / step);
         }
 
-        private void PlayAnimation(string animationName, Action completionCallback)
+        public enum State
         {
-            try
-            {
-                animator.Play(animationName);
-                completionCallback();
-            }
-            catch (Exception e)
-            {
-                Debug.Log(e);
-            }
+            Idle,
+            Moving,
+            Attacking
         }
     }
 }
