@@ -1,14 +1,15 @@
+using System;
 using UnityEngine;
 
 namespace Entity
 {
     [RequireComponent(typeof(Animator))]
-    public class EntityAnimation : MonoBehaviour
+    public class EntityAnimator : MonoBehaviour
     {
         public Animator animator;
-        public string[] idleAnimations;
-        public string[] runningAnimations;
-
+        public string[] idleNames;
+        public string[] runningNames;
+        public string attackName;
         private int _lastDirection;
 
         private void Start()
@@ -16,24 +17,24 @@ namespace Entity
             animator = GetComponent<Animator>();
         }
 
-        public void SetDirection(Vector2 direction)
+        public void Move(Vector2 direction)
         {
             string[] directions;
 
             if (direction.magnitude > 0.0f)
             {
-                directions = runningAnimations;
+                directions = runningNames;
                 _lastDirection = DirectionIndex(direction);
             }
             else
             {
-                directions = idleAnimations;
+                directions = idleNames;
             }
             
             animator.Play(directions[_lastDirection]);
         }
 
-        public static int DirectionIndex(Vector2 direction)
+        private static int DirectionIndex(Vector2 direction)
         {
             Vector2 normPos = direction.normalized;
 
@@ -48,6 +49,19 @@ namespace Entity
             }
             
             return Mathf.FloorToInt(angle / step);
+        }
+
+        private void PlayAnimation(string animationName, Action completionCallback)
+        {
+            try
+            {
+                animator.Play(animationName);
+                completionCallback();
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e);
+            }
         }
     }
 }
