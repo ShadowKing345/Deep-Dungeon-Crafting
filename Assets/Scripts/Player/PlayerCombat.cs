@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
-using Collections;
 using Entity;
 using Interfaces;
 using UnityEngine;
-using UnityEngine.UIElements;
 using Weapons;
 
 namespace Player
@@ -14,8 +11,7 @@ namespace Player
     {
         public EntityAnimator animator;
         
-        public WeaponClasses classes;
-        private WeaponClass _weaponClass;
+        public WeaponClass _weaponClass;
         
         private int _actionNumber;
         private WeaponAction[] _actions;
@@ -35,7 +31,6 @@ namespace Player
         private void Start()
         {
             movementController ??= GetComponent<PlayerMovement>();
-            _weaponClass ??= classes.gameData[0];
         }
 
         private void Update()

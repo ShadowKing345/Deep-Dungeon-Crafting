@@ -10,7 +10,7 @@ namespace Weapons
         public string name;
         [TextArea(1,10)]
         public string description;
-        public Image actionIcon;
+        public Sprite icon;
 
         public int potency = 10;
         public float range = 0.5f;

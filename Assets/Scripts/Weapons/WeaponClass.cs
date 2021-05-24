@@ -1,17 +1,14 @@
-using System;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Weapons
 {
-    [Serializable]
-    public class WeaponClass
+    [CreateAssetMenu(menuName = "SO/Weapon Class", fileName = "New Weapon Class SO")]
+    [System.Serializable]
+    public class WeaponClass : ScriptableObject
     {
-        public string name;
         public string description;
-        public Image classIcon;
+        public Sprite icon;
 
         public WeaponAction[] action1 = new WeaponAction[0];
         public WeaponAction[] action2 = new WeaponAction[0];
@@ -27,7 +24,6 @@ namespace Weapons
                 _ => null
             };
         }
-
-        // public WeaponAction[] actions => (WeaponAction[]) action1.Concat(action2.Concat(action3));
+        public WeaponAction[] Actions => (WeaponAction[]) action1.Concat(action2.Concat(action3));
     }
 }

@@ -5,6 +5,7 @@ namespace Editor
 {
     public class ExtendedEditorWindow: EditorWindow
     {
+        
         protected SerializedObject SerializedObject;
         protected SerializedProperty CurrentProperty;
 
@@ -39,6 +40,21 @@ namespace Editor
             }
         }
 
+        protected void DrawProperties(SerializedObject obj, bool drawChildren)
+        {
+            string lastPropPath = string.Empty;
+            var currentProperty = obj.GetIterator();
+            currentProperty.Next(true);
+
+            foreach (SerializedProperty p in currentProperty)
+            {
+                if(!string.IsNullOrEmpty(lastPropPath) && p.propertyPath.Contains(lastPropPath)) continue;
+
+                lastPropPath = p.propertyPath;
+                EditorGUILayout.PropertyField(p, drawChildren);
+            }
+        }
+
         protected void DrawSideBar(SerializedProperty prop)
         {
             foreach (SerializedProperty p in prop)
@@ -53,7 +69,7 @@ namespace Editor
             }
         }
 
-        protected void DrawField(string propName, bool relative)
+        protected void DrawField(string propName, bool relative = true)
         {
             if (relative && CurrentProperty != null)
             {
