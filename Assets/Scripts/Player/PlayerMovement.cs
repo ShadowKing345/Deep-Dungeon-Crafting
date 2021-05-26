@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Player
 {
-    [RequireComponent(typeof(Rigidbody2D),typeof(EntityAnimator))]
+    [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerMovement : MonoBehaviour
     {
         public float moveSpeed = 7.5f;
@@ -19,13 +19,14 @@ namespace Player
         private void Start()
         {
             rb ??= GetComponent<Rigidbody2D>();
-            animator ??= GetComponent<EntityAnimator>();
+            animator ??= GetComponent<PlayerAnimator>().bodyAnimator;
         }
 
         private void Update()
         {
             _movement.x = Input.GetAxisRaw("Horizontal");
             _movement.y = Input.GetAxisRaw("Vertical");
+            _movement.Normalize();
         }
 
         private void FixedUpdate()

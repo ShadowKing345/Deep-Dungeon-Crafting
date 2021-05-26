@@ -9,9 +9,12 @@ namespace Player
     [RequireComponent(typeof(PlayerMovement))]
     public class PlayerCombat : MonoBehaviour
     {
-        public EntityAnimator animator;
-        
-        public WeaponClass _weaponClass;
+        public PlayerMovement movementController;
+        public PlayerAnimator animator;
+
+        public Transform center;
+
+        public WeaponClass weaponClass;
         
         private int _actionNumber;
         private WeaponAction[] _actions;
@@ -22,15 +25,15 @@ namespace Player
         private bool _comboActive;
 
         private float _weaponCoolDown;
+        private bool _isWeaponClassNull;
 
-        public PlayerMovement movementController;
-
-        public Vector2 attackPoint;
-        public float range;
-        
         private void Start()
         {
+            _isWeaponClassNull = weaponClass == null;
             movementController ??= GetComponent<PlayerMovement>();
+            animator ??= GetComponent<PlayerAnimator>();
+            if (weaponClass != null)
+                animator.bodyAnimator.animator.runtimeAnimatorController = weaponClass.animationController;
         }
 
         private void Update()
@@ -54,16 +57,18 @@ namespace Player
 
         private bool Attack(int actionIndex)
         {
-            if (_weaponClass == null) return false;
+            if (_isWeaponClassNull) return false;
 
             if (_actionNumber != actionIndex)
             {
-                _actions = _weaponClass.GetActionOfIndex(actionIndex);
+                _actions = weaponClass.GetActionOfIndex(actionIndex);
                 _actionNumber = actionIndex;
                 _actionComboIndex = 0;
             }
 
             WeaponAction action = _actions[_actionComboIndex];
+
+            animator.bodyAnimator.PlayAttackAnimation(action.animationName, action.coolDown, () => {Debug.Log("Attack Finished.");});
 
             if (!action.isProjectile)
             {
@@ -79,7 +84,7 @@ namespace Player
                 {
                     _actionComboIndex++;
                     if (_actionComboIndex >= _actions.Length) _actionComboIndex = 0;
-
+                    
                     _comboCoolDown = Time.time + 10;
                     _comboActive = true;
                     _weaponCoolDown = Time.time + action.coolDown;
@@ -101,15 +106,19 @@ namespace Player
         {
             List<IDamageable> hitList = new List<IDamageable>();
 
-            Collider2D[] entityHitList = Physics2D.OverlapCircleAll(
-                (Vector2) transform.position + action.attackPoint * movementController.Direction, action.range);
+            Collider2D[] entityHitList =
+                Physics2D.OverlapCircleAll(
+                    (Vector2) center.position + action.attackPoint * movementController.Direction, action.range);
 
-            foreach (Collider2D entity in entityHitList)
-            {
-                hitList.Add(entity.GetComponent<IDamageable>());
-            }
+            foreach (Collider2D entity in entityHitList) hitList.Add(entity.GetComponent<IDamageable>());
 
             return hitList.ToArray();
+        }
+
+        public void ChangeWeapon(WeaponClass weaponClass)
+        {
+            this.weaponClass = weaponClass;
+            animator.bodyAnimator.animator.runtimeAnimatorController = weaponClass.animationController;
         }
     }
 }

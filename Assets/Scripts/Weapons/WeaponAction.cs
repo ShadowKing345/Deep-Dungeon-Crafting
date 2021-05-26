@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Weapons
 {
@@ -23,6 +22,8 @@ namespace Weapons
         public WeaponAttackType attackType;
         public WeaponElement elementType;
         public Vector2 attackPoint = new Vector2(0,0);
+        
+        public string animationName = string.Empty;
     }
 
     public enum WeaponElement

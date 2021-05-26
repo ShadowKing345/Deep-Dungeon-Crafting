@@ -11,6 +11,7 @@ namespace Entity
         public string[] idleNames = new string[4];
         public string[] movingName = new string[4];
         public string attackName;
+        private float _attackDuration;
 
         public Vector2 direction;
         public bool isMoving;
@@ -20,7 +21,7 @@ namespace Entity
 
         private void Start()
         {
-            animator ??= GetComponent<Animator>();
+            animator = GetComponent<Animator>();
         }
 
         private void Update()
@@ -45,7 +46,10 @@ namespace Entity
                     animator.Play(movingName[_lastDirection]);
                     break;
                 case State.Attacking:
-                    break;
+                    animator.Play(attackName + $"_{_lastDirection}");
+                    if (Time.time > _attackDuration)
+                        break;
+                    return;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -68,6 +72,13 @@ namespace Entity
             }
             
             return Mathf.FloorToInt(angle / step);
+        }
+
+        public void PlayAttackAnimation(string attackName, float animationDuration, Action completionCallback)
+        {
+            this.attackName = attackName;
+            state = State.Attacking;
+            _attackDuration = Time.time + animationDuration;
         }
 
         public enum State

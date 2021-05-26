@@ -40,21 +40,6 @@ namespace Editor
             }
         }
 
-        protected void DrawProperties(SerializedObject obj, bool drawChildren)
-        {
-            string lastPropPath = string.Empty;
-            var currentProperty = obj.GetIterator();
-            currentProperty.Next(true);
-
-            foreach (SerializedProperty p in currentProperty)
-            {
-                if(!string.IsNullOrEmpty(lastPropPath) && p.propertyPath.Contains(lastPropPath)) continue;
-
-                lastPropPath = p.propertyPath;
-                EditorGUILayout.PropertyField(p, drawChildren);
-            }
-        }
-
         protected void DrawSideBar(SerializedProperty prop)
         {
             foreach (SerializedProperty p in prop)

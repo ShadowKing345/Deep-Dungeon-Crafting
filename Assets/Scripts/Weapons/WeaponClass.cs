@@ -25,5 +25,7 @@ namespace Weapons
             };
         }
         public WeaponAction[] Actions => (WeaponAction[]) action1.Concat(action2.Concat(action3));
+
+        public RuntimeAnimatorController animationController;
     }
 }
