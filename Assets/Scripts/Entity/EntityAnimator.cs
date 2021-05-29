@@ -6,10 +6,10 @@ namespace Entity
     [RequireComponent(typeof(Animator))]
     public class EntityAnimator : MonoBehaviour
     {
+        private string[] _directions = {"South", "East", "North", "West"};
+        
         public Animator animator;
         
-        public string[] idleNames = new string[4];
-        public string[] movingName = new string[4];
         public string attackName;
         private float _attackDuration;
 
@@ -26,7 +26,7 @@ namespace Entity
 
         private void Update()
         {
-            if (isMoving && state != State.Attacking)
+            if (isMoving)
             {
                 state = State.Moving;
                 _lastDirection = DirectionIndex(direction);
@@ -40,16 +40,22 @@ namespace Entity
             switch (state)
             {
                 case State.Idle:
-                    animator.Play(idleNames[_lastDirection]);
+                    animator.Play($"Idle-{_directions[_lastDirection]}");
                     break;
+                
                 case State.Moving:
-                    animator.Play(movingName[_lastDirection]);
+                    animator.Play($"Run-{_directions[_lastDirection]}");
+                    if (isMoving) return;
                     break;
+                
                 case State.Attacking:
-                    animator.Play(attackName + $"_{_lastDirection}");
-                    if (Time.time > _attackDuration)
-                        break;
-                    return;
+                    animator.Play(attackName + $"-{_directions[_lastDirection]}");
+                    
+                    if (!(Time.time > _attackDuration) && !isMoving) return;
+
+                    attackName = string.Empty;
+                    break;
+                
                 default:
                     throw new ArgumentOutOfRangeException();
             }

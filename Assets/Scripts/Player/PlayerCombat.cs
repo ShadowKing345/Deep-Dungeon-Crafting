@@ -17,7 +17,7 @@ namespace Player
         public WeaponClass weaponClass;
         
         private int _actionNumber;
-        private WeaponAction[] _actions;
+        private WeaponAbility[] _actions;
         
         private int _actionComboIndex;
         
@@ -66,17 +66,17 @@ namespace Player
                 _actionComboIndex = 0;
             }
 
-            WeaponAction action = _actions[_actionComboIndex];
+            WeaponAbility ability = _actions[_actionComboIndex];
 
-            animator.bodyAnimator.PlayAttackAnimation(action.animationName, action.coolDown, () => {Debug.Log("Attack Finished.");});
+            animator.bodyAnimator.PlayAttackAnimation(ability.animationName, ability.coolDown, () => {Debug.Log("Attack Finished.");});
 
-            if (!action.isProjectile)
+            if (!ability.isProjectile)
             {
                 bool flag = false;
                 
-                foreach (IDamageable entity in GetHitList(action))
+                foreach (IDamageable entity in GetHitList(ability))
                 {
-                    if (entity.Damage(action.potency, action.elementType, action.attackType))
+                    if (entity.Damage(ability.potency, ability.elementType, ability.attackType))
                         flag = true;
                 }
 
@@ -87,28 +87,28 @@ namespace Player
                     
                     _comboCoolDown = Time.time + 10;
                     _comboActive = true;
-                    _weaponCoolDown = Time.time + action.coolDown;
+                    _weaponCoolDown = Time.time + ability.coolDown;
                     return true;
                 }
             }
             else
             {
-                if (action.projectilePreFab == null) return false;
+                if (ability.projectilePreFab == null) return false;
 
-                GameObject projectile = Instantiate(action.projectilePreFab, transform.position + (Vector3)(action.attackPoint * movementController.Direction), Quaternion.identity);
-                projectile.GetComponent<IProjectile>().Init(action.attackPoint * movementController.Direction);
+                GameObject projectile = Instantiate(ability.projectilePreFab, transform.position + (Vector3)(ability.attackPoint * movementController.Direction), Quaternion.identity);
+                projectile.GetComponent<IProjectile>().Init(ability.attackPoint * movementController.Direction);
             }
             
             return false;
         }
 
-        private IDamageable[] GetHitList(WeaponAction action)
+        private IDamageable[] GetHitList(WeaponAbility ability)
         {
             List<IDamageable> hitList = new List<IDamageable>();
 
             Collider2D[] entityHitList =
                 Physics2D.OverlapCircleAll(
-                    (Vector2) center.position + action.attackPoint * movementController.Direction, action.range);
+                    (Vector2) center.position + ability.attackPoint * movementController.Direction, ability.range);
 
             foreach (Collider2D entity in entityHitList) hitList.Add(entity.GetComponent<IDamageable>());
 

@@ -1,25 +1,25 @@
 fileFormatVersion: 2
-guid: ab7ebb3a57de6e147a3b0bed83848a24
+guid: 10294dc23c51a0b439c280e3d7605c19
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4335222134116007343
-    second: Punch_0
+      213: -7031262291170921472
+    second: Punch-South_0
   - first:
-      213: -5313627634084164227
-    second: Punch_1
+      213: -404673971738833892
+    second: Punch-South_1
   - first:
-      213: 3163940477569658373
-    second: Punch_2
+      213: -4994772194767324448
+    second: Punch-South_2
   - first:
-      213: -7795563826625877672
-    second: Punch_3
+      213: 4606822671931289545
+    second: Punch-South_3
   - first:
-      213: 6766305641077335316
-    second: Punch_4
+      213: -8188022576154689904
+    second: Punch-South_4
   - first:
-      213: 4705998927709936230
-    second: Punch_5
+      213: 176743433173971575
+    second: Punch-South_5
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -109,7 +109,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Punch_0
+      name: Punch-South_0
       rect:
         serializedVersion: 2
         x: 0
@@ -123,14 +123,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 152ca91207236d3c0800000000000000
-      internalID: -4335222134116007343
+      spriteID: 004782c0330fb6e90800000000000000
+      internalID: -7031262291170921472
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Punch_1
+      name: Punch-South_1
       rect:
         serializedVersion: 2
         x: 20
@@ -144,14 +144,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d7dc6b1d1d33246b0800000000000000
-      internalID: -5313627634084164227
+      spriteID: c1c09a0ba2f426af0800000000000000
+      internalID: -404673971738833892
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Punch_2
+      name: Punch-South_2
       rect:
         serializedVersion: 2
         x: 40
@@ -165,14 +165,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 50ee400e91398eb20800000000000000
-      internalID: 3163940477569658373
+      spriteID: 0ea35ecf6210faab0800000000000000
+      internalID: -4994772194767324448
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Punch_3
+      name: Punch-South_3
       rect:
         serializedVersion: 2
         x: 60
@@ -186,14 +186,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 859641a900890d390800000000000000
-      internalID: -7795563826625877672
+      spriteID: 9cf2ea7efc8beef30800000000000000
+      internalID: 4606822671931289545
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Punch_4
+      name: Punch-South_4
       rect:
         serializedVersion: 2
         x: 80
@@ -207,14 +207,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 415e222912fb6ed50800000000000000
-      internalID: 6766305641077335316
+      spriteID: 09ebb6759dc4e5e80800000000000000
+      internalID: -8188022576154689904
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Punch_5
+      name: Punch-South_5
       rect:
         serializedVersion: 2
         x: 100
@@ -228,8 +228,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 66a158f57111f4140800000000000000
-      internalID: 4705998927709936230
+      spriteID: 772b7be473be37200800000000000000
+      internalID: 176743433173971575
       vertices: []
       indices: 
       edges: []

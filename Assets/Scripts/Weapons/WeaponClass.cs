@@ -10,11 +10,11 @@ namespace Weapons
         public string description;
         public Sprite icon;
 
-        public WeaponAction[] action1 = new WeaponAction[0];
-        public WeaponAction[] action2 = new WeaponAction[0];
-        public WeaponAction[] action3 = new WeaponAction[0];
+        public WeaponAbility[] action1 = new WeaponAbility[0];
+        public WeaponAbility[] action2 = new WeaponAbility[0];
+        public WeaponAbility[] action3 = new WeaponAbility[0];
 
-        public WeaponAction[] GetActionOfIndex(int index)
+        public WeaponAbility[] GetActionOfIndex(int index)
         {
             return index switch
             {
@@ -24,7 +24,7 @@ namespace Weapons
                 _ => null
             };
         }
-        public WeaponAction[] Actions => (WeaponAction[]) action1.Concat(action2.Concat(action3));
+        public WeaponAbility[] Actions => (WeaponAbility[]) action1.Concat(action2.Concat(action3));
 
         public RuntimeAnimatorController animationController;
     }

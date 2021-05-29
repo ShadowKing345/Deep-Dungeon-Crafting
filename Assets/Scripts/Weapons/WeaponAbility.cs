@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Weapons
 {
     [Serializable]
-    public class WeaponAction
+    public class WeaponAbility
     {
         public string name;
         [TextArea(1,10)]
@@ -24,6 +24,9 @@ namespace Weapons
         public Vector2 attackPoint = new Vector2(0,0);
         
         public string animationName = string.Empty;
+
+        public static WeaponAbility empty = new WeaponAbility();
+        public bool isNull => this == empty;
     }
 
     public enum WeaponElement

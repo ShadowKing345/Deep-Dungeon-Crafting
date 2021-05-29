@@ -1,34 +1,25 @@
 fileFormatVersion: 2
-guid: c94c0f733311778538ff762f95580b07
+guid: 422715a31c122a29d83ee70844d5ca35
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3096130394872056026
-    second: player-run-south_0
+      213: 6836027219574121625
+    second: Punch-East_0
   - first:
-      213: -3650398470696007683
-    second: player-run-south_1
+      213: -4586795217189171164
+    second: Punch-East_1
   - first:
-      213: 4634753785959028591
-    second: player-run-south_2
+      213: 8991738397487562841
+    second: Punch-East_2
   - first:
-      213: -8175855530170118438
-    second: player-run-south_3
+      213: -7753982228399982488
+    second: Punch-East_3
   - first:
-      213: 5481289488313151962
-    second: player-run-south_4
+      213: -6529711354913065383
+    second: Punch-East_4
   - first:
-      213: 5578287274535530159
-    second: player-run-south_5
-  - first:
-      213: 3190779834549505970
-    second: player-run-south_6
-  - first:
-      213: 4023449136848005018
-    second: player-run-south_7
-  - first:
-      213: -8341825099763691681
-    second: player-run-south_8
+      213: -6154052255089160132
+    second: Punch-East_5
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -118,7 +109,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: player-run-south_0
+      name: Punch-East_0
       rect:
         serializedVersion: 2
         x: 0
@@ -126,20 +117,20 @@ TextureImporter:
         width: 20
         height: 27
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6277c535fc55805d0800000000000000
-      internalID: -3096130394872056026
+      spriteID: 994ed9199827ede50800000000000000
+      internalID: 6836027219574121625
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player-run-south_1
+      name: Punch-East_1
       rect:
         serializedVersion: 2
         x: 20
@@ -147,20 +138,20 @@ TextureImporter:
         width: 20
         height: 27
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: df709897eed275dc0800000000000000
-      internalID: -3650398470696007683
+      spriteID: 4209af54d0e6850c0800000000000000
+      internalID: -4586795217189171164
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player-run-south_2
+      name: Punch-East_2
       rect:
         serializedVersion: 2
         x: 40
@@ -168,20 +159,20 @@ TextureImporter:
         width: 20
         height: 27
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f671c792304f15040800000000000000
-      internalID: 4634753785959028591
+      spriteID: 9508c77ae6219cc70800000000000000
+      internalID: 8991738397487562841
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player-run-south_3
+      name: Punch-East_3
       rect:
         serializedVersion: 2
         x: 60
@@ -189,20 +180,20 @@ TextureImporter:
         width: 20
         height: 27
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ade0c4d76b6898e80800000000000000
-      internalID: -8175855530170118438
+      spriteID: 868f681ee32546490800000000000000
+      internalID: -7753982228399982488
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player-run-south_4
+      name: Punch-East_4
       rect:
         serializedVersion: 2
         x: 80
@@ -210,20 +201,20 @@ TextureImporter:
         width: 20
         height: 27
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ad1fcfd9fb3711c40800000000000000
-      internalID: 5481289488313151962
+      spriteID: 956729c5e1ec165a0800000000000000
+      internalID: -6529711354913065383
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player-run-south_5
+      name: Punch-East_5
       rect:
         serializedVersion: 2
         x: 100
@@ -231,56 +222,14 @@ TextureImporter:
         width: 20
         height: 27
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: faea5cd98be0a6d40800000000000000
-      internalID: 5578287274535530159
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: player-run-south_6
-      rect:
-        serializedVersion: 2
-        x: 120
-        y: 0
-        width: 20
-        height: 27
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2bf8dc2aa5de74c20800000000000000
-      internalID: 3190779834549505970
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: player-run-south_7
-      rect:
-        serializedVersion: 2
-        x: 140
-        y: 0
-        width: 20
-        height: 27
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a976dad3ca926d730800000000000000
-      internalID: 4023449136848005018
+      spriteID: c30183e541a689aa0800000000000000
+      internalID: -6154052255089160132
       vertices: []
       indices: 
       edges: []
