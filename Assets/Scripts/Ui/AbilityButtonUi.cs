@@ -15,7 +15,7 @@ namespace Ui
 
         public void Start()
         {
-            abilityImage ??= GameObject.Find("AbilityImage").GetComponent<Image>();
+            abilityImage ??= GameObject.Find("ProgressBar").GetComponent<Image>();
             executeButton ??= GameObject.Find("Button").GetComponent<Button>();
             keybinding ??= GameObject.Find("Keybinding").GetComponent<TextMeshPro>();
 
