@@ -23,4 +23,10 @@ public class ProgressBar : MonoBehaviour
     {
         mask.fillAmount = (float) current / maximum;
     }
+
+    public void Setup(int current, int maximum)
+    {
+        this.current = current;
+        this.maximum = maximum;
+    }
 }

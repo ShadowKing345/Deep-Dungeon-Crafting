@@ -10,12 +10,22 @@ namespace Items
         [SerializeField] private int amount;
         [SerializeField] private int maxStackSize = 999;
 
-        public Item GetItem => item;
-        public int GetAmount => amount;
+        public Item Item
+        {
+            get => item;
+            set => item = value;
+        }
+
+        public int Amount
+        {
+            get => amount;
+            set => amount = Mathf.Clamp(value, 0, maxStackSize);
+        }
+
         public int MaxStackSize
         {
             get => maxStackSize;
-            set => maxStackSize = Math.Max(999, value);
+            set => maxStackSize = Math.Min(999, value);
         }
 
         public int AddItem(Item item, int amount)
@@ -41,7 +51,8 @@ namespace Items
         {
             stack.amount -= stack.amount - AddItem(stack.item, stack.amount);
 
-            return stack.IsEmpty ? empty : stack;
+            if (stack.IsEmpty) stack.Clear();
+            return stack;
         }
 
         public int RemoveItem(int amount)
@@ -59,10 +70,11 @@ namespace Items
             return 0;
         }
         
-        public bool IsEmpty => this == empty || item == null || amount <= 0;
-        public static ItemStack empty = new ItemStack();
+        public bool IsEmpty => item == null || amount <= 0;
+        public ItemStack Copy => new ItemStack { item = item, maxStackSize = maxStackSize, amount = amount};
+        public static readonly ItemStack Empty = new ItemStack();
 
-        private void Clear()
+        public void Clear()
         {
             item = null;
             amount = 0;

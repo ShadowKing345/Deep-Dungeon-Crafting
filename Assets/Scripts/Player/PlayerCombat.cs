@@ -1,6 +1,7 @@
 using System.Collections.Generic;
-using Entity;
+using System.Linq;
 using Interfaces;
+using Managers;
 using UnityEngine;
 using Weapons;
 
@@ -9,8 +10,12 @@ namespace Player
     [RequireComponent(typeof(PlayerMovement))]
     public class PlayerCombat : MonoBehaviour
     {
+        private WindowManager _windowManager;
+        
         public PlayerMovement movementController;
         public PlayerAnimator animator;
+        public PlayerStats playerStats;
+        public PlayerInventory playerInventory;
 
         public Transform center;
 
@@ -27,11 +32,21 @@ namespace Player
         private float _weaponCoolDown;
         private bool _isWeaponClassNull;
 
+        private void Awake()
+        {
+            _windowManager = WindowManager.instance;
+            playerStats ??= GetComponent<PlayerStats>();
+            movementController ??= GetComponent<PlayerMovement>();
+            animator ??= GetComponent<PlayerAnimator>();
+            playerInventory ??= GetComponent<PlayerInventory>();
+        }
+
         private void Start()
         {
             _isWeaponClassNull = weaponClass == null;
-            movementController ??= GetComponent<PlayerMovement>();
-            animator ??= GetComponent<PlayerAnimator>();
+
+            playerInventory.weaponInventory.OnWeaponChanged += ChangeWeapon;
+            
             if (weaponClass != null)
                 animator.bodyAnimator.animator.runtimeAnimatorController = weaponClass.animationController;
         }
@@ -115,10 +130,15 @@ namespace Player
             return hitList.ToArray();
         }
 
-        public void ChangeWeapon(WeaponClass weaponClass)
+        private void ChangeWeapon(WeaponClass weaponClass)
         {
             this.weaponClass = weaponClass;
             animator.bodyAnimator.animator.runtimeAnimatorController = weaponClass.animationController;
+            
+            _windowManager.action1.SetAbility(weaponClass.action1.FirstOrDefault());
+            _windowManager.action2.SetAbility(weaponClass.action2.FirstOrDefault());
+            _windowManager.action3.SetAbility(weaponClass.action3.FirstOrDefault());
+            
         }
     }
 }

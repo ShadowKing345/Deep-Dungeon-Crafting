@@ -1,21 +1,20 @@
 using System;
-using System.Linq;
-using Interfaces;
 using Items;
+using UnityEngine;
 
 namespace Inventory
 {
     [Serializable]
     public class Inventory : IInventory
     {
-        public int capacity = 30;
-        public ItemStack[] itemStacks = new ItemStack[30];
+        public int capacity = 40;
+        [SerializeField] private ItemStack[] itemStacks = new ItemStack[30];
 
         public ItemStack AddStackAtSlot(ItemStack stack, int index)
         {
             if (index >= capacity) return stack;
 
-            ItemStack inventoryStack = itemStacks[index] ?? ItemStack.empty;
+            ItemStack inventoryStack = itemStacks[index];
 
             return inventoryStack.AddItem(stack);
         }
@@ -25,10 +24,10 @@ namespace Inventory
             return itemStacks[index];
         }
 
-        public ItemStack RemoveStackAtSlot(int number, int index)
+        public ItemStack RemoveStackAtSlot(int index)
         {
-            ItemStack result = itemStacks[index];
-            itemStacks[index] = ItemStack.empty;
+            ItemStack result = itemStacks[index].Copy;
+            itemStacks[index].Clear();
             return result;
         }
 
@@ -38,7 +37,7 @@ namespace Inventory
             {
                 foreach (ItemStack inventoryStack in itemStacks)
                 {
-                    stack.RemoveItem(stack.GetAmount - inventoryStack.AddItem(stack.GetItem, stack.GetAmount));
+                    stack.RemoveItem(stack.Amount - inventoryStack.AddItem(stack.Item, stack.Amount));
                     if (stack.IsEmpty) break;
                 }
             }
@@ -48,7 +47,7 @@ namespace Inventory
 
         public ItemStack[] GetItemStacks()
         {
-            return itemStacks.Where((stack, i) => !stack.IsEmpty).ToArray();
+            return itemStacks;
         }
 
         public ItemStack[] GetAndClearItemStacks()
@@ -58,13 +57,32 @@ namespace Inventory
             return result;
         }
 
+        public bool Contains(ItemStack stack)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ContainsExact(ItemStack stack)
+        {
+            throw new NotImplementedException();
+        }
+
         public void ResetInventory()
         {
             itemStacks = new ItemStack[capacity];
             for (int i = 0; i < capacity; i++)
             {
-                itemStacks[i] = ItemStack.empty;
+                itemStacks[i] = ItemStack.Empty;
             }
+        }
+
+        public void SwapSlots(int fromIndex, int toIndex, out ItemStack fromStack, out ItemStack toStack)
+        {
+            toStack = RemoveStackAtSlot(fromIndex);
+            fromStack = RemoveStackAtSlot(toIndex);
+
+            AddStackAtSlot(toStack.Copy, toIndex);
+            AddStackAtSlot(fromStack.Copy, fromIndex);
         }
     }
 }

@@ -17,7 +17,7 @@ MonoBehaviour:
   action1:
   - name: Punch
     description: Basic punch attack.
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 4ecfe5c342c71d77aad43da89d15e765, type: 3}
     potency: 2
     range: 1
     isProjectile: 0
