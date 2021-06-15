@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
+using Entity;
 using Interfaces;
 using Managers;
 using UnityEngine;
+using Utils;
 using Weapons;
 
 namespace Player
@@ -11,11 +13,14 @@ namespace Player
     public class PlayerCombat : MonoBehaviour
     {
         private WindowManager _windowManager;
+        private InputHandler _inputHandler;
         
         public PlayerMovement movementController;
-        public PlayerAnimator animator;
+        public EntityAnimator animator;
         public PlayerStats playerStats;
         public PlayerInventory playerInventory;
+
+        public bool isAttacking;
 
         public Transform center;
 
@@ -35,44 +40,41 @@ namespace Player
         private void Awake()
         {
             _windowManager = WindowManager.instance;
+            
             playerStats ??= GetComponent<PlayerStats>();
             movementController ??= GetComponent<PlayerMovement>();
-            animator ??= GetComponent<PlayerAnimator>();
+            animator ??= GetComponent<EntityAnimator>();
             playerInventory ??= GetComponent<PlayerInventory>();
         }
 
         private void Start()
         {
             _isWeaponClassNull = weaponClass == null;
+            _inputHandler = InputHandler.instance;
 
             playerInventory.weaponInventory.OnWeaponChanged += ChangeWeapon;
-            
-            if (weaponClass != null)
-                animator.bodyAnimator.animator.runtimeAnimatorController = weaponClass.animationController;
         }
 
         private void Update()
         {
-            if (Time.time >= _weaponCoolDown)
-            {
-                if (Input.GetKeyDown(KeyCode.Alpha1))
-                    Attack(1);
-                if (Input.GetKeyDown(KeyCode.Alpha2))
-                    Attack(2);
-                if (Input.GetKeyDown(KeyCode.Alpha3))
-                    Attack(3);
-            }
+            if (!(Time.time >= _weaponCoolDown)) return;
 
-            if (_comboCoolDown <= Time.time && _comboActive)
-            {
-                _actionComboIndex = 0;
-                _comboActive = false;
-            }
+            if (_inputHandler.GetKeyDown(InputHandler.KeyValue.ExecuteAction1))
+                Attack(1);
+            if (_inputHandler.GetKeyDown(InputHandler.KeyValue.ExecuteAction2))
+                Attack(2);
+            if (_inputHandler.GetKeyDown(InputHandler.KeyValue.ExecuteAction3))
+                Attack(3);
+
+            if (!(_comboCoolDown <= Time.time) || !_comboActive) return;
+
+            _actionComboIndex = 0;
+            _comboActive = false;
         }
 
         private bool Attack(int actionIndex)
         {
-            if (_isWeaponClassNull) return false;
+            if (_isWeaponClassNull || isAttacking) return false;
 
             if (_actionNumber != actionIndex)
             {
@@ -83,7 +85,9 @@ namespace Player
 
             WeaponAbility ability = _actions[_actionComboIndex];
 
-            animator.bodyAnimator.PlayAttackAnimation(ability.animationName, ability.coolDown, () => {Debug.Log("Attack Finished.");});
+            isAttacking = true;
+            
+            // animator.bodyAnimator.PlayAttackAnimation(ability.animationName, ability.coolDown);
 
             if (!ability.isProjectile)
             {
@@ -95,6 +99,9 @@ namespace Player
                         flag = true;
                 }
 
+                animator.attackName = ability.animationName;
+                animator.ChangeState(EntityAnimator.State.Attacking);
+                
                 if (flag)
                 {
                     _actionComboIndex++;
@@ -109,7 +116,7 @@ namespace Player
             else
             {
                 if (ability.projectilePreFab == null) return false;
-
+  
                 GameObject projectile = Instantiate(ability.projectilePreFab, transform.position + (Vector3)(ability.attackPoint * movementController.Direction), Quaternion.identity);
                 projectile.GetComponent<IProjectile>().Init(ability.attackPoint * movementController.Direction);
             }
@@ -121,19 +128,18 @@ namespace Player
         {
             List<IDamageable> hitList = new List<IDamageable>();
 
-            Collider2D[] entityHitList =
-                Physics2D.OverlapCircleAll(
-                    (Vector2) center.position + ability.attackPoint * movementController.Direction, ability.range);
-
-            foreach (Collider2D entity in entityHitList) hitList.Add(entity.GetComponent<IDamageable>());
-
+            Collider2D[] entityHitList = new Collider2D[0];
+            for (int i = 0; i < Physics2D.OverlapCircleNonAlloc((Vector2) center.position + ability.attackPoint * movementController.Direction, ability.range, entityHitList); i++)
+            {
+                hitList.Add(entityHitList[i].GetComponent<IDamageable>());
+            }
+            
             return hitList.ToArray();
         }
 
         private void ChangeWeapon(WeaponClass weaponClass)
         {
             this.weaponClass = weaponClass;
-            animator.bodyAnimator.animator.runtimeAnimatorController = weaponClass.animationController;
             
             _windowManager.action1.SetAbility(weaponClass.action1.FirstOrDefault());
             _windowManager.action2.SetAbility(weaponClass.action2.FirstOrDefault());

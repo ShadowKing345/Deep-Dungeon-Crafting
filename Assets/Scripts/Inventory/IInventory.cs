@@ -14,6 +14,9 @@ namespace Inventory
 
         bool Contains(ItemStack stack);
         bool ContainsExact(ItemStack stack);
+
+        bool CanFitInSlot(ItemStack stack, int index);
+        bool CanFit(ItemStack stack);
         
         void ResetInventory();
         void SwapSlots(int fromIndex, int toIndex, out ItemStack fromStack, out ItemStack toStack);

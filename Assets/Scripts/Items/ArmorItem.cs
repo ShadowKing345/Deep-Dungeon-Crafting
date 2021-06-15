@@ -12,11 +12,11 @@ namespace Items
 
     public enum ArmorType
     {
-        Head,
-        Body,
-        Legs,
-        Earing,
-        Bracelet,
-        Ring
+        Head = 0,
+        Body = 1,
+        Legs = 2,
+        Earring = 3,
+        Bracelet = 4,
+        Ring = 5
     }
 }

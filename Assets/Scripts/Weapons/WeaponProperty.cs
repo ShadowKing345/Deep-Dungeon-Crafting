@@ -5,9 +5,33 @@ namespace Weapons
     [Serializable]
     public class WeaponProperty
     {
-        public bool isElemental;
-        public WeaponElement element;
-        public WeaponAttackType attackType;
-        public float amount;
+        private bool _isElemental;
+        private WeaponElement _element;
+        private WeaponAttackType _attackType;
+        private float _amount;
+
+        public bool IsElemental
+        {
+            get => _isElemental;
+            set => _isElemental = value;
+        }
+
+        public WeaponElement Element
+        {
+            get => _element;
+            set => _element = value;
+        }
+
+        public WeaponAttackType AttackType
+        {
+            get => _attackType;
+            set => _attackType = value;
+        }
+
+        public float Amount
+        {
+            get => _amount;
+            set => _amount = value;
+        }
     }
 }

@@ -42,9 +42,9 @@ namespace Inventory
 
         public ItemStack[] AddItemStacks(ItemStack[] stacks)
         {
-            if (stacks.Length <= 0) return stacks;
-
-            stacks[0] = AddStackAtSlot(stacks[0], 0);
+            if (stacks.Length > 0)
+                AddStackAtSlot(stacks[0], 0);
+            
             return stacks;
         }
 
@@ -57,21 +57,16 @@ namespace Inventory
             return result;
         }
 
-        public bool Contains(ItemStack stack)
-        {
-            throw new NotImplementedException();
-        }
+        public bool Contains(ItemStack stack) => stack.Item == weapon.Item;
 
-        public bool ContainsExact(ItemStack stack)
-        {
-            throw new NotImplementedException();
-        }
+        public bool ContainsExact(ItemStack stack) => Contains(stack) && stack.Amount <= weapon.Amount;
+
+        public bool CanFitInSlot(ItemStack stack, int index) => index == 0 && stack.Item is WeaponItem;
+
+        public bool CanFit(ItemStack stack) => stack.Item is WeaponItem;
 
         public void ResetInventory() => weapon.Clear();
 
-        public void SwapSlots(int fromIndex, int toIndex, out ItemStack stack,out ItemStack toStack)
-        {
-            throw new NotImplementedException();
-        }
+        public void SwapSlots(int fromIndex, int toIndex, out ItemStack fromStack,out ItemStack toStack) => throw new NotImplementedException();
     }
 }

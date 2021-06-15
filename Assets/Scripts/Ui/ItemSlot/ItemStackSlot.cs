@@ -1,7 +1,9 @@
+using System;
 using Inventory;
 using Items;
 using Managers;
 using TMPro;
+using Ui.InventoryControllers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -9,21 +11,29 @@ using UnityEngine.UI;
 namespace Ui.ItemSlot
 {
     public class ItemStackSlot : MonoBehaviour, IItemStackSlot
+        , IPointerEnterHandler, IPointerExitHandler
+        , IPointerDownHandler, IPointerUpHandler
     {
         private WindowManager _windowManager;
+
+        [SerializeField] protected Image icon;
+        [SerializeField] protected TextMeshProUGUI amount;
+        [SerializeField] protected Image backgroundImg;
+
+        [SerializeField] protected int index;
+        [SerializeField] protected ItemStack stack;
+        [SerializeField] protected GameObject hoverPrefab;
+
+        [SerializeField] protected SlotSprites sprites;
         
-        [SerializeField] private int index;
         public int GetIndex() => index;
-        [SerializeField] private Image icon;
-        [SerializeField] private TextMeshProUGUI amount;
-        [SerializeField] private ItemStack stack;
-        [SerializeField] private GameObject hoverPrefab;
         private IInventoryController _controller;
         public IInventoryController GetController() => _controller;
         
         private void Start()
         {
             _windowManager = WindowManager.instance;
+            backgroundImg.sprite = sprites.normal; 
             UpdateUi();
         }
 
@@ -36,7 +46,7 @@ namespace Ui.ItemSlot
         public void SetItemStack(ItemStack stack) => this.stack = stack ?? ItemStack.Empty;
         public ItemStack GetItemStack() => stack;
 
-        public void UpdateUi()
+        public virtual void UpdateUi()
         {
             if (stack.IsEmpty)
             {
@@ -80,5 +90,33 @@ namespace Ui.ItemSlot
         {
             _windowManager.EndItemHover();
         }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            backgroundImg.sprite = sprites.mouseEnter;
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            backgroundImg.sprite = sprites.normal;
+        }
+
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            backgroundImg.sprite = sprites.active;
+        }
+
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            backgroundImg.sprite = sprites.normal;
+        }
+    }
+
+    [Serializable]
+    public struct SlotSprites
+    {
+        public Sprite normal;
+        public Sprite mouseEnter;
+        public Sprite active;
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using Items;
 using Ui;
 using UnityEngine;
@@ -17,6 +18,9 @@ namespace Managers
         public WeaponAbilityUi action2;
         public WeaponAbilityUi action3;
 
+        public GameObject characterMenu;
+        private bool isCharacterMenuOpen = false;
+        
         public GameObject itemHoverObj;
 
         private void OnEnable()
@@ -30,7 +34,7 @@ namespace Managers
                 Destroy(gameObject);
             }
         }
-
+        
         public void Awake()
         {
             canvas ??= FindObjectOfType<Canvas>();
@@ -56,6 +60,13 @@ namespace Managers
             if (itemHoverObj == null) return;
             Destroy(itemHoverObj);
             itemHoverObj = null;
+        }
+
+        public bool ToggleCharacterMenu()
+        {
+            isCharacterMenuOpen = !isCharacterMenuOpen;
+            characterMenu.SetActive(isCharacterMenuOpen);
+            return isCharacterMenuOpen;
         }
     }
 }

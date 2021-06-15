@@ -14,18 +14,14 @@ namespace Weapons
         public WeaponAbility[] action2 = new WeaponAbility[0];
         public WeaponAbility[] action3 = new WeaponAbility[0];
 
-        public WeaponAbility[] GetActionOfIndex(int index)
-        {
-            return index switch
+        public WeaponAbility[] GetActionOfIndex(int index) =>
+            index switch
             {
                 1 => action1,
                 2 => action2,
                 3 => action3,
                 _ => null
             };
-        }
         public WeaponAbility[] Actions => (WeaponAbility[]) action1.Concat(action2.Concat(action3));
-
-        public RuntimeAnimatorController animationController;
     }
 }

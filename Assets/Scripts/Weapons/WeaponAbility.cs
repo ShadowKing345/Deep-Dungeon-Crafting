@@ -25,8 +25,7 @@ namespace Weapons
         
         public string animationName = string.Empty;
 
-        public static WeaponAbility empty = new WeaponAbility();
-        public bool isNull => this == empty;
+        public static WeaponAbility Empty { get; } = new WeaponAbility();
     }
 
     public enum WeaponElement

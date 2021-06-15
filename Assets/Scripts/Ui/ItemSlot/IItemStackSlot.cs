@@ -1,4 +1,5 @@
 using Inventory;
+using Ui.InventoryControllers;
 using UnityEngine.EventSystems;
 
 namespace Items

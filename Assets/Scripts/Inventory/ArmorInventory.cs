@@ -1,58 +1,108 @@
-using Interfaces;
+using System;
+using System.Collections.Generic;
 using Items;
+using UnityEngine;
 
 namespace Inventory
 {
+    [Serializable]
     public class ArmorInventory : IInventory
     {
+        [SerializeField] private ItemStack head; 
+        [SerializeField] private ItemStack body; 
+        [SerializeField] private ItemStack legs; 
+        [SerializeField] private ItemStack earring; 
+        [SerializeField] private ItemStack bracelet; 
+        [SerializeField] private ItemStack ring;
+
         public ItemStack AddStackAtSlot(ItemStack stack, int index)
         {
-            throw new System.NotImplementedException();
+            if (!Enum.IsDefined(typeof(ArmorType), index)) return stack;
+            if (!(stack.Item is ArmorItem)) return stack;
+
+            AddItem((ArmorType) index switch
+            {
+                ArmorType.Head => head,
+                ArmorType.Body => body,
+                ArmorType.Legs => legs,
+                ArmorType.Earring => earring,
+                ArmorType.Bracelet => bracelet,
+                ArmorType.Ring => ring,
+                _ => null
+            }, stack);
+
+            return stack;
         }
 
-        public ItemStack GetStackAtSlot(int index)
+        private void AddItem(ItemStack input, ItemStack output)
         {
-            throw new System.NotImplementedException();
+            if (input == null) return;
+            ItemStack hold = input.Copy;
+            
+            input.Item = output.Item;
+            input.Amount = output.Amount;
+
+            output.Item = hold.Item;
+            output.Amount = hold.Amount;
         }
 
+        public ItemStack GetStackAtSlot(int index) => 
+            (ArmorType) index switch
+            {
+                ArmorType.Head => head,
+                ArmorType.Body => body,
+                ArmorType.Legs => legs,
+                ArmorType.Earring => earring,
+                ArmorType.Bracelet => bracelet,
+                ArmorType.Ring => ring,
+                _ => ItemStack.Empty
+            };
+        
         public ItemStack RemoveStackAtSlot(int index)
         {
-            throw new System.NotImplementedException();
+            if (!Enum.IsDefined(typeof(ArmorType), index)) return ItemStack.Empty;
+            
+            ItemStack stack = GetStackAtSlot(index);
+            ItemStack result = stack.Copy;
+            stack.Clear();
+
+            return result;
         }
 
-        public ItemStack[] AddItemStacks(ItemStack[] stacks)
-        {
-            throw new System.NotImplementedException();
+        public ItemStack[] AddItemStacks(ItemStack[] stacks) {
+            for (int i = 0; i > Math.Min(stacks.Length, 6); i++) AddStackAtSlot(stacks[i], i);
+            return stacks;
         }
 
-        public ItemStack[] GetItemStacks()
-        {
-            throw new System.NotImplementedException();
-        }
+        public ItemStack[] GetItemStacks() => new [] {head, body, legs, earring, bracelet, ring};
 
         public ItemStack[] GetAndClearItemStacks()
         {
-            throw new System.NotImplementedException();
+            List<ItemStack> result = new List<ItemStack>();
+            
+            foreach (ItemStack stack in GetItemStacks())
+            {
+                result.Add(stack.Copy);
+                stack.Clear();
+            }
+
+            return result.ToArray();
         }
 
         public bool Contains(ItemStack stack)
         {
-            throw new System.NotImplementedException();
+            if (!(stack.Item is ArmorItem item)) return false;
+            return GetStackAtSlot((int) item.type).Item == item;
         }
 
-        public bool ContainsExact(ItemStack stack)
-        {
-            throw new System.NotImplementedException();
-        }
+        public bool ContainsExact(ItemStack stack) => Contains(stack);
 
-        public void ResetInventory()
-        {
-            throw new System.NotImplementedException();
-        }
+        public bool CanFitInSlot(ItemStack stack, int index) => Enum.IsDefined(typeof(ArmorType), index) && stack.Item is ArmorItem item && item.type == (ArmorType) index;
 
-        public void SwapSlots(int fromIndex, int toIndex, out ItemStack stack, out ItemStack toStack)
-        {
-            throw new System.NotImplementedException();
-        }
+        public bool CanFit(ItemStack stack) => stack.Item is ArmorItem;
+
+        public void ResetInventory() { foreach (ItemStack stack in GetItemStacks()) stack.Clear(); }
+        
+        public void SwapSlots(int fromIndex, int toIndex, out ItemStack fromStack, out ItemStack toStack) => throw new NotImplementedException();
     }
 }

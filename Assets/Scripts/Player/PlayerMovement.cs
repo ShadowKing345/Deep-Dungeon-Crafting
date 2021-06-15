@@ -11,6 +11,7 @@ namespace Player
     
         public Rigidbody2D rb;
         public EntityAnimator animator;
+        public PlayerCombat playerCombat;
     
         private Vector2 _movement;
 
@@ -19,7 +20,7 @@ namespace Player
         private void Start()
         {
             rb ??= GetComponent<Rigidbody2D>();
-            animator ??= GetComponent<PlayerAnimator>().bodyAnimator;
+            animator ??= GetComponent<EntityAnimator>();
         }
 
         private void Update()
@@ -32,10 +33,17 @@ namespace Player
         private void FixedUpdate()
         {
             rb.MovePosition(rb.position + _movement * (moveSpeed * Time.fixedDeltaTime));
-            
-            // Plays Animation.
-            animator.direction = _movement;
-            animator.isMoving = _movement.magnitude > 0.0f;
+
+            if (_movement.magnitude > 0)
+            {
+                animator.direction = _movement;
+                animator.ChangeState(EntityAnimator.State.Moving);
+                playerCombat.isAttacking = false;
+            }
+            else if(!playerCombat.isAttacking)
+            {
+                animator.ChangeState(EntityAnimator.State.Idle);
+            }
         }
     }
 }

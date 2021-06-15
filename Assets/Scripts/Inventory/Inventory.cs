@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Items;
 using UnityEngine;
 
@@ -57,14 +58,23 @@ namespace Inventory
             return result;
         }
 
-        public bool Contains(ItemStack stack)
+        public bool Contains(ItemStack stack) => itemStacks.FirstOrDefault(s => s.Item == stack.Item) != null;
+
+        public bool ContainsExact(ItemStack stack) => itemStacks.FirstOrDefault(s => s.Item == stack.Item && s.Amount >= stack.Amount) != null;
+
+        public bool CanFitInSlot(ItemStack stack, int index)
         {
-            throw new NotImplementedException();
+            ItemStack itemStack = itemStacks[index];
+            return stack.Item == itemStack.Item && itemStack.Amount + stack.Amount <= itemStack.MaxStackSize;
         }
 
-        public bool ContainsExact(ItemStack stack)
+        public bool CanFit(ItemStack stack)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < itemStacks.Length; i++)
+                if (CanFitInSlot(stack, i))
+                    return true;
+            
+            return false;
         }
 
         public void ResetInventory()

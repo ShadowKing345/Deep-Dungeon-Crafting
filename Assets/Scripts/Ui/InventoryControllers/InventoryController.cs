@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Inventory;
 using Items;
@@ -13,6 +14,8 @@ namespace Ui.InventoryControllers
         public IInventory GetInventory() => _inventory;
         private readonly List<IItemStackSlot> _slots = new List<IItemStackSlot>();
 
+        public event Action OnUpdateUi;
+
         public void Init(IInventory inventory)
         {
             _inventory = inventory;
@@ -25,6 +28,7 @@ namespace Ui.InventoryControllers
                 GameObject slotObj = Instantiate(slotPrefab, container.transform);
                 IItemStackSlot slot = slotObj.GetComponent<IItemStackSlot>();
                 slot.Init(i, stack, this);
+                OnUpdateUi += slot.UpdateUi;
                 _slots.Add(slot);
             }
         }
@@ -42,30 +46,30 @@ namespace Ui.InventoryControllers
 
         public void CrossControllerExchange(IItemStackSlot from, IItemStackSlot to)
         {
+            if (!_inventory.CanFit(from.GetItemStack())) return;
+            
             IInventory fromInventory = from.GetController().GetInventory();
+            
+            ItemStack fromStack = fromInventory.RemoveStackAtSlot(from.GetIndex());
             
             if (to.GetItemStack().IsEmpty)
             {
-                ItemStack fromStack = fromInventory.RemoveStackAtSlot(from.GetIndex());
-
                 _inventory.AddStackAtSlot(fromStack, to.GetIndex());
             }
             else
             {
-                ItemStack fromStack = fromInventory.RemoveStackAtSlot(from.GetIndex());
                 ItemStack toStack = _inventory.RemoveStackAtSlot(to.GetIndex());
 
-                _inventory.AddStackAtSlot(fromStack, to.GetIndex());
-                fromInventory.AddStackAtSlot(toStack, from.GetIndex());
+                fromInventory.AddItemStacks(new[] {_inventory.AddStackAtSlot(fromStack, to.GetIndex())});
+                _inventory.AddItemStacks(new[] {fromInventory.AddStackAtSlot(toStack, from.GetIndex())});
             }
 
-            from.UpdateUi();
-            to.UpdateUi();
+            to.GetController().UpdateSlots();
+            from.GetController().UpdateSlots();
         }
 
-        public void ResetSlots()
-        {
-            _slots.Clear();
-        }
+        public void ResetSlots() => _slots.Clear();
+
+        public void UpdateSlots() => OnUpdateUi?.Invoke();
     }
 }
