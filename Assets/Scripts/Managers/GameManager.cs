@@ -8,7 +8,7 @@ namespace Managers
     public class GameManager : MonoBehaviour
     {
         public static GameManager instance;
-
+        
         public WeaponClass noWeaponClass;
 
         private void Awake()
@@ -18,10 +18,7 @@ namespace Managers
                 DontDestroyOnLoad(this);
                 instance = this;
             }
-            else if (instance != this)
-            {
-                Destroy(gameObject);
-            }
+            else if (instance != this) Destroy(gameObject);
         }
 
         public void SetupBoard()
@@ -40,18 +37,30 @@ namespace Managers
 
         public void LoadLevel()
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            SceneManager.LoadScene((int) Scenes.Dev);
+        }
+
+        public void EndRun()
+        {
+            QuitGame();
         }
 
         public void ExitGame()
         {
-            Debug.Log("Exit Game");
             Application.Quit();
         }
 
         public void QuitGame()
         {
-            Debug.Log("Quitting Game.");
+            SceneManager.LoadScene((int) Scenes.MainMenu);
+        }
+
+        private enum Scenes
+        {
+            MainMenu = 0,
+            Dev = 1,
+            Hub = 2,
+            Level = 3
         }
     }
 }

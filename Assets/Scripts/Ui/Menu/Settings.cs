@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Interfaces;
+using Pathfinding;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -13,6 +14,7 @@ namespace Ui.Menu
     {
         [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private TMP_Dropdown resolutionDropDown;
+        [SerializeField] private TMP_Dropdown qualityDropDown;
         [SerializeField] private Toggle fullScreenToggle;
         
         [SerializeField] private AudioMixer audioMixer;
@@ -31,11 +33,13 @@ namespace Ui.Menu
                     resolutionDropDown.value = i;
 
             fullScreenToggle.isOn = Screen.fullScreen;
+
+            qualityDropDown.value = QualitySettings.GetQualityLevel();
         }
 
         public void SetQuality(int index)
         {
-            
+            QualitySettings.SetQualityLevel(index);
         }
         
         public void SetResolution(int index)

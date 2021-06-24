@@ -4,8 +4,6 @@ using UnityEngine.UI;
 namespace Ui.Layout
 {
     [ExecuteInEditMode]
-    [DisallowMultipleComponent]
-    [RequireComponent(typeof(Image))]
     public class PixelPerfectPadding : LayoutGroup
     {
         [SerializeField] private RectTransform[] targets;
@@ -22,7 +20,7 @@ namespace Ui.Layout
 
         public override void CalculateLayoutInputVertical()
         {
-            if(image.sprite == null) return;
+            if(image == null || image.sprite == null) return;
             
             Rect rect = rectTransform.rect;
             Rect imageRect = image.sprite.rect;
@@ -49,10 +47,9 @@ namespace Ui.Layout
                 if(canvas == null) return;
                 
                 resolution = canvas.referencePixelsPerUnit / image.sprite.pixelsPerUnit;
-                Vector4 border = image.sprite.border;
 
-                Vector2 xy = new Vector2(border.x * resolution, border.y * resolution * -1);
-                Vector2 widthHeight = new Vector2(rect.width - xy.x - border.w * resolution, rect.height + xy.y - border.z * resolution);
+                Vector2 xy = new Vector2(resolution * padding.left, padding.top * resolution * -1);
+                Vector2 widthHeight = new Vector2(rect.width - xy.x - padding.right * resolution, rect.height + xy.y - padding.bottom * resolution);
                 
                 foreach (RectTransform target in targets)
                 {

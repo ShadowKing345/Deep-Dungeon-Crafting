@@ -6,14 +6,20 @@ namespace Ui.Menu
 {
     public class PauseMenu : MonoBehaviour, IUiElement
     {
+        private GameManager gameManager;
         private WindowManager windowManager;
         [SerializeField] private Settings settingsMenu;
 
-        private void Start() => windowManager ??= WindowManager.instance;
+        private void Start()
+        {
+            gameManager ??= GameManager.instance;
+            windowManager ??= WindowManager.instance;
+        }
 
         public void Show()
         {
             windowManager.HideUiElement(WindowManager.UiElementReference.Hud);
+            settingsMenu.Hide();
             Time.timeScale = 0;
         }
 
@@ -41,17 +47,17 @@ namespace Ui.Menu
 
         public void EndRun()
         {
-            Debug.Log("End Run");
+            gameManager.EndRun();
         }
 
         public void QuitGame()
         {
-            Debug.Log("Quit Game");
+            gameManager.QuitGame();
         }
 
         public void ExitGame()
         {
-            Debug.Log("Exit Game");
+            gameManager.ExitGame();
         }
     }
 }
