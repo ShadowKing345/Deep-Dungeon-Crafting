@@ -30,7 +30,7 @@ namespace Managers
         private readonly Direction[] _directions = {Direction.S, Direction.W, Direction.E, Direction.N};
         private const int EmergencyLoopExit = 32;
 
-        private void OnEnable()
+        private void Awake()
         {
             if (instance == null)
                 instance = this;

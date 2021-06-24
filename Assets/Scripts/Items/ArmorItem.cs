@@ -1,5 +1,5 @@
+using Combat;
 using UnityEngine;
-using Weapons;
 
 namespace Items
 {
@@ -7,7 +7,7 @@ namespace Items
     public class ArmorItem : Item
     {
         public ArmorType type;
-        public WeaponProperty[] properties;
+        public AbilityProperty[] properties;
     }
 
     public enum ArmorType

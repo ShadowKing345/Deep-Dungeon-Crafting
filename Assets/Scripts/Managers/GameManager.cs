@@ -1,7 +1,7 @@
 using System;
+using Combat;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Weapons;
 
 namespace Managers
 {
@@ -11,7 +11,7 @@ namespace Managers
 
         public WeaponClass noWeaponClass;
 
-        private void OnEnable()
+        private void Awake()
         {
             if (instance == null)
             {

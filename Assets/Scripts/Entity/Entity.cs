@@ -1,39 +1,63 @@
+using System.Linq;
+using Combat;
+using Interfaces;
 using UnityEngine;
-using Weapons;
 
 namespace Entity
 {
-    public class Entity : MonoBehaviour, IDamageable
+    public class Entity : MonoBehaviour, IDamageable, IUsesMana
     {
-        // Entity Stats
-        public EntityStats stats;
-        private int _health = 0;
+        [SerializeField] protected EntityStats stats;
+        public EntityStats Stats => stats;
+        [SerializeField] protected float currentHealth;
+        [SerializeField] protected float currentMana;
         
-        // Weapon Stats
-        public WeaponClass weaponClass;
-        public float weaponCooldown;
-
-        // Hit layer masks
-        public LayerMask hitLayers;
-
-        public bool isDead;
+        public bool IsDead { get; private set; }
 
         private void Awake()
         {
-            _health = stats.maxHealth;
+            currentHealth = stats.MaxHealth;
+            currentMana = stats.MaxMana;
         }
 
-        public bool Damage(int potency, WeaponElement element, WeaponAttackType attackType)
+        public virtual bool Damage(AbilityProperty[] properties)
         {
-            //Damage Animation
+            float damageTaken = 0f;
 
-            //Take Damage
-            _health -= potency;
+            foreach (AbilityProperty property in properties)
+            {
+                AbilityProperty resistance = stats.Resistances.FirstOrDefault(i => property.IsElemental ? i.Element == property.Element : i.AttackType == property.AttackType);
+
+                damageTaken += property.Amount - (resistance == null ? 0 : property.Amount * resistance.Amount);
+            }
+
+            currentHealth -= Random.Range(0, 100) <= 30 ? damageTaken * 2 : damageTaken;
+
+            if (!(currentHealth <= 0)) return true;
             
-            Debug.Log(potency);
+            IsDead = true;
+            Die();
 
-            // Death check
             return true;
         }
+
+        public virtual void Die()
+        {
+            Destroy(gameObject);
+        }
+
+        public bool ChargeMana(float amount)
+        {
+            if (!(currentMana >= amount)) return false;
+            
+            currentMana -= amount;
+            return true;
+        }
+
+        public float GetMaxHealth() => stats.MaxHealth;
+        public float GetCurrentHealth() => currentHealth;
+
+        public float GetMaxMana => stats.MaxMana;
+        public float GetCurrentMana => currentMana;
     }
 }

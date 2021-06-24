@@ -1,3 +1,5 @@
+using Entity;
+using Entity.Player;
 using Managers;
 using UnityEditor;
 using UnityEngine;
@@ -11,9 +13,9 @@ namespace Editor
         {
             base.OnInspectorGUI();
             if (GUILayout.Button("Generate Room"))
-            {
+                // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
                 ((GameManager) target).SetupBoard();
-            }
+            if(GUILayout.Button("Update Weapon")) FindObjectOfType<PlayerCombat>().UpdateCurrentWeaponClass();
         }
     }
     
@@ -36,9 +38,21 @@ namespace Editor
             if (GUILayout.Button("Reset Lists")) manager.ResetLists();
             if (GUILayout.Button("Init Variables")) manager.InitVariables();
             if (GUILayout.Button("Generate Board")) manager.CreateRoomLayout();
+            // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
             if (GUILayout.Button("Create Room Obj")) manager.CreateRoomObj();
             if (GUILayout.Button("Link Rooms")) manager.LinkRoomsTogether();
             if (GUILayout.Button("Create Rooms")) manager.GenerateRoomsTiles();
+        }
+    }
+    
+    [CustomEditor(typeof(EntityAi))]
+    public class EntityAiEditor : UnityEditor.Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+            // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
+            if(GUILayout.Button("Change State to current")) ((EntityAi) target).ChangeState(((EntityAi) target).GetCurrentlyThinking);
         }
     }
 }

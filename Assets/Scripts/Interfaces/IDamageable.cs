@@ -1,6 +1,15 @@
-using Weapons;
+using Combat;
 
-public interface IDamageable
+namespace Interfaces
 {
-    bool Damage(int potency, WeaponElement element, WeaponAttackType attackType);
+    public interface IDamageable
+    {
+        bool Damage(AbilityProperty[] properties);
+        void Die();
+        
+        float GetMaxHealth();
+        float GetCurrentHealth();
+
+        bool IsDead { get; }
+    }
 }

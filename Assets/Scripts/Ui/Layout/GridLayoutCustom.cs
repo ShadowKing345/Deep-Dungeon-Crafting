@@ -1,4 +1,5 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,64 +10,43 @@ namespace Ui.Layout
         public int columns;
         public int rows;
         public Vector2 cellSize;
-        public ForceParentSize forceParentSize;
 
         public override void CalculateLayoutInputHorizontal()
         {
             base.CalculateLayoutInputHorizontal();
-            var rect = rectTransform.rect;
+            if (rectChildren.Count <= 0) return;
 
-            if (forceParentSize.width)
+            cellSize.y = cellSize.x = rectTransform.rect.width / columns - padding.horizontal;
+            float actualCellSize = cellSize.x + padding.horizontal;
+            
+            for(int i = 0; i < rectChildren.Count; i ++)
             {
-                rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, (cellSize.x + padding.horizontal) * columns);
-            }
-            else
-            {
-                try
-                {
-                    cellSize.x = rect.width / columns;
-                }
-                catch (DivideByZeroException)
-                {
-                    cellSize.x = rect.width;
-                }
-            }
-
-            foreach (RectTransform item in rectChildren)
-            {
-                int index = rectChildren.IndexOf(item);
-                int columnCount = columns != 0 ? index % columns : index;
-                SetChildAlongAxis(item, 0, cellSize.x * columnCount);
+                int colPos = i % columns;
+                RectTransform child = rectChildren[i];
+                child.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, cellSize.x);
+                SetChildAlongAxis(child, 0, colPos * actualCellSize + padding.left);
             }
         }
 
         public override void CalculateLayoutInputVertical()
         {
-            rows = columns != 0 ? rectChildren.Count / columns : rectChildren.Count;
-
-            if (forceParentSize.height)
-                rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, cellSize.y * rows);
-            else
-                cellSize.y = rectTransform.rect.height / rows;
-
-
-            foreach (var item in rectChildren)
+            if(rectChildren.Count <= 0) return;
+            
+            rows = (int) Mathf.Ceil(rectChildren.Count / (float) columns);
+            float actualCellSize = cellSize.y + padding.horizontal;
+            
+            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rows * actualCellSize);
+            
+            for (int i = 0; i < rectChildren.Count; i++)
             {
-                int index = rectChildren.IndexOf(item);
-                int rowCount = columns != 0 ? index / columns : index;
-
-                SetChildAlongAxis(item, 1, cellSize.y * rowCount);
+                int rowPos = Mathf.FloorToInt((float) i / columns);
+                RectTransform child = rectChildren[i];
+                child.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, cellSize.y);
+                SetChildAlongAxis(child, 1, rowPos * actualCellSize + padding.left);
             }
         }
 
         public override void SetLayoutHorizontal() { }
         public override void SetLayoutVertical() { }
-    }
-
-    [Serializable]
-    public struct ForceParentSize
-    {
-        public bool width;
-        public bool height;
     }
 }

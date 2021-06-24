@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3641249469009164831}
   - component: {fileID: 3641249469009164818}
   - component: {fileID: 3641249469009164827}
-  - component: {fileID: 3641249469009164817}
   - component: {fileID: 3641249469009164829}
   - component: {fileID: 3641249469009164828}
   - component: {fileID: 3641249469009164830}
@@ -22,7 +21,7 @@ GameObject:
   - component: {fileID: 3641249469009164824}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -95,27 +94,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementController: {fileID: 3641249469009164818}
-  animator: {fileID: 0}
-  playerStats: {fileID: 0}
-  playerInventory: {fileID: 0}
-  isAttacking: 0
-  center: {fileID: 3641249469976676982}
+  animator: {fileID: 3641249469009164829}
+  player: {fileID: 3641249469009164825}
+  playerInventory: {fileID: 3641249469009164826}
   weaponClass: {fileID: 11400000, guid: 3e195c14bfeb6f202b97d40d70cab896, type: 2}
---- !u!114 &3641249469009164817
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3641249469009164819}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14a324c0f4f14a49b6ee5399b51b7807, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bodyAnimator: {fileID: 3641249469009164829}
-  leftHandAnimator: {fileID: 0}
-  rightHandAnimator: {fileID: 0}
+  abilityRange: 0
+  attackPoint: {x: 0, y: 0}
+  direction: 0
 --- !u!114 &3641249469009164829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,10 +113,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1e507ab9ec0e7dc68735ff3ef79b520, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 3641249469009164828}
   attackName: 
-  direction: {x: 0, y: 0}
+  lastDirection: 0
   state: 0
+  ignoreDirection: 0
 --- !u!95 &3641249469009164828
 Animator:
   serializedVersion: 3
@@ -217,7 +203,7 @@ MonoBehaviour:
   inventoryController: {fileID: 0}
   weaponInventoryController: {fileID: 0}
   inventory:
-    capacity: 50
+    capacity: 99
     itemStacks:
     - item: {fileID: 11400000, guid: cc4eecedd9a47f2ff8e748a22eadba12, type: 2}
       amount: 5
@@ -233,6 +219,153 @@ MonoBehaviour:
       maxStackSize: 999
     - item: {fileID: 11400000, guid: 7f12a54757f68763ca3cbe9efdd3321f, type: 2}
       amount: 15
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
+      maxStackSize: 999
+    - item: {fileID: 0}
+      amount: 0
       maxStackSize: 999
     - item: {fileID: 0}
       amount: 0
@@ -408,15 +541,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3641249469009164819}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c80901cb26d48cdac1dbfea581cd42b, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a28bc4511eb461aa04d7f8a14e0ec92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  stats: {fileID: 11400000, guid: 021397766d630c8c9a4b37fbec72318d, type: 2}
   currentHealth: 0
-  maxMana: 50
   currentMana: 0
-  healthProgressBar: {fileID: 0}
-  manaProgressBar: {fileID: 0}
+  isDead: 0
 --- !u!114 &3641249469009164839
 MonoBehaviour:
   m_ObjectHideFlags: 0

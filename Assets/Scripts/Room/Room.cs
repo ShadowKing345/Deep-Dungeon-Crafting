@@ -87,7 +87,7 @@ namespace Room
                 if ((int) pos.x == width - 1) direction = Direction.E;
                 if ((int) pos.y == height - 1) direction = Direction.N;
 
-                if (nearbyRooms.GetDirection((int) direction) != null)
+                if (nearbyRooms.GetDirection(direction) != null)
                 {
                     switch (direction)
                     {

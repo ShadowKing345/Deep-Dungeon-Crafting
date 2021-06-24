@@ -1,8 +1,8 @@
 using System;
+using Combat;
 using Items;
 using Managers;
 using UnityEngine;
-using Weapons;
 
 namespace Inventory
 {
@@ -21,8 +21,11 @@ namespace Inventory
             weapon.Item = stack.Item;
             weapon.Amount = stack.Amount;
 
-            OnWeaponChanged?.Invoke(((WeaponItem) weapon.Item).weaponClass);
-            
+            if (((WeaponItem) weapon.Item).weaponClass != null)
+            {
+                OnWeaponChanged?.Invoke(((WeaponItem) weapon.Item).weaponClass);
+            }
+
             return result;
         }
 

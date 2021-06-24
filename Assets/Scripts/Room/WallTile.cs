@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Utils;
 using Random = UnityEngine.Random;
@@ -18,7 +17,7 @@ namespace Room
         }
 
 
-        public void UpdateLook() => spriteRenderer.sprite = textures[Random.Range(0, textures.Length)].GetDirection((int) direction);
+        public void UpdateLook() => spriteRenderer.sprite = textures[Random.Range(0, textures.Length)].GetDirection(direction);
         public void SetDirection(Direction direction) => this.direction = direction;
     }
 }

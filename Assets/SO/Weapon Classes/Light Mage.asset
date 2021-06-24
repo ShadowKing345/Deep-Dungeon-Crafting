@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b40680a472654a9c8fb3f6dcba3eb0af, type: 3}
+  m_Name: Light Mage
+  m_EditorClassIdentifier: 
+  shortDescription: Health Problems? No worries with a Light Mage Death is the least
+    of your concerns.
+  longDescription: 'Being the main healers of the Church, The Light Mage are one
+    of the few schools of healing that can heal freshing chopped limbs. A majority
+    of Light Mages are in fact priests of the church providing prayers as they provide
+    their services to those in need. The utilize the energy provided by light sources
+    in order to repair or reconstruct tissues in the body. Because of this, healers
+    that study under this school were called Light Mages. The one downside to a Light
+    Mages methods of healing is that they require a significant amount of light or
+    direct light from the sun in order to be affective. Additionally, rooms with
+    Light Mages inside stangely become darker with one libarary getting renamed to
+    The Library of Darkness due to it being filled with Light Mages doing research.
+
+
+    Light
+    Mages come with some healing spells in addition to damage spells. Good for those
+    who are low on healing potions while have a significant excess of mana potions
+    as the healing spells are quite costly. Furthermore Light Mages are not known
+    for their damage out with the one exception of a spell that can knock back enemies
+    from its origin.'
+  icon: {fileID: 5008426046571763623, guid: 595ad69a56f5276de80986588b48af3a, type: 3}
+  abilities1:
+  - name: Blessings
+    description: Pray your enemies away as their flesh burns away from the shier
+      power of your words.
+    icon: {fileID: 0}
+    potency: 50
+    coolDown: 2.5
+    attackType: 3
+    elementType: 2
+    isProjectile: 1
+    projectilePreFab: {fileID: 0}
+    attackPoint: {x: 0, y: 0}
+    range: 0
+    animationName: 
+  - name: Glare
+    description: Your stare is a weapon. Guilt trip your foes into understanding
+      their errors and begging for forgiveness. Weirdly the feeling has been compared
+      to getting slapped by a rock.
+    icon: {fileID: 0}
+    potency: 80
+    coolDown: 0
+    attackType: 2
+    elementType: 3
+    isProjectile: 1
+    projectilePreFab: {fileID: 0}
+    attackPoint: {x: 0, y: 0}
+    range: 0
+    animationName: 
+  - name: Holy
+    description: Blindingly bright and shockingly loud. Blind your foes and watch
+      them stumble back from the shockwave of your Holiness.
+    icon: {fileID: 0}
+    potency: 120
+    coolDown: 0
+    attackType: 0
+    elementType: 0
+    isProjectile: 1
+    projectilePreFab: {fileID: 0}
+    attackPoint: {x: 0, y: 0}
+    range: 0
+    animationName: 
+  abilities2:
+  - name: Cure
+    description: The most basic form of quick healing.
+    icon: {fileID: 0}
+    potency: 130
+    coolDown: 0
+    attackType: 3
+    elementType: 0
+    isProjectile: 1
+    projectilePreFab: {fileID: 0}
+    attackPoint: {x: 0, y: 0}
+    range: 0
+    animationName: 
+  - name: Cure Bomb
+    description: Hungry for mana this spell heals and deals decent damage.
+    icon: {fileID: 0}
+    potency: 400
+    coolDown: 0
+    attackType: 3
+    elementType: 0
+    isProjectile: 1
+    projectilePreFab: {fileID: 0}
+    attackPoint: {x: 0, y: 0}
+    range: 0
+    animationName: 
+  abilities3:
+  - name: Light Bubble
+    description: Use the light around you to form a small bubble that blocks a decent
+      amount of damage.
+    icon: {fileID: 0}
+    potency: 0
+    coolDown: 0
+    attackType: 0
+    elementType: 0
+    isProjectile: 1
+    projectilePreFab: {fileID: 0}
+    attackPoint: {x: 0, y: 0}
+    range: 0
+    animationName: 

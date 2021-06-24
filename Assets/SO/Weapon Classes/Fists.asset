@@ -12,21 +12,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b40680a472654a9c8fb3f6dcba3eb0af, type: 3}
   m_Name: Fists
   m_EditorClassIdentifier: 
-  description: No weapons needed nor any thinking.
-  icon: {fileID: 0}
-  action1:
-  - name: Punch
-    description: Basic punch attack.
-    icon: {fileID: 21300000, guid: 4ecfe5c342c71d77aad43da89d15e765, type: 3}
-    potency: 2
-    range: 1
+  shortDescription: 'No weapons needed just use your fist.
+
+    Probably not the
+    best option for fighting monsters.'
+  longDescription: 'Probably one of the most well known classes of fighting the humble
+    Fists was most likely the first ever recorded form of combat.
+
+
+    Often used
+    as a last resort, Fists are the most convinent form of fighting as they are always
+    at the ready they are however not the best at it in terms of damage or self untilities
+    as such is often recomended to first find some other weapon.'
+  icon: {fileID: 5835390892846499524, guid: 595ad69a56f5276de80986588b48af3a, type: 3}
+  abilities1:
+  - name: Left Hook
+    description: 'The bluntest thing on hand. (Pun intended).
+
+      Give enemies
+      a good left hook, even though you are using your right hand?'
+    icon: {fileID: 0}
+    coolDown: 1.5
+    properties:
+    - isElemental: 0
+      element: 0
+      attackType: 2
+      amount: 1
+    manaCost: 0
     isProjectile: 0
     projectilePreFab: {fileID: 0}
-    coolDown: 0.6
-    attackType: 0
-    elementType: 0
-    attackPoint: {x: 0.5, y: 0.5}
+    attackPoint: {x: 0.5, y: 0.4}
+    range: 0.3
     animationName: Punch
-  action2: []
-  action3: []
-  animationController: {fileID: 9100000, guid: e8e9a25c86232c248bf1f2a85ba690c6, type: 2}
+  abilities2: []
+  abilities3: []

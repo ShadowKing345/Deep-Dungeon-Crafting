@@ -28,7 +28,7 @@ namespace Room
         }
 
         public void SetDirection(Direction direction) => this.direction = direction;
-        public void UpdateLook() => spriteRenderer.sprite = textures[Random.Range(0, textures.Length)].GetDirection((int) direction);
+        public void UpdateLook() => spriteRenderer.sprite = textures[Random.Range(0, textures.Length)].GetDirection(direction);
 
         public void SetUpDoor(Room connectedRoom, DoorTile connectedDoorTile)
         {

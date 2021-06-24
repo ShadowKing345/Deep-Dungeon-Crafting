@@ -2,27 +2,27 @@ namespace Utils
 {
     public enum Direction
     {
-        S = 1,
-        W = 2,
-        N = 3,
-        E = 4,
+        S = 0,
+        E = 1,
+        N = 2,
+        W = 3,
         
-        SW = 5,
-        SE = 6,
-        NW = 7,
-        NE = 8
+        SW = 4,
+        SE = 5,
+        NW = 6,
+        NE = 7
     }
 
     public static class Extension
     {
-        public static int GetDirectionFromInterCardinal(this Direction direction) =>
+        public static Direction GetDirectionFromInterCardinal(this Direction direction) =>
             direction switch
             {
-                Direction.SW => 1,
-                Direction.SE => 2,
-                Direction.NW => 3,
-                Direction.NE => 4,
-                _ => (int) direction
+                Direction.SW => Direction.S,
+                Direction.SE => Direction.W,
+                Direction.NW => Direction.N,
+                Direction.NE => Direction.E,
+                _ => direction
             };
     }
 }

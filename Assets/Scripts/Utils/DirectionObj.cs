@@ -9,17 +9,6 @@ namespace Utils
         public T west;
         public T north;
         public T east;
-
-        public T GetDirection(int direction) =>
-            direction switch
-            {
-                1 => south,
-                2 => west,
-                3 => north,  
-                4 => east,
-                _ => south
-            };
-
         public T GetDirection(Direction direction) =>
             direction switch
             {
@@ -29,26 +18,7 @@ namespace Utils
                 Direction.E => east,
                 _ => south
             };
-
-        public void SetDirection(int direction, T obj)
-        {
-            switch (direction)
-            {
-                case 1:
-                    south = obj;
-                    break;
-                case 2:
-                    west = obj;
-                    break;
-                case 3:
-                    north = obj;
-                    break;
-                case 4:
-                    east = obj;
-                    break;
-            }
-        }
-
+        
         public void SetDirection(Direction direction, T obj)
         {
             switch (direction)
@@ -64,8 +34,6 @@ namespace Utils
                     break;
                 case Direction.E:
                     east = obj;
-                    break;
-                default:
                     break;
             }
         }

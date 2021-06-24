@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Utils;
 
 namespace Entity
 {
@@ -8,14 +9,15 @@ namespace Entity
     {
         private readonly string[] _directions = {"South", "East", "North", "West"};
         
-        public Animator animator;
+        [SerializeField] private Animator animator;
+        [SerializeField] private string attackName;
         
-        public string attackName;
-
-        public Vector2 direction;
-        
-        private int _lastDirection;
+        [SerializeField] private Direction lastDirection;
         [SerializeField] private State state = State.Idle;
+        [SerializeField] private bool ignoreDirection;
+        public bool IgnoreDirection { set => ignoreDirection = value; }
+        public State GetCurrentState => state;
+        public Direction GetCurrentDirection => lastDirection;
 
         private void Awake()
         {
@@ -27,16 +29,17 @@ namespace Entity
             switch (state)
             {
                 case State.Idle:
-                    animator.Play($"Idle-{_directions[_lastDirection]}");
+                    animator.Play(ignoreDirection ? "Idle" : $"Idle-{_directions[(int) lastDirection]}");
                     break;
                 case State.Moving:
-                    _lastDirection = DirectionIndex(direction);
-                    animator.Play($"Run-{_directions[_lastDirection]}");
+                    animator.Play(ignoreDirection ? "Run" : $"Run-{_directions[(int) lastDirection]}");
                     break;
                 case State.Attacking:
-                    animator.Play(attackName + "-" + _directions[_lastDirection]);
+                    animator.Play(ignoreDirection ? attackName : attackName + "-" + _directions[(int) lastDirection]);
                     Invoke(nameof(AttackComplete), animator.GetCurrentAnimatorStateInfo(0).length);
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -45,7 +48,19 @@ namespace Entity
             state = State.Idle;
         }
 
-        private static int DirectionIndex(Vector2 direction)
+        public void Move(Vector2 direction)
+        {
+            if (state == State.Attacking) return;
+            if (direction.magnitude > 0)
+            {
+                lastDirection = GetDirectionIndex(direction);
+                state = State.Moving;
+            }
+            else
+                state = State.Idle;
+        }
+
+        public static Direction GetDirectionIndex(Vector2 direction)
         {
             Vector2 normPos = direction.normalized;
 
@@ -54,17 +69,15 @@ namespace Entity
             float angle = Vector2.SignedAngle(Vector2.down, normPos);
 
             angle += offset;
-            if (angle < 0)
-            {
-                angle += 360;
-            }
-            
-            return Mathf.FloorToInt(angle / step);
-        }
+            if (angle < 0) angle += 360;
 
-        public void ChangeState(State state)
+            return (Direction) Mathf.FloorToInt(angle / step);
+        }
+        
+        public void PlayAttackAnimation(string animationName)
         {
-            this.state = state;
+            attackName = animationName;
+            state = State.Attacking;
         }
 
         public enum State

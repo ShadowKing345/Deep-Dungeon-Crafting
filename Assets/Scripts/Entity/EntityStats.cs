@@ -1,12 +1,26 @@
+using Combat;
 using UnityEngine;
 
 namespace Entity
 {
-    [CreateAssetMenu(fileName = "NewEntity", menuName = "SO/EntityStats", order = 0)]
+    [CreateAssetMenu(fileName = "New Entity Stats", menuName = "SO/Entity", order = 0)]
     public class EntityStats : ScriptableObject
     {
-        public int maxHealth = 100;
-        public int attackPower = 10;
-        public int defense = 10;
+        [SerializeField] private string description;
+
+        public string Description => description;
+
+        [SerializeField] private float maxHealth = 100f;
+        [SerializeField] private float maxMana = 50f;
+
+        public float MaxHealth => maxHealth;
+        public float MaxMana => maxMana;
+        
+        [SerializeField] private AbilityProperty[] resistances;
+
+        public AbilityProperty[] Resistances => resistances;
+        
+        [SerializeField] private Vector2 centerPos;
+        public Vector2 GetCenterPos => centerPos;
     }
 }
