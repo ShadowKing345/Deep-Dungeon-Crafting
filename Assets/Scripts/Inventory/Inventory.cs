@@ -32,13 +32,31 @@ namespace Inventory
             return result;
         }
 
-        public ItemStack[] AddItemStacks(ItemStack[] stacks)
+        public ItemStack[] AddItemStacks(ItemStack[] stacks, bool combine = true)
         {
             foreach (var stack in stacks)
             {
                 foreach (ItemStack inventoryStack in itemStacks)
                 {
-                    stack.RemoveItem(stack.Amount - inventoryStack.AddItem(stack.Item, stack.Amount));
+                    if (combine)
+                        stack.RemoveItem(stack.Amount - inventoryStack.AddItem(stack.Item, stack.Amount));
+                    else if (inventoryStack.IsEmpty)
+                        stack.RemoveItem(stack.Amount - inventoryStack.AddItem(stack.Item, stack.Amount));
+
+                    if (stack.IsEmpty) break;
+                }
+            }
+
+            return stacks;
+        }
+
+        public ItemStack[] RemoveItemStacks(ItemStack[] stacks)
+        {
+            foreach (var stack in stacks)
+            {
+                foreach (ItemStack inventoryStack in itemStacks)
+                {
+                    stack.RemoveItem(stack.Amount - inventoryStack.RemoveItem(stack.Amount));
                     if (stack.IsEmpty) break;
                 }
             }
@@ -93,6 +111,14 @@ namespace Inventory
 
             AddStackAtSlot(toStack.Copy, toIndex);
             AddStackAtSlot(fromStack.Copy, fromIndex);
+        }
+
+        public void SplitStack(int index, int amount)
+        {
+            ItemStack stack = itemStacks[index].Copy;
+            stack.Amount = itemStacks[index].RemoveItem(amount);
+
+            AddItemStacks(new[] {stack}, false);
         }
     }
 }

@@ -69,12 +69,21 @@ namespace Inventory
             return result;
         }
 
+        public ItemStack[] AddItemStacks(ItemStack[] stacks, bool combine = true)
+        {
+            throw new NotImplementedException();
+        }
+
         public ItemStack[] AddItemStacks(ItemStack[] stacks) {
-            for (int i = 0; i > Math.Min(stacks.Length, 6); i++) AddStackAtSlot(stacks[i], i);
+            for (int i = 0; false; i++) AddStackAtSlot(stacks[i], i);
             return stacks;
         }
 
         public ItemStack[] GetItemStacks() => new [] {head, body, legs, earring, bracelet, ring};
+        public ItemStack[] RemoveItemStacks(ItemStack[] stacks)
+        {
+            throw new NotImplementedException();
+        }
 
         public ItemStack[] GetAndClearItemStacks()
         {
@@ -104,5 +113,9 @@ namespace Inventory
         public void ResetInventory() { foreach (ItemStack stack in GetItemStacks()) stack.Clear(); }
         
         public void SwapSlots(int fromIndex, int toIndex, out ItemStack fromStack, out ItemStack toStack) => throw new NotImplementedException();
+        public void SplitStack(int index, int amount)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

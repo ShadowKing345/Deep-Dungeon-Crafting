@@ -43,6 +43,11 @@ namespace Inventory
             return result;
         }
 
+        public ItemStack[] AddItemStacks(ItemStack[] stacks, bool combine = true)
+        {
+            throw new NotImplementedException();
+        }
+
         public ItemStack[] AddItemStacks(ItemStack[] stacks)
         {
             if (stacks.Length > 0)
@@ -52,6 +57,10 @@ namespace Inventory
         }
 
         public ItemStack[] GetItemStacks() => new[] {weapon};
+        public ItemStack[] RemoveItemStacks(ItemStack[] stacks)
+        {
+            throw new NotImplementedException();
+        }
 
         public ItemStack[] GetAndClearItemStacks()
         {
@@ -71,5 +80,9 @@ namespace Inventory
         public void ResetInventory() => weapon.Clear();
 
         public void SwapSlots(int fromIndex, int toIndex, out ItemStack fromStack,out ItemStack toStack) => throw new NotImplementedException();
+        public void SplitStack(int index, int amount)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

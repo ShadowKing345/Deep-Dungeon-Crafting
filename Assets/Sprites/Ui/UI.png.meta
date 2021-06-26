@@ -28,25 +28,25 @@ TextureImporter:
     second: AbilityUi
   - first:
       213: -273060469431498887
-    second: HudProgressBarBG
+    second: HealthBar
   - first:
       213: 8391660652416901024
-    second: HudManaUi
+    second: HealthBarMask
   - first:
       213: 9094600903545770030
-    second: HudHealthUi
+    second: ManaBarMask
   - first:
       213: -4532114073746202998
-    second: HealthGood
+    second: HealthBarBar
   - first:
       213: -8346291274449466048
-    second: HealthWarning
+    second: UI_13
   - first:
       213: -343943630576144839
-    second: HealthCritical
+    second: ManaBarBar
   - first:
       213: 7301787903208175943
-    second: ManaBar
+    second: ManaBarBar
   - first:
       213: 1652299931923453484
     second: Hearth
@@ -367,16 +367,16 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HudProgressBarBG
+      name: HealthBar
       rect:
         serializedVersion: 2
-        x: 1
-        y: 164
-        width: 61
-        height: 9
+        x: 2
+        y: 180
+        width: 60
+        height: 12
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 2, y: 2, z: 2, w: 2}
+      border: {x: 15, y: 2, z: 3, w: 2}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -388,16 +388,16 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HudManaUi
+      name: ManaBar
       rect:
         serializedVersion: 2
-        x: 17
-        y: 174
-        width: 15
-        height: 15
+        x: 3
+        y: 166
+        width: 59
+        height: 11
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 2, y: 2, z: 2, w: 2}
+      border: {x: 13, y: 0, z: 3, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -409,34 +409,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HudHealthUi
-      rect:
-        serializedVersion: 2
-        x: 1
-        y: 174
-        width: 15
-        height: 15
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e20dac52653863e70800000000000000
-      internalID: 9094600903545770030
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HealthGood
+      name: HealthBarBar
       rect:
         serializedVersion: 2
         x: 3
-        y: 158
+        y: 155
         width: 57
-        height: 5
+        height: 8
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -451,34 +430,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HealthWarning
-      rect:
-        serializedVersion: 2
-        x: 3
-        y: 152
-        width: 57
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 04d4f727e440c2c80800000000000000
-      internalID: -8346291274449466048
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HealthCritical
+      name: ManaBarBar
       rect:
         serializedVersion: 2
         x: 3
         y: 146
         width: 57
-        height: 5
+        height: 8
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -493,85 +451,22 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ManaBar
+      name: HealthBarMask
       rect:
         serializedVersion: 2
-        x: 3
-        y: 140
-        width: 57
-        height: 5
+        x: 1
+        y: 134
+        width: 60
+        height: 12
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 15, y: 2, z: 3, w: 2}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 749b7f35969255560800000000000000
       internalID: 7301787903208175943
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Hearth
-      rect:
-        serializedVersion: 2
-        x: 4
-        y: 111
-        width: 28
-        height: 25
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c2613b8a8062ee610800000000000000
-      internalID: 1652299931923453484
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ManaPotion
-      rect:
-        serializedVersion: 2
-        x: 42
-        y: 112
-        width: 16
-        height: 20
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ddcf4bbd1b8a26500800000000000000
-      internalID: 388057999756033245
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Test
-      rect:
-        serializedVersion: 2
-        x: 28
-        y: 155
-        width: 4
-        height: 4
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 1, y: 1, z: 1, w: 1}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e7f98621abdcce3b0800000000000000
-      internalID: -5481780447360278658
       vertices: []
       indices: 
       edges: []
@@ -858,7 +753,7 @@ TextureImporter:
         width: 14
         height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 1, y: 1, z: 1, w: 1}
       outline: []
       physicsShape: []
@@ -866,6 +761,27 @@ TextureImporter:
       bones: []
       spriteID: f02eb9e1160319bd0800000000000000
       internalID: -2625263914096795121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ManaBarMask
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 125
+        width: 59
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 13, y: 2, z: 3, w: 2}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e20dac52653863e70800000000000000
+      internalID: 9094600903545770030
       vertices: []
       indices: 
       edges: []

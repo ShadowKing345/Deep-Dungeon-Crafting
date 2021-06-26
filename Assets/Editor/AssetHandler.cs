@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Combat;
+using Crafting.Recipe;
 using Ui.Journal;
 using UnityEditor;
 using UnityEditor.Callbacks;
@@ -12,8 +13,7 @@ namespace Editor
         [OnOpenAsset]
         public static bool OpenEditor(int instanceId, int line)
         {
-            Object obj = EditorUtility.InstanceIDToObject(instanceId);
-            switch (obj)
+            switch (EditorUtility.InstanceIDToObject(instanceId))
             {
                 case TabCollection tabCollection:
                     JournalEntryEditorWindow.Open(tabCollection);
@@ -21,15 +21,22 @@ namespace Editor
                 case WeaponClass weaponClass:
                     WeaponClassEntityAiEditor.Open(weaponClass);
                     return true;
+                case Recipe recipe:
+                    RecipeEditorWindow.Open(recipe);
+                    return true;
             }
+
             return false;
         }
-        
+
         [MenuItem("Tools/Journal Editor Tool")]
-        public static void OpenJournalEditorTool()
-        {
-            string[] guids = AssetDatabase.FindAssets($"t:{typeof(Tab)}");
-            JournalEntryEditorWindow.Open(guids.Select(guid => AssetDatabase.LoadAssetAtPath<Tab>(AssetDatabase.GUIDToAssetPath(guid))).Where(tab => tab != null).ToArray());
-        }
+        public static void OpenJournalEditorTool() => JournalEntryEditorWindow.Open(AssetDatabase
+            .FindAssets($"t:{typeof(Tab)}")
+            .Select(guid => AssetDatabase.LoadAssetAtPath<Tab>(AssetDatabase.GUIDToAssetPath(guid))).ToArray());
+
+        [MenuItem("Tools/Recipe Editor Tool")]
+        public static void OpenRecipeEditorTool() => RecipeEditorWindow.Open(AssetDatabase
+            .FindAssets($"t:{typeof(Recipe)}")
+            .Select(guid => AssetDatabase.LoadAssetAtPath<Recipe>(AssetDatabase.GUIDToAssetPath(guid))).ToArray());
     }
 }
