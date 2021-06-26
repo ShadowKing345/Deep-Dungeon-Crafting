@@ -11,31 +11,29 @@ namespace Entity.Player
     [RequireComponent(typeof(PlayerMovement))]
     public class PlayerCombat : MonoBehaviour
     {
-        private InputHandler inputHandler;
-        private WindowManager windowManager;
+        private InputHandler _inputHandler;
+        private WindowManager _windowManager;
         
         [SerializeField] private EntityAnimator animator;
         [SerializeField] private Player player;
         [SerializeField] private PlayerInventory playerInventory;
         
         [SerializeField] private WeaponClass weaponClass;
+        private bool IsWeaponClassNull => weaponClass == null;
         
-        private WeaponClass.AbilityIndex _abilityNumber;
-        private Ability[] _actions;
-        
-        private int _actionComboIndex;
+        private WeaponClass.AbilityIndex _comboAbilityIndex;
+        private int _comboIndex;
         
         private float _comboCoolDown;
-        private bool _comboActive;
 
         private float _weaponCoolDown;
-        private bool _isWeaponClassNull;
+        
         public bool IsEnabled { get; set; } = true;
 
         private void Start()
         {
-            windowManager ??= WindowManager.instance;
-            inputHandler ??= InputHandler.instance;
+            _windowManager ??= WindowManager.instance;
+            _inputHandler ??= InputHandler.instance;
 
             player ??= GetComponent<Player>();
             animator ??= GetComponent<EntityAnimator>();
@@ -50,26 +48,30 @@ namespace Entity.Player
         private void Update()
         {
             if (!IsEnabled) return;
-            if (!(Time.time >= _weaponCoolDown)) return;
+            if (_weaponCoolDown < Time.time) return;
             
-            if (inputHandler.GetKeyDown(InputHandler.KeyValue.ExecuteAction1))
+            if (_inputHandler.GetKeyDown(InputHandler.KeyValue.ExecuteAction1))
                 Attack(WeaponClass.AbilityIndex.Abilities1);
-            if (inputHandler.GetKeyDown(InputHandler.KeyValue.ExecuteAction2))
+            if (_inputHandler.GetKeyDown(InputHandler.KeyValue.ExecuteAction2))
                 Attack(WeaponClass.AbilityIndex.Abilities2);
-            if (inputHandler.GetKeyDown(InputHandler.KeyValue.ExecuteAction3))
+            if (_inputHandler.GetKeyDown(InputHandler.KeyValue.ExecuteAction3))
                 Attack(WeaponClass.AbilityIndex.Abilities3);
 
-            if (!(_comboCoolDown <= Time.time) || !_comboActive) return;
+            if (_comboCoolDown > Time.time) return;
 
-            _actionComboIndex = 0;
-            _comboActive = false;
+            _comboIndex = 0;
         }
 
         public void Attack(WeaponClass.AbilityIndex abilityIndex)
         {
-            if (_isWeaponClassNull) return;
+            if (IsWeaponClassNull) return;
 
-            Ability ability = weaponClass.GetAbility(abilityIndex).FirstOrDefault();
+            if (abilityIndex != _comboAbilityIndex)
+            {
+                _windowManager.SetAbility(_comboAbilityIndex, weaponClass.GetAbility(_comboAbilityIndex).FirstOrDefault());
+                _comboIndex = 0;
+            }
+            Ability ability = weaponClass.GetAbility(abilityIndex)[_comboIndex];
 
             if (ability == null) return;
 
@@ -82,15 +84,31 @@ namespace Entity.Player
                 Vector2 directionVector = GetAttackDirectionVector2(ability);
                 
                 GameObject projectile = Instantiate(ability.ProjectilePreFab, directionVector, Quaternion.identity);
-                projectile.GetComponent<IProjectile>().Init(directionVector);
+                if(projectile.TryGetComponent(out IProjectile p)) p.Init(directionVector);
 
                 return;
             }
 
-            // todo: implement combos.
-            foreach (IDamageable entity in GetHitList(ability)) entity.Damage(ability.GetProperties);
+            bool hitFlag = false;
+
+            _weaponCoolDown = Time.time + ability.CoolDown;
+            
+            foreach (IDamageable entity in GetHitList(ability)) if(entity.Damage(ability.GetProperties)) hitFlag = true;
 
             animator.PlayAttackAnimation(ability.AnimationName);
+
+            if (hitFlag) return;
+
+            _comboAbilityIndex = abilityIndex;
+            
+            _comboIndex++;
+            if (_comboIndex >= weaponClass.GetAbility(_comboAbilityIndex).Length) _comboIndex = 0;
+            
+            _windowManager.SetAbility(_comboAbilityIndex, weaponClass.GetAbility(_comboAbilityIndex)[_comboIndex], _comboIndex != 0);
+
+            if (_comboIndex == 0) return;
+
+            _comboCoolDown = Time.time + 10f;
         }
 
         private IDamageable[] GetHitList(Ability ability)
@@ -110,19 +128,16 @@ namespace Entity.Player
             return hitList.ToArray();
         }
         
-        private void ChangeWeapon(WeaponClass weaponClass)
+        private void ChangeWeapon(WeaponClass @class)
         {
-            _isWeaponClassNull = weaponClass == null;
-            if (weaponClass == null)
-                return;
-
-            this.weaponClass = weaponClass;
-            List<Ability[]> abilities = weaponClass.Abilities;
-
+            this.weaponClass = @class;
+            if(IsWeaponClassNull) return;
             
-            windowManager.SetAbility(WeaponClass.AbilityIndex.Abilities1, abilities[0].FirstOrDefault());
-            windowManager.SetAbility(WeaponClass.AbilityIndex.Abilities2, abilities[1].FirstOrDefault());
-            windowManager.SetAbility(WeaponClass.AbilityIndex.Abilities3, abilities[2].FirstOrDefault());
+            List<Ability[]> abilities = @class.Abilities;
+
+            _windowManager.SetAbility(WeaponClass.AbilityIndex.Abilities1, abilities[0].FirstOrDefault());
+            _windowManager.SetAbility(WeaponClass.AbilityIndex.Abilities2, abilities[1].FirstOrDefault());
+            _windowManager.SetAbility(WeaponClass.AbilityIndex.Abilities3, abilities[2].FirstOrDefault());
         }
 
         public void UpdateCurrentWeaponClass()

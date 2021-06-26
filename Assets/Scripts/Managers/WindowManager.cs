@@ -86,7 +86,7 @@ namespace Managers
             if (hudElements.manaProgressBar != null) hudElements.manaProgressBar.Current = mana;
         }
 
-        public void SetAbility(WeaponClass.AbilityIndex index, Ability ability)
+        public void SetAbility(WeaponClass.AbilityIndex index, Ability ability, bool comboActive = false)
         {
             if (!TryGetAbility(index, out var abilityUi)) return;
             

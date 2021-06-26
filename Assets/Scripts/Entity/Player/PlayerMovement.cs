@@ -25,19 +25,17 @@ namespace Entity.Player
 
         private void Update()
         {
-            if (!IsEnabled) return;
-            
             _movement.x = Input.GetAxisRaw("Horizontal");
             _movement.y = Input.GetAxisRaw("Vertical");
             _movement.Normalize();
+            
+            animator.Move(IsEnabled ? _movement : Vector2.zero);
         }
 
         private void FixedUpdate()
         {
             if (!IsEnabled) return;
             rb.MovePosition(rb.position + _movement * (moveSpeed * Time.fixedDeltaTime));
-
-            animator.Move(_movement);
         }
     }
 }

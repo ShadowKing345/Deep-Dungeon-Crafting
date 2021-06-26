@@ -8,25 +8,35 @@ using UnityEngine;
 
 namespace Crafting
 {
-    public class CraftingManager
+    public class CraftingManager : MonoBehaviour
     {
-        [SerializeField] private List<Recipe.Recipe> recipies = new List<Recipe.Recipe>();
+        private readonly List<Recipe> _recipes = new List<Recipe>();
 
-        public void GetRecipes()
+        private void Start()
         {
-            string[] guids = AssetDatabase.FindAssets($"t:{typeof(Recipe.Recipe)}");
-            recipies.Clear();
-            recipies.AddRange(guids.Select(id => AssetDatabase.LoadAssetAtPath<Recipe.Recipe>(AssetDatabase.GUIDToAssetPath(id))));
+            GetRecipes();
         }
-        
-        public bool CanCraft(IInventory inventory, Recipe.Recipe recipe) => recipe.ingredients.All(inventory.ContainsExact);
 
-        public ItemStack[] GetMissingIngredients(IInventory inventory, Recipe.Recipe recipe) => new ItemStack[0];
+        private void GetRecipes()
+        {
+            _recipes.Clear();
+            _recipes.AddRange(AssetDatabase.FindAssets($"t:{typeof(Recipe)}").Select(guid =>
+                AssetDatabase.LoadAssetAtPath<Recipe>(AssetDatabase.GUIDToAssetPath(guid))));
+        }
 
-        public void Craft(IInventory inventory, Recipe.Recipe recipe)
+        public bool CanCraft(IInventory inventory, Recipe recipe) => recipe.ingredients.All(inventory.ContainsExact);
+
+        public Recipe[] AvailableCrafts(IInventory inventory) => _recipes.Where(recipe => recipe.ingredients.All(inventory.ContainsExact)).ToArray();
+
+        public ItemStack[] GetMissingIngredients(IInventory inventory, Recipe recipe) => new ItemStack[0];
+
+        public void Craft(IInventory inventory, Recipe recipe)
         {
             if (!CanCraft(inventory, recipe)) return;
+            
             inventory.RemoveItemStacks(recipe.ingredients);
+
+            inventory.AddItemStacks(new[] {recipe.result});
         }
     }
 }

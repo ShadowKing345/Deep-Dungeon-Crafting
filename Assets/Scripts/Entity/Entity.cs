@@ -1,7 +1,7 @@
 using System.Linq;
-using Combat;
 using Interfaces;
 using UnityEngine;
+using Combat;
 
 namespace Entity
 {

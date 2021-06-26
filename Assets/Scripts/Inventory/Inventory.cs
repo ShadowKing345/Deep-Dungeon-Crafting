@@ -52,15 +52,21 @@ namespace Inventory
 
         public ItemStack[] RemoveItemStacks(ItemStack[] stacks)
         {
-            foreach (var stack in stacks)
+            ItemStack[] result = new ItemStack[stacks.Length];
+
+            for (int i = 0; i < stacks.Length; i++)
             {
+                result[i] ??= new ItemStack { Item = stacks[i].Item, Amount = 0, MaxStackSize = stacks[i].MaxStackSize};
+                
                 foreach (ItemStack inventoryStack in itemStacks)
                 {
-                    stack.RemoveItem(stack.Amount - inventoryStack.RemoveItem(stack.Amount));
-                    if (stack.IsEmpty) break;
+                    result[i].AddItem(result[i].Item,
+                        stacks[i].RemoveItem(stacks[i].Amount - inventoryStack.RemoveItem(stacks[i].Amount)));
+                    
+                    if(stacks[i].IsEmpty) break;
                 }
             }
-
+            
             return stacks;
         }
 

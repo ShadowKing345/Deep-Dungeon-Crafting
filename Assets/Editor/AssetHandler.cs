@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using Combat;
-using Crafting.Recipe;
+using Crafting;
 using Ui.Journal;
 using UnityEditor;
 using UnityEditor.Callbacks;
