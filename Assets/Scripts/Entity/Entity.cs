@@ -1,7 +1,10 @@
+using System;
 using System.Linq;
 using Interfaces;
 using UnityEngine;
 using Combat;
+using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 namespace Entity
 {
@@ -13,6 +16,7 @@ namespace Entity
         [SerializeField] protected float currentMana;
         
         public bool IsDead { get; private set; }
+        public UnityEvent OnDeath { get; } = new UnityEvent();
 
         private void Awake()
         {
@@ -43,6 +47,7 @@ namespace Entity
 
         public virtual void Die()
         {
+            OnDeath?.Invoke();
             Destroy(gameObject);
         }
 

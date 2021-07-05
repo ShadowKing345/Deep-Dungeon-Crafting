@@ -4,6 +4,7 @@ using Combat;
 using Interfaces;
 using Managers;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Utils;
 
 namespace Entity.Player
@@ -11,55 +12,59 @@ namespace Entity.Player
     [RequireComponent(typeof(PlayerMovement))]
     public class PlayerCombat : MonoBehaviour
     {
-        private InputHandler _inputHandler;
         private WindowManager _windowManager;
-        
+
         [SerializeField] private EntityAnimator animator;
         [SerializeField] private Player player;
         [SerializeField] private PlayerInventory playerInventory;
-        
-        [SerializeField] private WeaponClass weaponClass;
-        private bool IsWeaponClassNull => weaponClass == null;
-        
+
+        [SerializeField] private WeaponClass currentClass;
+        private bool IsWeaponClassNull => currentClass == null;
+
         private WeaponClass.AbilityIndex _comboAbilityIndex;
         private int _comboIndex;
-        
+
         private float _comboCoolDown;
 
         private float _weaponCoolDown;
-        
+
         public bool IsEnabled { get; set; } = true;
 
         private void Start()
         {
             _windowManager ??= WindowManager.instance;
-            _inputHandler ??= InputHandler.instance;
 
             player ??= GetComponent<Player>();
             animator ??= GetComponent<EntityAnimator>();
             playerInventory ??= GetComponent<PlayerInventory>();
-            
-            if(playerInventory != null && playerInventory.weaponInventory != null)
-                playerInventory.weaponInventory.OnWeaponChanged += ChangeWeapon;
 
-            weaponClass = GameManager.instance.noWeaponClass;
+            if (playerInventory != null && playerInventory.WeaponInventory != null)
+                playerInventory.WeaponInventory.OnWeaponChanged += ChangeWeapon;
+
+            currentClass = GameManager.instance.noWeaponClass;
+            ChangeWeapon(currentClass);
         }
-        
+
         private void Update()
         {
-            if (!IsEnabled) return;
-            if (_weaponCoolDown < Time.time) return;
-            
-            if (_inputHandler.GetKeyDown(InputHandler.KeyValue.ExecuteAction1))
-                Attack(WeaponClass.AbilityIndex.Abilities1);
-            if (_inputHandler.GetKeyDown(InputHandler.KeyValue.ExecuteAction2))
-                Attack(WeaponClass.AbilityIndex.Abilities2);
-            if (_inputHandler.GetKeyDown(InputHandler.KeyValue.ExecuteAction3))
-                Attack(WeaponClass.AbilityIndex.Abilities3);
-
             if (_comboCoolDown > Time.time) return;
-
             _comboIndex = 0;
+        }
+
+        public void ExecuteAbility1(InputAction.CallbackContext ctx) =>
+            ExecuteAbility(WeaponClass.AbilityIndex.Abilities1);
+
+        public void ExecuteAbility2(InputAction.CallbackContext ctx) =>
+            ExecuteAbility(WeaponClass.AbilityIndex.Abilities2);
+
+        public void ExecuteAbility3(InputAction.CallbackContext ctx) =>
+            ExecuteAbility(WeaponClass.AbilityIndex.Abilities3);
+
+        private void ExecuteAbility(WeaponClass.AbilityIndex index)
+        {
+            if (!IsEnabled) return;
+            if (_weaponCoolDown > Time.time) return;
+            Attack(index);
         }
 
         public void Attack(WeaponClass.AbilityIndex abilityIndex)
@@ -68,23 +73,25 @@ namespace Entity.Player
 
             if (abilityIndex != _comboAbilityIndex)
             {
-                _windowManager.SetAbility(_comboAbilityIndex, weaponClass.GetAbility(_comboAbilityIndex).FirstOrDefault());
+                _windowManager.SetAbility(_comboAbilityIndex,
+                    currentClass.GetAbility(_comboAbilityIndex).FirstOrDefault());
                 _comboIndex = 0;
             }
-            Ability ability = weaponClass.GetAbility(abilityIndex)[_comboIndex];
+
+            Ability ability = currentClass.GetAbility(abilityIndex)[_comboIndex];
 
             if (ability == null) return;
 
             player.ChargeMana(ability.ManaCost);
-            
+
             if (ability.IsProjectile)
             {
                 if (ability.ProjectilePreFab == null) return;
 
                 Vector2 directionVector = GetAttackDirectionVector2(ability);
-                
+
                 GameObject projectile = Instantiate(ability.ProjectilePreFab, directionVector, Quaternion.identity);
-                if(projectile.TryGetComponent(out IProjectile p)) p.Init(directionVector);
+                if (projectile.TryGetComponent(out IProjectile p)) p.Init(directionVector);
 
                 return;
             }
@@ -92,19 +99,22 @@ namespace Entity.Player
             bool hitFlag = false;
 
             _weaponCoolDown = Time.time + ability.CoolDown;
-            
-            foreach (IDamageable entity in GetHitList(ability)) if(entity.Damage(ability.GetProperties)) hitFlag = true;
+
+            foreach (IDamageable entity in GetHitList(ability))
+                if (entity.Damage(ability.GetProperties))
+                    hitFlag = true;
 
             animator.PlayAttackAnimation(ability.AnimationName);
 
             if (hitFlag) return;
 
             _comboAbilityIndex = abilityIndex;
-            
+
             _comboIndex++;
-            if (_comboIndex >= weaponClass.GetAbility(_comboAbilityIndex).Length) _comboIndex = 0;
-            
-            _windowManager.SetAbility(_comboAbilityIndex, weaponClass.GetAbility(_comboAbilityIndex)[_comboIndex], _comboIndex != 0);
+            if (_comboIndex >= currentClass.GetAbility(_comboAbilityIndex).Length) _comboIndex = 0;
+
+            _windowManager.SetAbility(_comboAbilityIndex, currentClass.GetAbility(_comboAbilityIndex)[_comboIndex],
+                _comboIndex != 0);
 
             if (_comboIndex == 0) return;
 
@@ -127,12 +137,12 @@ namespace Entity.Player
 
             return hitList.ToArray();
         }
-        
+
         private void ChangeWeapon(WeaponClass @class)
         {
-            this.weaponClass = @class;
-            if(IsWeaponClassNull) return;
-            
+            this.currentClass = @class;
+            if (IsWeaponClassNull) return;
+
             List<Ability[]> abilities = @class.Abilities;
 
             _windowManager.SetAbility(WeaponClass.AbilityIndex.Abilities1, abilities[0].FirstOrDefault());
@@ -142,30 +152,36 @@ namespace Entity.Player
 
         public void UpdateCurrentWeaponClass()
         {
-            ChangeWeapon(weaponClass);
+            ChangeWeapon(currentClass);
         }
 
         public float abilityRange;
         public Vector2 attackPoint;
         public Direction direction;
-        
+
         private void OnDrawGizmosSelected()
         {
             if (player == null) return;
             if (abilityRange <= 0) return;
-            
-            Gizmos.DrawWireSphere((Vector2) transform.position + player.Stats.GetCenterPos + GetPosFromDirection(attackPoint, direction), abilityRange);
+
+            Gizmos.DrawWireSphere(
+                (Vector2) transform.position + player.Stats.GetCenterPos + GetPosFromDirection(attackPoint, direction),
+                abilityRange);
         }
 
         private static Vector2 GetPosFromDirection(Vector2 pos, Direction direction) =>
-            direction switch {
+            direction switch
+            {
                 Direction.S => new Vector2(pos.y, pos.x) * -1,
                 Direction.W => pos * -1,
                 Direction.N => new Vector2(pos.y, pos.x),
                 Direction.E => pos,
                 _ => Vector2.zero
             };
-        
-        private Vector2 GetAttackDirectionVector2(Ability ability) => (Vector2) transform.position + player.Stats.GetCenterPos + GetPosFromDirection(ability.AttackPoint, animator.GetCurrentDirection);
+
+        private Vector2 GetAttackDirectionVector2(Ability ability) => (Vector2) transform.position +
+                                                                      player.Stats.GetCenterPos +
+                                                                      GetPosFromDirection(ability.AttackPoint,
+                                                                          animator.GetCurrentDirection);
     }
 }

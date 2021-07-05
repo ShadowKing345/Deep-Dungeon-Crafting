@@ -1,5 +1,6 @@
 using Entity.Player;
 using Interfaces;
+using Ui.Inventories.InventoryControllers;
 using UnityEngine;
 
 namespace Ui.Menu
@@ -8,17 +9,21 @@ namespace Ui.Menu
     {
         [SerializeField] private PlayerMovement playerMovementController;
         [SerializeField] private PlayerCombat playerCombatController;
+        [SerializeField] private PlayerInventoryController playerInventoryController;
 
         private void Start()
         {
             playerMovementController ??= FindObjectOfType<PlayerMovement>();
             playerCombatController ??= FindObjectOfType<PlayerCombat>();
+            playerInventoryController ??= PlayerInventoryController.instance;
         }
 
         public void Show()
         {
             playerMovementController.IsEnabled = false;
             playerCombatController.IsEnabled = false;
+            
+            playerInventoryController.UpdateSlots();
         }
 
         public void Hide()

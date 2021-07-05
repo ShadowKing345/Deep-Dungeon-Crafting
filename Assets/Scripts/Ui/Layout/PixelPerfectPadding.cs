@@ -24,14 +24,16 @@ namespace Ui.Layout
             
             Rect rect = rectTransform.rect;
             Rect imageRect = image.sprite.rect;
+            Vector2 xy;
+            Vector2 widthHeight;
 
             if (image.type == Image.Type.Simple)
             {
                 wUpp = rect.width / imageRect.width;
                 hUpp = rect.height / imageRect.height;
 
-                Vector2 xy = new Vector2(padding.left * wUpp, padding.top * hUpp * -1);
-                Vector2 widthHeight = new Vector2(rect.width - xy.x - wUpp * padding.right,
+                xy = new Vector2(padding.left * wUpp, padding.top * hUpp * -1);
+                widthHeight = new Vector2(rect.width - xy.x - wUpp * padding.right,
                     rect.height + xy.y - hUpp * padding.bottom);
 
                 foreach (RectTransform target in targets)
@@ -42,21 +44,21 @@ namespace Ui.Layout
                 }
             }
 
-            if (image.type == Image.Type.Sliced)
-            {
-                if(canvas == null) return;
-                
-                resolution = canvas.referencePixelsPerUnit / image.sprite.pixelsPerUnit;
+            if (image.type != Image.Type.Sliced) return;
 
-                Vector2 xy = new Vector2(resolution * padding.left, padding.top * resolution * -1);
-                Vector2 widthHeight = new Vector2(rect.width - xy.x - padding.right * resolution, rect.height + xy.y - padding.bottom * resolution);
-                
-                foreach (RectTransform target in targets)
-                {
-                    target.anchorMin = target.anchorMax = Vector2.up;
-                    target.anchoredPosition = xy + new Vector2(0, -widthHeight.y) +  widthHeight * target.pivot;
-                    target.sizeDelta = widthHeight;
-                }
+            if (canvas == null) return;
+
+            resolution = canvas.referencePixelsPerUnit / image.sprite.pixelsPerUnit;
+
+            xy = new Vector2(resolution * padding.left, padding.top * resolution * -1);
+            widthHeight = new Vector2(rect.width - xy.x - padding.right * resolution,
+                rect.height + xy.y - padding.bottom * resolution);
+
+            foreach (RectTransform target in targets)
+            {
+                target.anchorMin = target.anchorMax = Vector2.up;
+                target.anchoredPosition = xy + new Vector2(0, -widthHeight.y) + widthHeight * target.pivot;
+                target.sizeDelta = widthHeight;
             }
         }
         

@@ -1,17 +1,22 @@
+using Inventory;
 using Items;
-using Ui.InventoryControllers;
+using Pathfinding;
+using Ui.Inventories.InventoryControllers;
 using UnityEngine.EventSystems;
 
-namespace Ui.ItemSlot
+namespace Ui.Inventories.ItemSlot
 {
     public interface IItemStackSlot : IDragHandler, IBeginDragHandler, IDropHandler, IEndDragHandler
     {
-        void Init(int index, ItemStack stack, IInventoryController controller);
-        int GetIndex();
-        IInventoryController GetController();
-        void SetItemStack(ItemStack stack);
-        ItemStack GetItemStack();
+        int Id { get; set; }
+        ItemStack ItemStack { get; set; }
+        IInventoryController Controller { get; set; }
+        int InventoryIndex { get; set; }
+        IInventory Inventory { get; set; }
+        
+        void Init(int id, ItemStack stack, IInventoryController controller, int inventoryIndex, IInventory inventory);
         void UpdateUi();
         void ResetSlot();
+        bool CanFit(ItemStack stack);
     }
 }

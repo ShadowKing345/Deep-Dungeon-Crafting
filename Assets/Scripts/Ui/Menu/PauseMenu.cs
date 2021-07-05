@@ -18,14 +18,12 @@ namespace Ui.Menu
 
         public void Show()
         {
-            windowManager.HideUiElement(WindowManager.UiElementReference.Hud);
-            settingsMenu.Hide();
             Time.timeScale = 0;
         }
 
         public void Hide()
         {
-            windowManager.ShowUiElement(WindowManager.UiElementReference.Hud);
+            settingsMenu.Hide();
             Time.timeScale = 1;
         }
 
@@ -34,10 +32,10 @@ namespace Ui.Menu
             WindowManager.instance.HideUiElement(WindowManager.UiElementReference.PauseMenu);
         }
 
-        public void OpenJournal()
+        public void OpenHelp()
         {
-            WindowManager.instance.HideUiElement(WindowManager.UiElementReference.PauseMenu);
-            WindowManager.instance.ToggleUiElement(WindowManager.UiElementReference.Journal);
+            Resume();
+            WindowManager.instance.ToggleUiElement(WindowManager.UiElementReference.Help);
         }
 
         public void Settings()

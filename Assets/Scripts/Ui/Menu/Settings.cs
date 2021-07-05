@@ -12,6 +12,7 @@ namespace Ui.Menu
 {
     public class Settings : MonoBehaviour, IUiElement
     {
+        private LTDescr _transition;
         [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private TMP_Dropdown resolutionDropDown;
         [SerializeField] private TMP_Dropdown qualityDropDown;
@@ -64,18 +65,19 @@ namespace Ui.Menu
             Hide();
         }
 
-        public void Show()
-        {
-            canvasGroup.alpha = 1;
-            canvasGroup.interactable = true;
-            canvasGroup.blocksRaycasts = true;
-        }
+        public void Show() =>
+            _transition = LeanTween.alphaCanvas(canvasGroup, 1, 0.3f).setOnComplete(_ =>
+            {
+                canvasGroup.interactable = true;
+                canvasGroup.blocksRaycasts = true;
+            }).setIgnoreTimeScale(true);
 
         public void Hide()
         {
-            canvasGroup.alpha = 0;
+            if(_transition != null) LeanTween.cancel(_transition.uniqueId);
             canvasGroup.interactable = false;
             canvasGroup.blocksRaycasts = false;
+            _transition = LeanTween.alphaCanvas(canvasGroup, 0, 0.3f).setIgnoreTimeScale(true);
         }
     }
 

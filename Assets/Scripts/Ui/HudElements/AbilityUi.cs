@@ -15,7 +15,7 @@ namespace Ui.HudElements
         [SerializeField] private Button executeButton;
         [SerializeField] private TextMeshProUGUI keybindingText;
         [SerializeField] private PlayerCombat playerCombat;
-        public InputHandler.KeyValue KeyValue { get; set; } = InputHandler.KeyValue.None;
+        // public InputManager.KeyValue KeyValue { get; set; } = InputManager.KeyValue.None;
         public WeaponClass.AbilityIndex AbilityIndex { get; set; }
 
         private void Start()
@@ -43,8 +43,8 @@ namespace Ui.HudElements
                 abilityImage.sprite = ability.Icon;
                 abilityImage.color = Color.white;
                 
-                KeyCode code = InputHandler.instance.GetCodeFromValue(KeyValue);
-                keybindingText.text = code == KeyCode.None ? "" : code.ToString();
+                // KeyCode code = InputManager.instance.GetCodeFromValue(KeyValue);
+                // keybindingText.text = code == KeyCode.None ? "" : code.ToString();
             }
         }
         

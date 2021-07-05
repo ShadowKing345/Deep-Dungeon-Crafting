@@ -8,7 +8,6 @@ namespace Items
     {
         [SerializeField] private Item item;
         [SerializeField] private int amount;
-        [SerializeField] private int maxStackSize = 999;
 
         public Item Item
         {
@@ -19,32 +18,23 @@ namespace Items
         public int Amount
         {
             get => amount;
-            set => amount = Mathf.Clamp(value, 0, maxStackSize);
+            set => amount = value;
         }
 
-        public int MaxStackSize
-        {
-            get => maxStackSize;
-            set => maxStackSize = Math.Min(999, value);
-        }
+        public int MaxStackSize => item.MaxStackSize;
 
         public int AddItem(Item item, int amount)
         {
-            if (this.item == null)
-            {
-                this.item = item;
-            }
+            if (this.item == null) Item = item;
             if (item != this.item) return amount;
 
             this.amount += amount;
-            if (this.amount > maxStackSize)
-            {
-                int remainder = this.amount - maxStackSize;
-                this.amount = maxStackSize;
-                return remainder;
-            }
+            if (this.amount <= item.MaxStackSize) return 0;
+            
+            int remainder = this.amount - item.MaxStackSize;
+            this.amount = item.MaxStackSize;
+            return remainder;
 
-            return 0;
         }
 
         public ItemStack AddItem(ItemStack stack)
@@ -60,18 +50,25 @@ namespace Items
             if (IsEmpty) return 0;
 
             this.amount -= amount;
-            if (this.amount <= 0)
-            {
-                int remainder = -this.amount;
-                Clear();
-                return remainder;
-            }
             
-            return 0;
+            if (this.amount > 0) return 0;
+            
+            int remainder = -this.amount;
+            Clear();
+            return remainder;
+
+        }
+
+        public ItemStack RemoveItem(ItemStack stack)
+        {
+            if (stack.item != item) return Empty;
+
+            int remainder = RemoveItem(stack.Amount);
+            return remainder <= 0 ? Empty : new ItemStack{Item = stack.item, amount = remainder};
         }
         
         public bool IsEmpty => item == null || amount <= 0;
-        public ItemStack Copy => new ItemStack { item = item, maxStackSize = maxStackSize, amount = amount};
+        public ItemStack Copy => new ItemStack { item = item, amount = amount};
         public static readonly ItemStack Empty = new ItemStack();
 
         public void Clear()

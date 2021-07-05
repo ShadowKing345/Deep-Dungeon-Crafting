@@ -29,6 +29,8 @@ namespace Inventory
         bool CanFitInSlot(ItemStack stack, int index);
         bool CanFit(ItemStack stack);
         void ResetInventory();
+        
+        int Size { get; }
 
         #endregion
 

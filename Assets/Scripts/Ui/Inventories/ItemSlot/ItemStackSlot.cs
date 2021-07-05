@@ -3,33 +3,43 @@ using Inventory;
 using Items;
 using Managers;
 using TMPro;
-using Ui.InventoryControllers;
+using Ui.Inventories.InventoryControllers;
+using Ui.ToolTip;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Ui.ItemSlot
+namespace Ui.Inventories.ItemSlot
 {
-    public class ItemStackSlot : MonoBehaviour, IItemStackSlot
-        , IPointerEnterHandler, IPointerExitHandler
+    public class ItemStackSlot : MonoBehaviour, IItemStackSlot,
+        IPointerEnterHandler, IPointerExitHandler
         , IPointerDownHandler, IPointerUpHandler
     {
         private WindowManager _windowManager;
 
+        [SerializeField] private ItemStack stack;
+        [Space]
         [SerializeField] protected Image icon;
         [SerializeField] protected TextMeshProUGUI amount;
         [SerializeField] protected Image backgroundImg;
-
-        [SerializeField] protected int index;
-        [SerializeField] protected ItemStack stack;
-        [SerializeField] protected GameObject hoverPrefab;
-
+        [Space]
         [SerializeField] protected SlotSprites sprites;
         
-        public int GetIndex() => index;
-        private IInventoryController _controller;
-        public IInventoryController GetController() => _controller;
-        
+        public int Id { get; set; }
+        public ItemStack ItemStack
+        {
+            get => stack;
+            set
+            {
+                stack = value;
+                UpdateUi();
+            }
+        }
+        public IInventoryController Controller { get; set; }
+        public int InventoryIndex { get; set; }
+        public IInventory Inventory { get; set; }        
+
+
         private void Start()
         {
             _windowManager = WindowManager.instance;
@@ -37,18 +47,18 @@ namespace Ui.ItemSlot
             UpdateUi();
         }
 
-        public void Init(int index, ItemStack stack, IInventoryController controller)
+        public void Init(int id, ItemStack stack, IInventoryController controller, int inventoryIndex, IInventory inventory)
         {
-            this.index = index;
-            _controller = controller;
-            SetItemStack(stack);
+            Id = id;
+            Controller = controller;
+            ItemStack = stack;
+            InventoryIndex = inventoryIndex;
+            Inventory = inventory;
         }
-        public void SetItemStack(ItemStack stack) => this.stack = stack ?? ItemStack.Empty;
-        public ItemStack GetItemStack() => stack;
-
+        
         public virtual void UpdateUi()
         {
-            if (stack.IsEmpty)
+            if (ItemStack.IsEmpty)
             {
                 icon.sprite = null;
                 icon.color = Color.clear;
@@ -56,32 +66,31 @@ namespace Ui.ItemSlot
             }
             else
             {
-                icon.sprite = stack.Item.icon;
+                icon.sprite = ItemStack.Item.Icon;
                 icon.color = Color.white;
-                amount.text = stack.Amount > 1 ? stack.Amount.ToString() : string.Empty;
+                amount.text = ItemStack.Amount > 1 ? ItemStack.Amount.ToString() : string.Empty;
             }
         }
 
-        public void ResetSlot() => SetItemStack(ItemStack.Empty);
+        public void ResetSlot() => ItemStack = ItemStack.Empty;
+
+        public bool CanFit(ItemStack stack) => Inventory.CanFitInSlot(stack, InventoryIndex);
 
         public void OnDrop(PointerEventData eventData)
         {
             if (eventData.pointerDrag == null) return;
 
             IItemStackSlot slot = eventData.pointerDrag.GetComponent<IItemStackSlot>();
-            if (slot == null || slot.GetItemStack().IsEmpty) return;
+            if (slot == null || slot.ItemStack.IsEmpty) return;
 
-            if (slot.GetController() != _controller)
-                _controller.CrossControllerExchange(slot, this);
-            else
-                _controller.ExchangeItemStacks(slot.GetIndex(), index);
+            Controller.ExchangeItemStacks(slot, this);
         }
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            if (stack == null || stack.IsEmpty) return;
+            if (ItemStack == null || ItemStack.IsEmpty) return;
             
-            _windowManager.BeginItemHover(hoverPrefab, stack);
+            _windowManager.BeginItemHover(ItemStack);
         }
 
         public void OnDrag(PointerEventData eventData) { }
@@ -94,11 +103,13 @@ namespace Ui.ItemSlot
         public void OnPointerEnter(PointerEventData eventData)
         {
             backgroundImg.sprite = sprites.mouseEnter;
+            if (!stack.IsEmpty) ToolTipSystem.instance.ShowItemToolTip(stack);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
             backgroundImg.sprite = sprites.normal;
+            ToolTipSystem.instance.HideItemToolTip();
         }
 
         public void OnPointerDown(PointerEventData eventData)
@@ -109,6 +120,11 @@ namespace Ui.ItemSlot
         public void OnPointerUp(PointerEventData eventData)
         {
             backgroundImg.sprite = sprites.normal;
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            Debug.Log("Test");
         }
     }
 

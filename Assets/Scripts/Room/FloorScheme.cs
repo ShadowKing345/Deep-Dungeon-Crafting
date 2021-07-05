@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Utils;
 
 namespace Room
 {
@@ -17,12 +18,12 @@ namespace Room
         
         public GameObject[] objectTiles;
 
-        public IntMinMax floorWidth;
-        public IntMinMax floorHeight;
+        public MinMax<int> floorWidth;
+        public MinMax<int> floorHeight;
+        public MinMax<int> numberOfRooms;
         
-        public IntMinMax numberOfRooms;
-        public IntMinMax roomWidth;
-        public IntMinMax roomHeight;
+        public MinMax<int> roomWidth;
+        public MinMax<int> roomHeight;
         
 
         public GameObject GetTile(TileType type) =>
@@ -36,13 +37,6 @@ namespace Room
                 TileType.Exit => exitTile,
                 _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
             };
-    }
-
-    [Serializable]
-    public class IntMinMax
-    {
-        public int min;
-        public int max;
     }
 
     public enum TileType

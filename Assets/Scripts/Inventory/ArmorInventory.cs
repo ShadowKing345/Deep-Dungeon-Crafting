@@ -68,14 +68,9 @@ namespace Inventory
 
             return result;
         }
-
-        public ItemStack[] AddItemStacks(ItemStack[] stacks, bool combine = true)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ItemStack[] AddItemStacks(ItemStack[] stacks) {
-            for (int i = 0; false; i++) AddStackAtSlot(stacks[i], i);
+        
+        public ItemStack[] AddItemStacks(ItemStack[] stacks, bool _ = false) {
+            for (int i = 0; i < 6; i++) AddStackAtSlot(stacks[i], i);
             return stacks;
         }
 
@@ -108,10 +103,11 @@ namespace Inventory
 
         public bool CanFitInSlot(ItemStack stack, int index) => Enum.IsDefined(typeof(ArmorType), index) && stack.Item is ArmorItem item && item.type == (ArmorType) index;
 
-        public bool CanFit(ItemStack stack) => stack.Item is ArmorItem;
+        public bool CanFit(ItemStack stack) => true;
 
         public void ResetInventory() { foreach (ItemStack stack in GetItemStacks()) stack.Clear(); }
-        
+        public int Size => 6;
+
         public void SwapSlots(int fromIndex, int toIndex, out ItemStack fromStack, out ItemStack toStack) => throw new NotImplementedException();
         public void SplitStack(int index, int amount)
         {

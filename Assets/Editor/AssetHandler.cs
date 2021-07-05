@@ -2,7 +2,8 @@ using System;
 using System.Linq;
 using Combat;
 using Crafting;
-using Ui.Journal;
+using InGameHelp;
+using Ui.Help;
 using UnityEditor;
 using UnityEditor.Callbacks;
 
@@ -16,7 +17,7 @@ namespace Editor
             switch (EditorUtility.InstanceIDToObject(instanceId))
             {
                 case TabCollection tabCollection:
-                    JournalEntryEditorWindow.Open(tabCollection);
+                    HelpEntryEditorWindow.Open(tabCollection);
                     return true;
                 case WeaponClass weaponClass:
                     WeaponClassEntityAiEditor.Open(weaponClass);
@@ -30,13 +31,14 @@ namespace Editor
         }
 
         [MenuItem("Tools/Journal Editor Tool")]
-        public static void OpenJournalEditorTool() => JournalEntryEditorWindow.Open(AssetDatabase
+        public static void OpenJournalEditorTool() => HelpEntryEditorWindow.Open(AssetDatabase
             .FindAssets($"t:{typeof(Tab)}")
             .Select(guid => AssetDatabase.LoadAssetAtPath<Tab>(AssetDatabase.GUIDToAssetPath(guid))).ToArray());
 
         [MenuItem("Tools/Recipe Editor Tool")]
-        public static void OpenRecipeEditorTool() => RecipeEditorWindow.Open(AssetDatabase
-            .FindAssets($"t:{typeof(Recipe)}")
-            .Select(guid => AssetDatabase.LoadAssetAtPath<Recipe>(AssetDatabase.GUIDToAssetPath(guid))).ToArray());
+        public static void OpenRecipeEditorTool() => RecipeEditorWindow.Open();
+
+        [MenuItem("Tools/Item Editor Tool")]
+        public static void OpenItemEditorTool() => ItemEditorWindow.Open();
     }
 }

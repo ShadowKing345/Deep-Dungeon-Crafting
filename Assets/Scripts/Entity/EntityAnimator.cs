@@ -50,14 +50,17 @@ namespace Entity
 
         public void Move(Vector2 direction)
         {
-            if (state == State.Attacking) return;
             if (direction.magnitude > 0)
             {
+                CancelInvoke(nameof(AttackComplete));
                 lastDirection = GetDirectionIndex(direction);
                 state = State.Moving;
             }
             else
+            {
+                if (state == State.Attacking) return;
                 state = State.Idle;
+            }
         }
 
         public static Direction GetDirectionIndex(Vector2 direction)

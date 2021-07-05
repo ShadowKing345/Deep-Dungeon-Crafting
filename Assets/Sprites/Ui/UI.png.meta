@@ -10,7 +10,7 @@ TextureImporter:
     second: ItemSlotNormal
   - first:
       213: -9136572144232859775
-    second: ScrollHandle
+    second: ScrollBarHandleV
   - first:
       213: 8586885197115800619
     second: CloseButton
@@ -40,7 +40,7 @@ TextureImporter:
     second: HealthBarBar
   - first:
       213: -8346291274449466048
-    second: UI_13
+    second: WindowSplitH
   - first:
       213: -343943630576144839
     second: ManaBarBar
@@ -49,13 +49,13 @@ TextureImporter:
     second: ManaBarBar
   - first:
       213: 1652299931923453484
-    second: Hearth
+    second: ScrollBarHandleH
   - first:
       213: 388057999756033245
-    second: ManaPotion
+    second: Tab
   - first:
       213: -5481780447360278658
-    second: Test
+    second: WindowSplitV
   - first:
       213: 6620621745411573659
     second: ToggleHover
@@ -76,7 +76,7 @@ TextureImporter:
     second: DropDownActive
   - first:
       213: 3787343402263556702
-    second: DropDownArray
+    second: ArrowDown
   - first:
       213: 1360550569445208017
     second: DropDownTemplateNormal
@@ -89,6 +89,9 @@ TextureImporter:
   - first:
       213: -2625263914096795121
     second: GenericBackground
+  - first:
+      213: 2950200755348404279
+    second: ArrowUp
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -107,7 +110,7 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
-  isReadable: 0
+  isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -203,9 +206,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 66
-        y: 193
+        y: 250
         width: 5
-        height: 62
+        height: 5
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 2, y: 2, z: 2, w: 2}
@@ -220,7 +223,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ScrollHandle
+      name: ScrollBarHandleV
       rect:
         serializedVersion: 2
         x: 72
@@ -661,12 +664,12 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DropDownArray
+      name: ArrowDown
       rect:
         serializedVersion: 2
         x: 90
         y: 185
-        width: 7
+        width: 8
         height: 4
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -782,6 +785,111 @@ TextureImporter:
       bones: []
       spriteID: e20dac52653863e70800000000000000
       internalID: 9094600903545770030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ScrollBarHandleH
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 240
+        width: 9
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 4, y: 0, z: 4, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c2613b8a8062ee610800000000000000
+      internalID: 1652299931923453484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tab
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 246
+        width: 39
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ddcf4bbd1b8a26500800000000000000
+      internalID: 388057999756033245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WindowSplitV
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 240
+        width: 3
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 1, y: 3, z: 1, w: 3}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7f98621abdcce3b0800000000000000
+      internalID: -5481780447360278658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ArrowUp
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 185
+        width: 8
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73871a6c4f731f820800000000000000
+      internalID: 2950200755348404279
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WindowSplitH
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 236
+        width: 7
+        height: 3
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 3, y: 1, z: 3, w: 1}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04d4f727e440c2c80800000000000000
+      internalID: -8346291274449466048
       vertices: []
       indices: 
       edges: []

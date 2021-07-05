@@ -1,4 +1,5 @@
 using Combat;
+using UnityEngine.Events;
 
 namespace Interfaces
 {
@@ -11,5 +12,6 @@ namespace Interfaces
         float GetCurrentHealth();
 
         bool IsDead { get; }
+        UnityEvent OnDeath { get; }
     }
 }

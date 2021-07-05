@@ -21,10 +21,8 @@ namespace Inventory
             weapon.Item = stack.Item;
             weapon.Amount = stack.Amount;
 
-            if (((WeaponItem) weapon.Item).weaponClass != null)
-            {
-                OnWeaponChanged?.Invoke(((WeaponItem) weapon.Item).weaponClass);
-            }
+            if (((WeaponItem) weapon.Item).WeaponClass != null)
+                OnWeaponChanged?.Invoke(((WeaponItem) weapon.Item).WeaponClass);
 
             return result;
         }
@@ -45,7 +43,14 @@ namespace Inventory
 
         public ItemStack[] AddItemStacks(ItemStack[] stacks, bool combine = true)
         {
-            throw new NotImplementedException();
+            ItemStack stack = stacks[0];
+            
+            if (combine && weapon.Item == stack.Item)
+                stack.RemoveItem(stack.Amount - weapon.AddItem(stack.Item, stack.Amount));
+            else if (weapon.IsEmpty)
+                stack.RemoveItem(stack.Amount - weapon.AddItem(stack.Item, stack.Amount));
+            
+            return stacks;
         }
 
         public ItemStack[] AddItemStacks(ItemStack[] stacks)
@@ -78,6 +83,7 @@ namespace Inventory
         public bool CanFit(ItemStack stack) => stack.Item is WeaponItem;
 
         public void ResetInventory() => weapon.Clear();
+        public int Size => 1;
 
         public void SwapSlots(int fromIndex, int toIndex, out ItemStack fromStack,out ItemStack toStack) => throw new NotImplementedException();
         public void SplitStack(int index, int amount)

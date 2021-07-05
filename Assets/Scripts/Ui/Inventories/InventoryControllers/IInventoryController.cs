@@ -1,14 +1,14 @@
 using Inventory;
-using Items;
-using Ui.ItemSlot;
+using Ui.Inventories.ItemSlot;
 
-namespace Ui.InventoryControllers
+namespace Ui.Inventories.InventoryControllers
 {
     public interface IInventoryController
     {
         IInventory GetInventory();
         void Init(IInventory inventory);
-        void ExchangeItemStacks(int from, int to);
+        void ExchangeItemStacks(IItemStackSlot from, IItemStackSlot to);
+        void CrossInventoryExchange(IItemStackSlot from, IItemStackSlot to);
         void CrossControllerExchange(IItemStackSlot from, IItemStackSlot to);
         void ResetSlots();
 

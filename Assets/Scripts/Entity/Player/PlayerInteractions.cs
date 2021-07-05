@@ -2,13 +2,13 @@ using System;
 using Interfaces;
 using Managers;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Utils;
 
 namespace Entity.Player
 {
     public class PlayerInteractions : MonoBehaviour
     {
-        private InputHandler inputHandler;
         private WindowManager windowManager;
         
         public Vector2 aoeSize;
@@ -16,17 +16,16 @@ namespace Entity.Player
 
         private void Start()
         {
-            inputHandler ??= InputHandler.instance;
             windowManager ??= WindowManager.instance;
         }
 
         private void Update()
         {
-            if (inputHandler.GetKeyDown(InputHandler.KeyValue.Interact)) SelectInteractable();
-            if (inputHandler.GetKeyDown(InputHandler.KeyValue.OpenInventory)) windowManager.ToggleUiElement(WindowManager.UiElementReference.PlayerMenu);
-            if (inputHandler.GetKeyDown(InputHandler.KeyValue.OpenCraftingMenu)) windowManager.ToggleUiElement(WindowManager.UiElementReference.CraftingMenu);
-            if (inputHandler.GetKeyDown(InputHandler.KeyValue.PauseResumeGame)) windowManager.ToggleUiElement(WindowManager.UiElementReference.PauseMenu);
+            // if (_inputManager.GetKeyDown(InputManager.KeyValue.OpenInventory)) windowManager.ToggleUiElement(WindowManager.UiElementReference.PlayerMenu);
+            // if (_inputManager.GetKeyDown(InputManager.KeyValue.OpenCraftingMenu)) windowManager.ToggleUiElement(WindowManager.UiElementReference.CraftingMenu);
+            // if (_inputManager.GetKeyDown(InputManager.KeyValue.PauseResumeGame)) windowManager.ToggleUiElement(WindowManager.UiElementReference.PauseMenu);
         }
+        public void Interact(InputAction.CallbackContext ctx) => SelectInteractable();
 
         private void SelectInteractable()
         {
@@ -42,13 +41,6 @@ namespace Entity.Player
                     interactable.Interact(gameObject);
                 }
             }
-        }
-
-        private void OnDrawGizmos()
-        {
-            if (aoeSize.magnitude <= 0) return;
-            
-            Gizmos.DrawWireCube((Vector2) transform.position + aoeOffset, aoeSize);
         }
     }
 }

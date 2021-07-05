@@ -1,4 +1,7 @@
+using System;
+using Managers;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Utils;
 
 namespace Entity.Player
@@ -7,35 +10,24 @@ namespace Entity.Player
     public class PlayerMovement : MonoBehaviour
     {
         [SerializeField] private float moveSpeed = 7.5f;
-    
+        [Space]
         [SerializeField] private Rigidbody2D rb;
         [SerializeField] private EntityAnimator animator;
 
         public bool IsEnabled { get; set; } = true;
 
-        private Vector2 _movement;
-
+        private Vector2 _movement = Vector2.zero;
         public Direction Direction => EntityAnimator.GetDirectionIndex(_movement);
 
-        private void Start()
-        {
-            rb ??= GetComponent<Rigidbody2D>();
-            animator ??= GetComponent<EntityAnimator>();
-        }
+        public void Move(InputAction.CallbackContext context) => _movement = context.ReadValue<Vector2>();
 
-        private void Update()
-        {
-            _movement.x = Input.GetAxisRaw("Horizontal");
-            _movement.y = Input.GetAxisRaw("Vertical");
-            _movement.Normalize();
-            
-            animator.Move(IsEnabled ? _movement : Vector2.zero);
-        }
+        private void Update() => animator.Move(IsEnabled ? _movement : Vector2.zero);
 
         private void FixedUpdate()
         {
             if (!IsEnabled) return;
             rb.MovePosition(rb.position + _movement * (moveSpeed * Time.fixedDeltaTime));
+            // _movement = Vector2.zero;
         }
     }
 }

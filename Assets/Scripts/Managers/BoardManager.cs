@@ -48,13 +48,13 @@ namespace Managers
 
         public void InitVariables()
         {
-            gridWidth = Random.Range(floorScheme.floorWidth.min, floorScheme.floorWidth.max + 1);
-            gridHeight = Random.Range(floorScheme.floorHeight.min, floorScheme.floorHeight.max + 1);
+            gridWidth = Random.Range(floorScheme.floorWidth.Min, floorScheme.floorWidth.Max + 1);
+            gridHeight = Random.Range(floorScheme.floorHeight.Min, floorScheme.floorHeight.Max + 1);
             
-            roomWidth = Random.Range(floorScheme.roomWidth.min, floorScheme.roomWidth.max + 1);
-            roomHeight = Random.Range(floorScheme.roomHeight.min, floorScheme.roomHeight.max + 1);
+            roomWidth = Random.Range(floorScheme.roomWidth.Min, floorScheme.roomWidth.Max + 1);
+            roomHeight = Random.Range(floorScheme.roomHeight.Min, floorScheme.roomHeight.Max + 1);
 
-            numberOfRooms = Random.Range(floorScheme.numberOfRooms.min, floorScheme.numberOfRooms.min);
+            numberOfRooms = Random.Range(floorScheme.numberOfRooms.Min, floorScheme.numberOfRooms.Max);
         }
 
         public void CreateRoomLayout()

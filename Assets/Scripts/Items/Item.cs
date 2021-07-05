@@ -1,11 +1,20 @@
+using System;
 using UnityEngine;
+using static UnityEngine.Mathf;
 
 namespace Items
 {
-    [CreateAssetMenu(menuName = "SO/Item", fileName = "New Item")]
+    [CreateAssetMenu(menuName = "SO/Item/Item", fileName = "New Item")]
     public class Item : ScriptableObject
     {
-        public string description;
-        public Sprite icon;
+        [Multiline]
+        [SerializeField] protected string description;
+        [SerializeField] protected Sprite icon;
+        [Range(1, 999)]
+        [SerializeField] protected int maxStackSize = 999;
+
+        public string Description => string.IsNullOrEmpty(description) ? "No description." : description;
+        public Sprite Icon => icon;
+        public int MaxStackSize => maxStackSize;
     }
 }

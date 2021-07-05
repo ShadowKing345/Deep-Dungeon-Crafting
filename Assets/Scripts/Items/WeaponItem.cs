@@ -3,10 +3,13 @@ using UnityEngine;
 
 namespace Items
 {
-    [CreateAssetMenu(menuName = "SO/Weapon Item", fileName = "New Weapon Item")]
+    [CreateAssetMenu(menuName = "SO/Item/Weapon Item", fileName = "New Weapon Item")]
     public class WeaponItem : Item
     {
-        public WeaponClass weaponClass;
-        public AbilityProperty[] properties;
+        [SerializeField] private WeaponClass weaponClass;
+        [SerializeField] private AbilityProperty[] properties;
+
+        public WeaponClass WeaponClass => weaponClass;
+        public AbilityProperty[] Properties => properties;
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Crafting;
 using UnityEditor;
 using UnityEngine;
@@ -9,33 +10,33 @@ namespace Editor
     {
         private SoCollection<Recipe> _collection;
         private bool IsCollectionNull => _collection == null;
-        private SerializedObject _recipe;
-        private Recipe _selectedRecipe;
-        private bool IsRecipeNull => _recipe == null;
+        private SerializedObject _selectedRecipe;
+        private bool IsRecipeNull => _selectedRecipe == null;
 
         private Vector2 scrollPos;
 
         public static void Open(Recipe recipe)
         {
             RecipeEditorWindow window = GetWindow<RecipeEditorWindow>("Recipe Editor Window");
-            window._recipe = new SerializedObject(recipe);
+            Open();
+            window._selectedRecipe = new SerializedObject(recipe);
         }
 
-        public static void Open(Recipe[] recipes)
+        public static void Open()
         {
             RecipeEditorWindow window = GetWindow<RecipeEditorWindow>("Recipe Editor Window");
-            window._collection = new SoCollection<Recipe> {data = recipes};
+            window._collection = new SoCollection<Recipe>
+            {
+                data = AssetDatabase
+                    .FindAssets($"t:{typeof(Recipe)}")
+                    .Select(guid => AssetDatabase.LoadAssetAtPath<Recipe>(AssetDatabase.GUIDToAssetPath(guid)))
+                    .ToArray()
+            };
         }
 
         private void OnGUI()
         {
-
-            if (!IsRecipeNull)
-            { 
-                DisplayRecipe(_recipe);
-                return;
-            }
-
+            
             if (IsCollectionNull) return;
             EditorGUILayout.BeginHorizontal();
             {
@@ -43,7 +44,7 @@ namespace Editor
                 {
                     foreach (Recipe recipe in _collection.data)
                     {
-                        if (GUILayout.Button(recipe.name)) _selectedRecipe = recipe;
+                        if (GUILayout.Button(recipe.name)) _selectedRecipe = new SerializedObject(recipe);
                     }
                 }
                 EditorGUILayout.EndVertical();
@@ -51,7 +52,7 @@ namespace Editor
                 EditorGUILayout.BeginVertical("box");
                 {
                     if (_selectedRecipe == null) EditorGUILayout.LabelField("Please select a recipe from the left.");
-                    else DisplayRecipe(new SerializedObject(_selectedRecipe));
+                    else DisplayRecipe(_selectedRecipe);
                 }
                 EditorGUILayout.EndVertical();
             }
@@ -101,12 +102,6 @@ namespace Editor
             EditorGUILayout.BeginHorizontal("box");
             {
                 EditorGUILayout.PropertyField(itemStack);
-                // EditorGUILayout.BeginVertical();
-                // {
-                //     EditorGUILayout.PropertyField(itemStack.FindPropertyRelative("item"));
-                //     EditorGUILayout.PropertyField(itemStack.FindPropertyRelative("amount"));
-                // }
-                // EditorGUILayout.EndVertical();
             }
             EditorGUILayout.EndHorizontal();
         }
