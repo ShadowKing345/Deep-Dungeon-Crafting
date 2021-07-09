@@ -18,7 +18,8 @@ MonoBehaviour:
   doorTile: {fileID: 458626227489243208, guid: e04d853be4d8f7159b42212f95aa9ecc, type: 3}
   exitTile: {fileID: 7066028935381340928, guid: 69e847bcb2c7685f2ba151731eb16daf, type: 3}
   starterTile: {fileID: 8889009443422689181, guid: 67ddca0f03bdc3a259790b75ed5ea7cc, type: 3}
-  objectTiles: []
+  enemies:
+  - {fileID: 3658507624095691947, guid: 252248722b2aaa4adb5d40a34aa6a16c, type: 3}
   floorWidth:
     min: 4
     max: 4
@@ -34,3 +35,7 @@ MonoBehaviour:
   roomHeight:
     min: 8
     max: 10
+  enemyCount:
+    min: 3
+    max: 5
+  enemyChance: 0.9

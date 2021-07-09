@@ -1,12 +1,10 @@
 using Inventory;
 using Items;
-using Pathfinding;
 using Ui.Inventories.InventoryControllers;
-using UnityEngine.EventSystems;
 
 namespace Ui.Inventories.ItemSlot
 {
-    public interface IItemStackSlot : IDragHandler, IBeginDragHandler, IDropHandler, IEndDragHandler
+    public interface IItemStackSlot
     {
         int Id { get; set; }
         ItemStack ItemStack { get; set; }

@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Combat;
 using Crafting;
+using Editor.EditorWindows;
 using InGameHelp;
 using Ui.Help;
 using UnityEditor;
@@ -20,7 +21,7 @@ namespace Editor
                     HelpEntryEditorWindow.Open(tabCollection);
                     return true;
                 case WeaponClass weaponClass:
-                    WeaponClassEntityAiEditor.Open(weaponClass);
+                    WeaponClassEditorWindow.Open(weaponClass);
                     return true;
                 case Recipe recipe:
                     RecipeEditorWindow.Open(recipe);
@@ -40,5 +41,9 @@ namespace Editor
 
         [MenuItem("Tools/Item Editor Tool")]
         public static void OpenItemEditorTool() => ItemEditorWindow.Open();
+
+        [MenuItem("Tools/Weapon Class Editor Tool")]
+        public static void OpenWeaponClassEditorTool() => WeaponClassEditorWindow.Open();
+
     }
 }

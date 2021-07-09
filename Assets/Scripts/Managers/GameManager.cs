@@ -1,7 +1,7 @@
-using System;
 using Combat;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Utils;
 
 namespace Managers
 {
@@ -10,6 +10,7 @@ namespace Managers
         public static GameManager instance;
         
         public WeaponClass noWeaponClass;
+        public ControllerAsset controllerAsset;
 
         private void Awake()
         {
@@ -35,25 +36,10 @@ namespace Managers
             GameObject.Find("Player").transform.position = boardManager.GetPlayerSpawnPoint();
         }
 
-        public void LoadLevel()
-        {
-            SceneManager.LoadScene((int) Scenes.Dev);
-        }
-
-        public void EndRun()
-        {
-            QuitGame();
-        }
-
-        public void ExitGame()
-        {
-            Application.Quit();
-        }
-
-        public void QuitGame()
-        {
-            SceneManager.LoadScene((int) Scenes.MainMenu);
-        }
+        public void LoadLevel() => SceneManager.LoadScene((int) Scenes.Dev);
+        public void EndRun() => QuitGame();
+        public void ExitGame() => Application.Quit();
+        public void QuitGame() => SceneManager.LoadScene((int) Scenes.MainMenu);
 
         private enum Scenes
         {

@@ -12,7 +12,6 @@ namespace Ui.Crafting
         [SerializeField] private Recipe recipe;
         public Recipe Recipe
         {
-            get => recipe;
             set
             {
                 recipe = value;
@@ -30,6 +29,6 @@ namespace Ui.Crafting
             text.text = recipe == null ? string.Empty : recipe.name;
         }
 
-        public void OnPointerClick(PointerEventData eventData) => Controller.UpdateRecipe(recipe);
+        public void OnPointerClick(PointerEventData eventData) => Controller.UpdatePage(recipe);
     }
 }

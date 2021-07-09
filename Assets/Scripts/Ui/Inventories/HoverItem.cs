@@ -9,7 +9,6 @@ namespace Ui.Inventories
     public class HoverItem : FollowMouse
     {
         [SerializeField] private Image image;
-        [SerializeField] private bool isReady;
 
         private void Awake() => image ??= GetComponent<Image>();
         
@@ -18,7 +17,6 @@ namespace Ui.Inventories
             if (stack == null || stack.IsEmpty) return;
             
             image.sprite = stack.Item.Icon;
-            isReady = true;
         }
     }
 }

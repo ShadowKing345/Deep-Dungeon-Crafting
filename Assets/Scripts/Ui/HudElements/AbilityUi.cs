@@ -1,57 +1,126 @@
+using System;
 using Combat;
 using Entity.Player;
-using Interfaces;
+using Managers;
 using TMPro;
+using Ui.ToolTip;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using Utils;
 
 namespace Ui.HudElements
 {
-    public class AbilityUi : MonoBehaviour, IHudElement
+    [ExecuteInEditMode]
+    public class AbilityUi : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        [SerializeField] private Ability ability;
-        [SerializeField] private Image abilityImage;
-        [SerializeField] private Button executeButton;
+        private static InputManager _inputManager;
+        private LTDescr progressBarId;
+
+        [Header("Components")] [SerializeField]
+        private Image image;
+
         [SerializeField] private TextMeshProUGUI keybindingText;
-        [SerializeField] private PlayerCombat playerCombat;
-        // public InputManager.KeyValue KeyValue { get; set; } = InputManager.KeyValue.None;
-        public WeaponClass.AbilityIndex AbilityIndex { get; set; }
+        [SerializeField] private GameObject comboIndicator;
+        [SerializeField] private ProgressBar coolDownProgressBar;
 
-        private void Start()
+        [Space] [Header("Private Variables")] [SerializeField]
+        private PlayerCombat playerCombat;
+
+        [SerializeField] private WeaponClass.AbilityIndex index;
+        [SerializeField] private Ability[] abilities;
+        [SerializeField] private int currentAbility;
+
+        [Serializable]
+        private struct InputActionReferences
         {
-            playerCombat ??= FindObjectOfType<PlayerCombat>();
-            executeButton.onClick.AddListener(Attack);
+            public InputActionReference ability1;
+            public InputActionReference ability2;
+            public InputActionReference ability3;
+        }
+        [Space]
+        [SerializeField] private InputActionReferences inputActionReferences; 
+
+        public void SetUp(PlayerCombat combatController, WeaponClass.AbilityIndex abilityIndex, Ability[] abilities)
+        {
+            playerCombat = combatController;
+            index = abilityIndex;
+            this.abilities = abilities;
+
+            SetAbility(0);
         }
 
-        public Ability Ability
-        {
-            get => ability;
-            set { ability = value; UpdateUi(); }
-        }
+        private void OnEnable() => _inputManager ??= new InputManager();
 
-        public void UpdateUi()
+        public void SetAbility(int comboIndex)
         {
+            currentAbility = comboIndex;
+            comboIndicator.SetActive(comboIndex > 0);
+            if (comboIndex >= abilities.Length)
+            {
+                ClearUi();
+                return;
+            }
+
+            if (abilities.Length <= 0)
+            {
+                ClearUi();
+                return;
+            }
+
+            Ability ability = abilities[comboIndex];
             if (ability == null)
             {
-                abilityImage.sprite = null;
-                abilityImage.color = Color.clear;
-                keybindingText.text = "";
+                ClearUi();
+                return;
             }
-            else
-            {
-                abilityImage.sprite = ability.Icon;
-                abilityImage.color = Color.white;
-                
-                // KeyCode code = InputManager.instance.GetCodeFromValue(KeyValue);
-                // keybindingText.text = code == KeyCode.None ? "" : code.ToString();
-            }
+
+            image.sprite = ability.Icon;
+            image.color = Color.white;
+            
+            keybindingText.text = GetKeyBindingText();
         }
-        
-        private void Attack()
+
+        public void SetCoolDown(float amount) => progressBarId = LeanTween.value(gameObject, 100, 0, amount)
+            .setOnUpdate(value => coolDownProgressBar.Current = value);
+
+        public void Attack()
         {
-            if (playerCombat == null) return;
-            playerCombat.Attack(AbilityIndex);
+            if (playerCombat == null || coolDownProgressBar.Current > 0) return;
+            playerCombat.ExecuteAbility(index);
+        }
+
+        private void ClearUi()
+        {
+            image.color = Color.clear;
+            keybindingText.text = "";
+
+            if (progressBarId == null) return;
+
+            LeanTween.cancel(progressBarId.uniqueId);
+            coolDownProgressBar.Current = 0;
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            if (abilities.Length > 0) ToolTipSystem.Instance.ShowToolTip(abilities[currentAbility]);
+        }
+
+        public void OnPointerExit(PointerEventData eventData) => ToolTipSystem.Instance.HideToolTip(ability: true);
+
+        private string GetKeyBindingText()
+        {
+            InputActionReference reference = index switch
+            {
+                WeaponClass.AbilityIndex.Abilities1 => inputActionReferences.ability1,
+                WeaponClass.AbilityIndex.Abilities2 => inputActionReferences.ability2,
+                WeaponClass.AbilityIndex.Abilities3 => inputActionReferences.ability3,
+                _ => inputActionReferences.ability1
+            };
+
+            int bindingIndex = reference.action.GetBindingIndexForControl(reference.action.controls[0]);
+
+            return reference.action.bindings[bindingIndex].ToDisplayString();
         }
     }
 }

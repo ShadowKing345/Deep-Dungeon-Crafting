@@ -2,6 +2,7 @@ using System;
 using Combat;
 using Items;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
@@ -35,14 +36,14 @@ namespace Ui.ToolTip.Types
 
         [SerializeField] private GameObject propertiesContainer;
         [SerializeField] private GameObject propertyPreFab;
-
+        
         private void UpdateUi()
         {
             if (stack.IsEmpty) return;
 
             headerImage.sprite = stack.Item.Icon;
             nameText.text = stack.Item.name;
-            amountText.text = stack.Amount > 1 ? stack.Amount.ToString() : string.Empty;
+            amountText.text = stack.Amount > 0 ? stack.Amount.ToString() : string.Empty;
 
             descriptionText.text = stack.Item.Description;
 
@@ -100,8 +101,13 @@ namespace Ui.ToolTip.Types
 
         protected override void Update()
         {
-            canvasGroup.alpha = 1;
-            base.Update();
+            if (ToolTipSystem.Instance.HideAdvanceToolTips)
+                canvasGroup.alpha = 0;
+            else
+            {
+                base.Update();
+                canvasGroup.alpha = 1;
+            }
         }
     }
 }

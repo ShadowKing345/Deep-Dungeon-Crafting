@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WoodenCane
   m_EditorClassIdentifier: 
   description: 
-  icon: {fileID: 0}
-  maxStackSize: 999
-  weaponClass: {fileID: 0}
+  icon: {fileID: 21300000, guid: 3a80b32f4d036798d88df0f70126c3d3, type: 3}
+  maxStackSize: 1
+  weaponClass: {fileID: 11400000, guid: cca1dcddde538156d998c9401fbbdc7a, type: 2}
   properties: []

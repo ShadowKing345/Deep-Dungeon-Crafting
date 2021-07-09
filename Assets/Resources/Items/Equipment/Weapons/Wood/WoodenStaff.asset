@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WoodenStaff
   m_EditorClassIdentifier: 
   description: 
-  icon: {fileID: 0}
-  maxStackSize: 999
-  weaponClass: {fileID: 0}
+  icon: {fileID: 21300000, guid: 40b08671da960af24a71a6e2b5cd890f, type: 3}
+  maxStackSize: 1
+  weaponClass: {fileID: 11400000, guid: 9b1880179440d751a87326a1b754e159, type: 2}
   properties: []

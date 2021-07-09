@@ -32,7 +32,7 @@ namespace Entity.Enemies
                 
                 if (hit.TryGetComponent(out IDamageable playerIDamageable))
                     if (!playerIDamageable.IsDead)
-                        playerIDamageable.Damage(ability.GetProperties);
+                        playerIDamageable.Damage(ability.Properties);
             }
 
             isAttacking = false;

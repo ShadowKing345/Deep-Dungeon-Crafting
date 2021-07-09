@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -11,12 +12,19 @@ namespace Ui.ToolTip
         [Multiline] 
         [SerializeField] private string content;
 
-        public void OnPointerEnter(PointerEventData eventData) => _delay = LeanTween.delayedCall(0.3f, _ => ToolTipSystem.instance.ShowToolTip(content, header));
+        private void OnDisable()
+        {
+            if (_delay != null) LeanTween.cancel(_delay.uniqueId);
+
+            ToolTipSystem.Instance.HideToolTip(true);
+        }
+
+        public void OnPointerEnter(PointerEventData eventData) => _delay = LeanTween.delayedCall(0.3f, _ => ToolTipSystem.Instance.ShowToolTip(content, header)).setIgnoreTimeScale(true);
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            LeanTween.cancel(_delay.uniqueId);
-            ToolTipSystem.instance.HideToolTip();
+            if(_delay != null) LeanTween.cancel(_delay.uniqueId);
+            ToolTipSystem.Instance.HideToolTip(true);
         }
     }
 }

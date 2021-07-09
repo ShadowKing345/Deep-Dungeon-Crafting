@@ -19,7 +19,6 @@ GameObject:
   - component: {fileID: 3641249469009164825}
   - component: {fileID: 3641249469009164839}
   - component: {fileID: 3641249469009164824}
-  - component: {fileID: 3575939622670563688}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -80,7 +79,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 7.5
   rb: {fileID: 3641249469009164831}
-  animator: {fileID: 0}
+  animator: {fileID: 3641249469009164829}
 --- !u!114 &3641249469009164827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,6 +96,10 @@ MonoBehaviour:
   player: {fileID: 3641249469009164825}
   playerInventory: {fileID: 3641249469009164826}
   currentClass: {fileID: 0}
+  weaponCoolDown: 0
+  comboAbilityIndex: 0
+  comboIndex: 0
+  comboCoolDown: 0
   abilityRange: 0.3
   attackPoint: {x: 0.5, y: 0}
   direction: 0
@@ -147,6 +150,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -390,40 +394,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: -0.3}
   serializedVersion: 2
   m_Radius: 0.1
---- !u!114 &3575939622670563688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3641249469009164819}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: ed9d2aae6806fbe5f9beca61c9a78e8a, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 5734786b-3c5d-4c72-be3b-6accf12ba273
-    m_ActionName: Player/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: Keyboard And Mouse
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!1 &3641249469224755707
 GameObject:
   m_ObjectHideFlags: 0
@@ -550,6 +520,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -674,6 +645,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1

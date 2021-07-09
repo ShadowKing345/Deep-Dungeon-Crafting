@@ -7,7 +7,7 @@ namespace Combat
     public class Ability
     {
         [SerializeField] private string name;
-        [TextArea(7,7)]
+        [Multiline]
         [SerializeField] private string description;
         [SerializeField] private Sprite icon;
 
@@ -20,7 +20,7 @@ namespace Combat
 
         [SerializeField] private AbilityProperty[] properties;
         [SerializeField] private float manaCost;
-        public AbilityProperty[] GetProperties => properties;
+        public AbilityProperty[] Properties => properties;
         public float ManaCost => manaCost;
 
         [SerializeField] private bool isProjectile;
@@ -40,6 +40,7 @@ namespace Combat
         public string AnimationName => animationName;
 
         public static Ability Empty { get; } = new Ability();
+        public bool IsNull => Empty == this;
     }
 
     public enum WeaponElement

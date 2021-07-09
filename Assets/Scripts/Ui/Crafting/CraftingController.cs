@@ -4,39 +4,51 @@ using Entity.Player;
 using Items;
 using Ui.Inventories.ItemSlot;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Ui.Crafting
 {
     public class CraftingController : MonoBehaviour
     {
         private CraftingManager _craftingManager;
+        private readonly List<ItemStackSlot> ingredientsItemSlots = new List<ItemStackSlot>(); 
+        private readonly List<GameObject> recipeEntries = new List<GameObject>();
         
-        [SerializeField] private PhantomItemSlot resultItemSlot;
+        [Header("Crafting Page")]
+        [SerializeField] private ItemStackSlot resultItemSlot;
         [SerializeField] private GameObject ingredientsContent;
-        [SerializeField] private GameObject phantomItemSlotPreFab;
-        
-        private readonly List<PhantomItemSlot> ingredientsItemSlots = new List<PhantomItemSlot>(); 
-        
+        [SerializeField] private GameObject ingredientItemSlotPreFab;
+        [SerializeField] private Button craftButton;
+        [Space]
+        [Header("Navigation")]
         [SerializeField] private Recipe selectedRecipe;
         [SerializeField] private Transform navigationContent;
         [SerializeField] private GameObject recipeEntryPreFab;
-        private readonly List<GameObject> recipeEntries = new List<GameObject>();
-
+        [Space]
+        [Header("Inventory")]
         [SerializeField] private PlayerInventory playerInventory;
 
-        private void Start()
+        private void OnEnable()
         {
-            _craftingManager = CraftingManager.instance;
-            
-            CreateRecipeEntries();
+            _craftingManager = CraftingManager.Instance;
+
             playerInventory ??= FindObjectOfType<PlayerInventory>();
+            ingredientItemSlotPreFab.SetActive(false);
+        }
+
+        private void OnDisable()
+        {
+            foreach (Transform child in navigationContent.transform) Destroy(child.gameObject);
         }
 
         public void Craft()
         {
             if (selectedRecipe == null) return;
 
-            if (_craftingManager.CanCraft(playerInventory.ItemInventory, selectedRecipe)) _craftingManager.Craft(playerInventory.ItemInventory, selectedRecipe);
+            if (!_craftingManager.CanCraft(playerInventory.ItemInventory, selectedRecipe)) return;
+            
+            _craftingManager.Craft(playerInventory.ItemInventory, selectedRecipe);
+            UpdatePage(selectedRecipe);
         }
 
         public void CreateRecipeEntries()
@@ -54,22 +66,30 @@ namespace Ui.Crafting
             }
         }
 
-        public void UpdateRecipe(Recipe recipe)
+        public void UpdatePage(Recipe recipe)
         {
             selectedRecipe = recipe;
             resultItemSlot.ItemStack = recipe.Result;
             
-            foreach (PhantomItemSlot slot in ingredientsItemSlots) Destroy(slot.gameObject);
+            foreach (ItemStackSlot slot in ingredientsItemSlots) Destroy(slot.gameObject);
             ingredientsItemSlots.Clear();
 
-            foreach (ItemStack stack in recipe.Ingredients)
+            Dictionary<ItemStack, bool> ingredients =
+                _craftingManager.GetMissingIngredients(playerInventory.ItemInventory, recipe);
+            
+            foreach (KeyValuePair<ItemStack, bool> kvPair in ingredients)
             {
-                GameObject obj = Instantiate(phantomItemSlotPreFab, ingredientsContent.transform);
-                if (!obj.TryGetComponent(out PhantomItemSlot slot)) continue;
+                GameObject obj = Instantiate(ingredientItemSlotPreFab, ingredientsContent.transform);
+                obj.SetActive(true);
+                if (!obj.TryGetComponent(out IngredientItemStack slot)) continue;
                 
-                slot.ItemStack = stack;
+                slot.ItemStack = kvPair.Key;
+                slot.HasItemStack = kvPair.Value;
+                
                 ingredientsItemSlots.Add(slot);
             }
+
+            craftButton.interactable = _craftingManager.CanCraft(playerInventory.ItemInventory, recipe);
         }
     }
 }

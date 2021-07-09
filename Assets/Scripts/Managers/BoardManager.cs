@@ -152,6 +152,7 @@ namespace Managers
                 room.Init(kvPair.Key, roomWidth, roomHeight, floorScheme);
                 room.ResetLists();
                 room.FillTiles();
+                room.SpawnEnemy();
             }
 
             foreach (Room.Room room in roomLookUp.Values)

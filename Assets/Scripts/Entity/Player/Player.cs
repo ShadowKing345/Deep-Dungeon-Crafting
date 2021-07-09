@@ -1,3 +1,4 @@
+using System;
 using Managers;
 using UnityEngine;
 
@@ -5,19 +6,16 @@ namespace Entity.Player
 {
     public class Player : Entity
     {
-        private WindowManager windowManager;
-        private bool IsWindowManagerNull => windowManager == null;
-        
-        private void Start()
-        {
-            windowManager ??= WindowManager.instance;
-            windowManager.SetMaxHealthMana(stats.MaxHealth, stats.MaxMana);
-        }
+        private UiManager _uiManager;
+        private bool IsWindowManagerNull => _uiManager == null;
+
+        private void OnEnable() => _uiManager ??= UiManager.Instance;
+        private void Start() => _uiManager.SetMaxHealthMana(stats.MaxHealth, stats.MaxMana);
 
         private void Update()
         {
             if (IsWindowManagerNull) return;
-            windowManager.SetHealthMana(currentHealth, currentMana);
+            _uiManager.SetHealthMana(currentHealth, currentMana);
         }
 
         public override void Die()

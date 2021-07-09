@@ -1,0 +1,7 @@
+[ ] fix door facing south.
+[ ] get a* path finder to scan once tiles are placed.
+[ ] level transition
+[ ] finish assets for attacks.
+[ ] Hub world.
+[ ] Save chest.
+[ ] Game saving.

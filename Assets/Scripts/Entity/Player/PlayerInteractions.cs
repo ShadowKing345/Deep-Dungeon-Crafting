@@ -9,23 +9,22 @@ namespace Entity.Player
 {
     public class PlayerInteractions : MonoBehaviour
     {
-        private WindowManager windowManager;
+        private InputManager _inputManager;
+        private UiManager _uiManager;
         
         public Vector2 aoeSize;
         public Vector2 aoeOffset;
 
-        private void Start()
+        private void OnEnable()
         {
-            windowManager ??= WindowManager.instance;
+            _uiManager ??= UiManager.Instance;
+            _inputManager ??= new InputManager();
+
+            _inputManager.Player.Interact.canceled += _ => SelectInteractable();
+            _inputManager.Player.Enable();
         }
 
-        private void Update()
-        {
-            // if (_inputManager.GetKeyDown(InputManager.KeyValue.OpenInventory)) windowManager.ToggleUiElement(WindowManager.UiElementReference.PlayerMenu);
-            // if (_inputManager.GetKeyDown(InputManager.KeyValue.OpenCraftingMenu)) windowManager.ToggleUiElement(WindowManager.UiElementReference.CraftingMenu);
-            // if (_inputManager.GetKeyDown(InputManager.KeyValue.PauseResumeGame)) windowManager.ToggleUiElement(WindowManager.UiElementReference.PauseMenu);
-        }
-        public void Interact(InputAction.CallbackContext ctx) => SelectInteractable();
+        private void OnDisable() => _inputManager.Player.Disable();
 
         private void SelectInteractable()
         {

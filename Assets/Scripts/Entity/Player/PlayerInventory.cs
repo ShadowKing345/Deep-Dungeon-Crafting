@@ -7,8 +7,6 @@ namespace Entity.Player
 {
     public class PlayerInventory : MonoBehaviour, IEntityInventoryController
     {
-        [SerializeField] private PlayerInventoryController playerInventoryController;
-
         [SerializeField] private ItemInventory itemInventory;
         [SerializeField] private WeaponInventory weaponInventory;
         [SerializeField] private ArmorInventory armorInventory;
@@ -16,14 +14,6 @@ namespace Entity.Player
         public ItemInventory ItemInventory => itemInventory;
         public WeaponInventory WeaponInventory => weaponInventory;
         public ArmorInventory ArmorInventory => armorInventory;
-
-        private void Start()
-        {
-            playerInventoryController = PlayerInventoryController.instance;
-
-            if (playerInventoryController != null)
-                playerInventoryController.Init(itemInventory, weaponInventory, armorInventory);
-        }
 
         public IInventory IndexMapping(int index, out int newIndex)
         {

@@ -17,8 +17,9 @@ namespace Ui.ToolTip.Types
 
         public void UpdateContent(string content, string header = "")
         {
-            if (string.IsNullOrEmpty(header)) headerTMP.gameObject.SetActive(false);
-            else headerTMP.text = header;
+            headerTMP.text = header;
+            headerTMP.gameObject.SetActive(!string.IsNullOrEmpty(header));
+            
             contentTMP.text = content;
             
             layoutElement.enabled = headerTMP.text.Length > characterWrapLimit || contentTMP.text.Length > characterWrapLimit;

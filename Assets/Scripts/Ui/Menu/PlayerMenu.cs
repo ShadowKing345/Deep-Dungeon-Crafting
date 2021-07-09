@@ -15,7 +15,7 @@ namespace Ui.Menu
         {
             playerMovementController ??= FindObjectOfType<PlayerMovement>();
             playerCombatController ??= FindObjectOfType<PlayerCombat>();
-            playerInventoryController ??= PlayerInventoryController.instance;
+            playerInventoryController ??= PlayerInventoryController.Instance;
         }
 
         public void Show()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Inventory;
@@ -8,28 +9,40 @@ namespace Crafting
 {
     public class CraftingManager : MonoBehaviour
     {
-        public static CraftingManager instance;
+        private static CraftingManager _instance;
+        public static CraftingManager Instance
+        {
+            get
+            {
+                _instance ??= FindObjectOfType<CraftingManager>();
+                return _instance;
+            }
+            private set
+            {
+                if(_instance != null || _instance != value) Destroy(value);
+                _instance = value;
+            }
+        }
         
         private readonly List<Recipe> _recipes = new List<Recipe>();
 
-        private void Awake()
+        private void OnEnable()
         {
-            if (instance == null) instance = this;
-            else if(instance != this) Destroy(gameObject);
-            GetRecipes();
+            Instance ??= this;
+            Instance.GetRecipes();
         }
-        
+
         private void GetRecipes()
         {
             _recipes.Clear();
-            _recipes.AddRange(Resources.LoadAll<Recipe>(""));
+            _recipes.AddRange(Resources.LoadAll<Recipe>("Recipes"));
         }
 
         public bool CanCraft(IInventory inventory, Recipe recipe) => recipe.Ingredients.All(inventory.ContainsExact);
 
         public Recipe[] AvailableCrafts(IInventory inventory) => _recipes.Where(recipe => recipe.Ingredients.All(inventory.ContainsExact)).ToArray();
 
-        public ItemStack[] GetMissingIngredients(IInventory inventory, Recipe recipe) => new ItemStack[0];
+        public Dictionary<ItemStack, bool> GetMissingIngredients(IInventory inventory, Recipe recipe) => recipe.Ingredients.ToDictionary(stack => stack, inventory.ContainsExact);
 
         public void Craft(IInventory inventory, Recipe recipe)
         {

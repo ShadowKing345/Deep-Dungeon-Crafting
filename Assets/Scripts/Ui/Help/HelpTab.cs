@@ -1,5 +1,7 @@
+using System.Text.RegularExpressions;
 using InGameHelp;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,57 +9,56 @@ namespace Ui.Help
 {
     public class HelpTab : MonoBehaviour
     {
-        //todo: review and refactor.
         [SerializeField] public Tab tab;
-        [SerializeField] private HelpController controller;
+        public HelpController controller;
         [Space]
         [SerializeField] private TextMeshProUGUI text;
         [Space]
-        [SerializeField] private GameObject subTabPreFab;
+        [Header("Sub Tab")]
         [SerializeField] private GameObject subTabObj;
         [Space]
+        [Header("Expansion Button")]
+        [SerializeField] private Selectable dropDownPointerChanger;
         [SerializeField] private Image dropDownImage;
-        [Space]
         [SerializeField] private Sprite arrowDown;
         [SerializeField] private Sprite arrowUp;
          
         public GameObject SubTabObj => subTabObj;
-
-        public void SetTab(Tab tab, HelpController controller)
+        public Tab Tab
         {
-            this.tab = tab;
-            this.controller = controller;
-
-            UpdateUi();
+            get => tab;
+            set
+            {
+                tab = value;
+                UpdateUi();
+            }
         }
 
         private void UpdateUi()
         {
             text.text = tab.name;
-            dropDownImage.enabled = tab.subTabs.Length > 0;
+            dropDownImage.enabled = dropDownPointerChanger.enabled = tab.subTabs.Length > 0;
         }
 
         public void OnButtonClick()
         {
-            if (tab.page == null) return;
-
+            if (tab.page == null || controller == null) return;
             controller.AlterPage(tab.page);
         }
 
         public void OnExpandToggleClick(bool value)
         {
-            if (tab == null) return;
-            
-            if (tab.subTabs.Length <= 0)
-                OnButtonClick();
-            else
+            if (tab == null || tab.subTabs.Length <= 0)
             {
-                dropDownImage.sprite = value ? arrowDown : arrowUp;
-                if (subTabObj.TryGetComponent(out ContentSizeFitter contentSizeFitter))
-                    contentSizeFitter.enabled = value;
-                if (subTabObj.TryGetComponent(out RectTransform rt) && !value)
-                    rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 0);
+                OnButtonClick();
+                return;
             }
+            
+            dropDownImage.sprite = value ? arrowDown : arrowUp;
+            if (subTabObj.TryGetComponent(out ContentSizeFitter contentSizeFitter))
+                contentSizeFitter.enabled = value;
+            if (subTabObj.TryGetComponent(out RectTransform rt) && !value)
+                rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 0);
         }
     }
 }

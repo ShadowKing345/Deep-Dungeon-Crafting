@@ -7,13 +7,13 @@ namespace Ui.Menu
     public class PauseMenu : MonoBehaviour, IUiElement
     {
         private GameManager gameManager;
-        private WindowManager windowManager;
+        private UiManager _uiManager;
         [SerializeField] private Settings settingsMenu;
 
         private void Start()
         {
             gameManager ??= GameManager.instance;
-            windowManager ??= WindowManager.instance;
+            _uiManager ??= UiManager.Instance;
         }
 
         public void Show()
@@ -23,19 +23,19 @@ namespace Ui.Menu
 
         public void Hide()
         {
-            settingsMenu.Hide();
+            if(settingsMenu.gameObject.activeSelf) settingsMenu.Hide();
             Time.timeScale = 1;
         }
 
         public void Resume()
         {
-            WindowManager.instance.HideUiElement(WindowManager.UiElementReference.PauseMenu);
+            _uiManager.HideUiElement(UiManager.UiElementReference.PauseMenu);
         }
 
         public void OpenHelp()
         {
             Resume();
-            WindowManager.instance.ToggleUiElement(WindowManager.UiElementReference.Help);
+            _uiManager.ToggleUiElement(UiManager.UiElementReference.Help);
         }
 
         public void Settings()

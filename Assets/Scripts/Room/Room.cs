@@ -1,19 +1,23 @@
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using Unity.Mathematics;
 using UnityEngine;
 using Utils;
+using Random = UnityEngine.Random;
 
 namespace Room
 {
     public class Room : MonoBehaviour
     {
-        public Vector2 id;
-        public int width;
-        public int height;
-        public FloorScheme floorScheme;
+        [SerializeField] private Vector2 id;
+        [SerializeField] private int width;
+        [SerializeField] private int height;
+        [SerializeField] private FloorScheme floorScheme;
+        
         private readonly List<Vector3> positions = new List<Vector3>();
         private readonly List<GameObject> tileList = new List<GameObject>();
         private readonly DirectionObj<DoorTile> doorTiles = new DirectionObj<DoorTile>();
+        private readonly List<GameObject> enemyList = new List<GameObject>();
 
         public DirectionObj<Room> nearbyRooms = new DirectionObj<Room>();
 
@@ -39,6 +43,9 @@ namespace Room
 
             foreach (GameObject obj in tileList) Destroy(obj);
             tileList.Clear();
+
+            foreach (GameObject obj in enemyList) Destroy(obj);
+            tileList.Clear();
         }
 
         public void FillTiles()
@@ -56,8 +63,8 @@ namespace Room
                 if (tile.TryGetComponent(out DoorTile doorTile)) doorTiles.SetDirection(direction, doorTile);
             }
         }
-        
-        public Direction GetPrefab(Vector3 pos, out GameObject prefab)
+
+        private Direction GetPrefab(Vector3 pos, out GameObject prefab)
         {
             if (0 < pos.x && pos.x < width - 1 && 0 < pos.y && pos.y < height - 1)
             {
@@ -108,6 +115,21 @@ namespace Room
             prefab = floorScheme.GetTile(type);
 
             return direction;
+        }
+
+        public void SpawnEnemy()
+        {
+            if (Random.value > floorScheme.enemyChance) return;
+
+            int enemyCount = Random.Range(floorScheme.enemyCount.Min, floorScheme.enemyCount.Max);
+            GameObject enemyPreFab = floorScheme.enemies[Random.Range(0, floorScheme.enemies.Length)];
+
+            for (int i = 0; i < enemyCount; i++)
+            {
+                Vector2 pos = new Vector2(Random.Range(1, width - 1), Random.Range(1, height - 1));
+                GameObject enemy = Instantiate(enemyPreFab, (Vector3) pos + transform.position, Quaternion.identity);
+                enemyList.Add(enemy);
+            }
         }
 
         public void SetupDoors()

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Entity.Player;
 using Inventory;
 using Items;
 using Ui.Inventories.ItemSlot;
@@ -9,17 +11,38 @@ namespace Ui.Inventories.InventoryControllers
 {
     public class PlayerInventoryController : MonoBehaviour, IInventoryController
     {
-        public static PlayerInventoryController instance;
+        private static PlayerInventoryController _instance;
+        public static PlayerInventoryController Instance {
+            get
+            {
+                if (_instance != null) return _instance;
+
+                _instance = FindObjectOfType<PlayerInventoryController>();
+                return _instance;
+            }
+            private set
+            {
+                if (_instance != null && _instance != value)
+                {
+                    Destroy(value.gameObject);
+                    return;
+                }
+
+                _instance = value;
+            }
+        }
         
         [Header("Item Inventory")]
         [SerializeField] private GameObject slotPrefab;
         [SerializeField] private GameObject container;
         [Space]
         [Header("Weapon Inventory")] 
-        [SerializeField] private WeaponItemSlot weaponItemStackSlot;
+        [SerializeField] private ItemStackSlot weaponItemStackSlot;
         [Space]
         [Header("Armor Inventory")] 
-        [SerializeField] private ArmorItemSlot[] armorItemStackSlots = new ArmorItemSlot[6];
+        [SerializeField] private ItemStackSlot[] armorItemStackSlots = new ItemStackSlot[6];
+        [Space]
+        [SerializeField] private PlayerInventory playerInventory;
 
         private ItemInventory _itemInventory;
         private WeaponInventory _weaponInventory;
@@ -30,11 +53,17 @@ namespace Ui.Inventories.InventoryControllers
         
         private event Action OnStackUpdate; 
 
-        private void Awake()
+        private void OnEnable()
         {
-            if (instance == null)
-                instance = this;
-            else if(instance != this) Destroy(this);
+            Instance ??= this;
+            playerInventory ??= FindObjectOfType<PlayerInventory>();
+            if (playerInventory == null) return;
+            
+            _weaponInventory = playerInventory.WeaponInventory;
+            _armorInventory = playerInventory.ArmorInventory;
+            _itemInventory = playerInventory.ItemInventory;
+            
+            SetUpSlots();
         }
 
         public void Init(IInventory inventory)
@@ -42,20 +71,12 @@ namespace Ui.Inventories.InventoryControllers
             _itemInventory = (ItemInventory) inventory;
             SetUpSlots();
         }
-
-        public void Init(ItemInventory itemInventory, WeaponInventory weaponInventory, ArmorInventory armorInventory)
-        {
-            _itemInventory = itemInventory;
-            _weaponInventory = weaponInventory;
-            _armorInventory = armorInventory;
-
-            SetUpSlots();
-        }
-
+        
         public void SetUpSlots()
         {
             int index = 0;
             _slots.Clear();
+            foreach (Transform child in container.transform) Destroy(child.gameObject);
 
             //WeaponSlotSetup
             if (weaponItemStackSlot != null)
@@ -80,9 +101,11 @@ namespace Ui.Inventories.InventoryControllers
             foreach(ItemStack stack in _itemInventory.GetItemStacks())
             {
                 GameObject slotObj = Instantiate(slotPrefab, container.transform);
-                IItemStackSlot slot = slotObj.GetComponent<IItemStackSlot>();
+                if (!slotObj.TryGetComponent(out IItemStackSlot slot)) continue;
+                
                 slot.Init(index++, stack, this, itemIndex++, _itemInventory);
                 _slots.Add(slot);
+                
                 OnStackUpdate += slot.UpdateUi;
             }
             
@@ -123,22 +146,10 @@ namespace Ui.Inventories.InventoryControllers
 
         public void ResetSlots()
         {
-            foreach (IItemStackSlot slot in _slots)
-            {
-                switch (slot)
-                {
-                    case WeaponItemSlot weaponItemSlot:
-                        weaponItemSlot.ResetSlot();
-                        continue;
-                    case ArmorItemSlot armorItemSlot:
-                        armorItemSlot.ResetSlot();
-                        continue;
-                    case MonoBehaviour mb:
-                        Destroy(mb.gameObject);
-                        break;
-                }
-            }
-            
+            foreach (var slot in _slots.Where(slot => (ItemStackSlot) slot != weaponItemStackSlot && !armorItemStackSlots.Contains(slot)))
+                if(slot is MonoBehaviour mb)
+                    Destroy( mb.gameObject);
+
             _slots.Clear();
         }
 

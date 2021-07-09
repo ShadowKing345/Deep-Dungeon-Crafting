@@ -7,24 +7,30 @@ namespace Room
     [CreateAssetMenu(menuName = "SO/Floor", fileName = "New Floor")]
     public class FloorScheme : ScriptableObject
     {
+        [Header("Basic")]
         public GameObject floorTiles;
-
+        [Space]
         public GameObject cornerTile;
         public GameObject wallTile;
-
+        [Space]
+        [Header("Interactable")]
         public GameObject doorTile;
         public GameObject exitTile;
         public GameObject starterTile;
-        
-        public GameObject[] objectTiles;
-
+        [Space]
+        [Header("Enemies")]
+        public GameObject[] enemies;
+        [Space]
+        [Header("Floor Generation Settings")]
         public MinMax<int> floorWidth;
         public MinMax<int> floorHeight;
         public MinMax<int> numberOfRooms;
-        
+        [Space]
+        [Header("Room Generation Settings")]
         public MinMax<int> roomWidth;
         public MinMax<int> roomHeight;
-        
+        public MinMax<int> enemyCount;
+        public float enemyChance;
 
         public GameObject GetTile(TileType type) =>
             type switch

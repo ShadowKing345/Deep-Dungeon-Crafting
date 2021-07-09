@@ -42,7 +42,9 @@ namespace Ui.Help
             obj.SetActive(true);
             if (!obj.TryGetComponent(out HelpTab ui)) return;
             
-            ui.SetTab(tab, this);
+            ui.controller = this;
+            ui.Tab = tab;
+            
             tabs.Add(ui);
 
             foreach (Tab subTab in tab.subTabs) CreateTab(subTab);
