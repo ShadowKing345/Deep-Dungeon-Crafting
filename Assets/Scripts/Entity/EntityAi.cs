@@ -104,19 +104,21 @@ namespace Entity
             var position = rb.position;
             _seeker.StartPath(position, currentlyThinking switch
             {
-                State.Roaming => Random.insideUnitCircle * 2,
+                State.Roaming => position + Random.insideUnitCircle * 2,
                 State.Chasseing => currentTarget.position,
                 _ => position
             }, p =>
             {
                 if (p.error) return;
 
+                if (!PathUtilities.IsPathPossible(p.path)) return;
+                
                 path = p;
                 currentWaypoint = 0;
             });
         }
 
-        protected void Move()
+        private void Move()
         {
             direction = Vector2.zero;
             if (path == null) return;
@@ -154,19 +156,19 @@ namespace Entity
             Attacking
         }
 
-        protected virtual void OnDrawGizmosSelected()
-        {
-            if (agroRadius > 0)
-            {
-                Gizmos.color = Color.yellow;
-                Gizmos.DrawWireSphere(transform.position, agroRadius);
-            }
-
-            if (attackRange > 0)
-            {
-                Gizmos.color = Color.red;
-                Gizmos.DrawWireSphere(transform.position, attackRange);
-            }
-        }
+        // protected virtual void OnDrawGizmosSelected()
+        // {
+        //     if (agroRadius > 0)
+        //     {
+        //         Gizmos.color = Color.yellow;
+        //         Gizmos.DrawWireSphere(transform.position, agroRadius);
+        //     }
+        //
+        //     if (attackRange > 0)
+        //     {
+        //         Gizmos.color = Color.red;
+        //         Gizmos.DrawWireSphere(transform.position, attackRange);
+        //     }
+        // }
     }
 }

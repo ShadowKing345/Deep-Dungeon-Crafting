@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Crafting;
 using Entity.Player;
+using Interfaces;
 using Items;
 using Ui.Inventories.ItemSlot;
 using UnityEngine;
@@ -8,12 +9,16 @@ using UnityEngine.UI;
 
 namespace Ui.Crafting
 {
-    public class CraftingController : MonoBehaviour
+    public class CraftingController : MonoBehaviour, IUiWindow
     {
         private CraftingManager _craftingManager;
         private readonly List<ItemStackSlot> ingredientsItemSlots = new List<ItemStackSlot>(); 
         private readonly List<GameObject> recipeEntries = new List<GameObject>();
-        
+     
+        [Header("OtherObj.")]
+        [SerializeField] private PlayerMovement playerMovementController;
+        [SerializeField] private PlayerCombat playerCombatController;
+        [Space]        
         [Header("Crafting Page")]
         [SerializeField] private ItemStackSlot resultItemSlot;
         [SerializeField] private GameObject ingredientsContent;
@@ -34,6 +39,9 @@ namespace Ui.Crafting
 
             playerInventory ??= FindObjectOfType<PlayerInventory>();
             ingredientItemSlotPreFab.SetActive(false);
+            
+            playerMovementController ??= FindObjectOfType<PlayerMovement>();
+            playerCombatController ??= FindObjectOfType<PlayerCombat>();
         }
 
         private void OnDisable()
@@ -91,5 +99,14 @@ namespace Ui.Crafting
 
             craftButton.interactable = _craftingManager.CanCraft(playerInventory.ItemInventory, recipe);
         }
+        
+        public void Show()
+        {
+            playerMovementController.enabled = playerCombatController.enabled = false;
+            CreateRecipeEntries();
+            navigationContent.GetComponentInChildren<Selectable>().Select();
+        }
+
+        public void Hide() => playerMovementController.enabled = playerCombatController.enabled = true;
     }
 }

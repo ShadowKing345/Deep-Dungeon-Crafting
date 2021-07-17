@@ -11,6 +11,16 @@ namespace Ui.ToolTip
         [SerializeField] private string header;
         [Multiline] 
         [SerializeField] private string content;
+        
+        public string Header
+        {
+            set => header = value;
+        }
+
+        public string Content
+        {
+            set => content = value;
+        }
 
         private void OnDisable()
         {

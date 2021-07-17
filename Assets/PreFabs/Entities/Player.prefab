@@ -96,10 +96,9 @@ MonoBehaviour:
   player: {fileID: 3641249469009164825}
   playerInventory: {fileID: 3641249469009164826}
   currentClass: {fileID: 0}
-  weaponCoolDown: 0
-  comboAbilityIndex: 0
-  comboIndex: 0
-  comboCoolDown: 0
+  currentAbilityIndex: 3
+  combo: 0
+  isComboActive: 0
   abilityRange: 0.3
   attackPoint: {x: 0.5, y: 0}
   direction: 0
@@ -117,7 +116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 3641249469009164828}
   attackName: 
-  lastDirection: 0
+  currentDirection: 0
   state: 0
   ignoreDirection: 0
 --- !u!95 &3641249469009164828
@@ -203,7 +202,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a56c4c2d2a3e425dbec4482cad53927b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInventoryController: {fileID: 0}
   itemInventory:
     itemStacks:
     - item: {fileID: 11400000, guid: bb3216ad83c1c0613ac34123a68fd1c8, type: 2}
@@ -364,6 +362,7 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: 021397766d630c8c9a4b37fbec72318d, type: 2}
   currentHealth: 0
   currentMana: 0
+  godMode: 0
 --- !u!114 &3641249469009164839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,7 +375,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab84cd1236894170993e67b7c56ab113, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aoeSize: {x: 0.7, y: 0.9}
+  aoeSize: 0
   aoeOffset: {x: 0, y: 0}
 --- !u!58 &3641249469009164824
 CircleCollider2D:

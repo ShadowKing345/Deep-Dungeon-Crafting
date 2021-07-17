@@ -6,12 +6,7 @@ using Interfaces;
 using Items;
 using Ui.HudElements;
 using Ui.Inventories;
-using Ui.ToolTip;
-using Ui.ToolTip.Types;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
-using Utils;
 using ProgressBar = Ui.ProgressBar;
 
 namespace Managers
@@ -55,38 +50,34 @@ namespace Managers
         }
 
         [Serializable]
-        private struct WindowGameObj
+        private struct WindowGameObjs
         {
-            public GameObject pauseMenuCg;
-            public GameObject inGameHelpCg;
-            public GameObject craftingMenuCg;
-            public GameObject playerMenuCg;
-            public GameObject hud;
+            public GameObject pauseMenu;
+            public GameObject inGameHelp;
+            public GameObject craftingMenu;
+            public GameObject playerMenu;
         }
 
         [SerializeField] private UiElements hudElements;
         [Space] [SerializeField] private GameObject itemHovePreFab;
         [SerializeField] private GameObject itemHoverObj;
-        [Space] [SerializeField] private WindowGameObj windowGameObj;
+        [Space] [SerializeField] private WindowGameObjs windowGameObjs;
+        [SerializeField] private GameObject hudObj;
         [Space] [SerializeField] private UiElementReference currentActive;
         
         private void OnEnable()
         {
-            Instance ??= this;
+            Instance = this;
             
             inputManager ??= new InputManager();
 
-            inputManager.Windows.PlayerInventory.canceled += _ => ToggleUiElement(UiElementReference.PlayerMenu);
-            inputManager.Windows.Crafting.canceled += _ => ToggleUiElement(UiElementReference.CraftingMenu);
-            inputManager.Windows.PauseMenu.canceled += _ =>
-            {
-                if (currentActive == UiElementReference.PauseMenu || currentActive == UiElementReference.None)
-                    ToggleUiElement(UiElementReference.PauseMenu);
-                else
-                    HideUiElement(currentActive);
-            };
+            InputManager.WindowsActions windowsActions = inputManager.Windows;
+            
+            windowsActions.PauseMenu.canceled += _ => ToggleUiElement(UiElementReference.PauseMenu);
+            windowsActions.Crafting.canceled += _ => ToggleUiElement(UiElementReference.CraftingMenu);
+            windowsActions.PlayerInventory.canceled += _ => ToggleUiElement(UiElementReference.PlayerInventory);
 
-            inputManager.Windows.Enable();
+            windowsActions.Enable();
         }
 
         private void OnDisable() => inputManager.Windows.Disable();
@@ -156,52 +147,54 @@ namespace Managers
 
         public void ToggleUiElement(UiElementReference element)
         {
+            if (element == UiElementReference.PauseMenu && currentActive != UiElementReference.PauseMenu &&
+                currentActive != UiElementReference.None)
+            {
+                HideUiElement(currentActive);
+                return;
+            }
+
             if (IsUiElementShown(element)) HideUiElement(element);
             else ShowUiElement(element);
         }
 
         private void ShowUiElement(UiElementReference element)
         {
-            if (currentActive != element && currentActive != UiElementReference.None) HideUiElement(currentActive);
-
-            currentActive = element;
-            GameObject obj = GetGameObject(element);
-            obj.SetActive(true);
-
-            if (!obj.TryGetComponent(out CanvasGroup cg)) return;
+            if (currentActive != UiElementReference.None) return;
             
-            LeanTween.alphaCanvas(cg, 1, .1f).setIgnoreTimeScale(true).setOnComplete(_ =>
-            {
-                if (cg.TryGetComponent(out IUiElement uiElement)) uiElement.Show();
-            });
+            GameObject windowObj = GetGameObject(element);
+            if(windowObj == null) return;
+            
+            windowObj.SetActive(true);
+            currentActive = element;
+            
+            if (windowObj.TryGetComponent(out IUiWindow uiWindow))
+                uiWindow.Show();
         }
 
         public void HideUiElement(UiElementReference element)
         {
-            GameObject obj = GetGameObject(element);
-            if (obj.TryGetComponent(out CanvasGroup cg))
-            {
-                LeanTween.alphaCanvas(cg, 0, .1f).setIgnoreTimeScale(true).setOnComplete(_ =>
-                {
-                    if (obj.TryGetComponent(out IUiElement uiElement)) uiElement.Hide();
-                    obj.SetActive(false);
-                });
-            }
-            else 
-                obj.SetActive(false);
+            if (currentActive == UiElementReference.None || currentActive != element) return;
             
+            GameObject windowObj = GetGameObject(element);
+            if(windowObj == null) return;
+            
+            windowObj.SetActive(false);
             currentActive = UiElementReference.None;
+            
+            if (windowObj.TryGetComponent(out IUiWindow uiWindow))
+                uiWindow.Hide();
         }
 
         private bool IsUiElementShown(UiElementReference element) => GetGameObject(element).activeSelf;
 
         private GameObject GetGameObject(UiElementReference element) => element switch
         {
-            UiElementReference.PauseMenu => windowGameObj.pauseMenuCg,
-            UiElementReference.Help => windowGameObj.inGameHelpCg,
-            UiElementReference.CraftingMenu => windowGameObj.craftingMenuCg,
-            UiElementReference.PlayerMenu => windowGameObj.playerMenuCg,
-            UiElementReference.Hud => windowGameObj.hud,
+            UiElementReference.None => null,
+            UiElementReference.PauseMenu => windowGameObjs.pauseMenu,
+            UiElementReference.Help => windowGameObjs.inGameHelp,
+            UiElementReference.CraftingMenu => windowGameObjs.craftingMenu,
+            UiElementReference.PlayerInventory => windowGameObjs.playerMenu,
             _ => throw new ArgumentOutOfRangeException(nameof(element), element, null)
         };
 
@@ -209,12 +202,11 @@ namespace Managers
         
         public enum UiElementReference
         {
+            None,
             PauseMenu,
             Help,
             CraftingMenu,
-            PlayerMenu,
-            Hud,
-            None
+            PlayerInventory
         }
     }
 }

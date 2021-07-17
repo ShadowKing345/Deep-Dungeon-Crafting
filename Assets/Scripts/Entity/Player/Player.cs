@@ -7,14 +7,14 @@ namespace Entity.Player
     public class Player : Entity
     {
         private UiManager _uiManager;
-        private bool IsWindowManagerNull => _uiManager == null;
+        private bool IsUiManagerNull => _uiManager == null;
 
         private void OnEnable() => _uiManager ??= UiManager.Instance;
         private void Start() => _uiManager.SetMaxHealthMana(stats.MaxHealth, stats.MaxMana);
 
         private void Update()
         {
-            if (IsWindowManagerNull) return;
+            if (IsUiManagerNull) return;
             _uiManager.SetHealthMana(currentHealth, currentMana);
         }
 

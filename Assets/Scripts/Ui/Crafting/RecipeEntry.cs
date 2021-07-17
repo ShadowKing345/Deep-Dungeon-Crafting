@@ -1,15 +1,15 @@
 using Crafting;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Ui.Crafting
 {
-    public class RecipeEntry : MonoBehaviour, IPointerClickHandler
+    public class RecipeEntry : Button
     {
         public CraftingController Controller { get; set; }
         [SerializeField] private Recipe recipe;
+        [SerializeField] private Image recipeImage;
         public Recipe Recipe
         {
             set
@@ -19,16 +19,31 @@ namespace Ui.Crafting
             }
         }
 
-        [SerializeField] private Image image;
         [SerializeField] private TextMeshProUGUI text;
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            onClick.AddListener(() =>
+            {
+                if (recipe != null) Controller.UpdatePage(recipe);
+            });
+        }
 
         private void UpdateUi()
         {
-            image.sprite = recipe == null ? null : recipe.Result.Item.Icon;
-            image.color = recipe == null ? Color.clear : Color.white;
-            text.text = recipe == null ? string.Empty : recipe.name;
+            if (recipe == null)
+            {
+                recipeImage.sprite = null;
+                recipeImage.color = Color.clear;
+                text.text = string.Empty;
+            }
+            else
+            {
+                recipeImage.sprite = recipe.Result.Item.Icon;
+                recipeImage.color = Color.white;
+                text.text = recipe.name;
+            }
         }
-
-        public void OnPointerClick(PointerEventData eventData) => Controller.UpdatePage(recipe);
     }
 }

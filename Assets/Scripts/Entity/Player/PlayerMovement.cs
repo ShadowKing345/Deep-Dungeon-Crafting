@@ -2,7 +2,6 @@ using System;
 using Managers;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Utils;
 
 namespace Entity.Player
 {
@@ -15,12 +14,9 @@ namespace Entity.Player
         [Space]
         [SerializeField] private Rigidbody2D rb;
         [SerializeField] private EntityAnimator animator;
-
-        public bool IsEnabled { get; set; } = true;
-
-        private Vector2 _movement = Vector2.zero;
-        public Direction Direction => EntityAnimator.GetDirectionIndex(_movement);
         
+        private Vector2 _movement = Vector2.zero;
+
         private void OnEnable()
         {
             inputManager ??= new InputManager();
@@ -33,14 +29,8 @@ namespace Entity.Player
 
         private void OnDisable() => inputManager.Player.Disable();
 
-        private void Update() => animator.Move(IsEnabled ? _movement : Vector2.zero);
+        private void Update() => animator.Move(_movement);
 
-        private void FixedUpdate()
-        {
-            if (!IsEnabled) return;
-            rb.MovePosition(rb.position + _movement * (moveSpeed * Time.fixedDeltaTime));
-        }
-
-        private void Reset() => inputManager ??= new InputManager();
+        private void FixedUpdate() => rb.MovePosition(rb.position + _movement * (moveSpeed * Time.fixedDeltaTime));
     }
 }

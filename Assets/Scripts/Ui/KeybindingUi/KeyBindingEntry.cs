@@ -1,4 +1,5 @@
 using System;
+using Managers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,13 +9,20 @@ namespace Ui.KeybindingUi
 {
     public class KeyBindingEntry : MonoBehaviour
     {
+        private static GameManager _gameManager;
+        
         [SerializeField] private TextMeshProUGUI nameText;
         [SerializeField] private TextMeshProUGUI keyText;
+        [SerializeField] private Image image;
         [SerializeField] private Button rebindButton;
 
         private InputActionReference action;
         
-        private void OnEnable() => rebindButton.onClick.AddListener(RebindKey);
+        private void OnEnable()
+        {
+            _gameManager ??= GameManager.Instance;
+            rebindButton.onClick.AddListener(RebindKey);
+        }
 
         public InputActionReference Action
         {
@@ -54,8 +62,10 @@ namespace Ui.KeybindingUi
 
         private void UpdateBinding()
         {
+            InputControl currentControl = action.action.controls[0];
             int bindingIndex = action.action.GetBindingIndexForControl(action.action.controls[0]);
-            keyText.text = action.action.bindings[bindingIndex].ToDisplayString();
+
+            InputBinding inputAction = action.action.bindings[bindingIndex];
         }
     }
 }

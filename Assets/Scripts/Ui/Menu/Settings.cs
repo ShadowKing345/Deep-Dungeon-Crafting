@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 namespace Ui.Menu
 {
-    public class Settings : MonoBehaviour, IUiElement
+    public class Settings : MonoBehaviour, IUiWindow
     {
         private LTDescr _transition;
 
@@ -82,18 +82,14 @@ namespace Ui.Menu
         }
 
         public void Back() => Hide();
-
         public void Show()
         {
-            gameObject.SetActive(true);
-            _transition = LeanTween.alphaCanvas(canvasGroup, 1, 0.3f)
-                .setIgnoreTimeScale(true);
+            throw new NotImplementedException();
         }
 
         public void Hide()
         {
-            if(_transition != null) LeanTween.cancel(_transition.uniqueId);
-            _transition = LeanTween.alphaCanvas(canvasGroup, 0, 0.3f).setOnComplete(_ => gameObject.SetActive(false)).setIgnoreTimeScale(true);
+            throw new NotImplementedException();
         }
     }
 }

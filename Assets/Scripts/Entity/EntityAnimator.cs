@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using Utils;
 
@@ -12,12 +13,13 @@ namespace Entity
         [SerializeField] private Animator animator;
         [SerializeField] private string attackName;
         
-        [SerializeField] private Direction lastDirection;
+        [SerializeField] private Direction currentDirection;
         [SerializeField] private State state = State.Idle;
         [SerializeField] private bool ignoreDirection;
-        public bool IgnoreDirection { set => ignoreDirection = value; }
-        public State GetCurrentState => state;
-        public Direction GetCurrentDirection => lastDirection;
+        public bool IgnoreDirection { set => ignoreDirection = value; } 
+        public Direction CurrentDirection => currentDirection;
+        
+        private float attackCoolDown;
 
         private void Awake()
         {
@@ -29,14 +31,14 @@ namespace Entity
             switch (state)
             {
                 case State.Idle:
-                    animator.Play(ignoreDirection ? "Idle" : $"Idle-{_directions[(int) lastDirection]}");
+                    animator.Play(ignoreDirection ? "Idle" : $"Idle-{_directions[(int) currentDirection]}");
                     break;
                 case State.Moving:
-                    animator.Play(ignoreDirection ? "Run" : $"Run-{_directions[(int) lastDirection]}");
+                    animator.Play(ignoreDirection ? "Run" : $"Run-{_directions[(int) currentDirection]}");
                     break;
                 case State.Attacking:
-                    animator.Play(ignoreDirection ? attackName : attackName + "-" + _directions[(int) lastDirection]);
-                    Invoke(nameof(AttackComplete), animator.GetCurrentAnimatorStateInfo(0).length);
+                    animator.Play(ignoreDirection ? attackName : attackName + "-" + _directions[(int) currentDirection]);
+                    if (attackCoolDown < Time.time) state = State.Idle;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -50,17 +52,14 @@ namespace Entity
 
         public void Move(Vector2 direction)
         {
+            if (state == State.Attacking) return;
             if (direction.magnitude > 0)
             {
-                CancelInvoke(nameof(AttackComplete));
-                lastDirection = GetDirectionIndex(direction);
+                currentDirection = GetDirectionIndex(direction);
                 state = State.Moving;
             }
             else
-            {
-                if (state == State.Attacking) return;
                 state = State.Idle;
-            }
         }
 
         public static Direction GetDirectionIndex(Vector2 direction)
@@ -76,11 +75,15 @@ namespace Entity
 
             return (Direction) Mathf.FloorToInt(angle / step);
         }
-        
+
         public void PlayAttackAnimation(string animationName)
         {
             attackName = animationName;
             state = State.Attacking;
+            AnimationClip attackAnimation = animator.runtimeAnimatorController.animationClips.FirstOrDefault(clip =>
+                clip.name == (ignoreDirection ? attackName : attackName + "-" + _directions[(int) currentDirection]));
+
+            if (attackAnimation != null) attackCoolDown = Time.time + attackAnimation.length;
         }
 
         public enum State

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Entity.Player;
 using InGameHelp;
 using TMPro;
 using UnityEngine;
@@ -19,16 +21,22 @@ namespace Ui.Help
         [Header("Page")]
         [SerializeField] private PageContent pageContent;
         [Space]
-        [SerializeField] private List<HelpTab> tabs = new List<HelpTab>();
+        [SerializeField] private List<HelpEntry> entries = new List<HelpEntry>();
         
-        private void Start()
+        private void OnEnable()
         {
             if (collection == null || tabPreFab == null) return;
-            tabs.Clear();
+
+            foreach (HelpEntry entry in entries ) Destroy(entry.gameObject);
+            entries.Clear();
+
+            if (tabPreFab == null) return;
+            
             SetUpTabs();
             SetUpSubTabs();
-            
-            if(tabPreFab != null) tabPreFab.SetActive(false);
+            tabPreFab.SetActive(false);
+
+            entries.FirstOrDefault()?.GetComponentInChildren<Selectable>().Select();
         }
 
         private void SetUpTabs()
@@ -40,25 +48,25 @@ namespace Ui.Help
         {
             GameObject obj = Instantiate(tabPreFab, navigationContent.transform);
             obj.SetActive(true);
-            if (!obj.TryGetComponent(out HelpTab ui)) return;
+            if (!obj.TryGetComponent(out HelpEntry ui)) return;
             
             ui.controller = this;
             ui.Tab = tab;
             
-            tabs.Add(ui);
+            entries.Add(ui);
 
             foreach (Tab subTab in tab.subTabs) CreateTab(subTab);
         }
 
         private void SetUpSubTabs()
         {
-            foreach (HelpTab tabUi in tabs)
+            foreach (HelpEntry tabUi in entries)
             {
                 foreach (Tab subTab in tabUi.tab.subTabs)
                 {
-                    HelpTab subHelpTab = tabs.Find(t => t.tab == subTab);
-                    if(subHelpTab != null)
-                        subHelpTab.transform.SetParent(tabUi.SubTabObj.transform);
+                    HelpEntry subHelpEntry = entries.Find(t => t.tab == subTab);
+                    if(subHelpEntry != null)
+                        subHelpEntry.transform.SetParent(tabUi.SubTabObj.transform);
                 }
             }
         }

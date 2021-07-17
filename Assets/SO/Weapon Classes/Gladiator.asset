@@ -1,0 +1,98 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b40680a472654a9c8fb3f6dcba3eb0af, type: 3}
+  m_Name: Gladiator
+  m_EditorClassIdentifier: 
+  shortDescription: Always protecting the innocent. Except when I am doing other
+    things.
+  longDescription: 'Histories theorise that the first ever shield was made from wood
+    bark that has been ripped off of a tree. While this has yet to be proven what
+    is fact is that a Galdiator is defensless without one.
+
+
+    Employed primarily
+    by the church as foot soldiers. Gladiators are commonly know as the best form
+    of defense in the cities they are stationed in. Strong, dashing, and loyal, Gladiators
+    are loved by all up untill they find out that due to certain oaths they have
+    taken they cannot be called for some "personal service" to which they are appriciated
+    instead. Gladiators are also well known to be in a constant battle with their
+    employers in the church, fighting over their value in the higharchy of the church.
+
+
+    With
+    a decent mixture of close range and long range attacks, and very story defenses
+    in all forms, Galdiators are good begining class for those first attempting the
+    hero life. The one issue Gladiators have is that they lack any form of self healing
+    and so carry a lot of healing potions for solo journies or employ a healer for
+    party missions.'
+  icon: {fileID: -433169044826989850, guid: 595ad69a56f5276de80986588b48af3a, type: 3}
+  abilities1:
+  - name: Upper Cut
+    description: Slash foes from their toes to the head with your sword.
+    icon: {fileID: 21300000, guid: 8c0d55069ab4f7203a20f9b6b9a6ea91, type: 3}
+    coolDown: 1.5
+    properties: []
+    manaCost: 0
+    isProjectile: 0
+    projectilePreFab: {fileID: 0}
+    attackPoint: {x: 0.5, y: 0}
+    range: 0.3
+    animationName: UpperCut
+  - name: Sideward Slash
+    description: Borrowed from the Darken Knights but not as affective as Midnight
+      Slash, Attack foes in a small cone area in front of you.
+    icon: {fileID: 21300000, guid: 08f293850c2ffc6a58c23922f6eb6c74, type: 3}
+    coolDown: 1.5
+    properties: []
+    manaCost: 0
+    isProjectile: 0
+    projectilePreFab: {fileID: 0}
+    attackPoint: {x: 0.5, y: 0}
+    range: 0.3
+    animationName: SidewardSlash
+  - name: Whirlwind
+    description: Attack foes in small to medium area around you. Giving them a rush
+      as the wind slases them apart.
+    icon: {fileID: 21300000, guid: 2acfead4987a898198b048717e4665fc, type: 3}
+    coolDown: 1.5
+    properties: []
+    manaCost: 0
+    isProjectile: 0
+    projectilePreFab: {fileID: 0}
+    attackPoint: {x: 0.5, y: 0}
+    range: 0.3
+    animationName: WhirlWind
+  abilities2:
+  - name: Shield Toss
+    description: Hurl your shield at the enemie, dealing damage and in some cases
+      nocking them back.
+    icon: {fileID: 0}
+    coolDown: 2.5
+    properties: []
+    manaCost: 0
+    isProjectile: 1
+    projectilePreFab: {fileID: 0}
+    attackPoint: {x: 0, y: 0}
+    range: 0
+    animationName: 
+  abilities3:
+  - name: Shields Up
+    description: Allow yourself to take more damage while suffering less.
+    icon: {fileID: 0}
+    coolDown: 0
+    properties: []
+    manaCost: 0
+    isProjectile: 1
+    projectilePreFab: {fileID: 0}
+    attackPoint: {x: 0, y: 0}
+    range: 0
+    animationName: 

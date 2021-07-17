@@ -1,7 +1,70 @@
-[ ] fix door facing south.
-[ ] get a* path finder to scan once tiles are placed.
-[ ] level transition
+[X] Prioritize closest interactions.
+
+[X] Board Manager
+    [X] fix door facing south.
+    [X] get a* path finder to scan once tiles are placed.
+    [X] do not let enemies spawn in the starting room.
+    [X] do not let enemies spawn in the exit room.
+    [X] set up the exit.
+        [X] set up spawning of obj.
+        [X] set up interactions.
+        [X] draw tile.
+    [X] set up Entrance.
+        [X] setup spawning of obj.
+        [X] draw tile.
+    [X] Setup next floor transition.    
+
+[X] level transition.
+    [X] Setup end of level transition.
+    [X] Setup next floor transition.    
+
 [ ] finish assets for attacks.
+    [X] Finish north and south animation for first attack of gladiator.
+    [X] finish icons for attacks.
+    [ ] finish icons for classes (fists).
+
+[ ] Rework ui manager to:
+    [X] Ensure that only one ui can be open and closed at a time.
+    [X] Make Escape close windows.
+    [X] Select ui element.
+        [X] Pause Menu.
+        [X] Crafting Menu.
+        [X] Player Inventory.
+        [X] In game help.
+        
+    [ ] Rework Help page to not have sub tabs.
+    
+    [X] Ability Tool Tip is now showing in abilities.
+    
+[X] Player Combat
+    [X] When combo expires sprite should return to first in list.
+    [X] Reset combo index when using a different action. Including UI.
+
 [ ] Hub world.
-[ ] Save chest.
-[ ] Game saving.
+    [ ] make ladder open level selector.
+    [X] Level selector UI.
+    [ ] Save chest.
+        [ ] Ui.
+        [ ] Save content.
+
+[X] Main Menu.
+    [X] Start Game/hub world.
+    [X] Settings Page.
+        
+[X] Settings Page.
+    [X] Class structure (possibly Scriptable Object).
+    [X] Respect ranges?
+    [X] Set up Tabs && Tab Switching (use overrides in the tab controller).
+    [X] Set up entry prefabs.
+    [X] Set up keybindings page.
+    
+[X] File management.
+    [X] Save file to resources.
+    [X] Load file from resources.
+
+[X] Make SO folder that does not belong in resources.
+
+[ ] When switching scened into game make things load relevant items.
+
+[ ] Level transitions.
+    [ ] Transfer players contents.

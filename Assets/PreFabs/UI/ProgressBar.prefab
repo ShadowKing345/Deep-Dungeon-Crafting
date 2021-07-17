@@ -72,7 +72,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.5
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -217,9 +217,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3391a5e2f907cab0b8f27a076e137d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  padding: {x: 0, y: 0, z: 0, w: 0}
-  current: 50
-  max: 100
+  _current: 0
+  _max: 100
   mask: {fileID: 2519723382275460693}
 --- !u!222 &6811572145868732200
 CanvasRenderer:

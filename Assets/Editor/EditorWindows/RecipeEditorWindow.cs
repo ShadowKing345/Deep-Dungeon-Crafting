@@ -1,10 +1,9 @@
-using System;
 using System.Linq;
 using Crafting;
 using UnityEditor;
 using UnityEngine;
 
-namespace Editor
+namespace Editor.EditorWindows
 {
     public class RecipeEditorWindow : EditorWindow
     {

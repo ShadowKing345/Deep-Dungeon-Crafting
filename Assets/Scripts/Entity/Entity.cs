@@ -14,6 +14,8 @@ namespace Entity
         public EntityStats Stats => stats;
         [SerializeField] protected float currentHealth;
         [SerializeField] protected float currentMana;
+        [Space] 
+        [SerializeField] protected bool godMode;
         
         public bool IsDead { get; private set; }
         public UnityEvent OnDeath { get; } = new UnityEvent();
@@ -38,6 +40,8 @@ namespace Entity
             currentHealth -= Random.Range(0, 100) <= 30 ? damageTaken * 2 : damageTaken;
 
             if (!(currentHealth <= 0)) return true;
+
+            if (godMode) return true;
             
             IsDead = true;
             Die();

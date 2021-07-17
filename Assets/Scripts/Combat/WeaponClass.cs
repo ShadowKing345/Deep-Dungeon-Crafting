@@ -7,10 +7,8 @@ namespace Combat
     [System.Serializable]
     public class WeaponClass : ScriptableObject
     {
-        [TextArea(3,3)]
-        [SerializeField] private string shortDescription;
-        [TextArea(7,7)]
-        [SerializeField] private string longDescription;
+        [TextArea(3, 3)] [SerializeField] private string shortDescription;
+        [TextArea(7, 7)] [SerializeField] private string longDescription;
         [SerializeField] private Sprite icon;
 
         public string ShortDescription => shortDescription;
@@ -27,6 +25,7 @@ namespace Combat
                 AbilityIndex.Abilities1 => abilities1,
                 AbilityIndex.Abilities2 => abilities2,
                 AbilityIndex.Abilities3 => abilities3,
+                AbilityIndex.None => null,
                 _ => null
             };
 
@@ -34,9 +33,10 @@ namespace Combat
         {
             Abilities1,
             Abilities2,
-            Abilities3
+            Abilities3,
+            None
         }
 
-        public List<Ability[]> Abilities => new List<Ability[]>(new[] {abilities1, abilities2, abilities3});
-    }
+        public Ability[][] Abilities => new []{ abilities1, abilities2, abilities3 };
+}
 }

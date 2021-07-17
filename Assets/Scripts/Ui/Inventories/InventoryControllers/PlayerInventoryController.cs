@@ -2,14 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Entity.Player;
+using Interfaces;
 using Inventory;
 using Items;
 using Ui.Inventories.ItemSlot;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Ui.Inventories.InventoryControllers
 {
-    public class PlayerInventoryController : MonoBehaviour, IInventoryController
+    public class PlayerInventoryController : MonoBehaviour, IInventoryController, IUiWindow
     {
         private static PlayerInventoryController _instance;
         public static PlayerInventoryController Instance {
@@ -32,6 +34,9 @@ namespace Ui.Inventories.InventoryControllers
             }
         }
         
+        [SerializeField] private PlayerMovement playerMovementController;
+        [SerializeField] private PlayerCombat playerCombatController;
+
         [Header("Item Inventory")]
         [SerializeField] private GameObject slotPrefab;
         [SerializeField] private GameObject container;
@@ -55,6 +60,9 @@ namespace Ui.Inventories.InventoryControllers
 
         private void OnEnable()
         {
+            playerMovementController ??= FindObjectOfType<PlayerMovement>();
+            playerCombatController ??= FindObjectOfType<PlayerCombat>();
+            
             Instance ??= this;
             playerInventory ??= FindObjectOfType<PlayerInventory>();
             if (playerInventory == null) return;
@@ -64,6 +72,7 @@ namespace Ui.Inventories.InventoryControllers
             _itemInventory = playerInventory.ItemInventory;
             
             SetUpSlots();
+            container.GetComponentInChildren<Selectable>().Select();
         }
 
         public void Init(IInventory inventory)
@@ -154,5 +163,8 @@ namespace Ui.Inventories.InventoryControllers
         }
 
         public void UpdateSlots() => OnStackUpdate?.Invoke();
+
+        public void Show() => playerMovementController.enabled = playerCombatController.enabled = false;
+        public void Hide() => playerMovementController.enabled = playerCombatController.enabled = true;
     }
 }

@@ -38,14 +38,14 @@ namespace Entity.Enemies
             isAttacking = false;
         }
 
-        protected override void OnDrawGizmosSelected()
-        {
-            base.OnDrawGizmosSelected();
-            
-            if (ability?.Range <= 0) return;
-
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(transform.position, ability.Range);
-        }
+        // protected override void OnDrawGizmosSelected()
+        // {
+        //     base.OnDrawGizmosSelected();
+        //     
+        //     if (ability?.Range <= 0) return;
+        //
+        //     Gizmos.color = Color.green;
+        //     Gizmos.DrawWireSphere(transform.position, ability.Range);
+        // }
     }
 }

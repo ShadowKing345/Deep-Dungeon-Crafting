@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7083203841493045194
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7083203841493045196}
+  - component: {fileID: 7083203841493045195}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7083203841493045196
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7083203841493045194}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 440.5162, y: 277.02393, z: -24.40858}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7083203841493045195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7083203841493045194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8b86d91f43a43189a0a5572d82ad1ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  savePath: 
+  currentFloor: -1
+  floorScheme: {fileID: 11400000, guid: 7107a6fc91b87a77b84c958b5ce2a0ce, type: 2}
+  noWeaponClass: {fileID: 11400000, guid: 3e195c14bfeb6f202b97d40d70cab896, type: 2}
+  controllerAsset:
+    dPad:
+      center: {fileID: 0}
+      north: {fileID: 0}
+      west: {fileID: 0}
+      south: {fileID: 0}
+      east: {fileID: 0}
+    buttonArray:
+      center: {fileID: 0}
+      north: {fileID: 0}
+      west: {fileID: 0}
+      south: {fileID: 0}
+      east: {fileID: 0}
+    leftThreeStates:
+      off: {fileID: 0}
+      state1: {fileID: 0}
+      state2: {fileID: 0}
+    rightThreeStates:
+      off: {fileID: 0}
+      state1: {fileID: 0}
+      state2: {fileID: 0}
+    leftAnalogue:
+      off: {fileID: 0}
+      on: {fileID: 0}
+    rightAnalogue:
+      off: {fileID: 0}
+      on: {fileID: 0}
+    home:
+      off: {fileID: 0}
+      on: {fileID: 0}
+    startSelect:
+      off: {fileID: 0}
+      state1: {fileID: 0}
+      state2: {fileID: 0}
+  currentScene: 0

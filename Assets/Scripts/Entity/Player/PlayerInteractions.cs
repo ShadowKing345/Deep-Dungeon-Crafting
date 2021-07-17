@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Interfaces;
 using Managers;
 using UnityEngine;
@@ -12,7 +13,7 @@ namespace Entity.Player
         private InputManager _inputManager;
         private UiManager _uiManager;
         
-        public Vector2 aoeSize;
+        public float aoeSize;
         public Vector2 aoeOffset;
 
         private void OnEnable()
@@ -20,7 +21,10 @@ namespace Entity.Player
             _uiManager ??= UiManager.Instance;
             _inputManager ??= new InputManager();
 
-            _inputManager.Player.Interact.canceled += _ => SelectInteractable();
+            _inputManager.Player.Interact.canceled += _ =>
+            {
+                SelectInteractable();
+            };
             _inputManager.Player.Enable();
         }
 
@@ -28,18 +32,30 @@ namespace Entity.Player
 
         private void SelectInteractable()
         {
-            Collider2D[] hits = Physics2D.OverlapBoxAll((Vector2) transform.position + aoeOffset, aoeSize, 0);
+            Vector2 currentPos = (Vector2) transform.position + aoeOffset;
+            Collider2D[] hits = Physics2D.OverlapCircleAll(currentPos, aoeSize);
 
-                // Todo Proximity filter.
-            
-            foreach(Collider2D collider2D1 in hits)
+            IInteractable closest = null;
+            Vector2 smallestPos = Vector2.positiveInfinity;
+
+            foreach(Collider2D hit in hits)
             {
-                IInteractable interactable = collider2D1.GetComponent<IInteractable>();
-                if (interactable != null)
-                {
-                    interactable.Interact(gameObject);
-                }
+                if (hit.gameObject == gameObject) continue;
+                if (!hit.TryGetComponent(out IInteractable interactable)) continue;
+                if (Vector2.Distance(currentPos, hit.transform.position) >= Vector2.Distance(currentPos, smallestPos)) continue;
+
+                smallestPos = hit.transform.position;
+                closest = interactable;
             }
+
+            closest?.Interact(gameObject);
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            if (aoeSize <= 0) return;
+            
+            Gizmos.DrawWireSphere((Vector2) transform.position + aoeOffset, aoeSize);
         }
     }
 }

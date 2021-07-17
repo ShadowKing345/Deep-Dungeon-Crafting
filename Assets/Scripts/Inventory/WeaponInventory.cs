@@ -36,7 +36,7 @@ namespace Inventory
             ItemStack result = weapon.Copy;
             weapon.Clear();
             
-            OnWeaponChanged?.Invoke(GameManager.instance.noWeaponClass);
+            OnWeaponChanged?.Invoke(GameManager.Instance.noWeaponClass);
 
             return result;
         }

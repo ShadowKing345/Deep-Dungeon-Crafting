@@ -1,11 +1,9 @@
-using System;
 using System.Linq;
 using Items;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace Editor
+namespace Editor.EditorWindows
 {
     public class ItemEditorWindow : EditorWindow
     {

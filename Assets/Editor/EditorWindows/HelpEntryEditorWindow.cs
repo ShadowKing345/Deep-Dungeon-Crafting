@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using InGameHelp;
-using Ui.Help;
 using UnityEditor;
 using UnityEngine;
 
-namespace Editor
+namespace Editor.EditorWindows
 {
     public class HelpEntryEditorWindow : EditorWindow
     {
