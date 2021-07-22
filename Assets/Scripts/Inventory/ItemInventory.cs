@@ -8,7 +8,7 @@ namespace Inventory
     [Serializable]
     public class ItemInventory : IInventory
     {
-        [SerializeField] private ItemStack[] itemStacks = new ItemStack[30];
+        [SerializeField] private ItemStack[] itemStacks = new ItemStack[99];
 
         public ItemStack AddStackAtSlot(ItemStack stack, int index) => index >= itemStacks.Length ? stack : itemStacks[index].AddItem(stack);
 
@@ -25,6 +25,8 @@ namespace Inventory
         {
             foreach (var stack in stacks)
             {
+                if (stack.IsEmpty) continue;
+                
                 foreach (ItemStack inventoryStack in itemStacks)
                 {
                     if (combine && inventoryStack.Item == stack.Item)
@@ -41,18 +43,14 @@ namespace Inventory
 
         public ItemStack[] RemoveItemStacks(ItemStack[] stacks)
         {
-            ItemStack[] result = new ItemStack[stacks.Length];
-
-            for (int i = 0; i < stacks.Length; i++)
+            foreach (ItemStack stack in stacks)
             {
-                result[i] ??= new ItemStack { Item = stacks[i].Item, Amount = 0};
-                
                 foreach (ItemStack inventoryStack in itemStacks)
                 {
-                    result[i].AddItem(result[i].Item,
-                        stacks[i].RemoveItem(stacks[i].Amount - inventoryStack.RemoveItem(stacks[i].Amount)));
-                    
-                    if(stacks[i].IsEmpty) break;
+                    if (inventoryStack.Item == stack.Item)
+                        stack.RemoveItem(inventoryStack.RemoveItem(stack.Amount));
+
+                    if (stack.IsEmpty) break;
                 }
             }
             
@@ -79,7 +77,7 @@ namespace Inventory
         {
             ItemStack itemStack = itemStacks[index];
             if (itemStack.IsEmpty) return true;
-            return stack.Item != itemStack.Item && itemStack.Amount + stack.Amount <= itemStack.MaxStackSize;
+            return stack.Item == itemStack.Item;
         }
 
         public bool CanFit(ItemStack stack)
@@ -93,7 +91,8 @@ namespace Inventory
 
         public void ResetInventory()
         {
-            for (int i = 0; i < itemStacks.Length; i++) itemStacks[i] = ItemStack.Empty;
+            foreach (var stack in itemStacks)
+                stack.Clear();
         }
 
         public int Size => itemStacks.Length;
@@ -122,5 +121,7 @@ namespace Inventory
 
             AddItemStacks(new[] {stack}, false);
         }
+
+        public void CombineStacks(int fromIndex, int toIndex) => itemStacks[toIndex].AddItem(itemStacks[fromIndex]);
     }
 }

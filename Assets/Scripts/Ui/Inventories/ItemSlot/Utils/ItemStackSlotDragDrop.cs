@@ -1,4 +1,4 @@
-using Managers;
+using Systems;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -7,13 +7,13 @@ namespace Ui.Inventories.ItemSlot.Utils
     [RequireComponent(typeof(IItemStackSlot))]
     public class ItemStackSlotDragDrop : MonoBehaviour, IDragHandler, IBeginDragHandler, IDropHandler, IEndDragHandler
     {
-        private UiManager _uiManager;
+        private ToolTipSystem _tts;
 
         private IItemStackSlot slot;
         
         private void OnEnable()
         {
-            _uiManager ??= UiManager.Instance;
+            _tts ??= ToolTipSystem.Instance;
             slot ??= GetComponent<IItemStackSlot>();
         }
 
@@ -31,15 +31,11 @@ namespace Ui.Inventories.ItemSlot.Utils
         {
             if (slot.ItemStack.IsEmpty) return;
             
-            _uiManager.BeginItemHover(slot.ItemStack);
+            _tts.BeginItemHover(slot.ItemStack);
         }
 
         public void OnDrag(PointerEventData eventData) { }
         
-        public void OnEndDrag(PointerEventData eventData)
-        {
-            _uiManager.EndItemHover();
-        }
-
+        public void OnEndDrag(PointerEventData eventData) => _tts.EndItemHover();
     }
 }

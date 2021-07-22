@@ -7,7 +7,7 @@ namespace Entity.Enemies
     public class SlimeAi : EntityAi
     {
         [SerializeField] private float windUpDelay = 3f;
-        [SerializeField] private Ability ability;
+        [SerializeField] private AbilityBase abilityBase;
         
         protected override void Attack()
         {
@@ -16,15 +16,15 @@ namespace Entity.Enemies
             
             Invoke(nameof(DoAttackCalculations), windUpDelay);
             
-            animator.PlayAttackAnimation(ability.AnimationName);
+            animator.PlayAttackAnimation(abilityBase.AttackAnimationName);
             
-            coolDown = Time.time + attackCoolDown + ability.CoolDown + windUpDelay;
+            coolDown = Time.time + attackCoolDown + abilityBase.CoolDown + windUpDelay;
         }
 
         private void DoAttackCalculations()
         {
             Collider2D[] hitList = 
-                Physics2D.OverlapCircleAll((Vector2) transform.position + ability.AttackPoint, ability.Range);
+                Physics2D.OverlapCircleAll((Vector2) transform.position + abilityBase.AttackPoint, abilityBase.AttackRange);
 
             foreach (Collider2D hit in hitList)
             {
@@ -32,7 +32,7 @@ namespace Entity.Enemies
                 
                 if (hit.TryGetComponent(out IDamageable playerIDamageable))
                     if (!playerIDamageable.IsDead)
-                        playerIDamageable.Damage(ability.Properties);
+                        playerIDamageable.Damage(abilityBase.Properties);
             }
 
             isAttacking = false;

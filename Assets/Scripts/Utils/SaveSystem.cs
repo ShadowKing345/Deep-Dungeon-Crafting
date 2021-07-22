@@ -21,12 +21,6 @@ namespace Utils
             
             formatter.Serialize(stream, obj);
             stream.Close();
-
-        }
-
-        public static void LoadFileAsBits()
-        {
-            
         }
         
         public static bool TryLoadObj<T>(string filePath, out T obj) where T : class
@@ -42,7 +36,7 @@ namespace Utils
                 return true;
             }
 
-            Debug.LogError($"Cannot find file at {filePath}");
+            Debug.LogWarning($"Cannot find file at {filePath}");
             obj = null;
             return false;
         }

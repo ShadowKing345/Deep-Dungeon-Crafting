@@ -2,37 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Entity.Player;
+using Enums;
 using Interfaces;
 using Inventory;
 using Items;
+using Managers;
 using Ui.Inventories.ItemSlot;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils;
 
 namespace Ui.Inventories.InventoryControllers
 {
     public class PlayerInventoryController : MonoBehaviour, IInventoryController, IUiWindow
     {
-        private static PlayerInventoryController _instance;
-        public static PlayerInventoryController Instance {
-            get
-            {
-                if (_instance != null) return _instance;
-
-                _instance = FindObjectOfType<PlayerInventoryController>();
-                return _instance;
-            }
-            private set
-            {
-                if (_instance != null && _instance != value)
-                {
-                    Destroy(value.gameObject);
-                    return;
-                }
-
-                _instance = value;
-            }
-        }
+        private UiManager _uiManager;
         
         [SerializeField] private PlayerMovement playerMovementController;
         [SerializeField] private PlayerCombat playerCombatController;
@@ -56,14 +40,23 @@ namespace Ui.Inventories.InventoryControllers
         public IInventory GetInventory() => _itemInventory;
         private readonly List<IItemStackSlot> _slots = new List<IItemStackSlot>();
         
-        private event Action OnStackUpdate; 
+        private event Action OnStackUpdate;
+
+        private void Awake()
+        {
+            _uiManager = UiManager.Instance;
+            _uiManager.RegisterWindow(WindowReference.PlayerInventory, gameObject);
+            
+            gameObject.SetActive(false);
+        }
+
+        private void OnDestroy() => _uiManager.UnregisterWindow(WindowReference.PlayerInventory, gameObject);
 
         private void OnEnable()
         {
             playerMovementController ??= FindObjectOfType<PlayerMovement>();
             playerCombatController ??= FindObjectOfType<PlayerCombat>();
             
-            Instance ??= this;
             playerInventory ??= FindObjectOfType<PlayerInventory>();
             if (playerInventory == null) return;
             
@@ -74,7 +67,7 @@ namespace Ui.Inventories.InventoryControllers
             SetUpSlots();
             container.GetComponentInChildren<Selectable>().Select();
         }
-
+        
         public void Init(IInventory inventory)
         {
             _itemInventory = (ItemInventory) inventory;
@@ -85,7 +78,8 @@ namespace Ui.Inventories.InventoryControllers
         {
             int index = 0;
             _slots.Clear();
-            foreach (Transform child in container.transform) Destroy(child.gameObject);
+            GameObjectUtils.ClearChildren(container.transform);
+
 
             //WeaponSlotSetup
             if (weaponItemStackSlot != null)
@@ -126,9 +120,11 @@ namespace Ui.Inventories.InventoryControllers
             if (!to.CanFit(from.ItemStack)) return;
 
             if (from.Controller != to.Controller) CrossControllerExchange(from, to);
-            else if(from.Inventory != to.Inventory) CrossInventoryExchange(from, to);
+            else if (from.Inventory != to.Inventory) CrossInventoryExchange(from, to);
+            else if (from.ItemStack.Item == to.ItemStack.Item)
+                to.Inventory.CombineStacks(from.InventoryIndex, to.InventoryIndex);
             else to.Inventory.SwapSlots(from.InventoryIndex, to.InventoryIndex, out var _, out var _);
-            
+
             from.UpdateUi();
             to.UpdateUi();
         }
@@ -152,6 +148,17 @@ namespace Ui.Inventories.InventoryControllers
         }
 
         public void CrossControllerExchange(IItemStackSlot @from, IItemStackSlot @to) => CrossInventoryExchange(@from, to);
+        public void SplitSlot(IItemStackSlot slot)
+        {
+            slot.Inventory.SplitStack(slot.InventoryIndex, slot.ItemStack.Amount / 2);
+            UpdateSlots();
+        }
+
+        public void ClearSlot(IItemStackSlot slot)
+        {
+            slot.Inventory.RemoveStackAtSlot(slot.InventoryIndex);
+            slot.UpdateUi();
+        }
 
         public void ResetSlots()
         {

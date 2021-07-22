@@ -26,23 +26,6 @@ MonoBehaviour:
     as such is often recomended to first find some other weapon.'
   icon: {fileID: 5835390892846499524, guid: 595ad69a56f5276de80986588b48af3a, type: 3}
   abilities1:
-  - name: Left Hook
-    description: 'The bluntest thing on hand. (Pun intended).
-
-      Give enemies
-      a good left hook, even though you are using your right hand?'
-    icon: {fileID: 0}
-    coolDown: 1.5
-    properties:
-    - isElemental: 0
-      element: 0
-      attackType: 2
-      amount: 1
-    manaCost: 0
-    isProjectile: 0
-    projectilePreFab: {fileID: 0}
-    attackPoint: {x: 0.5, y: 0.4}
-    range: 0.3
-    animationName: Punch
+  - {fileID: 11400000, guid: 54b652e8b7bb4a6fcbee5c4a175501b5, type: 2}
   abilities2: []
   abilities3: []

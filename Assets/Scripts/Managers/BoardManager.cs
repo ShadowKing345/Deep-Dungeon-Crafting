@@ -2,16 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Board;
-using Pathfinding;
+using UnityEditor;
 using UnityEngine;
 using Utils;
 using Random = UnityEngine.Random;
+using Vector2 = UnityEngine.Vector2;
 
 namespace Managers
 {
     public class BoardManager : MonoBehaviour
     {
         private static BoardManager _instance;
+
         public static BoardManager Instance
         {
             get
@@ -21,207 +23,178 @@ namespace Managers
             }
             private set
             {
-                if(_instance != null && _instance != value) Destroy(value);
+                if (_instance != null && _instance != value) Destroy(value);
                 _instance = value;
             }
         }
 
         private GameManager _gameManager;
-        private AstarPath _astarPath;
 
-        public int FloorNumber { get; set; }
+        [SerializeField] private FloorSettings floorSettings;
+        [SerializeField] private Transform board;
 
-        [SerializeField] private FloorScheme floorScheme;
-        [SerializeField] private List<Vector2> floorList = new List<Vector2>();
-        [SerializeField] private List<Vector2> roomPositions = new List<Vector2>() ;
-
-        [Space]
-        [SerializeField] private Vector2 gridSize;
-
-        [Space]
-        [SerializeField] private int numberOfRooms;
-        [SerializeField] private Vector2 roomSize;
-
-        [Space] [SerializeField] private Transform board;
-
-        private readonly Dictionary<Vector2, Room> roomLookUp = new Dictionary<Vector2, Room>();
-        private readonly Direction[] _directions = {Direction.S, Direction.W, Direction.E, Direction.N};
-        private const int EmergencyLoopExit = 32;
-
-        private void OnEnable()
+        [Space] [Header("Internal Variables")]
+        [SerializeField] private Vector2Int gridSize;
+        [SerializeField] private int roomNumber;
+        
+        public FloorSettings FloorSettings
         {
-            Instance = this;
-            _gameManager = GameManager.Instance;
-            floorScheme ??= _gameManager.FloorScheme;
-            
-            _astarPath = AstarPath.active != null ? AstarPath.active : GetComponent<AstarPath>();
+            get => floorSettings;
+            set => floorSettings = value;
+        }
+        public int CurrentFloor { get; set; }
+        
+        private readonly Dictionary<Vector2Int, GameObject> rooms = new Dictionary<Vector2Int, GameObject>();
+        private readonly List<Vector2Int> roomPositions = new List<Vector2Int>();
+        private const int EmergencyLoopExit = 100;
+
+        private void Awake() => _gameManager = GameManager.Instance;
+
+        public void ResetLists()
+        {
+            rooms.Clear();
+            roomPositions.Clear();
+            GameObjectUtils.ClearChildren(board);
+        }
+
+        public void InitializeVariables()
+        {
+            gridSize = new Vector2Int(Random.Range(floorSettings.GridWidth.Min, floorSettings.GridWidth.Max),Random.Range(floorSettings.GridHeight.Min, floorSettings.GridHeight.Max)) + Vector2Int.one * CurrentFloor / 3;
+            roomNumber = Random.Range(floorSettings.RoomCount.Min, floorSettings.RoomCount.Max + 1) + _gameManager.CurrentFloor / 3;
         }
         
-        public void ResetBoard()
+        public void GenerateLayout()
         {
-            floorList.Clear();
-            roomPositions.Clear();
-            roomLookUp.Clear();
-            foreach (Transform child in board) Destroy(child.gameObject);
-        }
-
-        public void InitVariables()
-        {
-            gridSize = new Vector2(Random.Range(floorScheme.floorWidth.Min, floorScheme.floorWidth.Max + 1), Random.Range(floorScheme.floorHeight.Min, floorScheme.floorHeight.Max + 1)) + Vector2.one * FloorNumber;
-            roomSize = new Vector2(Random.Range(floorScheme.roomWidth.Min, floorScheme.roomWidth.Max + 1), Random.Range(floorScheme.roomHeight.Min, floorScheme.roomHeight.Max + 1)) + Vector2.one * Mathf.FloorToInt(FloorNumber / 3f);
-
-            numberOfRooms = Random.Range(floorScheme.numberOfRooms.Min, floorScheme.numberOfRooms.Max) + FloorNumber;
-        }
-
-        public void CreateRoomLayout()
-        {
-            for (int i = 0; i < gridSize.x; i++)
-                for (int j = 0; j < gridSize.y; j++)
-                    floorList.Add(new Vector2(i, j));
-
-            if (floorList.Count <= 0) return;
-            
-            int roomCount = numberOfRooms;
+            int roomCount = roomNumber;
             int loopExit = EmergencyLoopExit + roomCount;
-            List<int> roomIndex = new List<int>();
-            int currentPos = Random.Range(0, floorList.Count);
 
-            roomIndex.Add(currentPos);
+            Vector2Int currentPos = new Vector2Int(Random.Range(0, gridSize.x), Random.Range(0, gridSize.y));
+
+            roomPositions.Add(currentPos);
             roomCount--;
 
-            List<Direction> directionHold = new List<Direction>(_directions);
-            
-            while (roomCount > 0 && loopExit > 0 )
+            List<Direction> directionHold = new List<Direction>(DirectionUtils.Cardinals);
+
+            while (roomCount > 0 && loopExit > 0)
             {
                 Direction direction = directionHold[Random.Range(0, directionHold.Count)];
 
-                if (TryGetIndexFromDirection(currentPos, (int) gridSize.x, (int) gridSize.y, direction, out currentPos))
+                if (TryGetIndexFromDirection(currentPos, gridSize, direction, out currentPos) &&
+                    !roomPositions.Contains(currentPos))
                 {
-                    if (roomIndex.Contains(currentPos)) continue;
-                    
-                    roomIndex.Add(currentPos);
-                    directionHold = new List<Direction>(_directions);
+                    roomPositions.Add(currentPos);
+                    directionHold = new List<Direction>(DirectionUtils.Cardinals);
                     roomCount--;
                 }
-                
+
                 directionHold.RemoveAt(directionHold.IndexOf(direction));
 
                 if (directionHold.Count <= 0)
                 {
-                    directionHold = new List<Direction>(_directions);
-                    currentPos = roomIndex[Random.Range(0, roomIndex.Count)];
+                    directionHold = new List<Direction>(DirectionUtils.Cardinals);
+                    currentPos = roomPositions[Random.Range(0, roomPositions.Count)];
                 }
 
                 loopExit--;
             }
-
-            foreach (int index in roomIndex)
-            {
-                roomPositions.Add(floorList[index]);
-            }
         }
 
-        public void CreateRoomObj()
+        public void CreateRooms()
         {
-            if (board == null) return;
+            int spacing = 3;
+            rooms.Add(roomPositions[0], Instantiate(floorSettings.Entrance, board));
+            rooms.Add(roomPositions[roomPositions.Count - 1], Instantiate(floorSettings.Exit, board));
             
-            foreach (Vector2 roomPos in roomPositions)
+            for (int i = 1; i < roomPositions.Count - 1; i++)
             {
-                GameObject roomObj = new GameObject($"Room{roomPos.ToString()}");
-                
-                roomObj.transform.SetParent(board);
-                roomObj.transform.SetPositionAndRotation(new Vector3(roomPos.x * roomSize.x, roomPos.y * roomSize.y, board.position.z), Quaternion.identity);
-                
-                Board.Room room = roomObj.AddComponent<Board.Room>();
-                roomLookUp.Add(roomPos, room);
+                rooms.Add(roomPositions[i], Instantiate(floorSettings.Rooms[Random.Range(0, floorSettings.Rooms.Length)], board));
             }
-        }
 
-        public void LinkRoomsTogether()
-        {
-            foreach (KeyValuePair<Vector2, Board.Room> kvPair in roomLookUp)
+            for (int i = 0; i < gridSize.x; i++)
             {
-                Vector2 pos = kvPair.Key;
-                int index = floorList.IndexOf(pos);
-                DirectionObj<Board.Room> directionObj = new DirectionObj<Board.Room>();
-
-                foreach (Direction direction in _directions)
+                for (int j = 0; j < gridSize.y; j++)
                 {
-                    Board.Room room = null;
-
-                    if (TryGetIndexFromDirection(index, (int) gridSize.x, (int) gridSize.y, direction, out int adjacentRoomIndex))
-                        roomLookUp.TryGetValue(floorList[adjacentRoomIndex], out room);
-
-                    directionObj.SetDirection( direction, room);
+                    Vector2Int pos = new Vector2Int(i, j);
+                    
+                    if (!rooms.TryGetValue(pos, out GameObject obj))
+                        continue;
+                    
+                    obj.transform.position = (Vector2) pos * (floorSettings.RoomSize + Vector2Int.one * spacing);
                 }
-
-                kvPair.Value.nearbyRooms = directionObj;
             }
         }
 
-        public void GenerateRoomsTiles()
+        public void ConnectRooms()
         {
-            foreach (KeyValuePair<Vector2, Board.Room> kvPair in roomLookUp)
-            {
-                Board.Room room = kvPair.Value;
-
-                room.Init(kvPair.Key, roomSize, floorScheme);
-                room.ResetLists();
-                room.FillTiles();
-            }
+            Dictionary<Vector2Int, DirectionalObj<Room>> d = new Dictionary<Vector2Int, DirectionalObj<Room>>();
             
-            foreach (Board.Room room in roomLookUp.Values)
+            foreach (KeyValuePair<Vector2Int,GameObject> kvPair in rooms)
             {
-                room.SetupDoors();
+                DirectionalObj<Room> roomRoom = new DirectionalObj<Room>();
+                foreach (Direction direction in DirectionUtils.Cardinals)
+                    if (rooms.TryGetValue(kvPair.Key + Vector2Int.CeilToInt(direction.GetVectorDirection()),
+                        out GameObject obj))
+                        if (obj.TryGetComponent(out Room room))
+                            roomRoom.SetDirection(direction, room);
+                
+                d.Add(kvPair.Key, roomRoom);
             }
+
+            foreach (KeyValuePair<Vector2Int,GameObject> kvPair in rooms)
+                if (kvPair.Value.TryGetComponent(out Room room))
+                    room.ConnectedRooms = d[kvPair.Key];
         }
 
-        public void SetupPathFinder()
+        public void PlacePlayer()
         {
-            GridGraph gg = _astarPath.data.gridGraph;
-            
-            Vector2 size = roomSize * gridSize;
-
-            gg.SetDimensions((int) size.x, (int) size.y, gg.nodeSize);
-            gg.center = size / 2f;
-               
-            _astarPath.Scan();
+            if(rooms.First().Value.TryGetComponent(out Room room)) room.EntranceTile.PlacePlayer();
         }
-
-        public void GenerateRoomObject()
+        
+        public void FillInRoof()
         {
-            Board.Room[] rooms = roomLookUp.Values.ToArray();
-            for(int i = 1; i < rooms.Length -1; i++)
-            {
-                rooms[i].SpawnEnemy();
-            }
-            
-            rooms[0].SetupEntrance();
-            rooms[rooms.Length - 1].SetupExit();
+            GameObject roofContainer = new GameObject("Roof Container");
+            roofContainer.transform.SetParent(board);
+            roofContainer.transform.position = new Vector3(0,0, 10);
+            int spacing = 3;
+            Vector2Int tileCount = gridSize * floorSettings.RoomSize + (gridSize - Vector2Int.one) * spacing;
+
+            for (int i = -spacing; i < tileCount.x + spacing; i++)
+            for (int j = -spacing; j < tileCount.y + spacing; j++) 
+                Instantiate(floorSettings.Roof, roofContainer.transform, false).transform.position = roofContainer.transform.position + new Vector3(i,j);
         }
 
-        private static bool TryGetIndexFromDirection(int i, int width, int height, Direction direction, out int result)
+        private static bool TryGetIndexFromDirection(Vector2Int currentPos, Vector2Int gridSize, Direction direction, out Vector2Int newPos)
         {
-            switch (direction)
-            {
-                case Direction.S when i % width - 1 >= 0:
-                    result = i - 1;
-                    return true;
-                case Direction.W when i - width >= 0:
-                    result = i - width;
-                    return true;
-                case Direction.N when i % width + 1 < width:
-                    result = i + 1;
-                    return true;
-                case Direction.E when i + width < width * height:
-                    result = i + width;
-                    return true;
-                default:
-                    result = i;
-                    return false;
-            }
-        }
+            Vector2 directionVector2 = direction.GetVectorDirection();
+            newPos = currentPos + Vector2Int.CeilToInt(directionVector2);
 
-        public void PlacePlayer() => roomLookUp.FirstOrDefault().Value.PlacePlayer();
+            return 0 <= newPos.x && newPos.x < gridSize.x && 0 <= newPos.y && newPos.y < gridSize.y;
+        }
     }
+
+#if UNITY_EDITOR
+    [CustomEditor(typeof(BoardManager))]
+    public class BoardManagerEditor : UnityEditor.Editor
+    {
+        private bool foldOutButtons = true;
+
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+            BoardManager manager = target as BoardManager;
+
+            if (manager == null) return;
+
+            foldOutButtons = EditorGUILayout.Foldout(foldOutButtons, "Buttons");
+            
+            if(GUILayout.Button("Reset")) manager.ResetLists();
+            if(GUILayout.Button("Initialize")) manager.InitializeVariables();
+            if(GUILayout.Button("Generate Layout")) manager.GenerateLayout();
+            if(GUILayout.Button("Create Rooms")) manager.CreateRooms();
+            if(GUILayout.Button("Fill Roof")) manager.FillInRoof();
+            if(GUILayout.Button("Connect Rooms")) manager.ConnectRooms();
+            if(GUILayout.Button("Place Player")) manager.PlacePlayer();
+        }
+    }
+#endif
 }

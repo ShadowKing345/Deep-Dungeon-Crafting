@@ -44,6 +44,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -73,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4ecfe5c342c71d77aad43da89d15e765, type: 3}
+  m_Sprite: {fileID: -951980815348803628, guid: a33bd46d9bf7cee448406ef2d4f1cbad, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -97,10 +98,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textures:
-  - south: {fileID: 6989025824705588960, guid: 192330d731d6899a4b3c21d4f565ac72, type: 3}
-    west: {fileID: -3406613346142803072, guid: 192330d731d6899a4b3c21d4f565ac72, type: 3}
-    north: {fileID: -2751703647190298515, guid: 192330d731d6899a4b3c21d4f565ac72, type: 3}
-    east: {fileID: 6460820391609829285, guid: 192330d731d6899a4b3c21d4f565ac72, type: 3}
+  - south: {fileID: -951980815348803628, guid: a33bd46d9bf7cee448406ef2d4f1cbad, type: 3}
+    west: {fileID: -334775798268518426, guid: a33bd46d9bf7cee448406ef2d4f1cbad, type: 3}
+    north: {fileID: 7769915176998165955, guid: a33bd46d9bf7cee448406ef2d4f1cbad, type: 3}
+    east: {fileID: 5906776677584661453, guid: a33bd46d9bf7cee448406ef2d4f1cbad, type: 3}
   direction: 3
   spriteRenderer: {fileID: 8235207684878266497}
 --- !u!61 &5453670785018282933
@@ -120,12 +121,12 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.5, y: 0.5}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.0001, y: 1.0001}
   m_EdgeRadius: 0

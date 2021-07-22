@@ -85,10 +85,8 @@ namespace Inventory
         public void ResetInventory() => weapon.Clear();
         public int Size => 1;
 
-        public void SwapSlots(int fromIndex, int toIndex, out ItemStack fromStack,out ItemStack toStack) => throw new NotImplementedException();
-        public void SplitStack(int index, int amount)
-        {
-            throw new NotImplementedException();
-        }
+        public void SwapSlots(int fromIndex, int toIndex, out ItemStack fromStack, out ItemStack toStack) { fromStack = ItemStack.Empty; toStack = ItemStack.Empty; }
+        public void SplitStack(int index, int amount) { }
+        public void CombineStacks(int fromIndex, int toIndex) { }
     }
 }

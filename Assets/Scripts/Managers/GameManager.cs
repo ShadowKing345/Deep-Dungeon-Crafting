@@ -1,9 +1,9 @@
-using System.Collections;
+using System;
 using Board;
 using Combat;
+using Entity.Player;
+using Interfaces;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 using Utils;
 
 namespace Managers
@@ -20,96 +20,159 @@ namespace Managers
             }
             private set
             {
-                if(_instance != null && _instance != value) Destroy(value);
+                if (_instance != null && _instance != value)
+                {
+                    Destroy(value);
+                    return;
+                }
                 _instance = value;
                 DontDestroyOnLoad(value);
             }
         }
         
+        private SceneManager _sceneManager;
+
         public string savePath;
 
         private BoardManager boardManager;
-        [SerializeField] private int currentFloor = -1;
-        [SerializeField] private FloorScheme floorScheme;
-            
-        private int CurrentFloor { get => currentFloor; set => currentFloor = value; }
-        public FloorScheme FloorScheme { get => floorScheme; set => floorScheme = value; }
+        [SerializeField] private int currentFloor = 0;
+        [SerializeField] private FloorSettings floorSettings;
+
+        public int CurrentFloor { get => currentFloor; set => currentFloor = value; }
+        public FloorSettings FloorScheme { get => floorSettings; set => floorSettings = value; }
         
         public WeaponClass noWeaponClass;
         public ControllerAsset controllerAsset;
+
+        public event Action OnApplicationClose;
         
-        [SerializeField] private Scenes currentScene;
-        
-        private void OnEnable()
+#if UNITY_EDITOR
+        [SerializeField] private bool loadMainMenu;
+#endif
+
+        private void Awake()
         {
             Instance = this;
-            boardManager = BoardManager.Instance;
+            _sceneManager = SceneManager.Instance;
 
-            if (currentScene != Scenes.Level) return;
+#if UNITY_EDITOR
+            if(loadMainMenu) _sceneManager.ChangeScene(SceneIndexes.MainMenu);
+#else
+            _sceneManager.ChangeScene(SceneIndexes.MainMenu);
+#endif
+        }
+
+        private void OnEnable()
+        {
+            _sceneManager.OnBeginSceneChange += OnBeginSceneChange;
+            _sceneManager.OnEndSceneChange += OnEndSceneChange;
+        }
+
+        private void OnDisable()
+        {
+            _sceneManager.OnBeginSceneChange -= OnBeginSceneChange;
+            _sceneManager.OnEndSceneChange -= OnEndSceneChange;
+        }
+
+        public void StartLevel()
+        {
+            boardManager.CurrentFloor = CurrentFloor;
+            boardManager.FloorSettings = floorSettings;
             
-            currentFloor = -1;
-            StartCoroutine(DelayedAction());
-        }
-
-        IEnumerator DelayedAction()
-        {
-            yield return new WaitForFixedUpdate();
-            NextFloor();
-        }
-
-        public void SetupBoard()
-        {
-            boardManager.ResetBoard();
-            boardManager.InitVariables();
-            boardManager.CreateRoomLayout();
-            boardManager.CreateRoomObj();
-            boardManager.LinkRoomsTogether();
-            boardManager.GenerateRoomsTiles();
-            boardManager.SetupPathFinder();
-            boardManager.GenerateRoomObject();
+            boardManager.ResetLists();
+            boardManager.InitializeVariables();
+            boardManager.GenerateLayout();
+            boardManager.CreateRooms();
+            boardManager.ConnectRooms();
+            boardManager.FillInRoof();
             boardManager.PlacePlayer();
         }
 
         public void NextFloor()
         {
-            if (boardManager == null) return;
-            // blacken the screen.
-
-            if (++CurrentFloor >= 10) { ChangeScene(Scenes.Hub); }
-            boardManager.FloorNumber = CurrentFloor;
-
-            // clear the board.
-            boardManager.ResetBoard();
+            if (++CurrentFloor > 10) { FinishRun(); }
             
-            // load board with new floor data.
-            boardManager.ResetBoard();
-            boardManager.InitVariables();
-            boardManager.CreateRoomLayout();
-            boardManager.CreateRoomObj();
-            boardManager.LinkRoomsTogether();
-            boardManager.GenerateRoomsTiles();
-            boardManager.SetupPathFinder();
-            boardManager.GenerateRoomObject();
+            boardManager.ResetLists();
+            boardManager.InitializeVariables();
+            boardManager.GenerateLayout();
+            boardManager.CreateRooms();
+            boardManager.ConnectRooms();
+            boardManager.FillInRoof();
             boardManager.PlacePlayer();
         }
-        
-        public void EndRun() => ChangeScene(Scenes.Hub);
-        public void ExitGame() => Application.Quit();
-        public void QuitGame() => ChangeScene(Scenes.MainMenu);
 
-        public void ChangeScene(Scenes scene)
+        public void LoadLevel(FloorSettings scheme)
         {
-            currentScene = scene;
-            SceneManager.LoadScene((int) scene);
+            floorSettings = scheme;
+            
+            _sceneManager.ChangeScene(SceneIndexes.Level, () =>
+            {
+                boardManager = BoardManager.Instance;
+                boardManager.FloorSettings = floorSettings;
+                StartLevel();
+            });
         }
 
-        public enum Scenes
+        public void LoadHub(string savePath)
         {
-            MainMenu = 0,
-            Dev = 1,
-            Hub = 2,
-            Level = 3,
-            Level0 = 4
+            this.savePath = savePath;
+
+            _sceneManager.ChangeScene(SceneIndexes.Hub);
+        }
+
+        public void FinishRun()
+        {
+            _sceneManager.ChangeScene(SceneIndexes.Hub);
+        }
+        
+        public void EndRun()
+        {
+            FindObjectOfType<PlayerInventory>().SaveInventory = false;
+            _sceneManager.ChangeScene(SceneIndexes.Hub);
+        }
+
+        public void QuitGame() => _sceneManager.ChangeScene(SceneIndexes.MainMenu);
+        public void ExitGame()
+        {
+            OnApplicationClose?.Invoke();
+            Application.Quit();
+        }
+
+        private void OnBeginSceneChange(SceneIndexes index) {
+            switch (index)
+            {
+                case SceneIndexes.Persistent:
+                case SceneIndexes.MainMenu:
+                case SceneIndexes.Dev:
+                    break;
+                case SceneIndexes.Hub:
+                case SceneIndexes.Level:
+                case SceneIndexes.Level0:
+                    Player.OnPlayerDeath -= PlayerDeath;
+                    break;
+            }
+        }
+
+        private void OnEndSceneChange(SceneIndexes index)
+        {
+            switch (index)
+            {
+                case SceneIndexes.Persistent:
+                case SceneIndexes.MainMenu:
+                case SceneIndexes.Dev:
+                    break;
+                case SceneIndexes.Hub:
+                case SceneIndexes.Level:
+                case SceneIndexes.Level0:
+                    Player.OnPlayerDeath += PlayerDeath;
+                    break;
+            }
+        }
+
+        private void PlayerDeath()
+        {
+            FindObjectOfType<PlayerInventory>().ResetEveryInventory();
+            _sceneManager.ChangeScene(SceneIndexes.Hub);
         }
     }
 }

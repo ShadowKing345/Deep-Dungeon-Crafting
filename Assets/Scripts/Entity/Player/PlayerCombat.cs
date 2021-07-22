@@ -1,11 +1,9 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using Combat;
-using Interfaces;
 using Items;
 using Managers;
-using Statistics;
-using Ui.Notifications;
+using Unity.Mathematics;
 using UnityEngine;
 using Utils;
 
@@ -33,7 +31,7 @@ namespace Entity.Player
         private float comboCoolDown;
         [SerializeField] private bool isComboActive;
 
-        private Ability[][] abilities;
+        private AbilityBase[][] abilities;
         private bool IsWeaponClassNull => currentClass == null;
         
         private void OnEnable()
@@ -55,7 +53,10 @@ namespace Entity.Player
             if (playerInventory == null || playerInventory.WeaponInventory == null) return;
                 
             playerInventory.WeaponInventory.OnWeaponChanged += ChangeWeapon;
+        }
 
+        private void Start()
+        {
             ItemStack weaponSlot = playerInventory.WeaponInventory.GetStackAtSlot(0);
 
             currentClass = weaponSlot.IsEmpty ? GameManager.Instance.noWeaponClass : ((WeaponItem) playerInventory.WeaponInventory.GetStackAtSlot(0).Item).WeaponClass;
@@ -71,10 +72,12 @@ namespace Entity.Player
 
         public void ExecuteAbility(WeaponClass.AbilityIndex index)
         {
-            StatisticsManager.Instance.SetKeyValue("player.combat.action", Enum.GetName(typeof(WeaponClass.AbilityIndex), index));
-            
             if (actionCoolDown > Time.time) return;
-            
+
+            StartCoroutine(Attack(index));
+        }
+        
+        private IEnumerator Attack(WeaponClass.AbilityIndex index){
             if (currentAbilityIndex != index)
             {
                 // NotificationSystem.Instance.Log("Ability Change. Resetting.");
@@ -82,30 +85,39 @@ namespace Entity.Player
                 currentAbilityIndex = index;
             }
 
-            if (abilities[(int) index].Length <= 0) return;
-            
+            if (abilities[(int) index].Length <= 0) yield return null;
+
             if (combo >= abilities[(int) index].Length)
             {
                 // NotificationSystem.Instance.Error("Combo out of bounds, resetting to safer state");
                 ResetAllCooldown();
             }
 
-            Ability ability = abilities[(int) index][combo];
-            if (ability == null) return;
-            
-            _uiManager.SetAbilityUiCoolDown(index, ability.CoolDown);
+            AbilityBase ability = abilities[(int) index][combo];
+            if (ability == null) yield return null;
+
+            _uiManager.HudElements.SetAbilityUiCoolDown(index, ability.CoolDown);
             actionCoolDown = Time.time + ability.CoolDown;
 
-            IDamageable[] hitList = CombatUtils.GetHitList(ability, player, animator.CurrentDirection);
+            animator.PlayAttackAnimation(ability.AttackAnimationName);
 
-            bool hitLanded = false;
-            animator.PlayAttackAnimation(ability.AnimationName);
+            yield return new WaitForSeconds(animator.GetAnimationLength(ability.AttackAnimationName));
+            
+            if (ability.IsProjectile)
+            {
+                if(ability.ProjectilePreFab == null) yield return null;
+                
+                GameObject projectileObj = Instantiate(ability.ProjectilePreFab, CombatUtils.GetAttackDirection(ability, transform, player.Stats.GetCenterPos, animator.CurrentDirection) , quaternion.identity);
 
-            foreach (IDamageable damageable in hitList)
-                if (damageable.Damage(ability.Properties))
-                    hitLanded = true;
+                if (!projectileObj.TryGetComponent(out ProjectileEntity projectile)) yield return null;
+               
+                projectile.Direction = animator.CurrentDirection;
+                projectile.Caster = player;
 
-            if (!hitLanded) return;
+                yield return null;
+            }
+            
+            if (!ability.Execute(player, CombatUtils.GetHitList(ability, transform, player.Stats.GetCenterPos, animator.CurrentDirection))) yield return null;
 
             combo++;
             if (combo >= abilities[(int) index].Length)
@@ -113,8 +125,8 @@ namespace Entity.Player
 
             comboCoolDown = Time.time + 5f;
             isComboActive = true;
-            
-            _uiManager.SetAbilityUiComboIndex(index, combo);
+
+            _uiManager.HudElements.SetAbilityUiComboIndex(index, combo);
         }
 
         private void ChangeWeapon(WeaponClass @class)
@@ -129,7 +141,7 @@ namespace Entity.Player
             ResetAllCooldown();
             abilities = @class.Abilities;
 
-            _uiManager.InitializeAbilityUi(this, new Dictionary<WeaponClass.AbilityIndex, Ability[]>
+            _uiManager.HudElements.InitializeAbilityUi(this, new Dictionary<WeaponClass.AbilityIndex, AbilityBase[]>
             {
                 {WeaponClass.AbilityIndex.Abilities1, abilities[0]},
                 {WeaponClass.AbilityIndex.Abilities2, abilities[1]},
@@ -143,7 +155,7 @@ namespace Entity.Player
             comboCoolDown = 0;
             currentAbilityIndex = WeaponClass.AbilityIndex.None;
             isComboActive = false;
-            _uiManager.SetAbilityUiComboIndex(index, 0);
+            _uiManager.HudElements.SetAbilityUiComboIndex(index, 0);
         }
 
         private void ResetAllCooldown()
@@ -158,7 +170,8 @@ namespace Entity.Player
         [Space]
         [Header("Attack Point Gizmos Helper")]
         public float abilityRange;
-        public Vector2 attackPoint;
+        public float attackOffset;
+        public Vector2 centerOffset;
         public Direction direction;
 
         private void OnDrawGizmosSelected()
@@ -166,9 +179,7 @@ namespace Entity.Player
             if (player == null) return;
             if (abilityRange <= 0) return;
 
-            Gizmos.DrawWireSphere(
-                (Vector2) transform.position + player.Stats.GetCenterPos + CombatUtils.GetPosFromDirection(attackPoint, direction),
-                abilityRange);
+            Gizmos.DrawWireSphere((Vector2) transform.position + player.Stats.GetCenterPos + centerOffset + direction.GetVectorDirection() * attackOffset, abilityRange);
         }
     }
 }

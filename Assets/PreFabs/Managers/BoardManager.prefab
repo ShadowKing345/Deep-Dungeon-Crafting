@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 14221270929257523}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 14221271038092927}
@@ -75,13 +75,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbd60356f9a84ca595ef50c225f08cde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorScheme: {fileID: 11400000, guid: 7107a6fc91b87a77b84c958b5ce2a0ce, type: 2}
-  floorList: []
-  roomPositions: []
-  gridSize: {x: 0, y: 0}
-  numberOfRooms: 0
-  roomSize: {x: 0, y: 0}
+  floorSettings: {fileID: 11400000, guid: 83498fa605972abd3871c511754c87cb, type: 2}
   board: {fileID: 14221270929257522}
+  gridSize: {x: 0, y: 0}
+  roomNumber: 0
 --- !u!114 &14221271038092926
 MonoBehaviour:
   m_ObjectHideFlags: 0

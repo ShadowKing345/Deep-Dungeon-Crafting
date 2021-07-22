@@ -1,0 +1,23 @@
+{
+  "keys": {
+    "d": "door",
+    "e": "enemy",
+    "s": "entrance",
+    "*": "exit",
+    " ": "floor",
+    "o": "obstacle",
+    "w": "wall",
+    "r": "roof"
+  },
+  "room": [
+    "wwwwwwdwwwwww",
+    "w           w",
+    "w           w",
+    "w     o     w",
+    "d    o o    d",
+    "w     o     w",
+    "w           w",
+    "w           w",
+    "wwwwwwdwwwwww"
+  ]
+}

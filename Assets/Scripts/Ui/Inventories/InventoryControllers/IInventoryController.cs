@@ -10,6 +10,8 @@ namespace Ui.Inventories.InventoryControllers
         void ExchangeItemStacks(IItemStackSlot from, IItemStackSlot to);
         void CrossInventoryExchange(IItemStackSlot from, IItemStackSlot to);
         void CrossControllerExchange(IItemStackSlot from, IItemStackSlot to);
+        void SplitSlot(IItemStackSlot slot);
+        void ClearSlot(IItemStackSlot slot);
         void ResetSlots();
 
         void UpdateSlots();

@@ -80,13 +80,19 @@ namespace Entity
         {
             attackName = animationName;
             state = State.Attacking;
-            AnimationClip attackAnimation = animator.runtimeAnimatorController.animationClips.FirstOrDefault(clip =>
-                clip.name == (ignoreDirection ? attackName : attackName + "-" + _directions[(int) currentDirection]));
-
-            if (attackAnimation != null) attackCoolDown = Time.time + attackAnimation.length;
+            
+            attackCoolDown = Time.time + GetAnimationLength(attackName);
         }
 
-        public enum State
+        public float GetAnimationLength(string animationName)
+        {
+            AnimationClip animationClip = animator.runtimeAnimatorController.animationClips.FirstOrDefault(clip =>
+                clip.name == (ignoreDirection ? attackName : attackName + "-" + _directions[(int) currentDirection]));
+
+            return animationClip != null ? animationClip.length : 0;
+        }
+
+        private enum State
         {
             Idle,
             Moving,

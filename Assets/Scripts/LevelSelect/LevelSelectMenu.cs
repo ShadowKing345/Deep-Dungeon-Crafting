@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Board;
+using Entity.Player;
+using Enums;
 using Interfaces;
 using Managers;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
@@ -13,20 +14,36 @@ namespace LevelSelect
     public class LevelSelectMenu : MonoBehaviour, IUiWindow
     {
         private GameManager _gameManager;
+        private UiManager _uiManager;
+
+        private PlayerMovement playerMovement;
+        private PlayerCombat playerCombat;
         
         [SerializeField] private ToggleGroup toggleGroup;
         [SerializeField] private GameObject levelSelectEntry;
         [SerializeField] private Transform content;
 
-        private List<FloorScheme> floors;
+        private List<FloorSettings> floors;
         private readonly List<Toggle> toggles = new List<Toggle>();
+
+        private void Awake()
+        {
+            _gameManager = GameManager.Instance;
+            _uiManager = UiManager.Instance;
+            _uiManager.RegisterWindow(WindowReference.LevelSelector, gameObject);
+            
+            gameObject.SetActive(false);
+        }
+
+        private void OnDestroy() => _uiManager.UnregisterWindow(WindowReference.LevelSelector, gameObject);
 
         private void OnEnable()
         {
-            _gameManager = GameManager.Instance;
-            
+            playerCombat ??= FindObjectOfType<PlayerCombat>();
+            playerMovement ??= FindObjectOfType<PlayerMovement>();
+
             GameObjectUtils.ClearChildren(content);
-            floors = Resources.LoadAll<FloorScheme>("Floors").ToList();
+            floors = Resources.LoadAll<FloorSettings>("Floors").ToList();
             levelSelectEntry.SetActive(false);
             toggles.Clear();
             
@@ -35,7 +52,7 @@ namespace LevelSelect
 
         private void SetupToggles()
         {
-            foreach (FloorScheme floor in floors)
+            foreach (FloorSettings floor in floors)
             {
                 GameObject entry = Instantiate(levelSelectEntry, content);
                 entry.SetActive(true);
@@ -45,7 +62,7 @@ namespace LevelSelect
                     toggles.Add(toggle);
                 }
 
-                entry.GetComponentInChildren<TextMeshProUGUI>().text = floor.name;
+                // entry.GetComponentInChildren<TextMeshProUGUI>().text = floor.name;
             }
 
             if (_gameManager.FloorScheme == null)
@@ -56,18 +73,11 @@ namespace LevelSelect
 
         public void OnStartClick()
         {
-            _gameManager.FloorScheme = floors[toggles.IndexOf(toggleGroup.GetFirstActiveToggle())];
-            _gameManager.ChangeScene(GameManager.Scenes.Level);
+            _gameManager.LoadLevel(floors[toggles.IndexOf(toggleGroup.GetFirstActiveToggle())]);
+            _uiManager.HideUiElement(WindowReference.LevelSelector);
         }
         
-        public void Show()
-        {
-            
-        }
-
-        public void Hide()
-        {
-            
-        }
+        public void Show() => playerMovement.enabled = playerCombat.enabled = false;
+        public void Hide() => playerMovement.enabled = playerCombat.enabled = true;
     }
 }

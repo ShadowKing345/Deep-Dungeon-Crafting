@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: 
   description: You.
-  maxHealth: 100
-  maxMana: 50
+  maxHealth: 1000
+  maxMana: 500
   resistances:
   - isElemental: 1
     element: 1

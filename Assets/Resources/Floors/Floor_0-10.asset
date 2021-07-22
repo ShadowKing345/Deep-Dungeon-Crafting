@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbc40015b79c4b2ebf1a05f520e52072, type: 3}
+  m_Name: Floor_0-10
+  m_EditorClassIdentifier: 
+  entrance: {fileID: 5623523644464042317, guid: b6d07372323f2bfd78b7640406039233, type: 3}
+  exit: {fileID: 4883278888159352825, guid: 57e84f47da3f378b9a1ba391604eff32, type: 3}
+  roof: {fileID: 8083257112825255671, guid: 0a0e7a34098f16892bce0990373f85aa, type: 3}
+  rooms:
+  - {fileID: 6384784246233524540, guid: a2ad1562bfd6f345fa5dbf233484cf09, type: 3}
+  - {fileID: 3015426023336185249, guid: 002d1a9d158f5ee2eb910cf708aa379d, type: 3}
+  - {fileID: 17606104389801800, guid: 81cc6c1f661862384b130468585f5328, type: 3}
+  - {fileID: 2384138031486963020, guid: 3406b80e4064bc01582181bae398eff5, type: 3}
+  - {fileID: 5958045775223202372, guid: 6c6c9bd6f7217dac5bd16e887a2d977c, type: 3}
+  - {fileID: 4298553463416574429, guid: 5f24b652fce4bd1bdb73979cde36c279, type: 3}
+  - {fileID: 4822758548258072252, guid: 65f32114a9f0ce633af26005765daf99, type: 3}
+  gridWidth:
+    min: 5
+    max: 9
+  gridHeight:
+    min: 5
+    max: 9
+  roomSize: {x: 13, y: 9}
+  roomCount:
+    min: 5
+    max: 10
+  enemies: []
+  enemyCount:
+    min: 0
+    max: 0
+  enemyChance: 0

@@ -6,181 +6,99 @@ using UnityEngine;
 
 namespace Editor.EditorWindows
 {
-    public class WeaponClassEditorWindow : ScriptableObjectEditorWindow
+    public class WeaponClassEditorWindow : EditorWindow
     {
-        private WeaponClass.AbilityIndex abilityIndex;
-        private string selectedAbilityPath = string.Empty;
-        
-        protected static WeaponClassEditorWindow Open<T>(string windowName) where T : ScriptableObject
+        private WeaponClass[] collection;
+        private SerializedObject selected;
+        private string selectedProperty;
+
+        public static WeaponClassEditorWindow Open()
         {
-            WeaponClassEditorWindow window = GetWindow<WeaponClassEditorWindow>(windowName);
+            WeaponClassEditorWindow window = GetWindow<WeaponClassEditorWindow>("Weapon Class Editor Window");
             window.collection = AssetDatabase
-                .FindAssets($"t:{typeof(T)}")
-                .Select(guid => AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(guid)))
-                .ToArray() as ScriptableObject[];
-            window.OnCreate();
+                .FindAssets($"t:{typeof(WeaponClass)}")
+                .Select(guid => AssetDatabase.LoadAssetAtPath<WeaponClass>(AssetDatabase.GUIDToAssetPath(guid)))
+                .ToArray();
             return window;
         }
 
-        protected static WeaponClassEditorWindow Open<T>(T selected, string windowName) where T : ScriptableObject
+        public static WeaponClassEditorWindow Open(WeaponClass @class)
         {
-            WeaponClassEditorWindow window = Open<T>(windowName);
-            window.selected = new SerializedObject(selected);
+            WeaponClassEditorWindow window = Open();
+            window.selected = new SerializedObject(@class);
             return window;
         }
         
-        public static void Open() => Open<WeaponClass>("Weapon Class Editor Window");
-
-        public static void Open(WeaponClass weaponClass) => Open(weaponClass, "Weapon Class Editor Window");
-
-        protected internal override void OnCreate() => onCollectionSelectionChange += ResetVariables;
-
-        private void OnGUI() => Draw(ContentDraw);
-
-        private void ContentDraw()
+        private void OnGUI()
         {
-            EditorGUILayout.BeginHorizontal("box", GUILayout.Height(150));
+            EditorGUILayout.BeginHorizontal();
             {
-                EditorGUILayout.ObjectField(selected.FindProperty("icon"), typeof(Sprite), GUIContent.none, GUILayout.Width(150), GUILayout.ExpandHeight(true));
-                EditorGUILayout.Space(10, false);
-                EditorGUILayout.BeginVertical(GUILayout.ExpandWidth(true));
-                {
-                    EditorGUILayout.PropertyField(selected.FindProperty("shortDescription"));
-                    EditorGUILayout.PropertyField(selected.FindProperty("longDescription"));
-                }
-                EditorGUILayout.EndVertical();
-            }
-            EditorGUILayout.EndHorizontal();
-            
-            EditorGUILayout.Space(10, false);
-            
-            DrawAbilities();
-        }
-
-        private void DrawAbilities()
-        {
-            EditorGUILayout.BeginVertical("box");
-            {
-                EditorGUILayout.BeginHorizontal("box");
-                {
-                    foreach (WeaponClass.AbilityIndex index in (WeaponClass.AbilityIndex[]) Enum.GetValues(typeof(WeaponClass.AbilityIndex)))
-                        if (GUILayout.Button(ObjectNames.NicifyVariableName(index.ToString())))
-                        {
-                            abilityIndex = index;
-                            selectedAbilityPath = string.Empty;
-                        }
-                }
-                EditorGUILayout.EndHorizontal();
+                GUILayoutOption[] verticalSlicesOptions = new[] { GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true)};
                 
-                EditorGUILayout.Space(10,false);
-                
-                DrawAbility();
-            }
-            EditorGUILayout.EndVertical();
-        }
-
-        private void DrawAbility()
-        {
-            SerializedProperty selectedAbilities = selected.FindProperty(abilityIndex switch
-            {
-                WeaponClass.AbilityIndex.Abilities1 => "abilities1",
-                WeaponClass.AbilityIndex.Abilities2 => "abilities2",
-                WeaponClass.AbilityIndex.Abilities3 => "abilities3",
-                _ => "ability1"
-            });
-
-            EditorGUILayout.BeginHorizontal("box", GUILayout.ExpandHeight(true));
-            {
-                EditorGUILayout.BeginVertical("box", GUILayout.Width(120));
+                EditorGUILayout.BeginVertical("box", verticalSlicesOptions.Concat(new []{GUILayout.MaxWidth(120)}).ToArray());
                 {
-                    EditorGUILayout.BeginVertical(GUILayout.ExpandHeight(true));
+                    EditorGUILayout.BeginVertical();
                     {
-                        foreach (SerializedProperty p in selectedAbilities)
-                            if (GUILayout.Button(p.displayName))
-                                selectedAbilityPath = p.propertyPath;
+                        EditorGUILayout.LabelField("Weapon Classes");
                     }
                     EditorGUILayout.EndVertical();
-                    
-                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.BeginVertical(verticalSlicesOptions.Concat(new []{GUILayout.MaxWidth(200)}).ToArray());
                     {
-                        if (GUILayout.Button("Add")) selectedAbilities.arraySize++;
-                        if (GUILayout.Button("Remove")) selectedAbilities.arraySize--;
+                        foreach (WeaponClass @class in collection)
+                            if (GUILayout.Button(@class.name))
+                                selected = new SerializedObject(@class);
                     }
-                    EditorGUILayout.EndHorizontal();
+                    EditorGUILayout.EndVertical();
                 }
                 EditorGUILayout.EndVertical();
-
-                EditorGUILayout.BeginVertical("box", GUILayout.ExpandWidth(true));
+                EditorGUILayout.BeginVertical("box", verticalSlicesOptions);
                 {
-                    DrawSelectedAbility();
+                    EditorGUILayout.BeginVertical();
+                    {
+                        EditorGUILayout.LabelField("Variables");
+                    }
+                    EditorGUILayout.EndVertical();
+                    EditorGUILayout.BeginVertical(verticalSlicesOptions);
+                    {
+                        if(selected != null)
+                            DrawClassProperties();
+                    }
+                    EditorGUILayout.EndVertical();
+                }
+                EditorGUILayout.EndVertical();
+                EditorGUILayout.BeginVertical("box", verticalSlicesOptions);
+                {
+                    EditorGUILayout.BeginVertical();
+                    {
+                        EditorGUILayout.LabelField("Abilities");
+                    }
+                    EditorGUILayout.EndVertical();
+                    EditorGUILayout.BeginVertical();
+                    {
+                        if(!string.IsNullOrEmpty(selectedProperty))
+                            DrawProperty();
+                    }
+                    EditorGUILayout.EndVertical();
                 }
                 EditorGUILayout.EndVertical();
             }
             EditorGUILayout.EndHorizontal();
         }
 
-        private void DrawSelectedAbility()
+        private void DrawClassProperties()
         {
-            if (string.IsNullOrEmpty(selectedAbilityPath))
-            {
-                EditorGUILayout.LabelField("Please select ability from the left.");
-                return;
-            }
+            if(GUILayout.Button(selected.FindProperty("shortDescription").displayName)) selectedProperty = "shortDescription";
+            if(GUILayout.Button(selected.FindProperty("longDescription").displayName)) selectedProperty = "longDescription";
+            if(GUILayout.Button(selected.FindProperty("icon").displayName)) selectedProperty = "icon";
 
-            SerializedProperty selectedAbility = selected.FindProperty(selectedAbilityPath);
-            
-            EditorGUILayout.BeginHorizontal("box", GUILayout.Height(120));
-            {
-                EditorGUILayout.ObjectField(selectedAbility.FindPropertyRelative("icon"), typeof(Sprite), GUIContent.none, GUILayout.Width(120), GUILayout.ExpandHeight(true));
-                
-                EditorGUILayout.Space(10, false);
-
-                EditorGUILayout.BeginVertical(GUILayout.ExpandWidth(true));
-                {
-                    EditorGUILayout.PropertyField(selectedAbility.FindPropertyRelative("name"));
-                    EditorGUILayout.PropertyField(selectedAbility.FindPropertyRelative("description"), GUILayout.ExpandHeight(true));
-                }
-                EditorGUILayout.EndVertical();
-            }
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.BeginVertical("box");
-            {
-                EditorGUILayout.PropertyField(selectedAbility.FindPropertyRelative("coolDown"));
-                EditorGUILayout.PropertyField(selectedAbility.FindPropertyRelative("manaCost"));
-            }
-            EditorGUILayout.EndVertical();
-
-            EditorGUILayout.BeginVertical("box");
-            {
-                EditorGUILayout.PropertyField(selectedAbility.FindPropertyRelative("properties"));
-            }
-            EditorGUILayout.EndVertical();
-
-            EditorGUILayout.BeginVertical("box");
-            {
-                EditorGUILayout.PropertyField(selectedAbility.FindPropertyRelative("isProjectile"));
-                EditorGUILayout.PropertyField(selectedAbility.FindPropertyRelative("projectilePreFab"));
-            }
-            EditorGUILayout.EndVertical();
-
-            EditorGUILayout.BeginVertical("box");
-            {
-                EditorGUILayout.PropertyField(selectedAbility.FindPropertyRelative("attackPoint"));
-                EditorGUILayout.PropertyField(selectedAbility.FindPropertyRelative("range"));
-            }
-            EditorGUILayout.EndVertical();
-
-            EditorGUILayout.BeginVertical("box");
-            {
-                EditorGUILayout.PropertyField(selectedAbility.FindPropertyRelative("animationName"));
-            }
-            EditorGUILayout.EndVertical();
+            if(GUILayout.Button(selected.FindProperty("abilities1").displayName)) selectedProperty = "abilities1";
+            if(GUILayout.Button(selected.FindProperty("abilities2").displayName)) selectedProperty = "abilities2";
+            if(GUILayout.Button(selected.FindProperty("abilities3").displayName)) selectedProperty = "abilities3";
         }
 
-        private void ResetVariables()
+        private void DrawProperty()
         {
-            selectedAbilityPath = string.Empty;
+            EditorGUILayout.PropertyField(selected.FindProperty(selectedProperty));
         }
     }
 

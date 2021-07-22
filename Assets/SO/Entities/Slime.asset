@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Slime
   m_EditorClassIdentifier: 
   description: Basic Slime Enemie
-  maxHealth: 20
+  maxHealth: 300
   maxMana: 0
   resistances:
   - isElemental: 0

@@ -1,4 +1,6 @@
+using Enums;
 using Interfaces;
+using Managers;
 using UnityEngine;
 
 namespace LevelSelect
@@ -7,7 +9,7 @@ namespace LevelSelect
     {
         public bool Interact(GameObject target)
         {
-            Debug.Log("Please Select Level");
+            UiManager.Instance.ToggleUiElement(WindowReference.LevelSelector);
             return true;
         }
     }

@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3658507624095691943}
   - component: {fileID: 3658507624095691940}
-  - component: {fileID: 3658507624095691941}
   - component: {fileID: 3658507624095691942}
   - component: {fileID: 3658507624095691946}
   - component: {fileID: 3658507624095691937}
@@ -18,7 +17,8 @@ GameObject:
   - component: {fileID: 3658507624095691936}
   - component: {fileID: 3658507624095691938}
   - component: {fileID: 1452273214156598086}
-  m_Layer: 0
+  - component: {fileID: 7102752428945130054}
+  m_Layer: 6
   m_Name: Slime
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -35,7 +35,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.7607, y: -0.45335445, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 2730959066611701359}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -80,7 +81,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  m_Sprite: {fileID: 3032439450092817888, guid: 2ddaa25f42409d57cb8cad66792471c3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -91,22 +92,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &3658507624095691941
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3658507624095691947}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
 --- !u!95 &3658507624095691942
 Animator:
   serializedVersion: 3
@@ -138,11 +123,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1e507ab9ec0e7dc68735ff3ef79b520, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 3658507624095691942}
   attackName: 
-  lastDirection: 0
+  currentDirection: 0
   state: 0
-  ignoreDirection: 0
+  ignoreDirection: 1
 --- !u!114 &3658507624095691937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,7 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentTarget: {fileID: 0}
-  currentlyThinking: 1
+  currentlyThinking: 0
   movementSpeed: 3
   agroRadius: 5
   attackRange: 1
@@ -164,22 +149,7 @@ MonoBehaviour:
   roamingDelay: 1.5
   attackCoolDown: 2.5
   windUpDelay: 0.8
-  ability:
-    name: Slime All Over
-    description: 
-    icon: {fileID: 0}
-    coolDown: 2.5
-    properties:
-    - isElemental: 1
-      element: 3
-      attackType: 3
-      amount: 10
-    manaCost: 0
-    isProjectile: 0
-    projectilePreFab: {fileID: 0}
-    attackPoint: {x: 0, y: 0}
-    range: 2
-    animationName: Attack
+  abilityBase: {fileID: 11400000, guid: fa8aeac45894f620f9b9368a44ffcd6d, type: 2}
 --- !u!114 &3658507624095691939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,6 +214,7 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: c18cc75fb47e43e479dcf2dcb470ba40, type: 2}
   currentHealth: 0
   currentMana: 0
+  godMode: 0
 --- !u!114 &1452273214156598086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,4 +228,104 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lootTable: {fileID: 11400000, guid: 0e933335d6e0b0f1383cb834f3f6e833, type: 2}
-  entityItemPreFab: {fileID: 0}
+  entityItemPreFab: {fileID: 8570763915544029614, guid: 9d5acc7755602f13ca558793b65ccb06, type: 3}
+--- !u!70 &7102752428945130054
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3658507624095691947}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.25}
+  m_Size: {x: 0.5, y: 0.2}
+  m_Direction: 1
+--- !u!1 &5185921424853653084
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2730959066611701359}
+  - component: {fileID: 4772274847257913117}
+  - component: {fileID: 821115141316497312}
+  - component: {fileID: 8574540985544908659}
+  m_Layer: 7
+  m_Name: EntityCollisionBlocker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2730959066611701359
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5185921424853653084}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3658507624095691943}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &4772274847257913117
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5185921424853653084}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &821115141316497312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5185921424853653084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccc377133ddb402cb2f58e1d4f9e7ab3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityCollider: {fileID: 7102752428945130054}
+  entityBlockerCollider: {fileID: 8574540985544908659}
+--- !u!70 &8574540985544908659
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5185921424853653084}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.25}
+  m_Size: {x: 0.5, y: 0.2}
+  m_Direction: 1

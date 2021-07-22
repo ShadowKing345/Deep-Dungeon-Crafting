@@ -1,7 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
+using Managers;
 using UnityEngine;
 using Utils;
 
@@ -17,80 +18,154 @@ namespace Statistics
                 _instance ??= FindObjectOfType<StatisticsManager>();
                 return _instance;
             }
-            set
+            private set
             {
-                if (_instance != null && _instance != value) Destroy(_instance);
-                DontDestroyOnLoad(value);
+                if (_instance != null && _instance != value)
+                {
+                    Destroy(value);
+                    return;
+                }
                 _instance = value;
+                DontDestroyOnLoad(value);
             }
         }
 
+        private GameManager _gameManager;
+        private SceneManager _sceneManager;
+        
         private static string _fileLocation;
-        
-        private Dictionary<string, object> _dictionary;
 
-        public Dictionary<string, object> Dictionary => _dictionary;
-        
+        public Dictionary<string, object> Dictionary { get; private set; }
+
+        private void Awake() => Instance = this;
+
         private void OnEnable()
         {
-            Instance = this;
-            _fileLocation ??= Path.Combine(Application.dataPath, "stats.stats");
+            _gameManager = GameManager.Instance;
+            _sceneManager = SceneManager.Instance;
 
-            _dictionary = SaveSystem.TryLoadObj(_fileLocation, out Dictionary<string, object> dictionary)
-                ? dictionary
-                : new Dictionary<string, object>();
+            _gameManager.OnApplicationClose += Save;
+            _sceneManager.OnBeginSceneChange += OnBeginSceneChange;
+            _sceneManager.OnEndSceneChange += OnEndSceneChange;
+        }
+        
+        private void OnDisable()
+        {
+            _gameManager.OnApplicationClose -= Save;
+            _sceneManager.OnBeginSceneChange -= OnBeginSceneChange;
+            _sceneManager.OnEndSceneChange -= OnEndSceneChange;
+            Save();
         }
 
-        private void OnDisable() => SaveSystem.SaveObj(_fileLocation, _dictionary);
+        private void OnBeginSceneChange(SceneIndexes index)
+        {
+            switch (index)
+            {
+                case SceneIndexes.Persistent:
+                case SceneIndexes.MainMenu:
+                case SceneIndexes.Dev:
+                    break;
+                case SceneIndexes.Hub:
+                case SceneIndexes.Level:
+                case SceneIndexes.Level0:
+                    Save();
+                    break;
+            }
+        }
+
+        private void OnEndSceneChange(SceneIndexes index)
+        {
+            switch (index)
+            {
+                case SceneIndexes.Persistent:
+                case SceneIndexes.MainMenu:
+                case SceneIndexes.Dev:
+                    break;
+                case SceneIndexes.Hub:
+                case SceneIndexes.Level:
+                case SceneIndexes.Level0:
+                    _fileLocation = Path.Combine(_gameManager.savePath, "statistics.stats");
+                    Load();
+                    break;
+            }
+                
+        }
+        
+        public void Load()
+        {
+            if (!isReady) return;
+            
+            if (!string.IsNullOrEmpty(_fileLocation))
+                Dictionary = SaveSystem.TryLoadObj(_fileLocation, out Dictionary<string, object> dictionary)
+                    ? dictionary
+                    : new Dictionary<string, object>();
+        }
+
+        public void Save()
+        {
+            if (!isReady) return;
+
+            if(!string.IsNullOrEmpty(_fileLocation)) SaveSystem.SaveObj(_fileLocation, Dictionary);
+        }
 
         private void AddKey(string keyPath, object value = null)
         {
+            if (!isReady) return;
+
             string key = ConvertPath(keyPath, out string[] path);
 
-            Dictionary<string, object> dict = MarchGet(path, _dictionary);
+            Dictionary<string, object> dict = MarchGet(path, Dictionary);
             dict.Add(key, value);
         }
-
+        
         public void SetKeyValue(string keyPath, object value)
         {
+            if (!isReady) return;
+
             if (KeyExists(keyPath))
             {
                 string key = ConvertPath(keyPath, out string[] path);
 
-                MarchGet(path, _dictionary)[key] = value;
+                MarchGet(path, Dictionary)[key] = value;
             }
             else
                 AddKey(keyPath, value);
         }
-
+        
         public void RemoveKey(string keyPath)
         {
+            if (!isReady) return;
+
             if(!KeyExists(keyPath)) return;
 
             string key = ConvertPath(keyPath, out string[] path);
-            MarchGet(path, _dictionary).Remove(key);
+            MarchGet(path, Dictionary).Remove(key);
         }
-
+        
         public object GetKeyValue(string keyPath)
         {
+            if (!isReady) return null;
+
             if(!KeyExists(keyPath)) return null;
 
             string key = ConvertPath(keyPath, out string[] path);
-            if(MarchGet(path, _dictionary).TryGetValue(key, out object value)) return value;
+            if(MarchGet(path, Dictionary).TryGetValue(key, out object value)) return value;
 
             return null;
         }
-
-        private bool KeyExists(string keyPath)
+        
+        public bool KeyExists(string keyPath)
         {
+            if (!isReady) return false;
+
             try
             {
                 string key = ConvertPath(keyPath, out string[] path);
                 
-                bool flag = MarchCheck(path, _dictionary);
+                bool flag = MarchCheck(path, Dictionary);
 
                 if (flag)
-                    return MarchGet(path, _dictionary).ContainsKey(key);
+                    return MarchGet(path, Dictionary).ContainsKey(key);
                 
             }
             catch (InvalidDataException) { }
@@ -120,6 +195,8 @@ namespace Statistics
                 dict = objDict;
             }
         }
+
+        private bool isReady => File.Exists(_fileLocation);
         
         private static bool MarchCheck(string[] path, Dictionary<string, object> dict)
         {

@@ -26,15 +26,17 @@ namespace Ui.Statistics
                 nameText.text = value.Key;
 
                 if (value.Value is Dictionary<string, object> dictionary)
+                {
                     foreach (KeyValuePair<string, object> kvPair in dictionary)
                     {
                         GameObject sub = Instantiate(gameObject, subContent);
                         if (sub.TryGetComponent(out StatisticsEntry entry)) entry.Init = kvPair;
                     }
+                }
                 else
                 {
                     valueText.enabled = true;
-                    valueText.text = value.ToString();
+                    valueText.text = value.Value.ToString();
                 }
             }
         }

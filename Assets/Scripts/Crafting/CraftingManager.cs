@@ -19,8 +19,13 @@ namespace Crafting
             }
             private set
             {
-                if(_instance != null || _instance != value) Destroy(value);
+                if (_instance != null && _instance != value)
+                {
+                    Destroy(value);
+                    return;
+                }
                 _instance = value;
+                DontDestroyOnLoad(value);
             }
         }
         

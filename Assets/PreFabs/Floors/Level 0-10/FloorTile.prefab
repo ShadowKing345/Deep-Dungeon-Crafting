@@ -43,6 +43,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -72,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4ecfe5c342c71d77aad43da89d15e765, type: 3}
+  m_Sprite: {fileID: 2900334231203615984, guid: a33bd46d9bf7cee448406ef2d4f1cbad, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -96,5 +97,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textures:
-  - {fileID: -9146781849184725177, guid: 3adfb1c511b98bceab210e9fe1fe00ae, type: 3}
+  - {fileID: 2900334231203615984, guid: a33bd46d9bf7cee448406ef2d4f1cbad, type: 3}
   spriteRenderer: {fileID: 1036659124679523301}

@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace Editor
 {
-    [CustomPropertyDrawer(typeof(ItemStack))]
     public class ItemStackDrawer : PropertyDrawer
     {
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label) => (base.GetPropertyHeight(property, label) + EditorGUIUtility.standardVerticalSpacing) * 3 ;

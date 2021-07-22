@@ -1,21 +1,26 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
+using UnityEngine.UIElements;
 
 namespace Utils.Ui
 {
     public abstract class FollowMouse : MonoBehaviour
-    {
-        private void Start() => Update();
+    { 
+        [SerializeField] private RectTransform parentRT;
+        [SerializeField] private RectTransform rt;
+        [SerializeField] private new Camera camera;
+        
+        private void OnEnable() => Update();
 
         protected virtual void Update()
         {
-            Vector2 position = Mouse.current.position.ReadValue();
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRT, Mouse.current.position.ReadValue(), camera, out Vector2 position);
 
-            if (TryGetComponent(out RectTransform rt))
-                rt.pivot = new Vector2(position.x / Screen.width, position.y / Screen.height);
-
-            transform.position = position;
+            position.x = Mathf.Clamp(position.x, 0, 1920 - rt.rect.width);
+            position.y = Mathf.Clamp(position.y, -1080 + rt.rect.height, 0);
+            
+            rt.anchoredPosition = position;
         }
     }
 }

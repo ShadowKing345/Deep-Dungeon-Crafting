@@ -39,6 +39,8 @@ namespace Inventory
         void SwapSlots(int fromIndex, int toIndex, out ItemStack fromStack, out ItemStack toStack);
         void SplitStack(int index, int amount);
 
+        void CombineStacks(int fromIndex, int toIndex);
+
         #endregion
 
     }

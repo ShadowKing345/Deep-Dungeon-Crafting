@@ -21,7 +21,7 @@ namespace Items
             set => amount = value;
         }
 
-        public int MaxStackSize => item.MaxStackSize;
+        public int MaxStackSize => item == null ? 0: item.MaxStackSize;
 
         public int AddItem(Item item, int amount)
         {
@@ -51,7 +51,7 @@ namespace Items
 
             this.amount -= amount;
             
-            if (this.amount > 0) return 0;
+            if (this.amount > 0) return amount;
             
             int remainder = -this.amount;
             Clear();

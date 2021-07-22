@@ -1,4 +1,5 @@
 using System;
+using Systems;
 using Combat;
 using TMPro;
 using UnityEditor;
@@ -12,13 +13,13 @@ namespace Ui.ToolTip.Types
     {
         public CanvasGroup canvasGroup;
 
-        [SerializeField] private Ability ability;
+        [SerializeField] private AbilityBase abilityBase;
 
-        public Ability Ability
+        public AbilityBase AbilityBase
         {
             set
             {
-                ability = value;
+                abilityBase = value;
                 UpdateUi();
             }
         }
@@ -36,15 +37,15 @@ namespace Ui.ToolTip.Types
 
         private void UpdateUi()
         {
-            if (ability.IsNull) return;
+            if (abilityBase == null) return;
 
-            headerImage.sprite = ability.Icon;
-            nameText.text = ability.Name;
+            headerImage.sprite = abilityBase.Icon;
+            nameText.text = abilityBase.Name;
 
-            descriptionText.text = ability.Description;
+            descriptionText.text = abilityBase.Description;
 
             ClearChildren();
-            CreateProperties(ability.Properties);
+            CreateProperties(abilityBase.Properties);
         }
 
         private void CreateProperties(AbilityProperty[] abilityProperties)

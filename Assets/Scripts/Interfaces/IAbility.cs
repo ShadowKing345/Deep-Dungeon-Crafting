@@ -1,15 +1,20 @@
-using Combat;
-using Entity.Player;
+using UnityEngine;
 
 namespace Interfaces
 {
     public interface IAbility
     {
         string Name { get; }
-        AbilityProperty[] Properties { get; }
+        float CoolDown { get; }
         
-        string AnimationName { get; }
-
-        void Execute(Player player);
+        bool IsProjectile { get; }
+        GameObject ProjectilePreFab { get; }
+        
+        string AttackAnimationName { get; }
+        
+        Vector2 AttackPoint { get; }
+        float AttackRange { get; }
+    
+        bool Execute(IDamageable self, IDamageable[] targets);
     }
 }

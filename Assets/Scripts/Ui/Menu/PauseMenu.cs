@@ -1,7 +1,9 @@
 using Entity.Player;
+using Enums;
 using Interfaces;
 using Managers;
 using Settings;
+using Statistics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,39 +13,55 @@ namespace Ui.Menu
     {
         private PlayerMovement playerMovement;
         private PlayerCombat playerCombat;
-        
-        private GameManager gameManager;
+
+        private GameManager _gameManager;
         private UiManager _uiManager;
         [SerializeField] private SettingsController settingsMenu;
+        [SerializeField] private StatisticsController statisticsMenu;
+
+        private void Awake()
+        {
+            _gameManager ??= GameManager.Instance;
+            _uiManager ??= UiManager.Instance;
+
+            _uiManager.RegisterWindow(WindowReference.PauseMenu, gameObject);
+            gameObject.SetActive(false);
+        }
 
         private void OnEnable()
         {
-            gameManager ??= GameManager.Instance;
-            _uiManager ??= UiManager.Instance;
             playerMovement ??= FindObjectOfType<PlayerMovement>();
             playerCombat ??= FindObjectOfType<PlayerCombat>();
         }
 
+        private void OnDestroy()
+        {
+            _uiManager.UnregisterWindow(WindowReference.PauseMenu, gameObject);
+        }
+
         public void Show()
         {
-            if(playerCombat != null && playerMovement != null) playerCombat.enabled = playerMovement.enabled = false;
+            if (playerCombat != null && playerMovement != null) playerCombat.enabled = playerMovement.enabled = false;
             Time.timeScale = 0;
             GetComponentInChildren<Selectable>().Select();
         }
 
         public void Hide()
         {
-            if(playerCombat != null && playerMovement != null) playerCombat.enabled = playerMovement.enabled = true;
-            if(settingsMenu.gameObject.activeSelf) settingsMenu.Hide();
+            if (playerCombat != null && playerMovement != null) playerCombat.enabled = playerMovement.enabled = true;
+            if (settingsMenu.gameObject.activeSelf) settingsMenu.Hide();
+            if (statisticsMenu.gameObject.activeSelf) statisticsMenu.Hide();
             Time.timeScale = 1;
         }
 
-        public void Resume() => _uiManager.HideUiElement(UiManager.UiElementReference.PauseMenu);
+        public void Resume() => _uiManager.HideUiElement(WindowReference.PauseMenu);
+
         public void OpenHelp()
         {
             Resume();
-            _uiManager.ToggleUiElement(UiManager.UiElementReference.Help);
+            _uiManager.ToggleUiElement(WindowReference.Help);
         }
+
         public void Settings()
         {
             if (settingsMenu.gameObject.activeSelf)
@@ -52,8 +70,30 @@ namespace Ui.Menu
                 settingsMenu.Show();
         }
 
-        public void EndRun() => gameManager.EndRun();
-        public void QuitGame() => gameManager.QuitGame();
-        public void ExitGame() => gameManager.ExitGame();
+        public void Statistics()
+        {
+            if (statisticsMenu.gameObject.activeSelf)
+                statisticsMenu.Hide();
+            else
+                statisticsMenu.Show();
+        }
+
+        public void EndRun()
+        {
+            _uiManager.HideUiElement(WindowReference.PauseMenu);
+            _gameManager.EndRun();
+        }
+
+        public void QuitGame()
+        {
+            _uiManager.HideUiElement(WindowReference.PauseMenu);
+            _gameManager.QuitGame();
+        }
+
+        public void ExitGame()
+        {
+            _uiManager.HideUiElement(WindowReference.PauseMenu);
+            _gameManager.ExitGame();
+        }
     }
 }

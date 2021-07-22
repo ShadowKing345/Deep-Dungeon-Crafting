@@ -9,9 +9,11 @@ namespace Statistics
     public class StatisticsController : MonoBehaviour, IUiWindow
     {
         private StatisticsManager _statisticsManager;
+        private LTDescr _transition;
         
         [SerializeField] private Transform content;
         [SerializeField] private GameObject entryPreFab;
+        [SerializeField] private CanvasGroup canvasGroup;
 
         private void OnEnable()
         {
@@ -33,8 +35,16 @@ namespace Statistics
             Canvas.ForceUpdateCanvases();
         }
         
-        public void Show() { }
+        public void Show()
+        {
+            gameObject.SetActive(true);
+            _transition = LeanTween.alphaCanvas(canvasGroup, 1, 0.1f).setIgnoreTimeScale(true);
+        }
 
-        public void Hide() { }
+        public void Hide()
+        {
+            if(_transition != null) LeanTween.cancel(_transition.uniqueId);
+            LeanTween.alphaCanvas(canvasGroup, 0, 0.1f).setOnComplete(_ => gameObject.SetActive(false)).setIgnoreTimeScale(true);
+        }
     }
 }

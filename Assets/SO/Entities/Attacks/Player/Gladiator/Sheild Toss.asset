@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a705a8ce51f49d28b154d8fa01425a3, type: 3}
+  m_Name: Sheild Toss
+  m_EditorClassIdentifier: 
+  description: 
+  icon: {fileID: 21300000, guid: 3b06ba8db078a4ad9897256d721a032c, type: 3}
+  coolDown: 2
+  properties:
+  - isElemental: 0
+    element: 0
+    attackType: 0
+    amount: 70
+  - isElemental: 1
+    element: 4
+    attackType: 0
+    amount: 50
+  manaCost: 0
+  isProjectile: 1
+  projectilePreFab: {fileID: 7991023506959093191, guid: 27c0712856c0731f5b17a556497a87ac, type: 3}
+  attackPoint: {x: 0, y: 0.3}
+  attackDistance: 0.5
+  attackRange: 0.5
+  attackAnimationName: SheildToss

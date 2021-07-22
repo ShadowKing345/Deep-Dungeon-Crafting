@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using Interfaces;
 using Items;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -14,10 +14,10 @@ namespace Entity
 
         private void Start()
         {
-            if (TryGetComponent(out Entity entity)) entity.OnDeath.AddListener(Death);
+            if (TryGetComponent(out Entity entity)) entity.OnDeath += Death;
         }
 
-        private void Death()
+        private void Death(IDamageable damageable)
         {
             int sum = lootTable.Entries.Sum(entry => entry.weight);
             float[] bucket = new float[lootTable.Entries.Length];
@@ -46,7 +46,7 @@ namespace Entity
 
             foreach (KeyValuePair<Item, int> result in results)
             {
-                GameObject obj = Instantiate(entityItemPreFab);
+                GameObject obj = Instantiate(entityItemPreFab, transform.parent);
                 obj.transform.position = transform.position;
                 if (obj.TryGetComponent(out ItemEntity entity))
                     entity.ItemStack = new ItemStack {Amount = result.Value, Item = result.Key};

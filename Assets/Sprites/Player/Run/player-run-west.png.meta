@@ -120,7 +120,7 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 22
+        width: 24
         height: 27
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -139,9 +139,9 @@ TextureImporter:
       name: player-run-west_1
       rect:
         serializedVersion: 2
-        x: 22
+        x: 24
         y: 0
-        width: 22
+        width: 24
         height: 27
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -160,9 +160,9 @@ TextureImporter:
       name: player-run-west_2
       rect:
         serializedVersion: 2
-        x: 44
+        x: 48
         y: 0
-        width: 22
+        width: 24
         height: 27
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -181,9 +181,9 @@ TextureImporter:
       name: player-run-west_3
       rect:
         serializedVersion: 2
-        x: 66
+        x: 72
         y: 0
-        width: 22
+        width: 24
         height: 27
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -202,9 +202,9 @@ TextureImporter:
       name: player-run-west_4
       rect:
         serializedVersion: 2
-        x: 88
+        x: 96
         y: 0
-        width: 22
+        width: 24
         height: 27
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -223,9 +223,9 @@ TextureImporter:
       name: player-run-west_5
       rect:
         serializedVersion: 2
-        x: 110
+        x: 120
         y: 0
-        width: 22
+        width: 24
         height: 27
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -244,9 +244,9 @@ TextureImporter:
       name: player-run-west_6
       rect:
         serializedVersion: 2
-        x: 132
+        x: 144
         y: 0
-        width: 22
+        width: 24
         height: 27
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -265,9 +265,9 @@ TextureImporter:
       name: player-run-west_7
       rect:
         serializedVersion: 2
-        x: 154
+        x: 168
         y: 0
-        width: 22
+        width: 24
         height: 27
       alignment: 0
       pivot: {x: 0, y: 0}

@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using Interfaces;
+using Settings;
 using TMPro;
 using Ui.KeybindingUi;
 using Ui.Tabs;
@@ -10,7 +11,7 @@ using UnityEngine.Audio;
 using UnityEngine.UI;
 using Utils;
 
-namespace Settings
+namespace Ui.Menu
 {
     public class SettingsController : MonoBehaviour, IUiWindow
     {
@@ -52,16 +53,12 @@ namespace Settings
             
             GameObjectUtils.ClearChildren(navigationContent.transform);
             GameObjectUtils.ClearChildren(bodyContent.transform);
-
-            tabController ??= GetComponent<TabController>();
-        }
-
-        private void Start()
-        {
             SetupSettings();
             tabController.ChangePage(tabController.TabPageDict.FirstOrDefault().Key);
+            
+            tabController ??= GetComponent<TabController>();
         }
-
+        
         public void SaveSettings()
         {
             using StreamWriter file = new StreamWriter(Path.Combine(Application.persistentDataPath, "Settings.json"));

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 namespace Combat
@@ -33,6 +34,15 @@ namespace Combat
         {
             get => amount;
             set => amount = value;
+        }
+    }
+
+    public static class Extension
+    {
+        public static AbilityProperty GetResistantTo(this AbilityProperty[] properties, AbilityProperty property)
+        {
+            return properties.FirstOrDefault(p =>
+                p.IsElemental ? p.Element == property.Element : p.AttackType == property.AttackType);
         }
     }
 }

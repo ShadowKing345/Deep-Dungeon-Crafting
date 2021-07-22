@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Slime
   m_EditorClassIdentifier: 
   entries:
-  - item: {fileID: 11400000, guid: 7f12a54757f68763ca3cbe9efdd3321f, type: 2}
+  - item: {fileID: 11400000, guid: 384b7310d1c343d0c81497642ce12cce, type: 2}
     weight: 15
   amount:
     min: 1

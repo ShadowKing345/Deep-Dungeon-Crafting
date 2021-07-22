@@ -1,4 +1,4 @@
-using System;
+using Enums;
 using Managers;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,7 +7,7 @@ namespace Ui
 {
     public class CloseWindowButton : Button
     {
-        [SerializeField] private UiManager.UiElementReference uiElement;
+        [SerializeField] private WindowReference uiElement;
 
         protected override void OnEnable()
         {

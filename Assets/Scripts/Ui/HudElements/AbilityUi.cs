@@ -1,4 +1,5 @@
 using System;
+using Systems;
 using Combat;
 using Entity.Player;
 using Managers;
@@ -28,7 +29,7 @@ namespace Ui.HudElements
         private PlayerCombat playerCombat;
 
         [SerializeField] private WeaponClass.AbilityIndex index;
-        [SerializeField] private Ability[] abilities;
+        [SerializeField] private AbilityBase[] abilities;
         [SerializeField] private int currentAbility;
 
         [Serializable]
@@ -41,7 +42,7 @@ namespace Ui.HudElements
         [Space]
         [SerializeField] private InputActionReferences inputActionReferences; 
 
-        public void SetUp(PlayerCombat combatController, WeaponClass.AbilityIndex abilityIndex, Ability[] abilities)
+        public void SetUp(PlayerCombat combatController, WeaponClass.AbilityIndex abilityIndex, AbilityBase[] abilities)
         {
             playerCombat = combatController;
             index = abilityIndex;
@@ -68,14 +69,14 @@ namespace Ui.HudElements
                 return;
             }
 
-            Ability ability = abilities[comboIndex];
-            if (ability == null)
+            AbilityBase abilityBase = abilities[comboIndex];
+            if (abilityBase == null)
             {
                 ClearUi();
                 return;
             }
 
-            image.sprite = ability.Icon;
+            image.sprite = abilityBase.Icon;
             image.color = Color.white;
             
             keybindingText.text = GetKeyBindingText();

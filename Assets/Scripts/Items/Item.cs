@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
-using static UnityEngine.Mathf;
 
 namespace Items
 {
+    [Serializable]
     [CreateAssetMenu(menuName = "SO/Item/Item", fileName = "New Item")]
     public class Item : ScriptableObject
     {

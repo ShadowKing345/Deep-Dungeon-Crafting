@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using Crafting;
 using Entity.Player;
+using Enums;
 using Interfaces;
 using Items;
+using Managers;
 using Ui.Inventories.ItemSlot;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,6 +14,8 @@ namespace Ui.Crafting
     public class CraftingController : MonoBehaviour, IUiWindow
     {
         private CraftingManager _craftingManager;
+        private UiManager _uiManager;
+        
         private readonly List<ItemStackSlot> ingredientsItemSlots = new List<ItemStackSlot>(); 
         private readonly List<GameObject> recipeEntries = new List<GameObject>();
      
@@ -33,10 +37,19 @@ namespace Ui.Crafting
         [Header("Inventory")]
         [SerializeField] private PlayerInventory playerInventory;
 
-        private void OnEnable()
+        private void Awake()
         {
             _craftingManager = CraftingManager.Instance;
+            _uiManager = UiManager.Instance;
+            
+            _uiManager.RegisterWindow(WindowReference.CraftingMenu, gameObject);
+            gameObject.SetActive(false);
+        }
 
+        private void OnDestroy() => _uiManager.UnregisterWindow(WindowReference.CraftingMenu, gameObject);
+
+        private void OnEnable()
+        {
             playerInventory ??= FindObjectOfType<PlayerInventory>();
             ingredientItemSlotPreFab.SetActive(false);
             

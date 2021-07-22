@@ -12,10 +12,10 @@ TagManager:
   - Obstical
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - Entity
+  - Entity Collision Blocker
+  - Projectile
+  - ItemEntity
   - 
   - 
   - 

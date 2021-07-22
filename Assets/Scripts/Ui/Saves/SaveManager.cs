@@ -3,6 +3,7 @@ using System.IO;
 using Managers;
 using TMPro;
 using UnityEngine;
+using Utils;
 using Application = UnityEngine.Application;
 
 namespace Ui.Saves
@@ -63,16 +64,15 @@ namespace Ui.Saves
                 return;
             }
             
-            _gameManager.ChangeScene(GameManager.Scenes.Hub);
+            _gameManager.LoadHub(path);
         }
 
         private void New(string path)
         {
-            if (Directory.Exists(path)) Directory.Delete(path);
+            if (Directory.Exists(path)) Directory.Delete(path, true);
 
             Directory.CreateDirectory(path);
-            
-            _gameManager.ChangeScene(GameManager.Scenes.Hub);
+            _gameManager.LoadHub(path);
         }
     }
 }

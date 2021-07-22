@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Combat
@@ -15,11 +14,11 @@ namespace Combat
         public string LongDescription => longDescription;
         public Sprite Icon => icon;
 
-        [SerializeField] private Ability[] abilities1 = new Ability[0];
-        [SerializeField] private Ability[] abilities2 = new Ability[0];
-        [SerializeField] private Ability[] abilities3 = new Ability[0];
+        [SerializeField] private AbilityBase[] abilities1 = new AbilityBase[0];
+        [SerializeField] private AbilityBase[] abilities2 = new AbilityBase[0];
+        [SerializeField] private AbilityBase[] abilities3 = new AbilityBase[0];
 
-        public Ability[] GetAbility(AbilityIndex abilityIndex) =>
+        public AbilityBase[] GetAbility(AbilityIndex abilityIndex) =>
             abilityIndex switch
             {
                 AbilityIndex.Abilities1 => abilities1,
@@ -37,6 +36,6 @@ namespace Combat
             None
         }
 
-        public Ability[][] Abilities => new []{ abilities1, abilities2, abilities3 };
+        public AbilityBase[][] Abilities => new []{ abilities1, abilities2, abilities3 };
 }
 }

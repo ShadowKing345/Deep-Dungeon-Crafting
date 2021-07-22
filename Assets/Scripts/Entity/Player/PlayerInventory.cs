@@ -1,7 +1,9 @@
-using Ui.Inventories.InventoryControllers;
+using System.IO;
 using UnityEngine;
 using Inventory;
 using Items;
+using Managers;
+using Utils;
 
 namespace Entity.Player
 {
@@ -69,5 +71,51 @@ namespace Entity.Player
         public bool CanFit(ItemStack stack, int mappingIndex = 0) => InventoryMapping(mappingIndex).CanFit(stack);
 
         public void ResetInventory(int mappingIndex = 0) => InventoryMapping(mappingIndex).ResetInventory();
+
+        public void ResetEveryInventory()
+        {
+            armorInventory.ResetInventory();
+            itemInventory.ResetInventory();
+            weaponInventory.ResetInventory();
+        }
+
+        private void Awake()
+        {
+            string savePath = GameManager.Instance.savePath;
+            
+            if (SaveSystem.TryLoadObj(Path.Combine(savePath, "item.inv"), out string itemJson))
+            {
+                itemInventory.ResetInventory();
+                itemInventory.AddItemStacks(ItemManager.JsonToItemStacks(itemJson));
+            }
+
+            if (SaveSystem.TryLoadObj(Path.Combine(savePath, "weapon.inv"), out string weaponJson))
+            {
+                weaponInventory.ResetInventory();
+                weaponInventory.AddItemStacks(ItemManager.JsonToItemStacks(weaponJson));
+            }
+
+            if (SaveSystem.TryLoadObj(Path.Combine(savePath, "armor.inv"), out string armorJson))
+            {
+                armorInventory.ResetInventory();
+                armorInventory.AddItemStacks(ItemManager.JsonToItemStacks(armorJson));
+            }
+        }
+
+        public bool SaveInventory { get; set; } = true;
+        
+        private void OnDestroy()
+        {
+            if (!SaveInventory) return;
+            
+            string savePath = GameManager.Instance.savePath;
+
+            SaveSystem.SaveObj(Path.Combine(savePath, "item.inv"),
+                ItemManager.ItemStacksToJson(itemInventory.GetItemStacks()));
+            SaveSystem.SaveObj(Path.Combine(savePath, "weapon.inv"),
+                ItemManager.ItemStacksToJson(weaponInventory.GetItemStacks()));
+            SaveSystem.SaveObj(Path.Combine(savePath, "armor.inv"),
+                ItemManager.ItemStacksToJson(armorInventory.GetItemStacks()));
+        }
     }
 }

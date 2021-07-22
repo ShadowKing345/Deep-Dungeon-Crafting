@@ -10,6 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 7083203841493045196}
   - component: {fileID: 7083203841493045195}
+  - component: {fileID: 4250596385002567203}
+  - component: {fileID: 702547743089741590}
+  - component: {fileID: 2827036448357667598}
+  - component: {fileID: 4591021623298217051}
+  - component: {fileID: 74775340142337632}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -44,7 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   savePath: 
-  currentFloor: -1
+  currentFloor: 0
   floorScheme: {fileID: 11400000, guid: 7107a6fc91b87a77b84c958b5ce2a0ce, type: 2}
   noWeaponClass: {fileID: 11400000, guid: 3e195c14bfeb6f202b97d40d70cab896, type: 2}
   controllerAsset:
@@ -81,4 +86,73 @@ MonoBehaviour:
       off: {fileID: 0}
       state1: {fileID: 0}
       state2: {fileID: 0}
-  currentScene: 0
+  loadMainMenu: 1
+--- !u!114 &4250596385002567203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7083203841493045194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31fac9418b14275b1b7b4cbe87beaad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingScreen: {fileID: 0}
+--- !u!114 &702547743089741590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7083203841493045194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff74d9bf405e4deeaaf3aac1eb1d4733, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2827036448357667598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7083203841493045194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0ad3cc0e913473baf5170e681914895, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4591021623298217051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7083203841493045194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05879e26b2ab4b1c9ca3d5b98e0c6c1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hudElements:
+    healthProgressBar: {fileID: 0}
+    manaProgressBar: {fileID: 0}
+    abilityUi1: {fileID: 0}
+    abilityUi2: {fileID: 0}
+    abilityUi3: {fileID: 0}
+  currentActive: 0
+--- !u!114 &74775340142337632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7083203841493045194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d32407f65e947069347004117d9c871, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  database: {fileID: 11400000, guid: 4956981d21e082d9c8a4d047a895d4a1, type: 2}
