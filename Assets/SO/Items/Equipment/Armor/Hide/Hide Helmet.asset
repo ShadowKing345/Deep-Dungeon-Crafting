@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 374d2e151b3049adbf8219460a647221, type: 3}
+  m_Name: Hide Helmet
+  m_EditorClassIdentifier: 
+  description: Ya I am also suprised that this exists as well.
+  icon: {fileID: 21300000, guid: a36be562d80cd55cca43e2396fca133e, type: 3}
+  maxStackSize: 1
+  type: 0
+  properties:
+  - isElemental: 0
+    element: 0
+    attackType: 1
+    amount: 0.1
+  - isElemental: 0
+    element: 0
+    attackType: 0
+    amount: 0.01
+  - isElemental: 0
+    element: 0
+    attackType: 2
+    amount: 0.05

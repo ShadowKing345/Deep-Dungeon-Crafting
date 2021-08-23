@@ -17,7 +17,7 @@ namespace Entity.Player
 
         [Header("Internal Components")]
         [SerializeField] private EntityAnimator animator;
-        [SerializeField] private Player player;
+        [SerializeField] private PlayerEntity playerEntity;
         [SerializeField] private PlayerInventory playerInventory;
         [Space]
         [Header("Class")]
@@ -46,7 +46,7 @@ namespace Entity.Player
             
             _uiManager ??= UiManager.Instance;
 
-            player ??= GetComponent<Player>();
+            playerEntity ??= GetComponent<PlayerEntity>();
             animator ??= GetComponent<EntityAnimator>();
             playerInventory ??= GetComponent<PlayerInventory>();
 
@@ -99,25 +99,25 @@ namespace Entity.Player
             _uiManager.HudElements.SetAbilityUiCoolDown(index, ability.CoolDown);
             actionCoolDown = Time.time + ability.CoolDown;
 
-            animator.PlayAttackAnimation(ability.AttackAnimationName);
-
-            yield return new WaitForSeconds(animator.GetAnimationLength(ability.AttackAnimationName));
+            yield return animator.PlayAttackAnimation(ability.AttackAnimationName);
+            yield return new WaitForSeconds(animator.GetAnimationLength);
             
             if (ability.IsProjectile)
             {
                 if(ability.ProjectilePreFab == null) yield return null;
                 
-                GameObject projectileObj = Instantiate(ability.ProjectilePreFab, CombatUtils.GetAttackDirection(ability, transform, player.Stats.GetCenterPos, animator.CurrentDirection) , quaternion.identity);
+                GameObject projectileObj = Instantiate(ability.ProjectilePreFab, CombatUtils.GetAttackDirection(ability, transform, playerEntity.Stats.GetCenterPos, animator.CurrentDirection) , quaternion.identity);
 
                 if (!projectileObj.TryGetComponent(out ProjectileEntity projectile)) yield return null;
                
                 projectile.Direction = animator.CurrentDirection;
-                projectile.Caster = player;
+                projectile.Caster = playerEntity;
 
                 yield return null;
             }
             
-            if (!ability.Execute(player, CombatUtils.GetHitList(ability, transform, player.Stats.GetCenterPos, animator.CurrentDirection))) yield return null;
+            // todo: allow for weapons to affect damage calculations.
+            if (!ability.Execute(playerEntity, CombatUtils.GetHitList(ability, transform, playerEntity.Stats.GetCenterPos, animator.CurrentDirection))) yield return null;
 
             combo++;
             if (combo >= abilities[(int) index].Length)
@@ -176,10 +176,10 @@ namespace Entity.Player
 
         private void OnDrawGizmosSelected()
         {
-            if (player == null) return;
+            if (playerEntity == null) return;
             if (abilityRange <= 0) return;
 
-            Gizmos.DrawWireSphere((Vector2) transform.position + player.Stats.GetCenterPos + centerOffset + direction.GetVectorDirection() * attackOffset, abilityRange);
+            Gizmos.DrawWireSphere((Vector2) transform.position + playerEntity.Stats.GetCenterPos + centerOffset + direction.GetVectorDirection() * attackOffset, abilityRange);
         }
     }
 }

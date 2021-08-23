@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a705a8ce51f49d28b154d8fa01425a3, type: 3}
   m_Name: Whirl Wind
   m_EditorClassIdentifier: 
-  description: 
+  description: Give yourself some space to break and chuck your enemies around with
+    this rather large and effective attack.
   icon: {fileID: 21300000, guid: 2acfead4987a898198b048717e4665fc, type: 3}
   coolDown: 1.3
   properties:
@@ -21,7 +22,7 @@ MonoBehaviour:
     attackType: 0
     amount: 100
   - isElemental: 1
-    element: 2
+    element: 4
     attackType: 0
     amount: 100
   manaCost: 0

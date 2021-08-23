@@ -25,5 +25,5 @@ MonoBehaviour:
   projectilePreFab: {fileID: 0}
   attackPoint: {x: 0, y: 0}
   attackDistance: 0
-  attackRange: 1
+  attackRange: 2
   attackAnimationName: Attack

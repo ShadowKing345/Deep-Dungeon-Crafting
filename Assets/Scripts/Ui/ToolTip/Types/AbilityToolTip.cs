@@ -43,9 +43,10 @@ namespace Ui.ToolTip.Types
             nameText.text = abilityBase.Name;
 
             descriptionText.text = abilityBase.Description;
-
+            
             ClearChildren();
-            CreateProperties(abilityBase.Properties);
+            if(abilityBase.Properties.Length > 0)
+                CreateProperties(abilityBase.Properties);
         }
 
         private void CreateProperties(AbilityProperty[] abilityProperties)
@@ -82,6 +83,9 @@ namespace Ui.ToolTip.Types
             {
                 Destroy(childObj.gameObject);
             }
+            
+            propertiesContainer.SetActive(false);
+            spacer.SetActive(false);
         }
 
         protected override void Update()

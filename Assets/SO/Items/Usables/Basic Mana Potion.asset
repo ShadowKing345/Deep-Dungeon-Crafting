@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac8bc7190b2b4c8d90aac170f5bc2c8d, type: 3}
   m_Name: Basic Mana Potion
   m_EditorClassIdentifier: 
-  description: 
-  icon: {fileID: 0}
+  description: A basic mana potion that does not do much in terms of mana restoration
+    but is fairly easy to create.
+  icon: {fileID: 21300000, guid: 8348fd219ce6bb87b854706ede7cdebb, type: 3}
   maxStackSize: 999
-  potency: 10
+  potency: 50

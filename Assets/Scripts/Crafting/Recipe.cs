@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Crafting
 {
-    [CreateAssetMenu(fileName = "New Recipe", menuName = "SO/Recipe")]
+    [CreateAssetMenu(fileName = "New Recipe", menuName = "SO/Recipe/Recipe")]
     public class Recipe : ScriptableObject
     {
         [SerializeField] private ItemStack result;

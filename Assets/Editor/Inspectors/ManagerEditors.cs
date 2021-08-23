@@ -20,14 +20,14 @@ namespace Editor.Inspectors
         }
     }
 
-    [CustomEditor(typeof(EntityAi))]
+    [CustomEditor(typeof(EntityAiBase))]
     public class EntityAiEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
             // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
-            if(GUILayout.Button("Change State to current")) ((EntityAi) target).ChangeState(((EntityAi) target).GetCurrentlyThinking);
+            if(GUILayout.Button("Change State to current")) ((EntityAiBase) target).ChangeState(((EntityAiBase) target).GetCurrentlyThinking);
         }
     }
 }

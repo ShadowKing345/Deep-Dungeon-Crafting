@@ -30,12 +30,8 @@ namespace Ui.ToolTip
             ToolTipSystem.Instance.HideToolTip(true);
         }
 
-        public void OnPointerEnter(PointerEventData eventData) => _delay = LeanTween.delayedCall(0.3f, _ => ToolTipSystem.Instance.ShowToolTip(content, header)).setIgnoreTimeScale(true);
+        public void OnPointerEnter(PointerEventData eventData) => ToolTipSystem.Instance.ShowToolTip(content, header);
 
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            if(_delay != null) LeanTween.cancel(_delay.uniqueId);
-            ToolTipSystem.Instance.HideToolTip(true);
-        }
+        public void OnPointerExit(PointerEventData eventData) => ToolTipSystem.Instance.HideToolTip(true);
     }
 }

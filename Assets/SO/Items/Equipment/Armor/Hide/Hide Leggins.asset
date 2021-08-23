@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 374d2e151b3049adbf8219460a647221, type: 3}
+  m_Name: Hide Leggins
+  m_EditorClassIdentifier: 
+  description: Lightweight and guards well. What? oh you meant the whole thing. Ya
+    the loincloth is basically non-existant in terms of protection in more ways then
+    one.
+  icon: {fileID: 21300000, guid: cc93d0038eecf7b1fb01419f7f54c279, type: 3}
+  maxStackSize: 1
+  type: 2
+  properties:
+  - isElemental: 0
+    element: 0
+    attackType: 0
+    amount: 0.05
+  - isElemental: 0
+    element: 0
+    attackType: 2
+    amount: 0.01

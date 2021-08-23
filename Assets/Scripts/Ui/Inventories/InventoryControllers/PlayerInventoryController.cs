@@ -59,7 +59,7 @@ namespace Ui.Inventories.InventoryControllers
             
             playerInventory ??= FindObjectOfType<PlayerInventory>();
             if (playerInventory == null) return;
-            
+
             _weaponInventory = playerInventory.WeaponInventory;
             _armorInventory = playerInventory.ArmorInventory;
             _itemInventory = playerInventory.ItemInventory;
@@ -76,10 +76,11 @@ namespace Ui.Inventories.InventoryControllers
         
         public void SetUpSlots()
         {
-            int index = 0;
-            _slots.Clear();
             GameObjectUtils.ClearChildren(container.transform);
-
+            _slots.Clear();
+            OnStackUpdate = null;
+            
+            int index = 0;
 
             //WeaponSlotSetup
             if (weaponItemStackSlot != null)

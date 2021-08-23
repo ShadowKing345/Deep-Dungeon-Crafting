@@ -59,7 +59,7 @@ namespace Ui.Inventories.ItemSlot.Utils
         private void Use()
         {
             if (!(slot.ItemStack.Item is UsableItem usableItem)) return;
-            if (!usableItem.Use(FindObjectOfType<Player>())) return;
+            if (!usableItem.Use(FindObjectOfType<PlayerEntity>())) return;
                 
             slot.Inventory.GetStackAtSlot(slot.InventoryIndex).RemoveItem(1);
             slot.UpdateUi();

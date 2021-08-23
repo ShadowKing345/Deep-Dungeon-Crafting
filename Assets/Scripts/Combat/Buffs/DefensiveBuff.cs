@@ -9,11 +9,7 @@ namespace Combat.Buffs
         [SerializeField] private AbilityProperty[] properties;
 
         public AbilityProperty[] Properties => properties;
-
-        public bool HasResistanceTo(AbilityProperty property) =>
-            properties.FirstOrDefault(p =>
-                p.IsElemental ? p.Element == property.Element : p.AttackType == property.AttackType) != null;
-
+        
         public override void Tick() { }
     }
 }

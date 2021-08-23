@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbc40015b79c4b2ebf1a05f520e52072, type: 3}
+  m_Name: Floor 0-9
+  m_EditorClassIdentifier: 
+  startingFloorNumber: 0
+  entrance: {fileID: 2180883199042631210, guid: b6d07372323f2bfd78b7640406039233, type: 3}
+  exit: {fileID: 4283673987358715376, guid: 57e84f47da3f378b9a1ba391604eff32, type: 3}
+  roof: {fileID: 8083257112825255671, guid: 0a0e7a34098f16892bce0990373f85aa, type: 3}
+  rooms:
+  - {fileID: 628985726534954657, guid: c18202dabf3f2dd13b0fca6b7fcca512, type: 3}
+  - {fileID: 5595688617625922679, guid: de3c6ab0c40091de88247c5120536978, type: 3}
+  - {fileID: 8820591328413789106, guid: 4f742ae1352faeacfbdea9dcfb90550d, type: 3}
+  - {fileID: 6741974577152366362, guid: 506cea550531fe24ab34ec23ae82c0cb, type: 3}
+  - {fileID: 1804940164175693182, guid: 023d9fd15d2371219a91e89724b89c3e, type: 3}
+  - {fileID: 4149620568926830178, guid: 5e42163f0fb6cc2bf8619262954ea4af, type: 3}
+  - {fileID: 8803982672430414284, guid: 79e3bdc5db5d7d927bd982dc898094ad, type: 3}
+  - {fileID: 7811233819092603314, guid: 39b2f8e1333d083c0a9b55c449f73cf7, type: 3}
+  - {fileID: 2910871691019679684, guid: 4cd4a1fdb28095415b1a9b4d66a0f053, type: 3}
+  - {fileID: 6125394025260951519, guid: 855496d871d1591d5907ce5fbfbdb3f3, type: 3}
+  - {fileID: 3337690652929336214, guid: 806e095ef168d4e6c804c18fbbefb085, type: 3}
+  - {fileID: 8887046408049618082, guid: ab6d9c1516935123588e36247e4a0e38, type: 3}
+  - {fileID: 3940443492688926483, guid: 095f52163840ecebd8dae2c6f352fd0e, type: 3}
+  - {fileID: 940396445297922898, guid: 1877c42d4629cfc3eabf288fd10019ef, type: 3}
+  - {fileID: 8642150122655925879, guid: 73751466a557fba729c1d452662f3eb6, type: 3}
+  - {fileID: 6197684145652172255, guid: 7eb7f82bae442ec7c96b2e2fcdbb0a71, type: 3}
+  - {fileID: 5721875816692702280, guid: c344290644f4af754b6b528493d29d41, type: 3}
+  - {fileID: 5692367568801414940, guid: 6e5898e57a093518d8cee5fdff971562, type: 3}
+  - {fileID: 9057869317283296889, guid: d1d1a2c9bdee49ddaa91b8a6719c706d, type: 3}
+  gridWidth:
+    min: 5
+    max: 9
+  gridHeight:
+    min: 5
+    max: 9
+  roomSize: {x: 13, y: 9}
+  roomCount:
+    min: 5
+    max: 10
+  spacing: 3
+  enemies: []
+  enemyCount:
+    min: 0
+    max: 0
+  enemyChance: 0

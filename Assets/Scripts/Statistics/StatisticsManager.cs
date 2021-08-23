@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -30,98 +29,91 @@ namespace Statistics
             }
         }
 
-        private GameManager _gameManager;
         private SceneManager _sceneManager;
         
-        private static string _fileLocation;
-
         public Dictionary<string, object> Dictionary { get; private set; }
 
         private void Awake() => Instance = this;
 
         private void OnEnable()
         {
-            _gameManager = GameManager.Instance;
             _sceneManager = SceneManager.Instance;
 
-            _gameManager.OnApplicationClose += Save;
-            _sceneManager.OnBeginSceneChange += OnBeginSceneChange;
-            _sceneManager.OnEndSceneChange += OnEndSceneChange;
+            _sceneManager.OnEndSceneChange += index =>
+            {
+                switch (index)
+                {
+                    case SceneIndexes.Hub:
+                    case SceneIndexes.Level:
+                    case SceneIndexes.Level0:
+                        Save save = SaveManager.Instance.GetCurrentSave;
+                        Dictionary = save != null ? save.Statistics : new Dictionary<string, object>();
+                        break;
+                }
+            };
+
+            _sceneManager.OnBeginSceneChange += index =>
+            {
+                switch (index)
+                {
+                    case SceneIndexes.Hub:
+                    case SceneIndexes.Level:
+                    case SceneIndexes.Level0:
+                        Save save = SaveManager.Instance.GetCurrentSave;
+                        if (save != null) save.Statistics = Dictionary;
+                        break;
+                }
+            };
         }
         
-        private void OnDisable()
-        {
-            _gameManager.OnApplicationClose -= Save;
-            _sceneManager.OnBeginSceneChange -= OnBeginSceneChange;
-            _sceneManager.OnEndSceneChange -= OnEndSceneChange;
-            Save();
-        }
-
-        private void OnBeginSceneChange(SceneIndexes index)
-        {
-            switch (index)
-            {
-                case SceneIndexes.Persistent:
-                case SceneIndexes.MainMenu:
-                case SceneIndexes.Dev:
-                    break;
-                case SceneIndexes.Hub:
-                case SceneIndexes.Level:
-                case SceneIndexes.Level0:
-                    Save();
-                    break;
-            }
-        }
-
-        private void OnEndSceneChange(SceneIndexes index)
-        {
-            switch (index)
-            {
-                case SceneIndexes.Persistent:
-                case SceneIndexes.MainMenu:
-                case SceneIndexes.Dev:
-                    break;
-                case SceneIndexes.Hub:
-                case SceneIndexes.Level:
-                case SceneIndexes.Level0:
-                    _fileLocation = Path.Combine(_gameManager.savePath, "statistics.stats");
-                    Load();
-                    break;
-            }
-                
-        }
-        
-        public void Load()
-        {
-            if (!isReady) return;
-            
-            if (!string.IsNullOrEmpty(_fileLocation))
-                Dictionary = SaveSystem.TryLoadObj(_fileLocation, out Dictionary<string, object> dictionary)
-                    ? dictionary
-                    : new Dictionary<string, object>();
-        }
-
-        public void Save()
-        {
-            if (!isReady) return;
-
-            if(!string.IsNullOrEmpty(_fileLocation)) SaveSystem.SaveObj(_fileLocation, Dictionary);
-        }
-
         private void AddKey(string keyPath, object value = null)
         {
-            if (!isReady) return;
-
             string key = ConvertPath(keyPath, out string[] path);
 
             Dictionary<string, object> dict = MarchGet(path, Dictionary);
             dict.Add(key, value);
         }
+
+        public void AddFloatValue(string keyPath, float value)
+        {
+            if (KeyExists(keyPath))
+            {
+                switch (GetKeyValue(keyPath))
+                {
+                    case float f:
+                        SetKeyValue(keyPath, f + value);
+                        break;
+                    case string stringy:
+                        if (float.TryParse(stringy, out float f2))
+                            SetKeyValue(keyPath, f2 + value);
+                        break;
+                }
+            }
+            else
+                SetKeyValue(keyPath, value);
+        }
+
+        public void AddIntValue(string keyPath, int value)
+        {
+            if (KeyExists(keyPath))
+            {
+                switch (GetKeyValue(keyPath))
+                {
+                    case int i:
+                        SetKeyValue(keyPath, i + value);
+                        break;
+                    case string stringy:
+                        if (int.TryParse(stringy, out int i2))
+                            SetKeyValue(keyPath, i2 + value);
+                        break;
+                }
+            }
+            else
+                SetKeyValue(keyPath, value);
+        }
         
         public void SetKeyValue(string keyPath, object value)
         {
-            if (!isReady) return;
-
             if (KeyExists(keyPath))
             {
                 string key = ConvertPath(keyPath, out string[] path);
@@ -134,8 +126,6 @@ namespace Statistics
         
         public void RemoveKey(string keyPath)
         {
-            if (!isReady) return;
-
             if(!KeyExists(keyPath)) return;
 
             string key = ConvertPath(keyPath, out string[] path);
@@ -144,8 +134,6 @@ namespace Statistics
         
         public object GetKeyValue(string keyPath)
         {
-            if (!isReady) return null;
-
             if(!KeyExists(keyPath)) return null;
 
             string key = ConvertPath(keyPath, out string[] path);
@@ -156,8 +144,6 @@ namespace Statistics
         
         public bool KeyExists(string keyPath)
         {
-            if (!isReady) return false;
-
             try
             {
                 string key = ConvertPath(keyPath, out string[] path);
@@ -187,7 +173,7 @@ namespace Statistics
                 else
                     dict.Add(path[0], objDict);
 
-                string[] newPath = path.Skip(1).Take(path.Length - 2).ToArray();
+                string[] newPath = path.Skip(1).ToArray();
 
                 if (newPath.Length <= 0) return objDict;
 
@@ -195,8 +181,6 @@ namespace Statistics
                 dict = objDict;
             }
         }
-
-        private bool isReady => File.Exists(_fileLocation);
         
         private static bool MarchCheck(string[] path, Dictionary<string, object> dict)
         {
@@ -216,7 +200,7 @@ namespace Statistics
                 else
                     return false;
 
-                string[] newPath = path.Skip(1).Take(path.Length - 2).ToArray();
+                string[] newPath = path.Skip(1).ToArray();
 
                 if (newPath.Length <= 0) return true;
 

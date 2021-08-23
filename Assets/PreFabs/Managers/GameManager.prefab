@@ -15,6 +15,9 @@ GameObject:
   - component: {fileID: 2827036448357667598}
   - component: {fileID: 4591021623298217051}
   - component: {fileID: 74775340142337632}
+  - component: {fileID: 3008609202364278091}
+  - component: {fileID: 1435177258051738955}
+  - component: {fileID: 2641587572875816552}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -50,7 +53,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   savePath: 
   currentFloor: 0
-  floorScheme: {fileID: 11400000, guid: 7107a6fc91b87a77b84c958b5ce2a0ce, type: 2}
+  floorSettings: {fileID: 11400000, guid: 83498fa605972abd3871c511754c87cb, type: 2}
+  floorCollection: {fileID: 11400000, guid: 738c3d6f3ddedc1cc9841fd7cc8369fa, type: 2}
   noWeaponClass: {fileID: 11400000, guid: 3e195c14bfeb6f202b97d40d70cab896, type: 2}
   controllerAsset:
     dPad:
@@ -99,7 +103,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a31fac9418b14275b1b7b4cbe87beaad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadingScreen: {fileID: 0}
 --- !u!114 &702547743089741590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,6 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff74d9bf405e4deeaaf3aac1eb1d4733, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  recipeCollection: {fileID: 11400000, guid: cf9f7f1fea198c2d3a82e704790ef544, type: 2}
 --- !u!114 &2827036448357667598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,6 +146,7 @@ MonoBehaviour:
     abilityUi1: {fileID: 0}
     abilityUi2: {fileID: 0}
     abilityUi3: {fileID: 0}
+    floorNumber: {fileID: 0}
   currentActive: 0
 --- !u!114 &74775340142337632
 MonoBehaviour:
@@ -155,4 +160,97 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d32407f65e947069347004117d9c871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  database: {fileID: 11400000, guid: 4956981d21e082d9c8a4d047a895d4a1, type: 2}
+  items:
+  - {fileID: 11400000, guid: bb3216ad83c1c0613ac34123a68fd1c8, type: 2}
+  - {fileID: 11400000, guid: 18095e9a210c8d0358d73d0913b915b0, type: 2}
+  - {fileID: 11400000, guid: 384b7310d1c343d0c81497642ce12cce, type: 2}
+  - {fileID: 11400000, guid: 6fcb45743d4e91eee9c81f37f8275942, type: 2}
+  - {fileID: 11400000, guid: c2d6f96a8be14727aae0dcad31f5b0c3, type: 2}
+  - {fileID: 11400000, guid: 7bac6372ce9da32929bd6cfa8dcd8ca4, type: 2}
+  - {fileID: 11400000, guid: 76ec70adc9ef621b790fbebd20d7b016, type: 2}
+  - {fileID: 11400000, guid: 65f6c6e3b75d2890f90e5c19e8f7a4ea, type: 2}
+  - {fileID: 11400000, guid: 18d443056aedf0bcba80d3c826d4fb70, type: 2}
+  - {fileID: 11400000, guid: b67ef4a8af1a1354cac7a6b13f30cdff, type: 2}
+  - {fileID: 11400000, guid: 0ebbeb56dd21be38a87684506fe963e3, type: 2}
+  - {fileID: 11400000, guid: 1ae5c6769d88320db85a4b8095dca9d1, type: 2}
+  - {fileID: 11400000, guid: b9108a4b92264bad186d6a1d02cdfeff, type: 2}
+  - {fileID: 11400000, guid: 9998b97696dcd4d0aba25ebb8c023359, type: 2}
+  - {fileID: 11400000, guid: 97a2faad01aad93ae913386e17a0c23c, type: 2}
+  - {fileID: 11400000, guid: 2a26f27606ea6f3dd986e651e262e2f8, type: 2}
+  - {fileID: 11400000, guid: 9e4b6c82dce30dea7b4d189d608c14ca, type: 2}
+  - {fileID: 11400000, guid: 5545af021fb49e51a91c81914bdba7b3, type: 2}
+  - {fileID: 11400000, guid: 001ba3a959a21e05c91ab3c5aaf3148f, type: 2}
+  - {fileID: 11400000, guid: 16c55658f02b8133b92f38a90c913192, type: 2}
+  - {fileID: 11400000, guid: 2dfa6eba0b5677bbca9e7f587f8c9f78, type: 2}
+  - {fileID: 11400000, guid: e3728f1a1f7260dc1955b9e58d6e073e, type: 2}
+  - {fileID: 11400000, guid: 9ebf1b83368ee103da3600e94faf4447, type: 2}
+  - {fileID: 11400000, guid: 6135c2a5311e9d29eb90631108af664a, type: 2}
+  - {fileID: 11400000, guid: 6e9976d35537d8de78b88ce6d838f798, type: 2}
+  - {fileID: 11400000, guid: 987beba863cc60b0d8d950bf2b55b767, type: 2}
+  - {fileID: 11400000, guid: 886de17d82136133094f2a19669e546c, type: 2}
+  - {fileID: 11400000, guid: 8353d2dcfc59a5180867565847139ca6, type: 2}
+  - {fileID: 11400000, guid: b0a4f0a79c1a0b936bb4bd9b11c31f15, type: 2}
+  - {fileID: 11400000, guid: 97c04e484e355bef9a7256c4e016c294, type: 2}
+  - {fileID: 11400000, guid: 0e69b82cff61734668ecc0c016aafbb4, type: 2}
+  - {fileID: 11400000, guid: 35e9a430b2ec6168aa57a80f01de3aec, type: 2}
+  - {fileID: 11400000, guid: e0e4db50cc0ea59e9a29ea83e70312fe, type: 2}
+--- !u!114 &3008609202364278091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7083203841493045194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50b72b37e175437baddeda8397b2d6ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saves:
+  - name: 
+    chestInventory: 
+    playerItemInventory: 
+    playerWeaponInventory: 
+    playerArmorInventory: 
+    completedLevels: 00000000
+  - name: 
+    chestInventory: 
+    playerItemInventory: 
+    playerWeaponInventory: 
+    playerArmorInventory: 
+    completedLevels: 00000000
+  - name: 
+    chestInventory: 
+    playerItemInventory: 
+    playerWeaponInventory: 
+    playerArmorInventory: 
+    completedLevels: 00000000
+  currentSaveIndex: 0
+--- !u!114 &1435177258051738955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7083203841493045194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 289260e641734436b31fe71005a8ab82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingScreen: {fileID: 0}
+--- !u!114 &2641587572875816552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7083203841493045194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72c48edfe98d49a7abb5c4b3ef270d99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTree: {fileID: 0}
+  currentNode: {fileID: 0}
+  dialogueController: {fileID: 0}

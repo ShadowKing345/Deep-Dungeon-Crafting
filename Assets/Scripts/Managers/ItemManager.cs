@@ -59,25 +59,49 @@ namespace Managers
             public int amount;
         }
         
-        public static string ItemStacksToJson(ItemStack[] stacks)
+        public static bool TryItemStacksToJson(ItemStack[] stacks, out string json)
         {
-           
-            ConvertedItemStack[] convertedStacks = stacks.Select(stack => stack.IsEmpty ? new ConvertedItemStack() :
-                new ConvertedItemStack
+            json = "";
+
+            List<ConvertedItemStack> convertedStacks = new List<ConvertedItemStack>();
+
+            foreach (ItemStack stack in stacks)
+            {
+                if (stack.IsEmpty)
+                {
+                    convertedStacks.Add(new ConvertedItemStack());
+                    continue;
+                }
+                if (!Instance.items.Contains(stack.Item)) return false;
+
+                convertedStacks.Add(new ConvertedItemStack
                 {
                     id = Instance.itemId[stack.Item],
                     amount = stack.Amount
-                }).ToArray();
+                });
+            }
 
-            return JsonConvert.SerializeObject(convertedStacks);
+            json = JsonConvert.SerializeObject(convertedStacks.ToArray());
+            return true;
         }
 
-        public static ItemStack[] JsonToItemStacks(string json)
+        public static bool TryJsonToItemStacks(string json, out ItemStack[] stacks)
         {
-            ConvertedItemStack[] convertedItemStacks = JsonConvert.DeserializeObject<ConvertedItemStack[]>(json);
+            try
+            {
+                ConvertedItemStack[] convertedItemStacks = JsonConvert.DeserializeObject<ConvertedItemStack[]>(json);
 
-            return convertedItemStacks
-                .Select(stack => new ItemStack {Item = stack.id == -1 ? null : Instance.idItem[stack.id], Amount = stack.amount}).ToArray();
+                stacks = convertedItemStacks
+                    .Select(stack => new ItemStack
+                        {Item = stack.id == -1 ? null : Instance.idItem[stack.id], Amount = stack.amount}).ToArray();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                stacks = null;
+                return false;
+            }
         }
     }
 }

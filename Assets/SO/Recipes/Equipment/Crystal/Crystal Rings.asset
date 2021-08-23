@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 762bae5382fa42ac9c046b52fd776426, type: 3}
+  m_Name: Crystal Rings
+  m_EditorClassIdentifier: 
+  result:
+    item: {fileID: 11400000, guid: 9e4b6c82dce30dea7b4d189d608c14ca, type: 2}
+    amount: 1
+  ingredients:
+  - item: {fileID: 11400000, guid: 18095e9a210c8d0358d73d0913b915b0, type: 2}
+    amount: 5
+  - item: {fileID: 11400000, guid: 384b7310d1c343d0c81497642ce12cce, type: 2}
+    amount: 5

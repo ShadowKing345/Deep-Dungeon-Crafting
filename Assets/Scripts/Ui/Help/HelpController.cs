@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 namespace Ui.Help
 {
+    //todo: Dear god why the actual f did i not come back and completely redo this system
     public class HelpController : MonoBehaviour
     {
         [Header("Entry Collection")]
@@ -36,7 +37,10 @@ namespace Ui.Help
             SetUpSubTabs();
             tabPreFab.SetActive(false);
 
-            entries.FirstOrDefault()?.GetComponentInChildren<Selectable>().Select();
+            HelpEntry first = entries.FirstOrDefault();
+            if (!first) return;
+            first.GetComponentInChildren<Selectable>().Select();
+            AlterPage(first.tab.page);
         }
 
         private void SetUpTabs()

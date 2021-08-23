@@ -1,12 +1,11 @@
 using System;
+using System.Globalization;
 using Systems;
 using Combat;
 using Items;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using Utils;
 using Utils.Ui;
 
 namespace Ui.ToolTip.Types
@@ -52,7 +51,7 @@ namespace Ui.ToolTip.Types
             switch (stack.Item)
             {
                 case ArmorItem armorItem when armorItem.properties.Length > 0:
-                    CreateProperties(armorItem.properties);
+                    CreateProperties(armorItem.properties, true);
                     break;
                 case WeaponItem weaponItem when weaponItem.Properties.Length > 0:
                     CreateProperties(weaponItem.Properties);
@@ -64,7 +63,7 @@ namespace Ui.ToolTip.Types
             }
         }
 
-        private void CreateProperties(AbilityProperty[] abilityProperties)
+        private void CreateProperties(AbilityProperty[] abilityProperties, bool asPercentages = false)
         {
             propertiesContainer.SetActive(true);
             spacer.SetActive(true);
@@ -88,7 +87,7 @@ namespace Ui.ToolTip.Types
                 text += (property.IsElemental ? property.Element.ToString() : property.AttackType.ToString()) +
                         "</color> : ";
 
-                obj.GetComponentInChildren<TextMeshProUGUI>().text = text + property.Amount;
+                obj.GetComponentInChildren<TextMeshProUGUI>().text = text + (asPercentages ? (property.Amount * 100) + "%" : property.Amount.ToString(CultureInfo.InvariantCulture));
             }
         }
 
@@ -98,6 +97,9 @@ namespace Ui.ToolTip.Types
             {
                 Destroy(childObj.gameObject);
             }
+            
+            propertiesContainer.SetActive(false);
+            spacer.SetActive(false);
         }
 
         protected override void Update()

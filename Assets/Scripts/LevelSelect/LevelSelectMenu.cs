@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Board;
-using Entity.Player;
 using Enums;
 using Interfaces;
 using Managers;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
@@ -15,17 +15,15 @@ namespace LevelSelect
     {
         private GameManager _gameManager;
         private UiManager _uiManager;
-
-        private PlayerMovement playerMovement;
-        private PlayerCombat playerCombat;
         
         [SerializeField] private ToggleGroup toggleGroup;
         [SerializeField] private GameObject levelSelectEntry;
         [SerializeField] private Transform content;
-
-        private List<FloorSettings> floors;
-        private readonly List<Toggle> toggles = new List<Toggle>();
-
+        [SerializeField] private FloorCollection floors;
+        
+        private readonly Dictionary<Toggle, FloorSettings> toggles = new Dictionary<Toggle, FloorSettings>();
+        private Save save;
+            
         private void Awake()
         {
             _gameManager = GameManager.Instance;
@@ -39,45 +37,54 @@ namespace LevelSelect
 
         private void OnEnable()
         {
-            playerCombat ??= FindObjectOfType<PlayerCombat>();
-            playerMovement ??= FindObjectOfType<PlayerMovement>();
-
             GameObjectUtils.ClearChildren(content);
-            floors = Resources.LoadAll<FloorSettings>("Floors").ToList();
             levelSelectEntry.SetActive(false);
             toggles.Clear();
+            
+            SaveManager saveManager = SaveManager.Instance;
+            if (saveManager == null) return;
+
+            save = saveManager.GetCurrentSave;
             
             SetupToggles();
         }
 
         private void SetupToggles()
         {
-            foreach (FloorSettings floor in floors)
+            save ??= new Save();
+            
+            foreach (FloorCollection.FloorItem item in floors.Items)
             {
+                if (!save.CompletedLevels.Contains(item.completedFloorIndex) && item.levelIndex != 0) continue;
+            
                 GameObject entry = Instantiate(levelSelectEntry, content);
                 entry.SetActive(true);
                 if (entry.TryGetComponent(out Toggle toggle))
                 {
                     toggle.group = toggleGroup;
-                    toggles.Add(toggle);
+                    toggles.Add(toggle, item.settings);
                 }
-
-                // entry.GetComponentInChildren<TextMeshProUGUI>().text = floor.name;
+                
+                entry.GetComponentInChildren<TextMeshProUGUI>().text = item.settings.name;
             }
 
             if (_gameManager.FloorScheme == null)
-                toggles.First().Select();
-            else
-                toggles[floors.IndexOf(_gameManager.FloorScheme)].Select();
+                toggles.First().Key.Select();
+            else if(toggles.ContainsValue(_gameManager.FloorScheme))
+                toggles.First(kvPair => kvPair.Value == _gameManager.FloorScheme).Key.Select();
         }
 
         public void OnStartClick()
         {
-            _gameManager.LoadLevel(floors[toggles.IndexOf(toggleGroup.GetFirstActiveToggle())]);
+            Toggle toggle = toggles.Keys.FirstOrDefault(t => t.isOn);
+            if (toggle == null) return;
+
+            if (!toggles.TryGetValue(toggle, out FloorSettings settings)) return;
+            _gameManager.LoadLevel(settings);
             _uiManager.HideUiElement(WindowReference.LevelSelector);
         }
         
-        public void Show() => playerMovement.enabled = playerCombat.enabled = false;
-        public void Hide() => playerMovement.enabled = playerCombat.enabled = true;
+        public void Show() => GameManager.PlayerMovement = false;
+        public void Hide() => GameManager.PlayerMovement = true;
     }
 }

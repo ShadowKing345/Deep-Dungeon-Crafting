@@ -9,15 +9,147 @@
     "w": "wall",
     "r": "roof"
   },
-  "room": [
-    "wwwwwwdwwwwww",
-    "w           w",
-    "w           w",
-    "w     o     w",
-    "d    o o    d",
-    "w     o     w",
-    "w           w",
-    "w           w",
-    "wwwwwwdwwwwww"
+  "rooms": [
+    [
+      "wwwwwwdwwwwww",
+      "w           w",
+      "w           w",
+      "w           w",
+      "d     s     d",
+      "w           w",
+      "w           w",
+      "w           w",
+      "wwwwwwdwwwwww"
+    ],
+    [
+      "wwwwwwdwwwwww",
+      "w           w",
+      "w           w",
+      "w           w",
+      "d     *     d",
+      "w           w",
+      "w           w",
+      "w           w",
+      "wwwwwwdwwwwww"
+    ],
+    [
+      "wwwwwwdwwwwww",
+      "w           w",
+      "w           w",
+      "w           w",
+      "d     o     d",
+      "w           w",
+      "w           w",
+      "w           w",
+      "wwwwwwdwwwwww"
+    ],
+    [
+      "wwwwwwdwwwwww",
+      "w           w",
+      "w           w",
+      "w     o     w",
+      "d    ooo    d",
+      "w     o     w",
+      "w           w",
+      "w           w",
+      "wwwwwwdwwwwww"
+    ],
+    [
+      "wwwwwwdwwwwww",
+      "w           w",
+      "w   o   o   w",
+      "w    o o    w",
+      "d     o     d",
+      "w    o o    w",
+      "w   o   o   w",
+      "w           w",
+      "wwwwwwdwwwwww"
+    ],
+    [
+      "wwwwwwdwwwwww",
+      "wo         ow",
+      "w           w",
+      "w           w",
+      "d           d",
+      "w           w",
+      "w           w",
+      "wo         ow",
+      "wwwwwwdwwwwww"
+    ],
+    [
+      "wwwwwwdwwwwww",
+      "w o       o w",
+      "woo       oow",
+      "w           w",
+      "d           d",
+      "w           w",
+      "woo       oow",
+      "w o       o w",
+      "wwwwwwdwwwwww"
+    ],
+    [
+      "wwwwwwdwwwwww",
+      "w           w",
+      "w           w",
+      "w     o     w",
+      "d    o o    d",
+      "w     o     w",
+      "w           w",
+      "w           w",
+      "wwwwwwdwwwwww"
+    ],
+    [
+      "wwwwwwdwwwwww",
+      "w           w",
+      "w oo     oo w",
+      "w o       o w",
+      "d           d",
+      "w o       o w",
+      "w oo     oo w",
+      "w           w",
+      "wwwwwwdwwwwww"
+    ],
+    [
+      "wwwwwwdwwwwww",
+      "w           w",
+      "w    ooo    w",
+      "w    ooo    w",
+      "d           d",
+      "w    ooo    w",
+      "w    ooo    w",
+      "w           w",
+      "wwwwwwdwwwwww"
+    ],
+    [
+      "wwwwwwdwwwwww",
+      "wrrrro orrrrw",
+      "wrrrro orrrrw",
+      "wooooo ooooow",
+      "d           d",
+      "wooooo ooooow",
+      "wrrrro orrrrw",
+      "wrrrro orrrrw",
+      "wwwwwwdwwwwww"
+    ],[
+      "wwwwwwdwwwwww",
+      "wrrro   orrrw",
+      "woooo   oooow",
+      "w           w",
+      "d           d",
+      "w           w",
+      "woooo   oooow",
+      "wrrro   orrrw",
+      "wwwwwwdwwwwww"
+    ],[
+      "wwwwwwdwwwwww",
+      "w           w",
+      "w           w",
+      "w           w",
+      "d           d",
+      "w           w",
+      "w           w",
+      "w           w",
+      "wwwwwwdwwwwww"
+    ]
   ]
 }

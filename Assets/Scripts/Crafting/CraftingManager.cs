@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Inventory;
@@ -28,28 +27,18 @@ namespace Crafting
                 DontDestroyOnLoad(value);
             }
         }
-        
-        private readonly List<Recipe> _recipes = new List<Recipe>();
 
-        private void OnEnable()
-        {
-            Instance ??= this;
-            Instance.GetRecipes();
-        }
+        [SerializeField] private RecipeCollection recipeCollection;
 
-        private void GetRecipes()
-        {
-            _recipes.Clear();
-            _recipes.AddRange(Resources.LoadAll<Recipe>("Recipes"));
-        }
+        private void Awake() => Instance = this;
 
-        public bool CanCraft(IInventory inventory, Recipe recipe) => recipe.Ingredients.All(inventory.ContainsExact);
+        public static bool CanCraft(IInventory inventory, Recipe recipe) => recipe.Ingredients.All(inventory.ContainsExact);
 
-        public Recipe[] AvailableCrafts(IInventory inventory) => _recipes.Where(recipe => recipe.Ingredients.All(inventory.ContainsExact)).ToArray();
+        public Recipe[] AvailableCrafts(IInventory inventory) => recipeCollection.recipes.Where(recipe => recipe.Ingredients.All(inventory.ContainsExact)).ToArray();
 
-        public Dictionary<ItemStack, bool> GetMissingIngredients(IInventory inventory, Recipe recipe) => recipe.Ingredients.ToDictionary(stack => stack, inventory.ContainsExact);
+        public static Dictionary<ItemStack, bool> GetMissingIngredients(IInventory inventory, Recipe recipe) => recipe.Ingredients.ToDictionary(stack => stack, inventory.ContainsExact);
 
-        public void Craft(IInventory inventory, Recipe recipe)
+        public static void Craft(IInventory inventory, Recipe recipe)
         {
             if (!CanCraft(inventory, recipe)) return;
             
@@ -58,6 +47,6 @@ namespace Crafting
             inventory.AddItemStacks(new[] {recipe.Result});
         }
         
-        public Recipe[] Recipes => _recipes.ToArray();
+        public IEnumerable<Recipe> Recipes => recipeCollection.recipes.ToArray();
     }
 }

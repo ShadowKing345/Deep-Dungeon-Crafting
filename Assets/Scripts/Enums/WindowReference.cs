@@ -8,6 +8,9 @@ namespace Enums
         CraftingMenu,
         PlayerInventory,
         LevelSelector,
-        Chest
+        Chest,
+        DeathScreen,
+        CompleteScreen,
+        Dialogue
     }
 }

@@ -28,6 +28,7 @@ namespace Items
             if (this.item == null) Item = item;
             if (item != this.item) return amount;
 
+            if (item == null) return amount;
             this.amount += amount;
             if (this.amount <= item.MaxStackSize) return 0;
             

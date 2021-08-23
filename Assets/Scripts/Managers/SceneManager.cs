@@ -28,8 +28,6 @@ namespace Managers
                 DontDestroyOnLoad(value);
             }
         }
-
-        [SerializeField] private GameObject loadingScreen;
         public event Action<SceneIndexes> OnBeginSceneChange;
         public event Action<SceneIndexes> OnEndSceneChange;
         
@@ -49,22 +47,21 @@ namespace Managers
             loadingProgressList.Add(UnityEngine.SceneManagement.SceneManager.LoadSceneAsync((int) index, LoadSceneMode.Additive));
 
             CurrentScene = index;
-            
-            loadingScreen.SetActive(true);
-            
             StartCoroutine(GetLoadingProgress(onCompleteCallBack));
         }
 
         IEnumerator GetLoadingProgress(Action onCompleteCallBack = null)
         {
+            LoadingScreenManager.HideScreen();
+            yield return new WaitForEndOfFrame();
+            
             foreach(var i in loadingProgressList)
                 while (!i.isDone)
                     yield return null;
             
-            Debug.Log("Done Loading.");
-            loadingScreen.SetActive(false);
-            onCompleteCallBack?.Invoke();
+            LoadingScreenManager.ShowScreen();
             OnEndSceneChange?.Invoke(CurrentScene);
+            onCompleteCallBack?.Invoke();
         }
     }
 }

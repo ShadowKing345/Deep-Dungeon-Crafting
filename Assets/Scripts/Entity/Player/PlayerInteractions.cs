@@ -7,7 +7,6 @@ namespace Entity.Player
     public class PlayerInteractions : MonoBehaviour
     {
         private InputManager _inputManager;
-        private UiManager _uiManager;
         
         public float aoeSize;
         public Vector2 aoeOffset;
@@ -15,7 +14,6 @@ namespace Entity.Player
 
         private void OnEnable()
         {
-            _uiManager ??= UiManager.Instance;
             _inputManager ??= new InputManager();
 
             _inputManager.Player.Interact.canceled += _ =>
@@ -31,17 +29,13 @@ namespace Entity.Player
         {
             Vector2 currentPos = (Vector2) transform.position + aoeOffset;
             Collider2D[] hits = Physics2D.OverlapCircleAll(currentPos, aoeSize);
-            // Collider2D[] hits = new Collider2D[0];
 
-            // collider2D.
-            
             IInteractable closest = null;
             Vector2 smallestPos = Vector2.positiveInfinity;
 
             foreach(Collider2D hit in hits)
             {
                 if (hit.gameObject == gameObject) continue;
-                
                 if (!hit.TryGetComponent(out IInteractable interactable)) continue;
                 
                 if (Vector2.Distance(currentPos, hit.transform.position) >= Vector2.Distance(currentPos, smallestPos)) continue;

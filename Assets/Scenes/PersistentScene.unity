@@ -134,7 +134,8 @@ GameObject:
   - component: {fileID: 42626735}
   - component: {fileID: 42626737}
   - component: {fileID: 42626736}
-  m_Layer: 0
+  - component: {fileID: 42626738}
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -158,7 +159,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 330.53, y: 83.79}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &42626736
 MonoBehaviour:
@@ -209,8 +210,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 75
+  m_fontSizeBase: 75
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -259,6 +260,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 42626734}
   m_CullTransparentMesh: 1
+--- !u!114 &42626738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42626734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 2
 --- !u!1001 &186919925
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -266,50 +281,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 74775340142337632, guid: 6334dfd5fdd672fcf8cd7889f0d2cfce, type: 3}
-      propertyPath: items.Array.size
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 74775340142337632, guid: 6334dfd5fdd672fcf8cd7889f0d2cfce, type: 3}
-      propertyPath: items.Array.data[0]
+    - target: {fileID: 1435177258051738955, guid: 6334dfd5fdd672fcf8cd7889f0d2cfce, type: 3}
+      propertyPath: loadingScreen
       value: 
-      objectReference: {fileID: 11400000, guid: bb3216ad83c1c0613ac34123a68fd1c8, type: 2}
-    - target: {fileID: 74775340142337632, guid: 6334dfd5fdd672fcf8cd7889f0d2cfce, type: 3}
-      propertyPath: items.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 18095e9a210c8d0358d73d0913b915b0, type: 2}
-    - target: {fileID: 74775340142337632, guid: 6334dfd5fdd672fcf8cd7889f0d2cfce, type: 3}
-      propertyPath: items.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: 384b7310d1c343d0c81497642ce12cce, type: 2}
-    - target: {fileID: 74775340142337632, guid: 6334dfd5fdd672fcf8cd7889f0d2cfce, type: 3}
-      propertyPath: items.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: 6fcb45743d4e91eee9c81f37f8275942, type: 2}
-    - target: {fileID: 74775340142337632, guid: 6334dfd5fdd672fcf8cd7889f0d2cfce, type: 3}
-      propertyPath: items.Array.data[4]
-      value: 
-      objectReference: {fileID: 11400000, guid: c2d6f96a8be14727aae0dcad31f5b0c3, type: 2}
-    - target: {fileID: 74775340142337632, guid: 6334dfd5fdd672fcf8cd7889f0d2cfce, type: 3}
-      propertyPath: items.Array.data[5]
-      value: 
-      objectReference: {fileID: 11400000, guid: 7bac6372ce9da32929bd6cfa8dcd8ca4, type: 2}
-    - target: {fileID: 74775340142337632, guid: 6334dfd5fdd672fcf8cd7889f0d2cfce, type: 3}
-      propertyPath: items.Array.data[6]
-      value: 
-      objectReference: {fileID: 11400000, guid: 76ec70adc9ef621b790fbebd20d7b016, type: 2}
-    - target: {fileID: 74775340142337632, guid: 6334dfd5fdd672fcf8cd7889f0d2cfce, type: 3}
-      propertyPath: items.Array.data[7]
-      value: 
-      objectReference: {fileID: 11400000, guid: 65f6c6e3b75d2890f90e5c19e8f7a4ea, type: 2}
-    - target: {fileID: 74775340142337632, guid: 6334dfd5fdd672fcf8cd7889f0d2cfce, type: 3}
-      propertyPath: items.Array.data[8]
-      value: 
-      objectReference: {fileID: 11400000, guid: 18d443056aedf0bcba80d3c826d4fb70, type: 2}
-    - target: {fileID: 74775340142337632, guid: 6334dfd5fdd672fcf8cd7889f0d2cfce, type: 3}
-      propertyPath: items.Array.data[9]
-      value: 
-      objectReference: {fileID: 11400000, guid: b67ef4a8af1a1354cac7a6b13f30cdff, type: 2}
+      objectReference: {fileID: 732850208}
     - target: {fileID: 4250596385002567203, guid: 6334dfd5fdd672fcf8cd7889f0d2cfce, type: 3}
       propertyPath: loadingScreen
       value: 
@@ -377,7 +352,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 732850209}
-  m_Layer: 0
+  - component: {fileID: 732850210}
+  m_Layer: 5
   m_Name: Loading Screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -400,6 +376,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!225 &732850210
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 732850208}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &898046178
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,7 +472,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1555679399}
   - component: {fileID: 1555679401}
-  m_Layer: 0
+  - component: {fileID: 1555679400}
+  m_Layer: 5
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -505,6 +494,38 @@ Transform:
   m_Father: {fileID: 732850209}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1555679400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555679398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: 0
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!20 &1555679401
 Camera:
   m_ObjectHideFlags: 0
@@ -533,10 +554,10 @@ Camera:
   field of view: 60
   orthographic: 1
   orthographic size: 5
-  m_Depth: 0
+  m_Depth: 10
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 32
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -560,7 +581,7 @@ GameObject:
   - component: {fileID: 1798340634}
   - component: {fileID: 1798340633}
   - component: {fileID: 1798340632}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -659,7 +680,7 @@ GameObject:
   - component: {fileID: 1974797632}
   - component: {fileID: 1974797634}
   - component: {fileID: 1974797633}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}

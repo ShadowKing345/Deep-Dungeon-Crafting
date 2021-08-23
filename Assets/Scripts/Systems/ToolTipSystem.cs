@@ -73,7 +73,6 @@ namespace Systems
         {
             textToolTip.gameObject.SetActive(true);
             textToolTip.UpdateContent(content, header);
-            LeanTween.alphaCanvas(textToolTip.canvasGroup, 1, 0.1f);
         }
 
         public void HideToolTip(bool normal = false, bool item = false, bool ability = false)

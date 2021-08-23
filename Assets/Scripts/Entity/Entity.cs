@@ -7,7 +7,6 @@ using UnityEngine;
 using Combat;
 using Combat.Buffs;
 using Statistics;
-using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 namespace Entity
@@ -21,6 +20,10 @@ namespace Entity
         [Space] 
         [SerializeField] protected bool godMode;
 
+        protected SpriteRenderer sp;
+        protected float damageCoolDown;
+        protected bool damageCoolDownActive = false;
+
         protected readonly List<ActiveBuff> buffs = new List<ActiveBuff>();
         
         public bool IsDead { get; protected set; }
@@ -32,9 +35,21 @@ namespace Entity
             currentMana = stats.MaxMana;
         }
 
-        protected virtual void OnEnable() => StartCoroutine(BuffTicks());
+        protected virtual void OnEnable()
+        {
+            sp = GetComponent<SpriteRenderer>();
+            StartCoroutine(BuffTicks());
+        }
 
         protected virtual void OnDisable() => StopCoroutine(BuffTicks());
+
+        protected virtual void Update()
+        {
+            if (!damageCoolDownActive || !(damageCoolDown < Time.time)) return;
+            
+            sp.color = Color.white;
+            damageCoolDownActive = false;
+        }
 
         public virtual bool Damage(AbilityProperty[] properties)
         {
@@ -42,24 +57,26 @@ namespace Entity
 
             foreach (AbilityProperty property in properties)
             {
-                float damage = property.Amount;
+                AbilityProperty[][] buffResistance = buffs
+                    .Where(buff => buff.buff is DefensiveBuff dfb && dfb.Properties.HasResistanceTo(property))
+                    .Select(buff => ((DefensiveBuff) buff.buff).Properties).ToArray();
 
+                float damage = buffResistance.SelectMany(abilityProperties => abilityProperties)
+                    .Aggregate(property.Amount, (current, p) => current - current * p.Amount);
+                
                 AbilityProperty resistance = stats.Resistances.FirstOrDefault(p =>
                     property.IsElemental ? p.Element == property.Element : p.AttackType == property.AttackType);
 
-                damage -= property.Amount * resistance?.Amount ?? 0;
-
-                AbilityProperty[][] buffResistance = buffs
-                    .Where(buff => buff.buff is DefensiveBuff dfb && dfb.HasResistanceTo(property))
-                    .Select(buff => ((DefensiveBuff) buff.buff).Properties).ToArray();
-
-                damage = buffResistance.SelectMany(abilityProperties => abilityProperties)
-                    .Aggregate(property.Amount, (current, p) => current - current * p.Amount);
+                damage -= property.Amount * (resistance?.Amount ?? 0);
 
                 damageTaken += damage;
             }
 
-            currentHealth -= Random.Range(0, 100) <= 30 ? damageTaken * 2 : damageTaken;
+            currentHealth -= Mathf.Max(Random.Range(0, 100) <= 30 ? damageTaken * 2 : damageTaken, 0);
+
+            damageCoolDownActive = true;
+            damageCoolDown = Time.time + 0.6f;
+            sp.color = Color.red;
 
             if (!(currentHealth <= 0)) return true;
 
@@ -89,25 +106,7 @@ namespace Entity
         {
             OnDeath?.Invoke(this);
             
-            StatisticsManager s = StatisticsManager.Instance;
-            string path = $"Entity.Killed.{stats.name}";
-
-            if (s.KeyExists(path))
-            {
-                switch (s.GetKeyValue(path))
-                {
-                    case int integer:
-                        s.SetKeyValue(path, integer + 1);
-                        break;
-                    case string stringy:
-                        if (int.TryParse(stringy, out int number))
-                            s.SetKeyValue(path, number + 1);
-                        break;
-                }
-            }
-            else
-                s.SetKeyValue(path, 1);
-            
+            StatisticsManager.Instance.AddIntValue($"Entity.Killed.{stats.name}", 1);
             Destroy(gameObject);
         }
 
@@ -123,7 +122,7 @@ namespace Entity
 
         public virtual bool ChargeMana(float amount)
         {
-            if (!(currentMana >= amount)) return false;
+            if (currentMana < amount) return false;
             
             currentMana -= amount;
             return true;

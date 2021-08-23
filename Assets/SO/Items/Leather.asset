@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1bf5a7220864ec5a8008ec291e95522, type: 3}
   m_Name: Leather
   m_EditorClassIdentifier: 
-  description: 
+  description: 'Made to be study and hard.
+
+    Leather if often used for various
+    armors or weapon holders.'
   icon: {fileID: 21300000, guid: bbaf06ed120f2f720b51b57845df6e3b, type: 3}
   maxStackSize: 999

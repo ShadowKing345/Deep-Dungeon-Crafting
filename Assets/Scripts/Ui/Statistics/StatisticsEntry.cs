@@ -25,9 +25,9 @@ namespace Ui.Statistics
             {
                 nameText.text = value.Key;
 
-                if (value.Value is Dictionary<string, object> dictionary)
+                if (value.Value is IDictionary<string, object> dictionary)
                 {
-                    foreach (KeyValuePair<string, object> kvPair in dictionary)
+                    foreach (KeyValuePair<string, object> kvPair in new SortedDictionary<string, object>(dictionary))
                     {
                         GameObject sub = Instantiate(gameObject, subContent);
                         if (sub.TryGetComponent(out StatisticsEntry entry)) entry.Init = kvPair;

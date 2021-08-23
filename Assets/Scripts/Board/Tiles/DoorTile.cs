@@ -51,6 +51,7 @@ namespace Board.Tiles
 
             target.transform.position = (Vector2) connectedDoorTile.transform.position + connectedDoorTile.CalculatePlayerPlacement();
             coolDown = Time.time + doorCoolDown;
+            connectedRoom.OnPlayerEnter();
             
             return true;
         }

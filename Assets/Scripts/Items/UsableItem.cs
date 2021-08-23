@@ -6,6 +6,6 @@ namespace Items
 {
     public abstract class UsableItem : Item
     {
-        public abstract bool Use(Player player);
+        public abstract bool Use(PlayerEntity playerEntity);
     }
 }

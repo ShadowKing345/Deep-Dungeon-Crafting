@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 376856d357604049b5c42b8fd091de09, type: 3}
+  m_Name: Controls
+  m_EditorClassIdentifier: 
+  icon: {fileID: -7543061489181569089, guid: 7c7b3f61958516374aa0322c27aee62d, type: 3}
+  description: 'Assuming you are playing with a mouse and keyboard, you should be
+    able to completly play the game only with just your left hand. Additonally, the
+    controls can be rebinded to a different key inside the settings menu (feature
+    not avaliable yet). Also capticals are different keys to lower case so beware
+    of the Caps Lock key.
+
+
+    The basic controls for the game are as follows:
+
+
+    Movement:
+
+    [
+    w / Up ] to move North.
+
+    [ s / Down ] to move South.
+
+    [ a / Left ] to
+    move West.
+
+    [ d / Right ] to move East.
+
+
+    Interaction:
+
+    [ Space ]
+    begins interaction with the closest interactable entity or object.
+
+
+    Menus:
+
+    [
+    Escape ] to Pause the game and Open the Pause Menu / Escape Menu.
+
+    [ n ]
+    to open the Crafting Menu.
+
+    [ Tab ] to open the Inventory.
+
+
+    Small Notes:
+
+    Attempting
+    to open the Pause Menu in any other menu will cause that menu to close on the
+    first press then the Pause Menu will open on the second button press.
+
+
+    Attacking:
+
+    [
+    Alphanumeric 1 ] to execute the First Ability.
+
+    [ Alphanumeric 2 ] to execute
+    the Second Ability.
+
+    [ Alphanumeric 3 ] to execute the Third Ability.
+
+
+    Note:
+
+    Alphanumeic
+    keys are the 1 to 0 keys on the top row of most keyboards.
+
+    Numpad keys are
+    specific to the keys arranged in a calculator layout found furthest to the right
+    of keyboard that have it.'

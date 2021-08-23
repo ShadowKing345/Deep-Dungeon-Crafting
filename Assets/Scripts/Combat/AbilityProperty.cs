@@ -44,5 +44,9 @@ namespace Combat
             return properties.FirstOrDefault(p =>
                 p.IsElemental ? p.Element == property.Element : p.AttackType == property.AttackType);
         }
+
+        public static bool HasResistanceTo(this AbilityProperty[] properties, AbilityProperty property) =>
+            properties.FirstOrDefault(p =>
+                p.IsElemental ? p.Element == property.Element : p.AttackType == property.AttackType) != null;
     }
 }

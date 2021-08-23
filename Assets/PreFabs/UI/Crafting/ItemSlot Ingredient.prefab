@@ -100,6 +100,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 273189811748172443, guid: 03ebe8edc5208c766ba0181c019c1fcb, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 273189811883895452, guid: 03ebe8edc5208c766ba0181c019c1fcb, type: 3}
       propertyPath: m_Name
       value: ItemSlot Ingredient

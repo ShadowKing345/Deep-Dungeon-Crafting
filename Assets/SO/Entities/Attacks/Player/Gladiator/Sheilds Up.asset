@@ -12,7 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7a417a925224e46b1c114c1e9215118, type: 3}
   m_Name: Sheilds Up
   m_EditorClassIdentifier: 
-  description: 
+  description: 'Grip your sheild hard and cast a small protection spell.
+
+    This
+    spell allows you to better defend yourself against the hordes of enemies out
+    there.
+
+    Granted it does cost a bit of mana.'
   icon: {fileID: 21300000, guid: ade221b33ad330d68bc637a8f4514d7e, type: 3}
   coolDown: 2.5
   properties: []

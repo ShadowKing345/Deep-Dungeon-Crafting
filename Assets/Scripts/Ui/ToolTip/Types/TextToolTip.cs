@@ -7,8 +7,6 @@ namespace Ui.ToolTip.Types
 {
     public class TextToolTip : FollowMouse
     {
-        public CanvasGroup canvasGroup;
-        
         [SerializeField] private TextMeshProUGUI headerTMP;
         [SerializeField] private TextMeshProUGUI contentTMP;
         [SerializeField] private LayoutElement layoutElement;

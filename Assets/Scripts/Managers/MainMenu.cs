@@ -1,4 +1,5 @@
 using Interfaces;
+using Ui.Menu;
 using Ui.Saves;
 using UnityEngine;
 
@@ -6,43 +7,43 @@ namespace Managers
 {
     public class MainMenu : MonoBehaviour
     {
-        [SerializeField] private GameObject settingsObj;
-        [SerializeField] private GameObject savesObj;
+        [SerializeField] private SettingsController settingController;
+        [SerializeField] private SaveController saveController;
 
         private void OnEnable()
         {
-            settingsObj.SetActive(false);
-            savesObj.SetActive(false);
+            settingController.gameObject.SetActive(false);
+            saveController.gameObject.SetActive(false);
         }
 
         public void OnNewGameClick()
         {
-            savesObj.SetActive(true);
-            if (savesObj.TryGetComponent(out IUiWindow window)) window.Show();
-            if(savesObj.TryGetComponent(out SaveManager savesController)) savesController.State = SaveManager.ControllerState.NewGame;
+            saveController.gameObject.SetActive(true);
+            if (saveController.TryGetComponent(out IUiWindow window)) window.Show();
+            saveController.New();
         }
 
         public void OnLoadGameClick()
         {
-            savesObj.SetActive(true);
-            if (savesObj.TryGetComponent(out IUiWindow window)) window.Show();
-            if(savesObj.TryGetComponent(out SaveManager savesController)) savesController.State = SaveManager.ControllerState.LoadGame;
+            saveController.gameObject.SetActive(true);
+            if (saveController.TryGetComponent(out IUiWindow window)) window.Show();
+            saveController.Load();
         }
 
         public void OnSettingsClick()
         {
-            settingsObj.SetActive(true);
-            if (settingsObj.TryGetComponent(out IUiWindow window)) window.Show();
+            settingController.gameObject.SetActive(true);
+            if (settingController.TryGetComponent(out IUiWindow window)) window.Show();
         }
 
         public void OnExitGameClick() => GameManager.Instance.ExitGame();
 
         public void OnBackClick()
         {
-            if (settingsObj.activeSelf && settingsObj.TryGetComponent(out IUiWindow settingWindow)) settingWindow.Show();
-            settingsObj.SetActive(false);
-            if (savesObj.activeSelf && savesObj.TryGetComponent(out IUiWindow savesWindow)) savesWindow.Show();
-            savesObj.SetActive(false);
+            if (settingController.gameObject.activeSelf && settingController.TryGetComponent(out IUiWindow settingWindow)) settingWindow.Hide();
+            settingController.gameObject.SetActive(false);
+            if (saveController.gameObject.activeSelf && saveController.TryGetComponent(out IUiWindow savesWindow)) savesWindow.Hide();
+            saveController.gameObject.SetActive(false);
         }
     }
 }

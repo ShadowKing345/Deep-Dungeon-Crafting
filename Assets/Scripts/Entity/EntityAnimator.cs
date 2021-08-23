@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 using Utils;
@@ -18,7 +19,8 @@ namespace Entity
         [SerializeField] private bool ignoreDirection;
         public bool IgnoreDirection { set => ignoreDirection = value; } 
         public Direction CurrentDirection => currentDirection;
-        
+
+        private bool isAttacking;
         private float attackCoolDown;
 
         private void Awake()
@@ -37,17 +39,15 @@ namespace Entity
                     animator.Play(ignoreDirection ? "Run" : $"Run-{_directions[(int) currentDirection]}");
                     break;
                 case State.Attacking:
-                    animator.Play(ignoreDirection ? attackName : attackName + "-" + _directions[(int) currentDirection]);
-                    if (attackCoolDown < Time.time) state = State.Idle;
+                    if (isAttacking && attackCoolDown < Time.time)
+                    {
+                        state = State.Idle;
+                        isAttacking = false;
+                    }
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-        }
-
-        private void AttackComplete()
-        {
-            state = State.Idle;
         }
 
         public void Move(Vector2 direction)
@@ -76,20 +76,25 @@ namespace Entity
             return (Direction) Mathf.FloorToInt(angle / step);
         }
 
-        public void PlayAttackAnimation(string animationName)
+        public IEnumerator PlayAttackAnimation(string animationName)
         {
             attackName = animationName;
             state = State.Attacking;
             
-            attackCoolDown = Time.time + GetAnimationLength(attackName);
+            animator.Play(ignoreDirection ? attackName : $"{attackName}-{_directions[(int) currentDirection]}");
+
+            yield return new WaitForEndOfFrame();
+            
+            attackCoolDown = Time.time + GetAnimationLength;
+            isAttacking = true;
         }
 
-        public float GetAnimationLength(string animationName)
+        public float GetAnimationLength => animator.GetCurrentAnimatorStateInfo(0).length;
+        public float GetAnimationClipLength(string clipName)
         {
-            AnimationClip animationClip = animator.runtimeAnimatorController.animationClips.FirstOrDefault(clip =>
-                clip.name == (ignoreDirection ? attackName : attackName + "-" + _directions[(int) currentDirection]));
-
-            return animationClip != null ? animationClip.length : 0;
+            AnimationClip clip =
+                animator.runtimeAnimatorController.animationClips.FirstOrDefault(c => c.name == clipName);
+            return clip == null ? 0 : clip.length;
         }
 
         private enum State

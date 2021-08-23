@@ -16,8 +16,6 @@ namespace Ui.Inventories.InventoryControllers
     public class ChestController : MonoBehaviour, IInventoryController, IUiWindow
     {
         private UiManager _uiManager;
-        private PlayerCombat playerCombat;
-        private PlayerMovement playerMovement;
 
         [SerializeField] private GameObject slotPreFab;
         [Space] [Header("Containers")] 
@@ -98,26 +96,25 @@ namespace Ui.Inventories.InventoryControllers
             _uiManager.RegisterWindow(WindowReference.Chest, gameObject);
             gameObject.SetActive(false);
 
-            if (!SaveSystem.TryLoadObj(Path.Combine(GameManager.Instance.savePath, "chest.inv"),
-                out string json)) return;
+            Save save = SaveManager.Instance.GetCurrentSave;
+            if (save == null || string.IsNullOrEmpty(save.ChestInventory)) return;
 
+            if (!ItemManager.TryJsonToItemStacks(save.ChestInventory, out ItemStack[] stacks)) return;
+            
             itemInventory.ResetInventory();
-            itemInventory.AddItemStacks(ItemManager.JsonToItemStacks(json));
+            for (int i = 0; i < stacks.Length; i++) itemInventory.AddStackAtSlot(stacks[i], i);
         }
 
         private void OnDestroy()
         {
             _uiManager.UnregisterWindow(WindowReference.Chest,gameObject);
-            
-            SaveSystem.SaveObj(Path.Combine(GameManager.Instance.savePath, "chest.inv"),
-                ItemManager.ItemStacksToJson(itemInventory.GetItemStacks()));
+
+            if (!ItemManager.TryItemStacksToJson(itemInventory.GetItemStacks(), out string json)) return;
+            SaveManager.Instance.GetCurrentSave.ChestInventory = json;
         }
 
         private void OnEnable()
         {
-            playerCombat ??= FindObjectOfType<PlayerCombat>();
-            playerMovement ??= FindObjectOfType<PlayerMovement>();
-            
             _playerInventory ??= FindObjectOfType<PlayerInventory>();
 
             if (_playerInventory == null) return;
@@ -161,7 +158,7 @@ namespace Ui.Inventories.InventoryControllers
             }
         }
 
-        public void Show() => playerCombat.enabled = playerMovement.enabled = false;
-        public void Hide() => playerCombat.enabled = playerMovement.enabled = true;
+        public void Show() => GameManager.PlayerMovement = false;
+        public void Hide() => GameManager.PlayerMovement = true;
     }
 }

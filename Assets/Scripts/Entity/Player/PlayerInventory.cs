@@ -81,24 +81,25 @@ namespace Entity.Player
 
         private void Awake()
         {
-            string savePath = GameManager.Instance.savePath;
-            
-            if (SaveSystem.TryLoadObj(Path.Combine(savePath, "item.inv"), out string itemJson))
+            Save save = SaveManager.Instance.GetCurrentSave;
+            if (save == null) return;
+
+            if (ItemManager.TryJsonToItemStacks(save.PlayerItemInventory, out ItemStack[] itemStacks))
             {
                 itemInventory.ResetInventory();
-                itemInventory.AddItemStacks(ItemManager.JsonToItemStacks(itemJson));
+                for (int i = 0; i < itemStacks.Length; i++) itemInventory.AddStackAtSlot(itemStacks[i], i);
             }
-
-            if (SaveSystem.TryLoadObj(Path.Combine(savePath, "weapon.inv"), out string weaponJson))
+            
+            if (ItemManager.TryJsonToItemStacks(save.PlayerWeaponInventory, out ItemStack[] weaponStacks))
             {
                 weaponInventory.ResetInventory();
-                weaponInventory.AddItemStacks(ItemManager.JsonToItemStacks(weaponJson));
+                for (int i = 0; i < weaponStacks.Length; i++) weaponInventory.AddStackAtSlot(weaponStacks[i], i);
             }
 
-            if (SaveSystem.TryLoadObj(Path.Combine(savePath, "armor.inv"), out string armorJson))
+            if (ItemManager.TryJsonToItemStacks(save.PlayerArmorInventory, out ItemStack[] armorStacks))
             {
                 armorInventory.ResetInventory();
-                armorInventory.AddItemStacks(ItemManager.JsonToItemStacks(armorJson));
+                for (int i = 0; i < armorStacks.Length; i++) armorInventory.AddStackAtSlot(armorStacks[i], i);
             }
         }
 
@@ -107,15 +108,15 @@ namespace Entity.Player
         private void OnDestroy()
         {
             if (!SaveInventory) return;
-            
-            string savePath = GameManager.Instance.savePath;
+            Save save = SaveManager.Instance.GetCurrentSave;
+            if (save == null) return;
 
-            SaveSystem.SaveObj(Path.Combine(savePath, "item.inv"),
-                ItemManager.ItemStacksToJson(itemInventory.GetItemStacks()));
-            SaveSystem.SaveObj(Path.Combine(savePath, "weapon.inv"),
-                ItemManager.ItemStacksToJson(weaponInventory.GetItemStacks()));
-            SaveSystem.SaveObj(Path.Combine(savePath, "armor.inv"),
-                ItemManager.ItemStacksToJson(armorInventory.GetItemStacks()));
+            if (ItemManager.TryItemStacksToJson(itemInventory.GetItemStacks(), out string itemJson))
+                save.PlayerItemInventory = itemJson;
+            if (ItemManager.TryItemStacksToJson(weaponInventory.GetItemStacks(), out string weaponJson))
+                save.PlayerWeaponInventory = weaponJson;
+            if (ItemManager.TryItemStacksToJson(armorInventory.GetItemStacks(), out string armorJson))
+                save.PlayerArmorInventory = armorJson;
         }
     }
 }

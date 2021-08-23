@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Board;
+using Pathfinding;
 using UnityEditor;
 using UnityEngine;
 using Utils;
 using Random = UnityEngine.Random;
-using Vector2 = UnityEngine.Vector2;
 
 namespace Managers
 {
@@ -30,11 +30,14 @@ namespace Managers
 
         private GameManager _gameManager;
 
+        [SerializeField] private AstarPath astarPath;
+        
         [SerializeField] private FloorSettings floorSettings;
         [SerializeField] private Transform board;
 
         [Space] [Header("Internal Variables")]
         [SerializeField] private Vector2Int gridSize;
+        [SerializeField] private Vector2Int actualGridSize;
         [SerializeField] private int roomNumber;
         
         public FloorSettings FloorSettings
@@ -48,7 +51,11 @@ namespace Managers
         private readonly List<Vector2Int> roomPositions = new List<Vector2Int>();
         private const int EmergencyLoopExit = 100;
 
-        private void Awake() => _gameManager = GameManager.Instance;
+        private void Awake()
+        {
+            Instance = this;
+            _gameManager = GameManager.Instance;
+        }
 
         public void ResetLists()
         {
@@ -97,6 +104,14 @@ namespace Managers
 
                 loopExit--;
             }
+
+            Vector2Int max = new Vector2Int();
+            max = roomPositions.Aggregate(max, Vector2Int.Max);
+            Vector2Int min = max;
+            min = roomPositions.Aggregate(min, Vector2Int.Min);
+
+            for (int i = 0; i < roomPositions.Count; i++) roomPositions[i] = roomPositions[i] - min;
+            actualGridSize = max - min + Vector2Int.one;
         }
 
         public void CreateRooms()
@@ -122,6 +137,18 @@ namespace Managers
                     obj.transform.position = (Vector2) pos * (floorSettings.RoomSize + Vector2Int.one * spacing);
                 }
             }
+        }
+
+        public void Scan()
+        {
+            GridGraph gg = astarPath.data.gridGraph;
+            
+            Vector2Int tileCount = actualGridSize * floorSettings.RoomSize + (actualGridSize - Vector2Int.one) * floorSettings.Spacing;
+
+            gg.SetDimensions(tileCount.x * 3, tileCount.y * 3, 0.33333333F);
+            gg.center = (Vector2)(tileCount / 2);
+            
+            astarPath.Scan(); 
         }
 
         public void ConnectRooms()
@@ -156,13 +183,14 @@ namespace Managers
             roofContainer.transform.SetParent(board);
             roofContainer.transform.position = new Vector3(0,0, 10);
             int spacing = 3;
-            Vector2Int tileCount = gridSize * floorSettings.RoomSize + (gridSize - Vector2Int.one) * spacing;
 
-            for (int i = -spacing; i < tileCount.x + spacing; i++)
-            for (int j = -spacing; j < tileCount.y + spacing; j++) 
+            Vector2Int tileCount = actualGridSize * floorSettings.RoomSize + (actualGridSize - Vector2Int.one) * spacing;
+            
+            for (int i = -spacing - 2; i < tileCount.x + spacing + 2; i++)
+            for (int j = -spacing - 2; j < tileCount.y + spacing + 2; j++) 
                 Instantiate(floorSettings.Roof, roofContainer.transform, false).transform.position = roofContainer.transform.position + new Vector3(i,j);
         }
-
+        
         private static bool TryGetIndexFromDirection(Vector2Int currentPos, Vector2Int gridSize, Direction direction, out Vector2Int newPos)
         {
             Vector2 directionVector2 = direction.GetVectorDirection();

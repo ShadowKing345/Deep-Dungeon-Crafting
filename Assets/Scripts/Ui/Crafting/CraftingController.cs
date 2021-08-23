@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Crafting;
 using Entity.Player;
 using Enums;
@@ -51,7 +52,6 @@ namespace Ui.Crafting
         private void OnEnable()
         {
             playerInventory ??= FindObjectOfType<PlayerInventory>();
-            ingredientItemSlotPreFab.SetActive(false);
             
             playerMovementController ??= FindObjectOfType<PlayerMovement>();
             playerCombatController ??= FindObjectOfType<PlayerCombat>();
@@ -66,18 +66,20 @@ namespace Ui.Crafting
         {
             if (selectedRecipe == null) return;
 
-            if (!_craftingManager.CanCraft(playerInventory.ItemInventory, selectedRecipe)) return;
+            if (!CraftingManager.CanCraft(playerInventory.ItemInventory, selectedRecipe)) return;
             
-            _craftingManager.Craft(playerInventory.ItemInventory, selectedRecipe);
+            CraftingManager.Craft(playerInventory.ItemInventory, selectedRecipe);
             UpdatePage(selectedRecipe);
         }
 
-        public void CreateRecipeEntries()
+        private void CreateRecipeEntries()
         {
             foreach(GameObject obj in recipeEntries) Destroy(obj);
             recipeEntries.Clear();
 
-            foreach (Recipe recipe in _craftingManager.Recipes)
+            SortedList<string, Recipe> recipes = new SortedList<string, Recipe>(_craftingManager.Recipes.ToDictionary(s => s.name));
+
+            foreach (Recipe recipe in recipes.Values)
             {
                 GameObject obj = Instantiate(recipeEntryPreFab, navigationContent);
                 recipeEntries.Add(obj);
@@ -96,7 +98,7 @@ namespace Ui.Crafting
             ingredientsItemSlots.Clear();
 
             Dictionary<ItemStack, bool> ingredients =
-                _craftingManager.GetMissingIngredients(playerInventory.ItemInventory, recipe);
+                CraftingManager.GetMissingIngredients(playerInventory.ItemInventory, recipe);
             
             foreach (KeyValuePair<ItemStack, bool> kvPair in ingredients)
             {
@@ -110,7 +112,7 @@ namespace Ui.Crafting
                 ingredientsItemSlots.Add(slot);
             }
 
-            craftButton.interactable = _craftingManager.CanCraft(playerInventory.ItemInventory, recipe);
+            craftButton.interactable = CraftingManager.CanCraft(playerInventory.ItemInventory, recipe);
         }
         
         public void Show()

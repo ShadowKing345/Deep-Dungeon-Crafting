@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49a4021d496a4aac855c5ad5307bb0ca, type: 3}
   m_Name: Basic Health Potion
   m_EditorClassIdentifier: 
-  description: 
-  icon: {fileID: 0}
+  description: A basic health potion that does not do much in terms of healing but
+    is fairly easy to create.
+  icon: {fileID: 21300000, guid: df7870d865e533af29a855cfeb60fbc8, type: 3}
   maxStackSize: 999
-  abilityBase: {fileID: 0}
-  potency: 100
+  potency: 120

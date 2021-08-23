@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 376856d357604049b5c42b8fd091de09, type: 3}
+  m_Name: Enemies
+  m_EditorClassIdentifier: 
+  icon: {fileID: 8590765030210850243, guid: 9556b2122f8448819b5b48b4eb8ec4b0, type: 3}
+  description: 'The thing you will most definatly be fighting. Enemies are entities,
+    living or just animate objects, that are found within the floors of this Dungeon.
+    They are what you have to fight in order to escape as the rooms will lock themselves
+    if you walk into a room full of enemies. Furthermore, the materials they drop
+    are what is commonly used to craft better gear, weapons and potions.
+
+
+    Tip:
+
+    Don''t
+    let them group up. They are very dangerous combined. In some cases they can take
+    out 3/4 of your health all at once.'

@@ -19,10 +19,10 @@ namespace Statistics
         {
             _statisticsManager = StatisticsManager.Instance;
             GameObjectUtils.ClearChildren(content);
-            SetUpStatEntries(_statisticsManager.Dictionary, content);
+            SetUpStatEntries(new SortedDictionary<string, object>(_statisticsManager.Dictionary), content);
         }
         
-        private void SetUpStatEntries(Dictionary<string, object> dictionary, Transform parent)
+        private void SetUpStatEntries(IDictionary<string, object> dictionary, Transform parent)
         {
             if (dictionary == null) return;
             

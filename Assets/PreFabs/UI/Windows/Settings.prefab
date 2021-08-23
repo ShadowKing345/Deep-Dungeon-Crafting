@@ -190,10 +190,10 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5949332506737499180
 CanvasRenderer:
@@ -242,8 +242,8 @@ CanvasGroup:
   m_GameObject: {fileID: 5949332506737499184}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &5949332506737499182
 MonoBehaviour:
@@ -279,7 +279,7 @@ MonoBehaviour:
   selectionPreFab: {fileID: 3237901244592617210, guid: 18fd2388b8712d92d8d100d816d88c08, type: 3}
   navigationContent: {fileID: 5949332506798753956}
   bodyContent: {fileID: 5949332505240230114}
-  canvasGroup: {fileID: 5949332506737499186}
+  cg: {fileID: 5949332506737499186}
   tabController: {fileID: 5949332506737499182}
   audioMixer: {fileID: 24100000, guid: 355ebf4f628aa272e8f5d8fd8d92c609, type: 2}
   keyBindingsArray:

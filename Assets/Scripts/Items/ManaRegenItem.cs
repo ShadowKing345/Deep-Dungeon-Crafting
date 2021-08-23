@@ -10,6 +10,6 @@ namespace Items
 
         public float Potency => potency;
         
-        public override bool Use(Player player) => player.ChargeMana(-potency);
+        public override bool Use(PlayerEntity playerEntity) => playerEntity.ChargeMana(-potency);
     }
 }

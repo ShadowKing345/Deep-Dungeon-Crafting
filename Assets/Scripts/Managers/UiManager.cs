@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using Systems;
 using Enums;
 using Interfaces;
 using Ui;
+using Ui.Notifications;
 using UnityEngine;
 
 namespace Managers
@@ -30,7 +32,7 @@ namespace Managers
                 _instance = value;
             }
         }
-
+        
         private InputManager inputManager;
 
         [SerializeField] private HudElement hudElements;
@@ -40,7 +42,13 @@ namespace Managers
         private readonly Dictionary<WindowReference, GameObject> windowLookUp = new Dictionary<WindowReference, GameObject>();
         public HudElement HudElements => hudElements;
 
-        private void Awake() => Instance = this;
+        private void Awake()
+        {
+            Instance = this;
+            SceneManager.Instance.OnEndSceneChange += _ => currentActive = WindowReference.None;
+        }
+
+        private void OnDestroy() => _instance = null;
 
         private void OnEnable()
         {
@@ -65,42 +73,42 @@ namespace Managers
         #endregion
 
         #region Window Management
-
-        public void ToggleUiElement(WindowReference element)
+        
+        public bool ToggleUiElement(WindowReference element)
         {
             if (element == WindowReference.PauseMenu && currentActive != WindowReference.PauseMenu &&
-                currentActive != WindowReference.None)
-            {
-                HideUiElement(currentActive);
-                return;
-            }
+                currentActive != WindowReference.None && currentActive != WindowReference.Dialogue)
+                return HideUiElement(currentActive);
 
-            if (IsUiElementShown(element)) HideUiElement(element);
-            else ShowUiElement(element);
+            return IsUiElementShown(element) ? HideUiElement(element) : ShowUiElement(element);
         }
 
-        private void ShowUiElement(WindowReference element)
+        public bool ShowUiElement(WindowReference element)
         {
-            if (currentActive != WindowReference.None) return;
-            if (!TryGetWindow(element, out GameObject windowObj)) return;
+            if (currentActive != WindowReference.None) return false;
+            if (!TryGetWindow(element, out GameObject windowObj)) return false;
             
             windowObj.SetActive(true);
             currentActive = element;
             
             if (windowObj.TryGetComponent(out IUiWindow uiWindow))
                 uiWindow.Show();
+            
+            return true;
         }
 
-        public void HideUiElement(WindowReference element)
+        public bool HideUiElement(WindowReference element)
         {
-            if (currentActive == WindowReference.None || currentActive != element) return;
-            if (!TryGetWindow(element, out GameObject windowObj)) return;
+            if (currentActive == WindowReference.None || currentActive != element) return false;
+            if (!TryGetWindow(element, out GameObject windowObj)) return false;
 
-            windowObj.SetActive(false);
-            currentActive = WindowReference.None;
-            
             if (windowObj.TryGetComponent(out IUiWindow uiWindow))
                 uiWindow.Hide();
+            
+            windowObj.SetActive(false);
+            currentActive = WindowReference.None;
+
+            return true;
         }
 
         public void RegisterWindow(WindowReference element, GameObject obj)

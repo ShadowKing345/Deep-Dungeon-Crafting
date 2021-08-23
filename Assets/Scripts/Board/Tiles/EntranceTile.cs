@@ -11,8 +11,8 @@ namespace Board.Tiles
         [SerializeField] private Vector2 offset;
         public void PlacePlayer()
         {
-            Player player = FindObjectOfType<Player>();
-            if (player != null) player.transform.position = (Vector2) transform.position + offset;
+            PlayerEntity playerEntity = FindObjectOfType<PlayerEntity>();
+            if (playerEntity != null) playerEntity.transform.position = (Vector2) transform.position + offset;
         }
 
         private void OnEnable() => UpdateLook();

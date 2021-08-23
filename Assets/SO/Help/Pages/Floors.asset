@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 376856d357604049b5c42b8fd091de09, type: 3}
+  m_Name: Floors
+  m_EditorClassIdentifier: 
+  icon: {fileID: -2074408129016450052, guid: a33bd46d9bf7cee448406ef2d4f1cbad, type: 3}
+  description: 'Floors are the different levels (omg the pun) of the game world.
+    They are a collection of 10 floors starting from the 0th going up to the 9th.
+    Progressing through them is key to escaping the dungeon.
+
+
+    Navigating theses
+    floor however is not as easy as it seems. To begin with the floors re-arange
+    themselves resulting in the layout changing every time. However, a collection
+    of floors do follow a given set of rules making them somewhat predictable.
+
+
+    In
+    some cases the exit to the next floor will appear right next to the entrance.
+    While this is amazing for speed runners of the game, it is highly unrecomended
+    for individuals wishing to progress as you may loose potentially useful mateirals
+    that can help you down the line.'

@@ -19,7 +19,7 @@ namespace Utils.Ui
 
             position.x = Mathf.Clamp(position.x, 0, 1920 - rt.rect.width);
             position.y = Mathf.Clamp(position.y, -1080 + rt.rect.height, 0);
-            
+
             rt.anchoredPosition = position;
         }
     }

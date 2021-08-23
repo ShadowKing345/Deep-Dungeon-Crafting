@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 376856d357604049b5c42b8fd091de09, type: 3}
+  m_Name: Combat
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: 74857b917f856d2af9ca6eb9f1072df1, type: 3}
+  description: 'Combat is a simple affair to understand.
+
+    You and enemies do
+    damage based on elements and attack types.
+
+    You and enemies have resistances
+    to certain elements and attack types based on buffs and armor as well as natural
+    resistances.
+
+
+    Damage is calculated based on how strong or week any entity
+    is to the perticular attack. Additionally, there is a chance for the attack to
+    do critical damage which makes the attack do double damage.
+
+
+    Abilities:
+
+    Abilities
+    are how you do damage, heal or buff yourself or your targets. Each ability has
+    a cooldown, cost of mana and the potencies which it uses. An attack is executed
+    at the end of the attack animation. Some abilities cast projectiles which are
+    ranged attacks that will do damage when they hit an object or entity.
+
+
+    Buffs:
+
+    Buffs
+    or status effects are enhancements to you or enemies. They can either be offensive
+    or defensive, helpful or harmful to the entity that is inflicted with them.
+
+
+    There
+    are two kinds of buffs. Static buffs which are buffs that only affect your abilities
+    and Ticking buffs which can either harm you in the case of posions or heal you
+    in the case of regenerative spells.
+
+
+    Classes:
+
+    Classes are different
+    styles of playing the game. A class can be changed simply by equiping a weapon
+    that is used by them. For example, swords and shield are used by Gladiators while
+    a Cane is used by Holy Mages (Not fully implemented yet). When no weapon is eqiped
+    you use your fists which while not recommended for the higher levels does allow
+    you to recover what was lost in lower stages.
+
+
+    Some classes have advantages
+    in certain floors or towards certain enemies but no floor should be unclearable
+    with a class. It will just take longer and will be difficult.'

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Combat;
 using Entity.Player;
+using TMPro;
 using Ui.HudElements;
 
 namespace Ui
@@ -15,6 +16,8 @@ namespace Ui
         public AbilityUi abilityUi1;
         public AbilityUi abilityUi2;
         public AbilityUi abilityUi3;
+
+        public TextMeshProUGUI floorNumber;
         
         public bool TryGetAbility(WeaponClass.AbilityIndex index, out AbilityUi abilityUi)
         {

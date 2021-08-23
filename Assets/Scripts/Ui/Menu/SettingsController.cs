@@ -30,7 +30,7 @@ namespace Ui.Menu
         [Space] [Header("Components")] 
         [SerializeField] private GameObject navigationContent;
         [SerializeField] private GameObject bodyContent;
-        [SerializeField] private CanvasGroup canvasGroup;
+        [SerializeField] private CanvasGroup cg;
 
         [Space] [SerializeField] private TabController tabController;
 
@@ -169,13 +169,14 @@ namespace Ui.Menu
         public void Show()
         {
             gameObject.SetActive(true);
-            _transition = LeanTween.alphaCanvas(canvasGroup, 1, 0.1f).setIgnoreTimeScale(true);
+            _transition = LeanTween.alphaCanvas(cg, 1, 0.1f).setOnComplete(_ => cg.interactable = cg.blocksRaycasts = true).setIgnoreTimeScale(true);
         }
 
         public void Hide()
         {
             if(_transition != null) LeanTween.cancel(_transition.uniqueId);
-            LeanTween.alphaCanvas(canvasGroup, 0, 0.1f).setOnComplete(_ => gameObject.SetActive(false)).setIgnoreTimeScale(true);
+            cg.interactable = cg.blocksRaycasts = false;
+            LeanTween.alphaCanvas(cg, 0, 0.1f).setOnComplete(_ => gameObject.SetActive(false)).setIgnoreTimeScale(true);
         }
     }
 }
