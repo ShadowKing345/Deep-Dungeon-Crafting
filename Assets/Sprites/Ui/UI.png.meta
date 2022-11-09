@@ -183,7 +183,7 @@ TextureImporter:
       213: -8042598465018128641
     second: Log_Warning
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -200,10 +200,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -242,6 +244,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -257,6 +261,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -307,7 +323,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b10cc935c0ddffe00800000000000000
-      internalID: 1080825480604336155
+      internalID: 6964444849918425067
       vertices: []
       indices: 
       edges: []
@@ -475,7 +491,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 0af9ee607ea257470800000000000000
-      internalID: 8391660652416901024
+      internalID: -8836076672566693408
       vertices: []
       indices: 
       edges: []
@@ -538,7 +554,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 749b7f35969255560800000000000000
-      internalID: 7301787903208175943
+      internalID: 8391660652416901024
       vertices: []
       indices: 
       edges: []
@@ -559,7 +575,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 74b3cd4c67c5d2300800000000000000
-      internalID: 228940821244427079
+      internalID: -8845173312854413870
       vertices: []
       indices: 
       edges: []
@@ -601,7 +617,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 09cd5b9a03c421e70800000000000000
-      internalID: 9084407170249120912
+      internalID: -7197330257451386163
       vertices: []
       indices: 
       edges: []
@@ -622,7 +638,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: da2a1c6cecd3902c0800000000000000
-      internalID: -4464969597253999955
+      internalID: 3447929383960870377
       vertices: []
       indices: 
       edges: []
@@ -1624,9 +1640,73 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      ArrowUp: -6857505874731288664
+      SliderHandleH: 3447929383960870377
+      TriggersLeft_Shoulder: -8081169631480828808
+      ScrollBar: 6964444849918425067
+      SliderRailH: -7197330257451386163
+      Window: -1557013538026691241
+      TriggersRight_Trigger: 5926628049566721756
+      WindowSplitH: -8346291274449466048
+      GeneralSettings_Icon: 7448113381798972013
+      DPad: 4347788266467267333
+      ArrowLeft: 7310317842946514529
+      HealthBarBar: -4532114073746202998
+      KeyboardMouse: -3947773304791079134
+      HomeButtonOff: 5732017358795156118
+      StickLeft_On: 1297748399351506839
+      StartSelect: -4657114132291979715
+      StartSelect_StartOn: 6546827368892410583
+      DPad_Down: 8248441185375187369
+      KeyDown: 5433384948266841417
+      ActionPad: -5527499082827161287
+      Toggle: -8845173312854413870
+      ManaBar: -8836076672566693408
+      Tab: 8160775752198118580
+      ScrollBarHandleH: 1652299931923453484
+      HealthBarMask: 8391660652416901024
+      TriggersLeft: -1285249541232034538
+      ActionPad_North: 1001184207971911622
+      SliderHandleV: 1360550569445208017
+      KeyUp: 4298102095905106050
+      DPad_Right: -3772187427372803828
+      HomeButtonOn: 1925608543531601625
+      ArrowRight: -663202905526459020
+      DDArrowDown: 3787343402263556702
+      StickLeft: 3479407258431340618
+      DPad_Up: 7359777851653371123
+      WindowSplitV: -5481780447360278658
+      StickRight_On: 3932489174510350668
+      ActionPad_South: 7823209138725740554
+      DPad_Left: 4155290992980403602
+      ToggleOn: 238177201661318622
+      GenericBackgroung: 388057999756033245
+      CloseButton: 8586885197115800619
+      DDArrowUp: 2950200755348404279
+      TriggersLeft_Trigger: -5435382621212259808
+      StartSelect_SelectOn: -5079178053783169288
+      ScrollBarHandleV: -9136572144232859775
+      TriggersRigth: -3160185590587579153
+      AbilityUi: -6595680761151332689
+      AudioSettings_Icon: 6620621745411573659
+      VideoSettings_Icon: -256003546741158619
+      ItemSlot: 82707731993968007
+      ArrowDown: 492174521377706177
+      Log_Warning: -8042598465018128641
+      GamePad: -7543061489181569089
+      ActionPad_East: 6499865249175746193
+      ManaBarMask: 9094600903545770030
+      Button: 7843416716369364892
+      ManaBarBar: -343943630576144839
+      SliderRailV: -7867266084347359734
+      TriggersRight_Shoulder: 5473873561477175044
+      ActionPad_West: 568254257420953003
+      StickRight: -8507082006812059122
+      HealthBar: -273060469431498887
+      GenericBackground_WB: -2625263914096795121
   spritePackingTag: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

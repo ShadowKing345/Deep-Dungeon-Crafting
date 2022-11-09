@@ -51,7 +51,7 @@ TextureImporter:
       213: -334775798268518426
     second: Floor_0-10_Wall_SE
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -68,10 +68,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -110,6 +112,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -125,6 +129,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -484,9 +500,25 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Floor_0-10_Exit: -4650948714819958512
+      Floor_0-10_Wall_SW: -951980815348803628
+      Floor_0-10_Wall_E: -3591114835853132027
+      Floor_0-10_Wall_S: 5107473154222425653
+      Floor_0-10_Floor: 2900334231203615984
+      Floor_0-10_Entrance: -2074408129016450052
+      Floor_0-10_Wall_W: -2441345487521160171
+      Floor_0-10_Door_E: -8505934395528324206
+      Floor_0-10_Roof: 3243527955003036256
+      Floor_0-10_Door_S: 7681799952365872862
+      Floor_0-10_Wall_SE: -334775798268518426
+      Floor_0-10_Wall_N: -6908146322429000535
+      Floor_0-10_Door_N: 9220102378934011389
+      Floor_0-10_Door_W: 6796545021953466762
+      Floor_0-10_Wall_NE: 5906776677584661453
+      Floor_0-10_Wall_NW: 7769915176998165955
   spritePackingTag: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
