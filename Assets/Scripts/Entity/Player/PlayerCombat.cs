@@ -9,7 +9,7 @@ using Utils;
 
 namespace Entity.Player
 {
-    [RequireComponent(typeof(PlayerMovement))]
+    [RequireComponent(typeof(PlayerMovementManager))]
     public class PlayerCombat : MonoBehaviour
     {
         private UiManager _uiManager;

@@ -9,6 +9,7 @@ using Items;
 using Managers;
 using Ui.Inventories.ItemSlot;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Utils;
 
@@ -18,7 +19,7 @@ namespace Ui.Inventories.InventoryControllers
     {
         private UiManager _uiManager;
         
-        [SerializeField] private PlayerMovement playerMovementController;
+        [FormerlySerializedAs("playerMovementController")] [SerializeField] private PlayerMovementManager playerMovementManagerController;
         [SerializeField] private PlayerCombat playerCombatController;
 
         [Header("Item Inventory")]
@@ -54,7 +55,7 @@ namespace Ui.Inventories.InventoryControllers
 
         private void OnEnable()
         {
-            playerMovementController ??= FindObjectOfType<PlayerMovement>();
+            playerMovementManagerController ??= FindObjectOfType<PlayerMovementManager>();
             playerCombatController ??= FindObjectOfType<PlayerCombat>();
             
             playerInventory ??= FindObjectOfType<PlayerInventory>();
@@ -172,7 +173,7 @@ namespace Ui.Inventories.InventoryControllers
 
         public void UpdateSlots() => OnStackUpdate?.Invoke();
 
-        public void Show() => playerMovementController.enabled = playerCombatController.enabled = false;
-        public void Hide() => playerMovementController.enabled = playerCombatController.enabled = true;
+        public void Show() => playerMovementManagerController.enabled = playerCombatController.enabled = false;
+        public void Hide() => playerMovementManagerController.enabled = playerCombatController.enabled = true;
     }
 }

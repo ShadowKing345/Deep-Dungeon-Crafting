@@ -10,26 +10,27 @@ using Random = UnityEngine.Random;
 
 namespace Entity.Player
 {
+    [RequireComponent(typeof(PlayerInventory))]
     public class PlayerEntity : Entity
     {
-        private UiManager _uiManager;
-        private PlayerInventory _playerInventory;
+        private UiManager uiManager;
+        private PlayerInventory playerInventory;
 
         public static event Action OnPlayerDeath;
 
         protected override void OnEnable()
         {
             base.OnEnable();
-            _uiManager = UiManager.Instance;
-            _playerInventory = GetComponent<PlayerInventory>();
+            uiManager = UiManager.Instance;
+            playerInventory = GetComponent<PlayerInventory>();
         }
 
-        private void Start() => _uiManager.HudElements.SetMaxHealthMana(stats.MaxHealth, stats.MaxMana);
+        private void Start() => uiManager.HudElements.SetMaxHealthMana(stats.MaxHealth, stats.MaxMana);
 
         protected override void Update()
         {
             base.Update();
-            _uiManager.HudElements?.SetHealthMana(currentHealth, currentMana);
+            uiManager.HudElements?.SetHealthMana(currentHealth, currentMana);
         }
 
         public override bool Damage(AbilityProperty[] properties)
@@ -49,9 +50,9 @@ namespace Entity.Player
                     (current, property1) => current - current * property1.Amount);
 
                 // Armor resistances
-                if (_playerInventory != null)
+                if (playerInventory != null)
                 {
-                    AbilityProperty[][] armorResistance = _playerInventory.ArmorInventory.GetItemStacks()
+                    AbilityProperty[][] armorResistance = playerInventory.ArmorInventory.GetItemStacks()
                         .Where(stack =>
                             !stack.IsEmpty && stack.Item is ArmorItem ai && ai.properties.HasResistanceTo(property))
                         .Select(stack => ((ArmorItem) stack.Item).properties).ToArray();

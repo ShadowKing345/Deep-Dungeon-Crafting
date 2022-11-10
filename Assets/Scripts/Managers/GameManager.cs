@@ -212,8 +212,8 @@ namespace Managers
         {
             set
             {
-                PlayerMovement movement = FindObjectOfType<PlayerMovement>();
-                if (movement != null) movement.enabled = value;
+                PlayerMovementManager movementManager = FindObjectOfType<PlayerMovementManager>();
+                if (movementManager != null) movementManager.enabled = value;
 
                 PlayerCombat combat = FindObjectOfType<PlayerCombat>();
                 if (combat != null) combat.enabled = value;
