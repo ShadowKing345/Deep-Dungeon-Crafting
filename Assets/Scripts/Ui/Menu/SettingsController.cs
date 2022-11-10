@@ -42,7 +42,7 @@ namespace Ui.Menu
         [SerializeField] private KeyBindings[] keyBindingsArray;
         [SerializeField] private GameObject keybindingEntryPreFab;
 
-        private LTDescr _transition;
+        // private LTDescr _transition;
 
         private void OnEnable()
         {
@@ -169,14 +169,14 @@ namespace Ui.Menu
         public void Show()
         {
             gameObject.SetActive(true);
-            _transition = LeanTween.alphaCanvas(cg, 1, 0.1f).setOnComplete(_ => cg.interactable = cg.blocksRaycasts = true).setIgnoreTimeScale(true);
+            // _transition = LeanTween.alphaCanvas(cg, 1, 0.1f).setOnComplete(_ => cg.interactable = cg.blocksRaycasts = true).setIgnoreTimeScale(true);
         }
 
         public void Hide()
         {
-            if(_transition != null) LeanTween.cancel(_transition.uniqueId);
+            // if(_transition != null) LeanTween.cancel(_transition.uniqueId);
             cg.interactable = cg.blocksRaycasts = false;
-            LeanTween.alphaCanvas(cg, 0, 0.1f).setOnComplete(_ => gameObject.SetActive(false)).setIgnoreTimeScale(true);
+            // LeanTween.alphaCanvas(cg, 0, 0.1f).setOnComplete(_ => gameObject.SetActive(false)).setIgnoreTimeScale(true);
         }
     }
 }

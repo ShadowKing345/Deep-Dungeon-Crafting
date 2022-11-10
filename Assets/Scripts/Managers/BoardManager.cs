@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Board;
-using Pathfinding;
 using UnityEditor;
 using UnityEngine;
 using Utils;
@@ -28,9 +26,7 @@ namespace Managers
             }
         }
 
-        private GameManager _gameManager;
-
-        [SerializeField] private AstarPath astarPath;
+        private GameManager gameManager;
         
         [SerializeField] private FloorSettings floorSettings;
         [SerializeField] private Transform board;
@@ -54,7 +50,7 @@ namespace Managers
         private void Awake()
         {
             Instance = this;
-            _gameManager = GameManager.Instance;
+            gameManager = GameManager.Instance;
         }
 
         public void ResetLists()
@@ -67,7 +63,7 @@ namespace Managers
         public void InitializeVariables()
         {
             gridSize = new Vector2Int(Random.Range(floorSettings.GridWidth.Min, floorSettings.GridWidth.Max),Random.Range(floorSettings.GridHeight.Min, floorSettings.GridHeight.Max)) + Vector2Int.one * CurrentFloor / 3;
-            roomNumber = Random.Range(floorSettings.RoomCount.Min, floorSettings.RoomCount.Max + 1) + _gameManager.CurrentFloor / 3;
+            roomNumber = Random.Range(floorSettings.RoomCount.Min, floorSettings.RoomCount.Max + 1) + gameManager.CurrentFloor / 3;
         }
         
         public void GenerateLayout()
@@ -141,14 +137,6 @@ namespace Managers
 
         public void Scan()
         {
-            GridGraph gg = astarPath.data.gridGraph;
-            
-            Vector2Int tileCount = actualGridSize * floorSettings.RoomSize + (actualGridSize - Vector2Int.one) * floorSettings.Spacing;
-
-            gg.SetDimensions(tileCount.x * 3, tileCount.y * 3, 0.33333333F);
-            gg.center = (Vector2)(tileCount / 2);
-            
-            astarPath.Scan(); 
         }
 
         public void ConnectRooms()

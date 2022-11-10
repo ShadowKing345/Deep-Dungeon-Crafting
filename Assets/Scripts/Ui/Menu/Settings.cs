@@ -10,7 +10,7 @@ namespace Ui.Menu
 {
     public class Settings : MonoBehaviour, IUiWindow
     {
-        private LTDescr _transition;
+        // private LTDescr _transition;
 
         [Header("Components")] 
         [SerializeField] private CanvasGroup canvasGroup;

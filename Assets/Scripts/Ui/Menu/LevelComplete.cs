@@ -29,14 +29,14 @@ namespace Ui.Menu
         public void Show()
         {
             GameManager.PlayerMovement = false;
-            LeanTween.alphaCanvas(cg, 1, 0.5f).setOnComplete(_ => cg.interactable = cg.blocksRaycasts = true);
+            // LeanTween.alphaCanvas(cg, 1, 0.5f).setOnComplete(_ => cg.interactable = cg.blocksRaycasts = true);
         }
 
         public void Hide()
         {
             GameManager.PlayerMovement = true;
             cg.interactable = cg.blocksRaycasts = false;
-            LeanTween.alphaCanvas(cg, 1, 0.5f);
+            // LeanTween.alphaCanvas(cg, 1, 0.5f);
         }
     }
 }

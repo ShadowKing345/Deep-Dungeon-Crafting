@@ -88,7 +88,8 @@ namespace Ui
             content.GetComponentInChildren<Selectable>().Select();
         }
 
-        public void Show() => LeanTween.alphaCanvas(canvasGroup, 1f, 0.3f).setOnComplete(_ => canvasGroup.interactable = canvasGroup.blocksRaycasts = true);
+        public void Show() {}
+        // LeanTween.alphaCanvas(canvasGroup, 1f, 0.3f).setOnComplete(_ => canvasGroup.interactable = canvasGroup.blocksRaycasts = true);
 
         public void Hide()
         {

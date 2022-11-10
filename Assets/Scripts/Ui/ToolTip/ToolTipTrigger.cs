@@ -7,7 +7,7 @@ namespace Ui.ToolTip
 {
     public class ToolTipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        private static LTDescr _delay;
+        // private static LTDescr _delay;
         
         [SerializeField] private string header;
         [Multiline] 
@@ -25,7 +25,7 @@ namespace Ui.ToolTip
 
         private void OnDisable()
         {
-            if (_delay != null) LeanTween.cancel(_delay.uniqueId);
+            // if (_delay != null) LeanTween.cancel(_delay.uniqueId);
 
             ToolTipSystem.Instance.HideToolTip(true);
         }

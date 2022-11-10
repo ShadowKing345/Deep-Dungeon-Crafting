@@ -8,8 +8,7 @@ namespace Statistics
 {
     public class StatisticsController : MonoBehaviour, IUiWindow
     {
-        private StatisticsManager _statisticsManager;
-        private LTDescr _transition;
+        private StatisticsManager statisticsManager;
         
         [SerializeField] private Transform content;
         [SerializeField] private GameObject entryPreFab;
@@ -17,9 +16,9 @@ namespace Statistics
 
         private void OnEnable()
         {
-            _statisticsManager = StatisticsManager.Instance;
+            statisticsManager = StatisticsManager.Instance;
             GameObjectUtils.ClearChildren(content);
-            SetUpStatEntries(new SortedDictionary<string, object>(_statisticsManager.Dictionary), content);
+            SetUpStatEntries(new SortedDictionary<string, object>(statisticsManager.Dictionary), content);
         }
         
         private void SetUpStatEntries(IDictionary<string, object> dictionary, Transform parent)
@@ -38,13 +37,13 @@ namespace Statistics
         public void Show()
         {
             gameObject.SetActive(true);
-            _transition = LeanTween.alphaCanvas(canvasGroup, 1, 0.1f).setIgnoreTimeScale(true);
+            // _transition = LeanTween.alphaCanvas(canvasGroup, 1, 0.1f).setIgnoreTimeScale(true);
         }
 
         public void Hide()
         {
-            if(_transition != null) LeanTween.cancel(_transition.uniqueId);
-            LeanTween.alphaCanvas(canvasGroup, 0, 0.1f).setOnComplete(_ => gameObject.SetActive(false)).setIgnoreTimeScale(true);
+            // if(_transition != null) LeanTween.cancel(_transition.uniqueId);
+            // LeanTween.alphaCanvas(canvasGroup, 0, 0.1f).setOnComplete(_ => gameObject.SetActive(false)).setIgnoreTimeScale(true);
         }
     }
 }

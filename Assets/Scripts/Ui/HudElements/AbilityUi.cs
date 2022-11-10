@@ -16,7 +16,7 @@ namespace Ui.HudElements
     public class AbilityUi : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         private static InputManager _inputManager;
-        private LTDescr progressBarId;
+        // private LTDescr progressBarId;
 
         [Header("Components")] [SerializeField]
         private Image image;
@@ -82,8 +82,12 @@ namespace Ui.HudElements
             keybindingText.text = GetKeyBindingText();
         }
 
-        public void SetCoolDown(float amount) => progressBarId = LeanTween.value(gameObject, 100, 0, amount)
-            .setOnUpdate(value => coolDownProgressBar.Current = value);
+        public void SetCoolDown(float amount)
+        {
+            }
+        // progressBarId = LeanTween.value(gameObject, 100, 0, amount)
+        //         .setOnUpdate(value => coolDownProgressBar.Current = value);
+        // }
 
         public void Attack()
         {
@@ -96,9 +100,9 @@ namespace Ui.HudElements
             image.color = Color.clear;
             keybindingText.text = "";
 
-            if (progressBarId == null) return;
+            // if (progressBarId == null) return;
 
-            LeanTween.cancel(progressBarId.uniqueId);
+            // LeanTween.cancel(progressBarId.uniqueId);
             coolDownProgressBar.Current = 0;
         }
 
