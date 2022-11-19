@@ -29,7 +29,7 @@ namespace Combat
             Invoke(nameof(Die), lifeTime);
         }
 
-        private void FixedUpdate() => rb.MovePosition(rb.position + direction.GetVectorDirection() * movementSpeed);
+        private void FixedUpdate() => rb.MovePosition(rb.position + direction.AsVector() * movementSpeed);
 
         private void OnTriggerEnter2D(Collider2D other)
         {

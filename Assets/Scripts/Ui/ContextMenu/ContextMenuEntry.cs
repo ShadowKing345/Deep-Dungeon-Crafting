@@ -36,7 +36,7 @@ namespace Ui.ContextMenu
                 case PointerEventData.InputButton.Middle:
                     break;
                 default:
-                    break;
+                    throw new ArgumentOutOfRangeException();
             }
         }
     }

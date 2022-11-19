@@ -35,12 +35,10 @@ namespace Managers
         
         private InputManager inputManager;
 
-        [SerializeField] private HudElement hudElements;
         [Space]
         [SerializeField] private WindowReference currentActive;
 
         private readonly Dictionary<WindowReference, GameObject> windowLookUp = new Dictionary<WindowReference, GameObject>();
-        public HudElement HudElements => hudElements;
 
         private void Awake()
         {
@@ -64,14 +62,7 @@ namespace Managers
         }
 
         private void OnDisable() => inputManager.Windows.Disable();
-
-        #region Hud
-
-        public void SetUpHud(HudElement hudElement) => hudElements = hudElement;
-        public void DestroyHud() => hudElements = null;
         
-        #endregion
-
         #region Window Management
         
         public bool ToggleUiElement(WindowReference element)

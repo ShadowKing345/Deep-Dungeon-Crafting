@@ -1,13 +1,7 @@
-using System;
-using Systems;
 using Combat;
-using Entity.Player;
-using Managers;
 using TMPro;
-using Ui.ToolTip;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace Ui.HudElements
@@ -15,9 +9,6 @@ namespace Ui.HudElements
     [ExecuteInEditMode]
     public class AbilityUi : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        private static InputManager _inputManager;
-        // private LTDescr progressBarId;
-
         [Header("Components")] [SerializeField]
         private Image image;
 
@@ -26,36 +17,20 @@ namespace Ui.HudElements
         [SerializeField] private ProgressBar coolDownProgressBar;
 
         [Space] [Header("Private Variables")] [SerializeField]
-        private PlayerCombat playerCombat;
+        private AbilityBase[] abilities;
 
-        [SerializeField] private WeaponClass.AbilityIndex index;
-        [SerializeField] private AbilityBase[] abilities;
-        [SerializeField] private int currentAbility;
-
-        [Serializable]
-        private struct InputActionReferences
+        public AbilityBase[] Abilities
         {
-            public InputActionReference ability1;
-            public InputActionReference ability2;
-            public InputActionReference ability3;
+            set
+            {
+                abilities = value;
+
+                SetAbility(0);
+            }
         }
-        [Space]
-        [SerializeField] private InputActionReferences inputActionReferences; 
-
-        public void SetUp(PlayerCombat combatController, WeaponClass.AbilityIndex abilityIndex, AbilityBase[] abilities)
-        {
-            playerCombat = combatController;
-            index = abilityIndex;
-            this.abilities = abilities;
-
-            SetAbility(0);
-        }
-
-        private void OnEnable() => _inputManager ??= new InputManager();
 
         public void SetAbility(int comboIndex)
         {
-            currentAbility = comboIndex;
             comboIndicator.SetActive(comboIndex > 0);
             if (comboIndex >= abilities.Length)
             {
@@ -69,7 +44,7 @@ namespace Ui.HudElements
                 return;
             }
 
-            AbilityBase abilityBase = abilities[comboIndex];
+            var abilityBase = abilities[comboIndex];
             if (abilityBase == null)
             {
                 ClearUi();
@@ -78,21 +53,10 @@ namespace Ui.HudElements
 
             image.sprite = abilityBase.Icon;
             image.color = Color.white;
-            
-            keybindingText.text = GetKeyBindingText();
         }
 
         public void SetCoolDown(float amount)
         {
-            }
-        // progressBarId = LeanTween.value(gameObject, 100, 0, amount)
-        //         .setOnUpdate(value => coolDownProgressBar.Current = value);
-        // }
-
-        public void Attack()
-        {
-            if (playerCombat == null || coolDownProgressBar.Current > 0) return;
-            playerCombat.ExecuteAbility(index);
         }
 
         private void ClearUi()
@@ -100,32 +64,17 @@ namespace Ui.HudElements
             image.color = Color.clear;
             keybindingText.text = "";
 
-            // if (progressBarId == null) return;
-
-            // LeanTween.cancel(progressBarId.uniqueId);
             coolDownProgressBar.Current = 0;
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (abilities.Length > 0) ToolTipSystem.Instance.ShowToolTip(abilities[currentAbility]);
+            // if (abilities.Length > 0) ToolTipSystem.Instance?.ShowToolTip(abilities[currentAbility]);
         }
 
-        public void OnPointerExit(PointerEventData eventData) => ToolTipSystem.Instance.HideToolTip(ability: true);
-
-        private string GetKeyBindingText()
+        public void OnPointerExit(PointerEventData eventData)
         {
-            InputActionReference reference = index switch
-            {
-                WeaponClass.AbilityIndex.Abilities1 => inputActionReferences.ability1,
-                WeaponClass.AbilityIndex.Abilities2 => inputActionReferences.ability2,
-                WeaponClass.AbilityIndex.Abilities3 => inputActionReferences.ability3,
-                _ => inputActionReferences.ability1
-            };
-
-            int bindingIndex = reference.action.GetBindingIndexForControl(reference.action.controls[0]);
-
-            return reference.action.bindings[bindingIndex].ToDisplayString();
+            // ToolTipSystem.Instance?.HideToolTip(ability: true);
         }
     }
 }

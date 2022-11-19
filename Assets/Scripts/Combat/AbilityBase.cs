@@ -35,9 +35,9 @@ namespace Combat
         public float AttackDistance => attackDistance;
         public float AttackRange => attackRange;
         
-        [SerializeField] private string attackAnimationName = string.Empty;
+        [SerializeField] private string animationName = string.Empty;
 
-        public string AttackAnimationName => attackAnimationName;
+        public string AnimationName => animationName;
 
         public virtual bool Execute(IDamageable self, IDamageable[] targets)
         {

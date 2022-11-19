@@ -212,7 +212,9 @@ GameObject:
   - component: {fileID: 1279513512302302334}
   - component: {fileID: 3739531041660292457}
   - component: {fileID: 1215518788766348717}
-  - component: {fileID: 8254721587704902524}
+  - component: {fileID: 8871305343555667554}
+  - component: {fileID: 2565052387856836575}
+  - component: {fileID: 8403496901465732013}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -358,8 +360,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a755904dfc674752bed63eea9d908246, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInputManager: {fileID: 1215518788766348717}
-  playerMovementManager: {fileID: 3739531041660292457}
+  playerInputManager: {fileID: 0}
+  playerMovementManager: {fileID: 0}
+  playerEntity: {fileID: 0}
+  playerInventory: {fileID: 0}
+  playerCombat: {fileID: 0}
 --- !u!114 &3739531041660292457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -372,9 +377,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d709322707c878389b5eb0c1262b40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  attackName: 
+  currentDirection: 0
+  state: 0
+  ignoreDirection: 0
   moveSpeed: 7.5
-  rb: {fileID: 3641249469009164831}
-  animator: {fileID: 8254721587704902524}
+  player: {fileID: 0}
 --- !u!114 &1215518788766348717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,7 +399,7 @@ MonoBehaviour:
   player: {fileID: 0}
   aoeSize: 0
   aoeOffset: {x: 0, y: 0}
---- !u!114 &8254721587704902524
+--- !u!114 &8871305343555667554
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -399,11 +408,271 @@ MonoBehaviour:
   m_GameObject: {fileID: 3641249469009164819}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1e507ab9ec0e7dc68735ff3ef79b520, type: 3}
+  m_Script: {fileID: 11500000, guid: a35a66088d004b0db9877998b335f7fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 3641249469009164828}
-  attackName: 
-  currentDirection: 0
-  state: 0
-  ignoreDirection: 0
+  animator: {fileID: 0}
+  playerEntity: {fileID: 0}
+  playerInventory: {fileID: 0}
+  currentClass: {fileID: 0}
+  currentAbilityIndex: 3
+  combo: 0
+  isComboActive: 0
+  abilityRange: 0
+  attackOffset: 0
+  centerOffset: {x: 0, y: 0}
+  direction: 0
+  player: {fileID: 0}
+--- !u!114 &2565052387856836575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3641249469009164819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a56c4c2d2a3e425dbec4482cad53927b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemInventory:
+    itemStacks:
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 0}
+      amount: 0
+  weaponInventory:
+    weapon:
+      item: {fileID: 0}
+      amount: 0
+  armorInventory:
+    head:
+      item: {fileID: 0}
+      amount: 0
+    body:
+      item: {fileID: 0}
+      amount: 0
+    legs:
+      item: {fileID: 0}
+      amount: 0
+    earring:
+      item: {fileID: 0}
+      amount: 0
+    bracelet:
+      item: {fileID: 0}
+      amount: 0
+    ring:
+      item: {fileID: 0}
+      amount: 0
+  player: {fileID: 0}
+--- !u!114 &8403496901465732013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3641249469009164819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a28bc4511eb461aa04d7f8a14e0ec92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: {fileID: 11400000, guid: 021397766d630c8c9a4b37fbec72318d, type: 2}
+  currentHealth: 0
+  currentMana: 0
+  godMode: 0
+  player: {fileID: 0}

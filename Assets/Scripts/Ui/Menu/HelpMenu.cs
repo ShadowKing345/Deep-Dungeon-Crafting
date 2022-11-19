@@ -11,7 +11,7 @@ namespace Ui.Menu
     {
         private UiManager _uiManager;
         
-        private PlayerMovementManager playerMovementManager;
+        private PlayerMovement playerMovement;
         private PlayerCombat playerCombat;
 
         private void Awake()
@@ -26,18 +26,18 @@ namespace Ui.Menu
         private void OnEnable()
         {
             playerCombat ??= FindObjectOfType<PlayerCombat>();
-            playerMovementManager ??= FindObjectOfType<PlayerMovementManager>();
+            playerMovement ??= FindObjectOfType<PlayerMovement>();
         }
 
         public void Show()
         {
-            playerCombat.enabled = playerMovementManager.enabled = false;
+            playerCombat.enabled = playerMovement.enabled = false;
             Time.timeScale = 0;
         }
 
         public void Hide()
         {
-            playerCombat.enabled = playerMovementManager.enabled = true;
+            playerCombat.enabled = playerMovement.enabled = true;
             Time.timeScale = 1;
         }
     }

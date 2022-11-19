@@ -58,12 +58,12 @@ namespace Board
         {
             if(livingCount <= 0) return;
             LockDoors();
-            foreach (GameObject enemy in enemyList)
-                if (enemy != null && enemy.TryGetComponent(out IDamageable damageable))
-                    damageable.OnDeath += _ =>
-                    {
-                        if (--livingCount <= 0) UnlockDoors();
-                    };
+            // foreach (GameObject enemy in enemyList)
+                // if (enemy != null && enemy.TryGetComponent(out IDamageable damageable))
+                    // damageable.OnDeath += _ =>
+                    // {
+                    //     if (--livingCount <= 0) UnlockDoors();
+                    // };
         }
 
         private void LockDoors()

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +5,7 @@ using Interfaces;
 using UnityEngine;
 using Combat;
 using Combat.Buffs;
-using Statistics;
+using Utils.Event;
 using Random = UnityEngine.Random;
 
 namespace Entity
@@ -22,12 +21,15 @@ namespace Entity
 
         protected SpriteRenderer sp;
         protected float damageCoolDown;
-        protected bool damageCoolDownActive = false;
+        protected bool damageCoolDownActive;
 
-        protected readonly List<ActiveBuff> buffs = new List<ActiveBuff>();
+        protected readonly List<ActiveBuff> buffs = new();
         
         public bool IsDead { get; protected set; }
-        public event Action<IDamageable> OnDeath;
+
+        public delegate void OnEntityEvent(EntityEvent @event);
+
+        public OnEntityEvent onEntityEvent;
 
         private void Awake()
         {
@@ -82,9 +84,11 @@ namespace Entity
 
             if (godMode) return true;
             
+            onEntityEvent?.Invoke(new EntityEvent {Type = EntityEventType.Damage});
+
             IsDead = true;
             Die();
-
+            
             return true;
         }
 
@@ -93,20 +97,20 @@ namespace Entity
             if (!(currentHealth < stats.MaxHealth)) return false;
             
             currentHealth += currentHealth <= stats.MaxHealth ? amount : stats.MaxHealth - currentHealth;
+            onEntityEvent?.Invoke(new EntityEvent {Type = EntityEventType.Healing});
             return true;
         }
 
         public virtual bool Buff(BuffBase buffBase, float duration)
         {
             buffs.Add(new ActiveBuff{buff = buffBase, duration = Time.time + duration});
+            onEntityEvent?.Invoke(new EntityEvent {Type = EntityEventType.Buff});
             return true;
         }
 
         public virtual void Die()
         {
-            OnDeath?.Invoke(this);
-            
-            StatisticsManager.Instance.AddIntValue($"Entity.Killed.{stats.name}", 1);
+            onEntityEvent?.Invoke(new EntityEvent{Type = EntityEventType.Death});
             Destroy(gameObject);
         }
 
@@ -128,10 +132,14 @@ namespace Entity
             return true;
         }
 
-        public float GetMaxHealth() => stats.MaxHealth;
-        public float GetCurrentHealth() => currentHealth;
+        public float MaxHealth => stats.MaxHealth;
+        public float CurrentHealth => currentHealth;
 
-        public float GetMaxMana => stats.MaxMana;
-        public float GetCurrentMana => currentMana;
+        public float RelativeHealth => CurrentHealth / MaxHealth;
+
+        public float MaxMana => stats.MaxMana;
+        public float CurrentMana => currentMana;
+
+        public float RelativeMana => CurrentMana / MaxMana;
     }
 }

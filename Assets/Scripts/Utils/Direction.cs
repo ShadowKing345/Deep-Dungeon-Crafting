@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Utils
@@ -29,19 +30,21 @@ namespace Utils
                 _ => direction
             };
 
-        public static Vector2 GetVectorDirection(this Direction direction) =>
-            direction switch {
+        public static Vector2 AsVector(this Direction direction)
+        {
+            return direction switch
+            {
                 Direction.S => Vector2.down,
                 Direction.E => Vector2.right,
                 Direction.N => Vector2.up,
                 Direction.W => Vector2.left,
-                
                 Direction.SW => new Vector2(-1, -1),
                 Direction.SE => new Vector2(1, -1),
                 Direction.NW => new Vector2(-1, 1),
                 Direction.NE => new Vector2(1, 1),
-                _ => Vector2.zero
+                _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
             };
+        }
 
         public static Direction GetOpposite(this Direction direction) => direction switch
         {
@@ -56,7 +59,7 @@ namespace Utils
             _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
         };
         
-        public static Direction[] Cardinals =>
+        public static IEnumerable<Direction> Cardinals =>
             new[] {Direction.S, Direction.E, Direction.N, Direction.W};
 
         public static Direction[] InterCardinals =>

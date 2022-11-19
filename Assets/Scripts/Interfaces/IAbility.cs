@@ -10,7 +10,7 @@ namespace Interfaces
         bool IsProjectile { get; }
         GameObject ProjectilePreFab { get; }
         
-        string AttackAnimationName { get; }
+        string AnimationName { get; }
         
         Vector2 AttackPoint { get; }
         float AttackRange { get; }

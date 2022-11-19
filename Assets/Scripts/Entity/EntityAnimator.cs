@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Linq;
 using UnityEngine;
 using Utils;
 
@@ -9,62 +7,52 @@ namespace Entity
     [RequireComponent(typeof(Animator))]
     public class EntityAnimator : MonoBehaviour
     {
-        private readonly string[] _directions = {"South", "East", "North", "West"};
-        
-        [SerializeField] private Animator animator;
-        [SerializeField] private string attackName;
-        
-        [SerializeField] private Direction currentDirection;
-        [SerializeField] private State state = State.Idle;
-        [SerializeField] private bool ignoreDirection;
-        public bool IgnoreDirection { set => ignoreDirection = value; } 
-        public Direction CurrentDirection => currentDirection;
+        private static readonly string[] Directions = { "South", "East", "North", "West" };
+
+        [SerializeField] protected Animator animator;
+        [SerializeField] protected string attackName;
+
+        [SerializeField] protected Direction currentDirection;
+        [SerializeField] protected State state;
+        [SerializeField] protected bool ignoreDirection;
 
         private bool isAttacking;
         private float attackCoolDown;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             animator = GetComponent<Animator>();
         }
 
-        private void Update()
+        protected virtual void FixedUpdate()
         {
-            switch (state)
+            if (isAttacking && attackCoolDown < Time.time)
             {
-                case State.Idle:
-                    animator.Play(ignoreDirection ? "Idle" : $"Idle-{_directions[(int) currentDirection]}");
-                    break;
-                case State.Moving:
-                    animator.Play(ignoreDirection ? "Run" : $"Run-{_directions[(int) currentDirection]}");
-                    break;
-                case State.Attacking:
-                    if (isAttacking && attackCoolDown < Time.time)
-                    {
-                        state = State.Idle;
-                        isAttacking = false;
-                    }
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                isAttacking = false;
             }
         }
 
-        public void Move(Vector2 direction)
+        protected virtual void Update()
         {
-            if (state == State.Attacking) return;
-            if (direction.magnitude > 0)
+            if (isAttacking)
             {
-                currentDirection = GetDirectionIndex(direction);
-                state = State.Moving;
+                state = State.Attacking;
             }
-            else
-                state = State.Idle;
+
+            string animationName = state switch
+            {
+                State.Idle => "Idle",
+                State.Moving => "Run",
+                State.Attacking => attackName,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+            animator.Play(animationName + (ignoreDirection ? "" : "-" + Directions[(int)currentDirection]));
         }
 
-        public static Direction GetDirectionIndex(Vector2 direction)
+        protected static Direction GetDirectionIndex(Vector2 direction)
         {
-            Vector2 normPos = direction.normalized;
+            var normPos = direction.normalized;
 
             const float step = 90;
             const float offset = step / 2;
@@ -73,31 +61,19 @@ namespace Entity
             angle += offset;
             if (angle < 0) angle += 360;
 
-            return (Direction) Mathf.FloorToInt(angle / step);
+            return (Direction)Mathf.FloorToInt(angle / step);
         }
 
-        public IEnumerator PlayAttackAnimation(string animationName)
+        public void PlayAttackAnimation(string animationName)
         {
             attackName = animationName;
-            state = State.Attacking;
-            
-            animator.Play(ignoreDirection ? attackName : $"{attackName}-{_directions[(int) currentDirection]}");
-
-            yield return new WaitForEndOfFrame();
-            
-            attackCoolDown = Time.time + GetAnimationLength;
+            attackCoolDown = Time.time + 10;
             isAttacking = true;
         }
 
         public float GetAnimationLength => animator.GetCurrentAnimatorStateInfo(0).length;
-        public float GetAnimationClipLength(string clipName)
-        {
-            AnimationClip clip =
-                animator.runtimeAnimatorController.animationClips.FirstOrDefault(c => c.name == clipName);
-            return clip == null ? 0 : clip.length;
-        }
 
-        private enum State
+        protected enum State
         {
             Idle,
             Moving,

@@ -12,6 +12,7 @@ namespace Entity.Player
         [SerializeField] private ItemInventory itemInventory;
         [SerializeField] private WeaponInventory weaponInventory;
         [SerializeField] private ArmorInventory armorInventory;
+        public Player player;
 
         public ItemInventory ItemInventory => itemInventory;
         public WeaponInventory WeaponInventory => weaponInventory;
@@ -81,7 +82,8 @@ namespace Entity.Player
 
         private void Awake()
         {
-            Save save = SaveManager.Instance.GetCurrentSave;
+            return;
+            var save = SaveManager.Instance.GetCurrentSave;
             if (save == null) return;
 
             if (ItemManager.TryJsonToItemStacks(save.PlayerItemInventory, out ItemStack[] itemStacks))
@@ -107,6 +109,7 @@ namespace Entity.Player
         
         private void OnDestroy()
         {
+            return;
             if (!SaveInventory) return;
             Save save = SaveManager.Instance.GetCurrentSave;
             if (save == null) return;

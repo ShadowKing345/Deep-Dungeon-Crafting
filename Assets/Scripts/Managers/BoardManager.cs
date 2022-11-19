@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Board;
-using UnityEditor;
 using UnityEngine;
 using Utils;
 using Random = UnityEngine.Random;
@@ -147,7 +146,7 @@ namespace Managers
             {
                 DirectionalObj<Room> roomRoom = new DirectionalObj<Room>();
                 foreach (Direction direction in DirectionUtils.Cardinals)
-                    if (rooms.TryGetValue(kvPair.Key + Vector2Int.CeilToInt(direction.GetVectorDirection()),
+                    if (rooms.TryGetValue(kvPair.Key + Vector2Int.CeilToInt(direction.AsVector()),
                         out GameObject obj))
                         if (obj.TryGetComponent(out Room room))
                             roomRoom.SetDirection(direction, room);
@@ -181,36 +180,10 @@ namespace Managers
         
         private static bool TryGetIndexFromDirection(Vector2Int currentPos, Vector2Int gridSize, Direction direction, out Vector2Int newPos)
         {
-            Vector2 directionVector2 = direction.GetVectorDirection();
+            Vector2 directionVector2 = direction.AsVector();
             newPos = currentPos + Vector2Int.CeilToInt(directionVector2);
 
             return 0 <= newPos.x && newPos.x < gridSize.x && 0 <= newPos.y && newPos.y < gridSize.y;
         }
     }
-
-#if UNITY_EDITOR
-    [CustomEditor(typeof(BoardManager))]
-    public class BoardManagerEditor : UnityEditor.Editor
-    {
-        private bool foldOutButtons = true;
-
-        public override void OnInspectorGUI()
-        {
-            base.OnInspectorGUI();
-            BoardManager manager = target as BoardManager;
-
-            if (manager == null) return;
-
-            foldOutButtons = EditorGUILayout.Foldout(foldOutButtons, "Buttons");
-            
-            if(GUILayout.Button("Reset")) manager.ResetLists();
-            if(GUILayout.Button("Initialize")) manager.InitializeVariables();
-            if(GUILayout.Button("Generate Layout")) manager.GenerateLayout();
-            if(GUILayout.Button("Create Rooms")) manager.CreateRooms();
-            if(GUILayout.Button("Fill Roof")) manager.FillInRoof();
-            if(GUILayout.Button("Connect Rooms")) manager.ConnectRooms();
-            if(GUILayout.Button("Place Player")) manager.PlacePlayer();
-        }
-    }
-#endif
 }

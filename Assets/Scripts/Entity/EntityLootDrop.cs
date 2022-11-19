@@ -14,7 +14,7 @@ namespace Entity
 
         private void Start()
         {
-            if (TryGetComponent(out Entity entity)) entity.OnDeath += Death;
+            // if (TryGetComponent(out Entity entity)) entity.OnDeath += Death;
         }
 
         private void Death(IDamageable damageable)

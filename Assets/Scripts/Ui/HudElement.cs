@@ -1,15 +1,20 @@
 using System;
-using System.Collections.Generic;
 using Combat;
 using Entity.Player;
 using TMPro;
 using Ui.HudElements;
+using UnityEngine;
+using Utils;
+using Utils.Event;
 
 namespace Ui
 {
     [Serializable]
-    public class HudElement
+    public class HudElement : MonoBehaviour
     {
+        public PlayerEntity playerEntity;
+        public PlayerCombat playerCombat;
+
         public ProgressBar healthProgressBar;
         public ProgressBar manaProgressBar;
 
@@ -18,46 +23,79 @@ namespace Ui
         public AbilityUi abilityUi3;
 
         public TextMeshProUGUI floorNumber;
-        
-        public bool TryGetAbility(WeaponClass.AbilityIndex index, out AbilityUi abilityUi)
+
+        public void OnEnable()
         {
-            abilityUi = index switch
+            LoadOrder.init += Init;
+        }
+
+        private void OnDisable()
+        {
+            LoadOrder.init -= Init;
+            if (playerEntity != null) playerEntity.onEntityEvent -= OnPlayerEntityEvent;
+        }
+
+        private void Init()
+        {
+            var player = FindObjectOfType<Player>();
+            if (player != null)
             {
-                WeaponClass.AbilityIndex.Abilities1 => abilityUi1,
-                WeaponClass.AbilityIndex.Abilities2 => abilityUi2,
-                WeaponClass.AbilityIndex.Abilities3 => abilityUi3,
-                _ => throw new ArgumentOutOfRangeException(nameof(index), index, null)
-            };
-            return abilityUi != null;
-        }
-        
-        public void SetMaxHealthMana(float health, float mana)
-        {
-            healthProgressBar.MAX = health;
-            manaProgressBar.MAX = mana;
+                playerEntity = player.playerEntity;
+                playerCombat = player.playerCombat;
+            }
+
+            if (playerEntity != null)
+            {
+                playerEntity.onEntityEvent += OnPlayerEntityEvent;
+
+                if (healthProgressBar != null)
+                {
+                    healthProgressBar.Current = playerEntity.RelativeHealth * healthProgressBar.Max;
+                }
+
+                if (manaProgressBar != null)
+                {
+                    manaProgressBar.Current = playerEntity.RelativeHealth * manaProgressBar.Max;
+                }
+            }
+
+            if (playerCombat == null) return;
+            OnChangeWeaponClass(playerCombat.CurrentWeaponClass);
+            playerCombat.onChangeWeaponClass += OnChangeWeaponClass;
         }
 
-        public void SetHealthMana(float health, float mana)
+        private void OnChangeWeaponClass(WeaponClass weaponClass)
         {
-            healthProgressBar.Current = health;
-            manaProgressBar.Current = mana;
+            if (abilityUi1)
+            {
+                abilityUi1.Abilities = weaponClass.GetAbility(WeaponClass.AbilityIndex.Abilities1);
+            }
+
+            if (abilityUi2)
+            {
+                abilityUi2.Abilities = weaponClass.GetAbility(WeaponClass.AbilityIndex.Abilities2);
+            }
+
+            if (abilityUi3)
+            {
+                abilityUi3.Abilities = weaponClass.GetAbility(WeaponClass.AbilityIndex.Abilities3);
+            }
         }
 
-        public void InitializeAbilityUi(PlayerCombat combatController, Dictionary<WeaponClass.AbilityIndex, AbilityBase[]> dictionary)
+        private void OnPlayerEntityEvent(EntityEvent @event)
         {
-            foreach (KeyValuePair<WeaponClass.AbilityIndex,AbilityBase[]> kvPair in dictionary)
-                if (TryGetAbility(kvPair.Key, out AbilityUi abilityUi))
-                    abilityUi.SetUp(combatController, kvPair.Key, kvPair.Value);
-        }
-
-        public void SetAbilityUiComboIndex(WeaponClass.AbilityIndex index, int comboIndex)
-        {
-            if(TryGetAbility(index, out AbilityUi ui)) ui.SetAbility(comboIndex);
-        }
-
-        public void SetAbilityUiCoolDown(WeaponClass.AbilityIndex index, float amount)
-        {
-            if(TryGetAbility(index, out AbilityUi ui)) ui.SetCoolDown(amount);
+            switch (@event.Type)
+            {
+                case EntityEventType.Damage:
+                    healthProgressBar.Current = (float)(@event.Value * healthProgressBar.Max);
+                    break;
+                case EntityEventType.Death:
+                case EntityEventType.Healing:
+                case EntityEventType.Buff:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

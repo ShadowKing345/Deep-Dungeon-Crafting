@@ -27,4 +27,4 @@ MonoBehaviour:
   attackPoint: {x: 0, y: 0}
   attackDistance: 0
   attackRange: 1
-  attackAnimationName: Punch
+  animationName: Punch

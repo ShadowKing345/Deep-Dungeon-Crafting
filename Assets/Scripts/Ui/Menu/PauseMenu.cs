@@ -11,7 +11,7 @@ namespace Ui.Menu
 {
     public class PauseMenu : MonoBehaviour, IUiWindow
     {
-        private PlayerMovementManager playerMovementManager;
+        private PlayerMovement playerMovement;
         private PlayerCombat playerCombat;
 
         private GameManager _gameManager;
@@ -30,7 +30,7 @@ namespace Ui.Menu
 
         private void OnEnable()
         {
-            playerMovementManager ??= FindObjectOfType<PlayerMovementManager>();
+            playerMovement ??= FindObjectOfType<PlayerMovement>();
             playerCombat ??= FindObjectOfType<PlayerCombat>();
         }
 
@@ -41,14 +41,14 @@ namespace Ui.Menu
 
         public void Show()
         {
-            if (playerCombat != null && playerMovementManager != null) playerCombat.enabled = playerMovementManager.enabled = false;
+            if (playerCombat != null && playerMovement != null) playerCombat.enabled = playerMovement.enabled = false;
             Time.timeScale = 0;
             GetComponentInChildren<Selectable>().Select();
         }
 
         public void Hide()
         {
-            if (playerCombat != null && playerMovementManager != null) playerCombat.enabled = playerMovementManager.enabled = true;
+            if (playerCombat != null && playerMovement != null) playerCombat.enabled = playerMovement.enabled = true;
             if (settingsMenu.gameObject.activeSelf) settingsMenu.Hide();
             if (statisticsMenu.gameObject.activeSelf) statisticsMenu.Hide();
             Time.timeScale = 1;

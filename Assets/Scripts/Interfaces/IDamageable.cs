@@ -11,11 +11,10 @@ namespace Interfaces
         bool Heal(float amount);
         bool Buff(BuffBase buffBase, float duration);
         void Die();
-        
-        float GetMaxHealth();
-        float GetCurrentHealth();
+
+        float MaxHealth { get; }
+        float CurrentHealth { get; }
 
         bool IsDead { get; }
-        event Action<IDamageable> OnDeath;
     }
 }

@@ -16,11 +16,7 @@ namespace Managers
         private static GameManager _instance;
         public static GameManager Instance
         {
-            get
-            {
-                _instance ??= FindObjectOfType<GameManager>();
-                return _instance;
-            }
+            get => _instance ??= FindObjectOfType<GameManager>();
             private set
             {
                 if (_instance != null && _instance != value)
@@ -33,7 +29,7 @@ namespace Managers
             }
         }
         
-        private SceneManager _sceneManager;
+        private SceneManager sceneManager;
 
         public string savePath;
 
@@ -57,31 +53,31 @@ namespace Managers
         private void Awake()
         {
             Instance = this;
-            _sceneManager = SceneManager.Instance;
+            sceneManager = SceneManager.Instance;
 
 #if UNITY_EDITOR
-            if(loadMainMenu) _sceneManager.ChangeScene(SceneIndexes.MainMenu);
+            if(loadMainMenu) sceneManager.ChangeScene(SceneIndexes.MainMenu);
 #else
-            _sceneManager.ChangeScene(SceneIndexes.MainMenu);
+            // _sceneManager.ChangeScene(SceneIndexes.MainMenu);
 #endif
         }
 
         private void OnEnable()
         {
-            _sceneManager.OnBeginSceneChange += OnBeginSceneChange;
-            _sceneManager.OnEndSceneChange += OnEndSceneChange;
+            // _sceneManager.OnBeginSceneChange += OnBeginSceneChange;
+            // _sceneManager.OnEndSceneChange += OnEndSceneChange;
         }
 
         private void OnDisable()
         {
-            _sceneManager.OnBeginSceneChange -= OnBeginSceneChange;
-            _sceneManager.OnEndSceneChange -= OnEndSceneChange;
+            // _sceneManager.OnBeginSceneChange -= OnBeginSceneChange;
+            // _sceneManager.OnEndSceneChange -= OnEndSceneChange;
         }
 
         public void StartLevel()
         {
-            boardManager.CurrentFloor = CurrentFloor;
-            boardManager.FloorSettings = floorSettings;
+            // boardManager.CurrentFloor = CurrentFloor;
+            // boardManager.FloorSettings = floorSettings;
 
             StartCoroutine(GenRoom());
         }
@@ -94,7 +90,7 @@ namespace Managers
                 return;
             }
 
-            UiManager.Instance.HudElements.floorNumber.text = $"Floor {floorSettings.StartingFloorNumber + currentFloor}";
+            // UiManager.Instance.HudElements.floorNumber.text = $"Floor {floorSettings.StartingFloorNumber + currentFloor}";
 
             StartCoroutine(GenRoom());
         }
@@ -121,7 +117,7 @@ namespace Managers
         {
             floorSettings = scheme;
             
-            _sceneManager.ChangeScene(SceneIndexes.Level, () =>
+            sceneManager.ChangeScene(SceneIndexes.Level, () =>
             {
                 currentFloor = 0;
                 boardManager = BoardManager.Instance;
@@ -130,7 +126,7 @@ namespace Managers
             });
         }
 
-        public void LoadHub() => _sceneManager.ChangeScene(SceneIndexes.Hub);
+        public void LoadHub() => sceneManager.ChangeScene(SceneIndexes.Hub);
 
         public void FinishRun()
         {
@@ -154,15 +150,15 @@ namespace Managers
             StatisticsManager.Instance.AddIntValue($"Floors.{floorSettings.name}.Failed", 1);
             StatisticsManager.Instance.AddIntValue($"Floors.{floorSettings.name}.Total", 1);
             FindObjectOfType<PlayerInventory>().SaveInventory = false;
-            _sceneManager.ChangeScene(SceneIndexes.Hub);
+            sceneManager.ChangeScene(SceneIndexes.Hub);
         }
 
         public void QuitGame()
         {
-            if (_sceneManager.CurrentScene == SceneIndexes.Level)
+            if (sceneManager.CurrentScene == SceneIndexes.Level)
                 FindObjectOfType<PlayerInventory>().SaveInventory = false;
             
-            _sceneManager.ChangeScene(SceneIndexes.MainMenu);
+            sceneManager.ChangeScene(SceneIndexes.MainMenu);
         }
 
         public void ExitGame()
@@ -181,7 +177,7 @@ namespace Managers
                 case SceneIndexes.Hub:
                 case SceneIndexes.Level:
                 case SceneIndexes.Level0:
-                    PlayerEntity.OnPlayerDeath -= PlayerDeath;
+                    // PlayerEntity.OnPlayerDeath -= PlayerDeath;
                     break;
             }
         }
@@ -195,16 +191,16 @@ namespace Managers
                 case SceneIndexes.Dev:
                     break;
                 case SceneIndexes.Hub:
-                    UiManager.Instance.HudElements.floorNumber.text = "Hub";
+                    // UiManager.Instance.HudElements.floorNumber.text = "Hub";
                     break;
                 case SceneIndexes.Level:
                 case SceneIndexes.Level0:
-                    PlayerEntity.OnPlayerDeath += PlayerDeath;
+                    // PlayerEntity.OnPlayerDeath += PlayerDeath;
                     break;
             }
         }
 
-        public void NewGame() => _sceneManager.ChangeScene(SceneIndexes.Level0);
+        public void NewGame() => sceneManager.ChangeScene(SceneIndexes.Level0);
 
         private void PlayerDeath() => UiManager.Instance.ShowUiElement(WindowReference.DeathScreen);
 
@@ -212,8 +208,8 @@ namespace Managers
         {
             set
             {
-                PlayerMovementManager movementManager = FindObjectOfType<PlayerMovementManager>();
-                if (movementManager != null) movementManager.enabled = value;
+                PlayerMovement movement = FindObjectOfType<PlayerMovement>();
+                if (movement != null) movement.enabled = value;
 
                 PlayerCombat combat = FindObjectOfType<PlayerCombat>();
                 if (combat != null) combat.enabled = value;

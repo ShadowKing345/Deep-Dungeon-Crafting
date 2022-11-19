@@ -21,7 +21,7 @@ namespace Ui.Crafting
         private readonly List<GameObject> recipeEntries = new List<GameObject>();
      
         [Header("OtherObj.")]
-        [SerializeField] private PlayerMovementManager playerMovementManagerController;
+        [SerializeField] private PlayerMovement playerMovementController;
         [SerializeField] private PlayerCombat playerCombatController;
         [Space]        
         [Header("Crafting Page")]
@@ -53,7 +53,7 @@ namespace Ui.Crafting
         {
             playerInventory ??= FindObjectOfType<PlayerInventory>();
             
-            playerMovementManagerController ??= FindObjectOfType<PlayerMovementManager>();
+            playerMovementController ??= FindObjectOfType<PlayerMovement>();
             playerCombatController ??= FindObjectOfType<PlayerCombat>();
         }
 
@@ -117,11 +117,11 @@ namespace Ui.Crafting
         
         public void Show()
         {
-            playerMovementManagerController.enabled = playerCombatController.enabled = false;
+            playerMovementController.enabled = playerCombatController.enabled = false;
             CreateRecipeEntries();
             navigationContent.GetComponentInChildren<Selectable>().Select();
         }
 
-        public void Hide() => playerMovementManagerController.enabled = playerCombatController.enabled = true;
+        public void Hide() => playerMovementController.enabled = playerCombatController.enabled = true;
     }
 }

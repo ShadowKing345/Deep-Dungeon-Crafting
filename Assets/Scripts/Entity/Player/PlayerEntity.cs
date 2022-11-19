@@ -1,11 +1,9 @@
-using System;
 using System.Linq;
 using Combat;
 using Combat.Buffs;
 using Items;
-using Managers;
-using Statistics;
 using UnityEngine;
+using Utils.Event;
 using Random = UnityEngine.Random;
 
 namespace Entity.Player
@@ -13,36 +11,16 @@ namespace Entity.Player
     [RequireComponent(typeof(PlayerInventory))]
     public class PlayerEntity : Entity
     {
-        private UiManager uiManager;
-        private PlayerInventory playerInventory;
-
-        public static event Action OnPlayerDeath;
-
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-            uiManager = UiManager.Instance;
-            playerInventory = GetComponent<PlayerInventory>();
-        }
-
-        private void Start() => uiManager.HudElements.SetMaxHealthMana(stats.MaxHealth, stats.MaxMana);
-
-        protected override void Update()
-        {
-            base.Update();
-            uiManager.HudElements?.SetHealthMana(currentHealth, currentMana);
-        }
+        public Player player;
 
         public override bool Damage(AbilityProperty[] properties)
         {
-            float previousHealth = currentHealth;
-            
             float damageTaken = 0f;
 
-            foreach (AbilityProperty property in properties)
+            foreach (var property in properties)
             {
                 // buff resistances
-                AbilityProperty[][] buffResistance = buffs
+                var buffResistance = buffs
                     .Where(buff => buff.buff is DefensiveBuff dfb && dfb.Properties.HasResistanceTo(property))
                     .Select(buff => ((DefensiveBuff) buff.buff).Properties).ToArray();
 
@@ -50,19 +28,16 @@ namespace Entity.Player
                     (current, property1) => current - current * property1.Amount);
 
                 // Armor resistances
-                if (playerInventory != null)
-                {
-                    AbilityProperty[][] armorResistance = playerInventory.ArmorInventory.GetItemStacks()
+                    var armorResistance = player.playerInventory?.ArmorInventory.GetItemStacks()
                         .Where(stack =>
                             !stack.IsEmpty && stack.Item is ArmorItem ai && ai.properties.HasResistanceTo(property))
-                        .Select(stack => ((ArmorItem) stack.Item).properties).ToArray();
+                        .Select(stack => ((ArmorItem) stack.Item).properties).ToArray() ?? null;
 
                     damage = armorResistance.SelectMany(abilityProperty => abilityProperty).Aggregate(damage,
                         (current, property1) => current - current * property1.Amount);
-                }
                 
                 // natural resistances
-                AbilityProperty resistance = stats.Resistances.FirstOrDefault(p =>
+                var resistance = stats.Resistances.FirstOrDefault(p =>
                     property.IsElemental ? p.Element == property.Element : p.AttackType == property.AttackType);
 
                 damage -= damage * (resistance?.Amount ?? 0);
@@ -84,47 +59,14 @@ namespace Entity.Player
             IsDead = true;
             Die();
             
-            StatisticsManager.Instance.AddFloatValue("Player.Damage Taken", previousHealth - currentHealth);
+            // StatisticsManager.Instance.AddFloatValue("Player.Damage Taken", previousHealth - currentHealth);
             
             return true;
         }
 
-        public override bool Heal(float amount)
+        public void OnDamagePlayer()
         {
-            float previousHealth = currentHealth;
-            
-            if (!base.Heal(amount)) return false;
-            
-            StatisticsManager.Instance.AddFloatValue("Player.Health Healed", currentHealth - previousHealth);
-
-            return true;
-        }
-
-        public override bool Buff(BuffBase buffBase, float duration)
-        {
-            if (!base.Buff(buffBase, duration)) return false;
-            
-            StatisticsManager.Instance.AddIntValue("Player.Buffed", 1);
-
-            return true;
-        }
-
-        public override bool ChargeMana(float amount)
-        {
-            float previousMana = currentMana;
-            
-            if (!base.ChargeMana(amount)) return false;
-            
-            StatisticsManager.Instance.AddFloatValue("Player.Mana Spent", previousMana - currentMana);
-
-            return true;
-        }
-
-        public override void Die()
-        {
-            StatisticsManager.Instance.AddIntValue("Player.Deaths", 1);
-
-            OnPlayerDeath?.Invoke();
+            onEntityEvent?.Invoke(new EntityEvent{Type = EntityEventType.Damage, Value = 0.5f});
         }
     }
 }

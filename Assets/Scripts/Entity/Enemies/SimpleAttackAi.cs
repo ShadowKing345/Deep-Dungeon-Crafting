@@ -14,7 +14,7 @@ namespace Entity.Enemies
             if (isAttacking) yield break;
             isAttacking = true;
 
-            yield return animator.PlayAttackAnimation(abilityBase.AttackAnimationName);
+            // yield return animator.PlayAttackAnimation(abilityBase.Ani);
 
             float animationLenght = animator.GetAnimationLength;
             attackCoolDown = Time.time + Mathf.Max(animationLenght, abilityBase.CoolDown);

@@ -5,16 +5,16 @@ namespace Ui.Menu
 {
     public class Hud : MonoBehaviour
     {
-        private UiManager _uiManager;
+        private UiManager uiManager;
 
         [SerializeField] private HudElement hudElement;
         
         private void Awake()
         {
-            _uiManager = UiManager.Instance;
-            _uiManager.SetUpHud(hudElement);
+            // uiManager = UiManager.Instance;
+            // uiManager.SetUpHud(hudElement);
         }
 
-        private void OnDestroy() => _uiManager.DestroyHud();
+        // private void OnDestroy() => uiManager.DestroyHud();
     }
 }

@@ -28,6 +28,6 @@ namespace Utils
         }
 
         public static Vector2 GetAttackDirection(AbilityBase abilityBase, Transform origin, Vector2 offset,
-            Direction direction) => (Vector2) origin.position + offset + abilityBase.AttackPoint + direction.GetVectorDirection() * abilityBase.AttackDistance;
+            Direction direction) => (Vector2) origin.position + offset + abilityBase.AttackPoint + direction.AsVector() * abilityBase.AttackDistance;
     }
 }

@@ -19,7 +19,7 @@ namespace Ui.Inventories.InventoryControllers
     {
         private UiManager _uiManager;
         
-        [FormerlySerializedAs("playerMovementController")] [SerializeField] private PlayerMovementManager playerMovementManagerController;
+        [FormerlySerializedAs("playerMovementController")] [SerializeField] private PlayerMovement playerMovementController;
         [SerializeField] private PlayerCombat playerCombatController;
 
         [Header("Item Inventory")]
@@ -55,7 +55,7 @@ namespace Ui.Inventories.InventoryControllers
 
         private void OnEnable()
         {
-            playerMovementManagerController ??= FindObjectOfType<PlayerMovementManager>();
+            playerMovementController ??= FindObjectOfType<PlayerMovement>();
             playerCombatController ??= FindObjectOfType<PlayerCombat>();
             
             playerInventory ??= FindObjectOfType<PlayerInventory>();
@@ -173,7 +173,7 @@ namespace Ui.Inventories.InventoryControllers
 
         public void UpdateSlots() => OnStackUpdate?.Invoke();
 
-        public void Show() => playerMovementManagerController.enabled = playerCombatController.enabled = false;
-        public void Hide() => playerMovementManagerController.enabled = playerCombatController.enabled = true;
+        public void Show() => playerMovementController.enabled = playerCombatController.enabled = false;
+        public void Hide() => playerMovementController.enabled = playerCombatController.enabled = true;
     }
 }
