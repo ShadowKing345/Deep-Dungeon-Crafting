@@ -32,4 +32,18 @@ MonoBehaviour:
     element: 4
     attackType: 0
     amount: 0.1
+  idleAnimationData:
+    useDirection: 1
+    clip: {fileID: 0}
+    north: {fileID: 7400000, guid: 5e6bcf05d7627d381ac5199cae96eacd, type: 2}
+    south: {fileID: 7400000, guid: 407a0596d908e83599cafb01d1671ffb, type: 2}
+    east: {fileID: 7400000, guid: dc4afb745ea4fa9a0866c39afbeffdae, type: 2}
+    west: {fileID: 7400000, guid: 06e85735bf668d47d95dce99369199da, type: 2}
+  movingAnimationData:
+    useDirection: 1
+    clip: {fileID: 0}
+    north: {fileID: 7400000, guid: e3213a9eb691ce551893c8750b549bd6, type: 2}
+    south: {fileID: 7400000, guid: 6fdd8ad0768cd88d8bfc0ada42a5740f, type: 2}
+    east: {fileID: 7400000, guid: a26c23cfc14c49e8db4b50958143cc3c, type: 2}
+    west: {fileID: 7400000, guid: 21d00b9c198c9e292943138c38326ff2, type: 2}
   centerPos: {x: 0, y: -0.4}

@@ -6,7 +6,7 @@ namespace Inventory
     {
         IInventory IndexMapping(int index, out int newIndex);
         IInventory InventoryMapping(int mappingIndex);
-        
+
         #region ItemStack Management
 
         ItemStack AddStackAtSlot(ItemStack stack, int index);
@@ -19,10 +19,12 @@ namespace Inventory
 
         ItemStack[] AddItemStacks(ItemStack[] stacks, bool combine = true, int mappingIndex = 0);
         ItemStack[] GetItemStacks(int mappingIndex = 0);
+
         ItemStack[] RemoveItemStacks(ItemStack[] stacks, int mappingIndex = 0);
+
         // Clears Everything.
         ItemStack[] GetAndClearItemStacks(int mappingIndex = 0);
-        
+
         #endregion
 
         #region Utils

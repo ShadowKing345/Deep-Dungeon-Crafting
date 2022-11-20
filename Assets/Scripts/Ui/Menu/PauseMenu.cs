@@ -1,23 +1,22 @@
 using Entity.Player;
 using Enums;
-using Interfaces;
 using Managers;
-using Settings;
 using Statistics;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils.Interfaces;
 
 namespace Ui.Menu
 {
     public class PauseMenu : MonoBehaviour, IUiWindow
     {
-        private PlayerMovement playerMovement;
-        private PlayerCombat playerCombat;
+        [SerializeField] private SettingsController settingsMenu;
+        [SerializeField] private StatisticsController statisticsMenu;
 
         private GameManager _gameManager;
         private UiManager _uiManager;
-        [SerializeField] private SettingsController settingsMenu;
-        [SerializeField] private StatisticsController statisticsMenu;
+        private PlayerCombat playerCombat;
+        private PlayerMovement playerMovement;
 
         private void Awake()
         {
@@ -54,7 +53,10 @@ namespace Ui.Menu
             Time.timeScale = 1;
         }
 
-        public void Resume() => _uiManager.HideUiElement(WindowReference.PauseMenu);
+        public void Resume()
+        {
+            _uiManager.HideUiElement(WindowReference.PauseMenu);
+        }
 
         public void OpenHelp()
         {

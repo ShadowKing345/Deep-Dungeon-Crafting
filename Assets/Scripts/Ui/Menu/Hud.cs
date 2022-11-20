@@ -5,10 +5,9 @@ namespace Ui.Menu
 {
     public class Hud : MonoBehaviour
     {
+        [SerializeField] private HudElement hudElement;
         private UiManager uiManager;
 
-        [SerializeField] private HudElement hudElement;
-        
         private void Awake()
         {
             // uiManager = UiManager.Instance;

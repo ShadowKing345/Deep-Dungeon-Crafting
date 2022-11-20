@@ -1,19 +1,36 @@
 using System;
 using System.Collections;
+using System.Linq;
 using Board;
-using Combat;
+using Entity.Combat;
 using Entity.Player;
 using Enums;
 using Statistics;
 using UnityEngine;
 using Utils;
-using Enumerable = System.Linq.Enumerable;
 
 namespace Managers
 {
     public class GameManager : MonoBehaviour
     {
         private static GameManager _instance;
+
+        public string savePath;
+        [SerializeField] private int currentFloor;
+        [SerializeField] private FloorSettings floorSettings;
+        [SerializeField] private FloorCollection floorCollection;
+
+        public WeaponClass noWeaponClass;
+        public ControllerAsset controllerAsset;
+
+#if UNITY_EDITOR
+        [SerializeField] private bool loadMainMenu;
+#endif
+
+        private BoardManager boardManager;
+
+        private SceneManager sceneManager;
+
         public static GameManager Instance
         {
             get => _instance ??= FindObjectOfType<GameManager>();
@@ -24,31 +41,35 @@ namespace Managers
                     Destroy(value);
                     return;
                 }
+
                 _instance = value;
                 DontDestroyOnLoad(value);
             }
         }
-        
-        private SceneManager sceneManager;
 
-        public string savePath;
+        public int CurrentFloor
+        {
+            get => currentFloor;
+            set => currentFloor = value;
+        }
 
-        private BoardManager boardManager;
-        [SerializeField] private int currentFloor = 0;
-        [SerializeField] private FloorSettings floorSettings;
-        [SerializeField] private FloorCollection floorCollection;
+        public FloorSettings FloorScheme
+        {
+            get => floorSettings;
+            set => floorSettings = value;
+        }
 
-        public int CurrentFloor { get => currentFloor; set => currentFloor = value; }
-        public FloorSettings FloorScheme { get => floorSettings; set => floorSettings = value; }
-        
-        public WeaponClass noWeaponClass;
-        public ControllerAsset controllerAsset;
+        public static bool PlayerMovement
+        {
+            set
+            {
+                var movement = FindObjectOfType<PlayerMovement>();
+                if (movement != null) movement.enabled = value;
 
-        public event Action OnApplicationClose;
-        
-#if UNITY_EDITOR
-        [SerializeField] private bool loadMainMenu;
-#endif
+                var combat = FindObjectOfType<PlayerCombat>();
+                if (combat != null) combat.enabled = value;
+            }
+        }
 
         private void Awake()
         {
@@ -56,7 +77,7 @@ namespace Managers
             sceneManager = SceneManager.Instance;
 
 #if UNITY_EDITOR
-            if(loadMainMenu) sceneManager.ChangeScene(SceneIndexes.MainMenu);
+            if (loadMainMenu) sceneManager.ChangeScene(SceneIndexes.MainMenu);
 #else
             // _sceneManager.ChangeScene(SceneIndexes.MainMenu);
 #endif
@@ -73,6 +94,8 @@ namespace Managers
             // _sceneManager.OnBeginSceneChange -= OnBeginSceneChange;
             // _sceneManager.OnEndSceneChange -= OnEndSceneChange;
         }
+
+        public event Action OnApplicationClose;
 
         public void StartLevel()
         {
@@ -94,7 +117,7 @@ namespace Managers
 
             StartCoroutine(GenRoom());
         }
-        
+
         private IEnumerator GenRoom()
         {
             LoadingScreenManager.HideScreen();
@@ -116,7 +139,7 @@ namespace Managers
         public void LoadLevel(FloorSettings scheme)
         {
             floorSettings = scheme;
-            
+
             sceneManager.ChangeScene(SceneIndexes.Level, () =>
             {
                 currentFloor = 0;
@@ -126,22 +149,26 @@ namespace Managers
             });
         }
 
-        public void LoadHub() => sceneManager.ChangeScene(SceneIndexes.Hub);
+        public void LoadHub()
+        {
+            sceneManager.ChangeScene(SceneIndexes.Hub);
+        }
 
         public void FinishRun()
         {
             StatisticsManager.Instance.AddIntValue($"Floors.{floorSettings.name}.Cleared", 1);
             StatisticsManager.Instance.AddIntValue($"Floors.{floorSettings.name}.Total", 1);
-            SaveManager saveManager = SaveManager.Instance;
+            var saveManager = SaveManager.Instance;
 
             if (saveManager != null)
             {
-                Save save = saveManager.GetCurrentSave;
+                var save = saveManager.GetCurrentSave;
 
-                FloorCollection.FloorItem item = Enumerable.FirstOrDefault(floorCollection.Items, floorItem => floorItem.settings == FloorScheme);
+                var item = Enumerable.FirstOrDefault(floorCollection.Items,
+                    floorItem => floorItem.settings == FloorScheme);
                 if (!save.CompletedLevels.Contains(item.levelIndex)) save.CompletedLevels.Add(item.levelIndex);
             }
-            
+
             UiManager.Instance.ShowUiElement(WindowReference.CompleteScreen);
         }
 
@@ -157,7 +184,7 @@ namespace Managers
         {
             if (sceneManager.CurrentScene == SceneIndexes.Level)
                 FindObjectOfType<PlayerInventory>().SaveInventory = false;
-            
+
             sceneManager.ChangeScene(SceneIndexes.MainMenu);
         }
 
@@ -167,7 +194,8 @@ namespace Managers
             Application.Quit();
         }
 
-        private void OnBeginSceneChange(SceneIndexes index) {
+        private void OnBeginSceneChange(SceneIndexes index)
+        {
             switch (index)
             {
                 case SceneIndexes.Persistent:
@@ -200,20 +228,14 @@ namespace Managers
             }
         }
 
-        public void NewGame() => sceneManager.ChangeScene(SceneIndexes.Level0);
-
-        private void PlayerDeath() => UiManager.Instance.ShowUiElement(WindowReference.DeathScreen);
-
-        public static bool PlayerMovement
+        public void NewGame()
         {
-            set
-            {
-                PlayerMovement movement = FindObjectOfType<PlayerMovement>();
-                if (movement != null) movement.enabled = value;
+            sceneManager.ChangeScene(SceneIndexes.Level0);
+        }
 
-                PlayerCombat combat = FindObjectOfType<PlayerCombat>();
-                if (combat != null) combat.enabled = value;
-            }
+        private void PlayerDeath()
+        {
+            UiManager.Instance.ShowUiElement(WindowReference.DeathScreen);
         }
     }
 }

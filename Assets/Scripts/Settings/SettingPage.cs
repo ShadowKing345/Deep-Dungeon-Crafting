@@ -12,6 +12,11 @@ namespace Settings
 
         public string Name => name;
         public Sprite Image => image;
-        public SettingEntry[] Settings { get => settings; set => settings = value; }
+
+        public SettingEntry[] Settings
+        {
+            get => settings;
+            set => settings = value;
+        }
     }
 }

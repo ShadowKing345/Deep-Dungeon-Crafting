@@ -1,7 +1,7 @@
-using Interfaces;
 using Ui.Menu;
 using Ui.Saves;
 using UnityEngine;
+using Utils.Interfaces;
 
 namespace Managers
 {
@@ -36,13 +36,18 @@ namespace Managers
             if (settingController.TryGetComponent(out IUiWindow window)) window.Show();
         }
 
-        public void OnExitGameClick() => GameManager.Instance.ExitGame();
+        public void OnExitGameClick()
+        {
+            GameManager.Instance.ExitGame();
+        }
 
         public void OnBackClick()
         {
-            if (settingController.gameObject.activeSelf && settingController.TryGetComponent(out IUiWindow settingWindow)) settingWindow.Hide();
+            if (settingController.gameObject.activeSelf &&
+                settingController.TryGetComponent(out IUiWindow settingWindow)) settingWindow.Hide();
             settingController.gameObject.SetActive(false);
-            if (saveController.gameObject.activeSelf && saveController.TryGetComponent(out IUiWindow savesWindow)) savesWindow.Hide();
+            if (saveController.gameObject.activeSelf && saveController.TryGetComponent(out IUiWindow savesWindow))
+                savesWindow.Hide();
             saveController.gameObject.SetActive(false);
         }
     }

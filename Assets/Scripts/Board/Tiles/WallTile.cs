@@ -1,7 +1,6 @@
-using Interfaces;
 using UnityEngine;
 using Utils;
-using Random = UnityEngine.Random;
+using Utils.Interfaces;
 
 namespace Board.Tiles
 {
@@ -9,15 +8,22 @@ namespace Board.Tiles
     {
         [SerializeField] private OctaDirectionalObj<Sprite>[] textures;
         public Direction direction;
-        
+
         public SpriteRenderer spriteRenderer;
 
-        private void OnEnable() => UpdateLook();
-        
-        public void UpdateLook() => spriteRenderer.sprite = textures[Random.Range(0, textures.Length)].GetDirection(direction);
+        private void OnEnable()
+        {
+            UpdateLook();
+        }
+
         public Direction Direction
         {
             set => direction = value;
+        }
+
+        public void UpdateLook()
+        {
+            spriteRenderer.sprite = textures[Random.Range(0, textures.Length)].GetDirection(direction);
         }
     }
 }

@@ -1,5 +1,5 @@
 using System;
-using Combat;
+using Entity.Combat;
 using Items;
 using Managers;
 using UnityEngine;
@@ -11,13 +11,11 @@ namespace Inventory
     {
         [SerializeField] private ItemStack weapon = ItemStack.Empty;
 
-        public event Action<WeaponClass> OnWeaponChanged;
-
         public ItemStack AddStackAtSlot(ItemStack stack, int index)
         {
             if (index != 0 || !(stack.Item is WeaponItem)) return stack;
 
-            ItemStack result = weapon.Copy;
+            var result = weapon.Copy;
             weapon.Item = stack.Item;
             weapon.Amount = stack.Amount;
 
@@ -27,15 +25,18 @@ namespace Inventory
             return result;
         }
 
-        public ItemStack GetStackAtSlot(int index) => index == 0 ? weapon : ItemStack.Empty;
+        public ItemStack GetStackAtSlot(int index)
+        {
+            return index == 0 ? weapon : ItemStack.Empty;
+        }
 
         public ItemStack RemoveStackAtSlot(int index)
         {
             if (index != 0) return ItemStack.Empty;
-            
-            ItemStack result = weapon.Copy;
+
+            var result = weapon.Copy;
             weapon.Clear();
-            
+
             OnWeaponChanged?.Invoke(GameManager.Instance.noWeaponClass);
 
             return result;
@@ -43,25 +44,21 @@ namespace Inventory
 
         public ItemStack[] AddItemStacks(ItemStack[] stacks, bool combine = true)
         {
-            ItemStack stack = stacks[0];
-            
+            var stack = stacks[0];
+
             if (combine && weapon.Item == stack.Item)
                 stack.RemoveItem(stack.Amount - weapon.AddItem(stack.Item, stack.Amount));
             else if (weapon.IsEmpty)
                 stack.RemoveItem(stack.Amount - weapon.AddItem(stack.Item, stack.Amount));
-            
+
             return stacks;
         }
 
-        public ItemStack[] AddItemStacks(ItemStack[] stacks)
+        public ItemStack[] GetItemStacks()
         {
-            if (stacks.Length > 0)
-                AddStackAtSlot(stacks[0], 0);
-            
-            return stacks;
+            return new[] {weapon};
         }
 
-        public ItemStack[] GetItemStacks() => new[] {weapon};
         public ItemStack[] RemoveItemStacks(ItemStack[] stacks)
         {
             throw new NotImplementedException();
@@ -69,24 +66,60 @@ namespace Inventory
 
         public ItemStack[] GetAndClearItemStacks()
         {
-            ItemStack[] result = GetItemStacks();
+            var result = GetItemStacks();
             ResetInventory();
             return result;
         }
 
-        public bool Contains(ItemStack stack) => stack.Item == weapon.Item;
+        public bool Contains(ItemStack stack)
+        {
+            return stack.Item == weapon.Item;
+        }
 
-        public bool ContainsExact(ItemStack stack) => Contains(stack) && stack.Amount <= weapon.Amount;
+        public bool ContainsExact(ItemStack stack)
+        {
+            return Contains(stack) && stack.Amount <= weapon.Amount;
+        }
 
-        public bool CanFitInSlot(ItemStack stack, int index) => index == 0 && stack.Item is WeaponItem;
+        public bool CanFitInSlot(ItemStack stack, int index)
+        {
+            return index == 0 && stack.Item is WeaponItem;
+        }
 
-        public bool CanFit(ItemStack stack) => stack.Item is WeaponItem;
+        public bool CanFit(ItemStack stack)
+        {
+            return stack.Item is WeaponItem;
+        }
 
-        public void ResetInventory() => weapon.Clear();
+        public void ResetInventory()
+        {
+            weapon.Clear();
+        }
+
         public int Size => 1;
 
-        public void SwapSlots(int fromIndex, int toIndex, out ItemStack fromStack, out ItemStack toStack) { fromStack = ItemStack.Empty; toStack = ItemStack.Empty; }
-        public void SplitStack(int index, int amount) { }
-        public void CombineStacks(int fromIndex, int toIndex) { }
+        public void SwapSlots(int fromIndex, int toIndex, out ItemStack fromStack, out ItemStack toStack)
+        {
+            fromStack = ItemStack.Empty;
+            toStack = ItemStack.Empty;
+        }
+
+        public void SplitStack(int index, int amount)
+        {
+        }
+
+        public void CombineStacks(int fromIndex, int toIndex)
+        {
+        }
+
+        public event Action<WeaponClass> OnWeaponChanged;
+
+        public ItemStack[] AddItemStacks(ItemStack[] stacks)
+        {
+            if (stacks.Length > 0)
+                AddStackAtSlot(stacks[0], 0);
+
+            return stacks;
+        }
     }
 }

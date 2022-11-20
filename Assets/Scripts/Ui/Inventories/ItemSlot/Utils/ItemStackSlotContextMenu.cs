@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Systems;
 using Entity.Player;
 using Items;
+using Systems;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -14,7 +14,10 @@ namespace Ui.Inventories.ItemSlot.Utils
     {
         [SerializeField] private ItemStackSlot slot;
 
-        private void Awake() => slot ??= GetComponent<ItemStackSlot>();
+        private void Awake()
+        {
+            slot ??= GetComponent<ItemStackSlot>();
+        }
 
         public void OnPointerClick(PointerEventData eventData)
         {
@@ -22,9 +25,9 @@ namespace Ui.Inventories.ItemSlot.Utils
             {
                 case PointerEventData.InputButton.Right:
                     if (slot.ItemStack.IsEmpty) return;
-                    List<KeyValuePair<string, object>> dictionary = new List<KeyValuePair<string, object>>()
+                    var dictionary = new List<KeyValuePair<string, object>>
                     {
-                        new KeyValuePair<string, object>("Destroy", new Action(Destroy)),
+                        new("Destroy", new Action(Destroy))
                     };
 
                     if (slot.ItemStack.Item.MaxStackSize > 1)
@@ -60,15 +63,24 @@ namespace Ui.Inventories.ItemSlot.Utils
         {
             if (!(slot.ItemStack.Item is UsableItem usableItem)) return;
             if (!usableItem.Use(FindObjectOfType<PlayerEntity>())) return;
-                
+
             slot.Inventory.GetStackAtSlot(slot.InventoryIndex).RemoveItem(1);
             slot.UpdateUi();
         }
 
-        private void Split() => slot.Controller.SplitSlot(slot);
+        private void Split()
+        {
+            slot.Controller.SplitSlot(slot);
+        }
 
-        private void Destroy() => slot.Controller.ClearSlot(slot);
+        private void Destroy()
+        {
+            slot.Controller.ClearSlot(slot);
+        }
 
-        private void Equip() => Debug.Log("Equip");
+        private void Equip()
+        {
+            Debug.Log("Equip");
+        }
     }
 }

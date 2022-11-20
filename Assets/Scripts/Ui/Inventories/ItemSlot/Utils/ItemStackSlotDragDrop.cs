@@ -10,32 +10,37 @@ namespace Ui.Inventories.ItemSlot.Utils
         private ToolTipSystem _tts;
 
         private IItemStackSlot slot;
-        
+
         private void OnEnable()
         {
             _tts ??= ToolTipSystem.Instance;
             slot ??= GetComponent<IItemStackSlot>();
         }
 
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+            if (slot.ItemStack.IsEmpty) return;
+
+            _tts.BeginItemHover(slot.ItemStack);
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+        }
+
         public void OnDrop(PointerEventData eventData)
         {
             if (eventData.pointerDrag == null) return;
 
-            if(!eventData.pointerDrag.TryGetComponent(out IItemStackSlot fromSlot)) return;
+            if (!eventData.pointerDrag.TryGetComponent(out IItemStackSlot fromSlot)) return;
             if (fromSlot == null || fromSlot.ItemStack.IsEmpty) return;
 
             slot.Controller.ExchangeItemStacks(fromSlot, slot);
         }
 
-        public void OnBeginDrag(PointerEventData eventData)
+        public void OnEndDrag(PointerEventData eventData)
         {
-            if (slot.ItemStack.IsEmpty) return;
-            
-            _tts.BeginItemHover(slot.ItemStack);
+            _tts.EndItemHover();
         }
-
-        public void OnDrag(PointerEventData eventData) { }
-        
-        public void OnEndDrag(PointerEventData eventData) => _tts.EndItemHover();
     }
 }

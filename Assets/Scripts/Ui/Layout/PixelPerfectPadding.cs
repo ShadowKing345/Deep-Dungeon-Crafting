@@ -20,10 +20,10 @@ namespace Ui.Layout
 
         public override void CalculateLayoutInputVertical()
         {
-            if(image == null || image.sprite == null) return;
-            
-            Rect rect = rectTransform.rect;
-            Rect imageRect = image.sprite.rect;
+            if (image == null || image.sprite == null) return;
+
+            var rect = rectTransform.rect;
+            var imageRect = image.sprite.rect;
             Vector2 xy;
             Vector2 widthHeight;
 
@@ -36,7 +36,7 @@ namespace Ui.Layout
                 widthHeight = new Vector2(rect.width - xy.x - wUpp * padding.right,
                     rect.height + xy.y - hUpp * padding.bottom);
 
-                foreach (RectTransform target in targets)
+                foreach (var target in targets)
                 {
                     target.anchorMin = target.anchorMax = Vector2.up;
                     target.anchoredPosition = xy + new Vector2(0, -widthHeight.y) + widthHeight * target.pivot;
@@ -54,15 +54,20 @@ namespace Ui.Layout
             widthHeight = new Vector2(rect.width - xy.x - padding.right * resolution,
                 rect.height + xy.y - padding.bottom * resolution);
 
-            foreach (RectTransform target in targets)
+            foreach (var target in targets)
             {
                 target.anchorMin = target.anchorMax = Vector2.up;
                 target.anchoredPosition = xy + new Vector2(0, -widthHeight.y) + widthHeight * target.pivot;
                 target.sizeDelta = widthHeight;
             }
         }
-        
-        public override void SetLayoutHorizontal() { }
-        public override void SetLayoutVertical() { }
+
+        public override void SetLayoutHorizontal()
+        {
+        }
+
+        public override void SetLayoutVertical()
+        {
+        }
     }
 }

@@ -1,9 +1,8 @@
 using System;
+using Entity.Combat;
+using Entity.Combat.Abilities;
 using Systems;
-using Combat;
-using Combat.Abilities;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils.Ui;
@@ -16,15 +15,6 @@ namespace Ui.ToolTip.Types
 
         [SerializeField] private AbilityBase abilityBase;
 
-        public AbilityBase AbilityBase
-        {
-            set
-            {
-                abilityBase = value;
-                UpdateUi();
-            }
-        }
-
         [Space] [SerializeField] private Image headerImage;
         [SerializeField] private TextMeshProUGUI nameText;
         [SerializeField] private TextMeshProUGUI descriptionText;
@@ -34,6 +24,28 @@ namespace Ui.ToolTip.Types
 
         [SerializeField] private GameObject propertiesContainer;
         [SerializeField] private GameObject propertyPreFab;
+
+        public AbilityBase AbilityBase
+        {
+            set
+            {
+                abilityBase = value;
+                UpdateUi();
+            }
+        }
+
+        protected override void Update()
+        {
+            if (ToolTipSystem.Instance.HideAdvanceToolTips)
+            {
+                canvasGroup.alpha = 0;
+            }
+            else
+            {
+                base.Update();
+                canvasGroup.alpha = 1;
+            }
+        }
 
         private void UpdateUi()
         {
@@ -47,7 +59,7 @@ namespace Ui.ToolTip.Types
             ClearChildren();
             switch (abilityBase)
             {
-                case AttackAbility attackAbility:
+                case AreaOfEffectAbility attackAbility:
                     CreateProperties(attackAbility.Properties);
                     break;
                 case ProjectileAbility projectileAbility:
@@ -60,12 +72,12 @@ namespace Ui.ToolTip.Types
         {
             propertiesContainer.SetActive(true);
             spacer.SetActive(true);
-            foreach (AbilityProperty property in abilityProperties)
+            foreach (var property in abilityProperties)
             {
-                GameObject obj = Instantiate(propertyPreFab, propertiesContainer.transform);
+                var obj = Instantiate(propertyPreFab, propertiesContainer.transform);
                 obj.SetActive(true);
 
-                string text = property.IsElemental
+                var text = property.IsElemental
                     ? property.Element switch
                     {
                         WeaponElement.None => "<color=#7851a9>",
@@ -86,24 +98,10 @@ namespace Ui.ToolTip.Types
 
         private void ClearChildren()
         {
-            foreach (Transform childObj in propertiesContainer.transform)
-            {
-                Destroy(childObj.gameObject);
-            }
+            foreach (Transform childObj in propertiesContainer.transform) Destroy(childObj.gameObject);
 
             propertiesContainer.SetActive(false);
             spacer.SetActive(false);
-        }
-
-        protected override void Update()
-        {
-            if (ToolTipSystem.Instance.HideAdvanceToolTips)
-                canvasGroup.alpha = 0;
-            else
-            {
-                base.Update();
-                canvasGroup.alpha = 1;
-            }
         }
     }
 }

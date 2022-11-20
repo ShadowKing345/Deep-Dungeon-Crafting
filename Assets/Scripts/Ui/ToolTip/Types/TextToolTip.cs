@@ -17,10 +17,11 @@ namespace Ui.ToolTip.Types
         {
             headerTMP.text = header;
             headerTMP.gameObject.SetActive(!string.IsNullOrEmpty(header));
-            
+
             contentTMP.text = content;
-            
-            layoutElement.enabled = headerTMP.text.Length > characterWrapLimit || contentTMP.text.Length > characterWrapLimit;
+
+            layoutElement.enabled = headerTMP.text.Length > characterWrapLimit ||
+                                    contentTMP.text.Length > characterWrapLimit;
         }
     }
 }

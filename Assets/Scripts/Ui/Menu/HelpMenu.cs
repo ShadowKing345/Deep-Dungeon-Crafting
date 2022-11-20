@@ -1,18 +1,17 @@
-using System;
 using Entity.Player;
 using Enums;
-using Interfaces;
 using Managers;
 using UnityEngine;
+using Utils.Interfaces;
 
 namespace Ui.Menu
 {
     public class HelpMenu : MonoBehaviour, IUiWindow
     {
         private UiManager _uiManager;
-        
-        private PlayerMovement playerMovement;
         private PlayerCombat playerCombat;
+
+        private PlayerMovement playerMovement;
 
         private void Awake()
         {
@@ -21,12 +20,15 @@ namespace Ui.Menu
             gameObject.SetActive(false);
         }
 
-        private void OnDestroy() => _uiManager.UnregisterWindow(WindowReference.Help, gameObject);
-
         private void OnEnable()
         {
             playerCombat ??= FindObjectOfType<PlayerCombat>();
             playerMovement ??= FindObjectOfType<PlayerMovement>();
+        }
+
+        private void OnDestroy()
+        {
+            _uiManager.UnregisterWindow(WindowReference.Help, gameObject);
         }
 
         public void Show()

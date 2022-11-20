@@ -361,7 +361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerInputManager: {fileID: 0}
-  playerMovementManager: {fileID: 0}
+  playerMovement: {fileID: 0}
   playerEntity: {fileID: 0}
   playerInventory: {fileID: 0}
   playerCombat: {fileID: 0}
@@ -377,11 +377,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d709322707c878389b5eb0c1262b40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityData: {fileID: 11400000, guid: 021397766d630c8c9a4b37fbec72318d, type: 2}
   animator: {fileID: 0}
-  attackName: 
   currentDirection: 0
   state: 0
-  ignoreDirection: 0
+  attackAnimationClip: {fileID: 0}
   moveSpeed: 7.5
   player: {fileID: 0}
 --- !u!114 &1215518788766348717
@@ -411,18 +411,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a35a66088d004b0db9877998b335f7fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  playerEntity: {fileID: 0}
-  playerInventory: {fileID: 0}
-  currentClass: {fileID: 0}
-  currentAbilityIndex: 3
-  combo: 0
-  isComboActive: 0
+  player: {fileID: 0}
+  currentWeaponClass: {fileID: 0}
   abilityRange: 0
   attackOffset: 0
   centerOffset: {x: 0, y: 0}
   direction: 0
-  player: {fileID: 0}
 --- !u!114 &2565052387856836575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -671,7 +665,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a28bc4511eb461aa04d7f8a14e0ec92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 11400000, guid: 021397766d630c8c9a4b37fbec72318d, type: 2}
+  data: {fileID: 11400000, guid: 021397766d630c8c9a4b37fbec72318d, type: 2}
   currentHealth: 0
   currentMana: 0
   godMode: 0

@@ -7,9 +7,12 @@ namespace Ui.Crafting
 {
     public class RecipeEntry : Button
     {
-        public CraftingController Controller { get; set; }
         [SerializeField] private Recipe recipe;
         [SerializeField] private Image recipeImage;
+
+        [SerializeField] private TextMeshProUGUI text;
+        public CraftingController Controller { get; set; }
+
         public Recipe Recipe
         {
             set
@@ -18,8 +21,6 @@ namespace Ui.Crafting
                 UpdateUi();
             }
         }
-
-        [SerializeField] private TextMeshProUGUI text;
 
         protected override void OnEnable()
         {

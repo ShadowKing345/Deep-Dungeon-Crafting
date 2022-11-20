@@ -1,12 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using ContextMenu = Ui.ContextMenu.ContextMenu;
 
 namespace Systems
 {
     public class ContextMenuSystem : MonoBehaviour
     {
         private static ContextMenuSystem _instance;
+
+        [SerializeField] private ContextMenu contextMenu;
+
         public static ContextMenuSystem Instance
         {
             get
@@ -26,9 +30,10 @@ namespace Systems
             }
         }
 
-        [SerializeField] private Ui.ContextMenu.ContextMenu contextMenu;
-
-        private void Awake() => Instance = this;
+        private void Awake()
+        {
+            Instance = this;
+        }
 
         public void OpenContextMenu(Dictionary<string, object> dictionary)
         {
@@ -37,6 +42,9 @@ namespace Systems
             contextMenu.SetPosition(Mouse.current.position.ReadValue());
         }
 
-        public void HideContextMenu() => contextMenu.gameObject.SetActive(false);
+        public void HideContextMenu()
+        {
+            contextMenu.gameObject.SetActive(false);
+        }
     }
 }

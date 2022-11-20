@@ -1,6 +1,4 @@
-using Combat;
 using Entity.Player;
-using UnityEngine;
 
 namespace Items
 {

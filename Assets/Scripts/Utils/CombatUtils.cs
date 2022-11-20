@@ -1,23 +1,24 @@
 using System;
 using System.Collections.Generic;
-using Combat;
-using Entity;
-using Interfaces;
+using Entity.Combat;
+using Entity.Combat.Abilities;
 using UnityEngine;
+using Utils.Interfaces;
 
 namespace Utils
 {
     public static class CombatUtils
     {
-        public static IDamageable[] GetHitList(AbilityBase abilityBase, Transform transform, Vector2 offSet, Direction direction)
+        public static IDamageable[] GetHitList(AbilityBase abilityBase, Transform transform, Vector2 offSet,
+            Direction direction)
         {
-            List<IDamageable> hitList = new List<IDamageable>();
+            var hitList = new List<IDamageable>();
 
-            Collider2D[] entityHitList = Array.Empty<Collider2D>();
-                // Physics2D.OverlapCircleAll(GetAttackDirection(abilityBase, transform, offSet, direction),
-                    // abilityBase.AttackRange);
+            var entityHitList = Array.Empty<Collider2D>();
+            // Physics2D.OverlapCircleAll(GetAttackDirection(abilityBase, transform, offSet, direction),
+            // abilityBase.AttackRange);
 
-            foreach (Collider2D hit in entityHitList)
+            foreach (var hit in entityHitList)
             {
                 if (hit.gameObject == transform.gameObject) continue;
 
@@ -29,6 +30,10 @@ namespace Utils
         }
 
         public static Vector2 GetAttackDirection(AbilityBase abilityBase, Transform origin, Vector2 offset,
-            Direction direction) => Vector2.zero; //(Vector2) origin.position + offset + abilityBase.AttackPoint + direction.AsVector() * abilityBase.AttackDistance;
+            Direction direction)
+        {
+            return Vector2.zero;
+            //(Vector2) origin.position + offset + abilityBase.AttackPoint + direction.AsVector() * abilityBase.AttackDistance;
+        }
     }
 }

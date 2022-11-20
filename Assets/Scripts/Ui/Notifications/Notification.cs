@@ -9,18 +9,20 @@ namespace Ui.Notifications
 {
     public class Notification : Button
     {
-        [Header("Internal Components")]
-        [SerializeField] private TextMeshProUGUI text;
+        [Header("Internal Components")] [SerializeField]
+        private TextMeshProUGUI text;
+
         [SerializeField] private Image targetImage;
         [SerializeField] private CanvasGroup cg;
 
-        [Space] [Header("Config")]
-        [SerializeField] private Color logColor;
+        [Space] [Header("Config")] [SerializeField]
+        private Color logColor;
+
         [SerializeField] private Color warnColor;
         [SerializeField] private Color errorColor;
 
-        [Space]
-        [SerializeField] private NotificationLevel level;
+        [Space] [SerializeField] private NotificationLevel level;
+
         private UnityAction callback;
         // private LTDescr leanTween;
 
@@ -40,7 +42,7 @@ namespace Ui.Notifications
 
             // LeanTween.alphaCanvas(cg, 1, 0.1f);
             // leanTween = LeanTween.delayedCall(overrideTimer ? timerOverride : level.GetStandardDuration(),
-                // () => LeanTween.alphaCanvas(cg, 0, 0.1f).setOnComplete(_ => Destroy(gameObject)));
+            // () => LeanTween.alphaCanvas(cg, 0, 0.1f).setOnComplete(_ => Destroy(gameObject)));
 
             this.callback = callback;
         }
@@ -59,7 +61,7 @@ namespace Ui.Notifications
                     //     LeanTween.cancel(leanTween.uniqueId);
                     // }
                     // else
-                        Destroy(gameObject);
+                    Destroy(gameObject);
                     break;
                 case PointerEventData.InputButton.Middle:
                     break;

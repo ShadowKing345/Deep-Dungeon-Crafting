@@ -1,4 +1,3 @@
-using System;
 using Systems;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,11 +7,11 @@ namespace Ui.ToolTip
     public class ToolTipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         // private static LTDescr _delay;
-        
+
         [SerializeField] private string header;
-        [Multiline] 
-        [SerializeField] private string content;
-        
+
+        [Multiline] [SerializeField] private string content;
+
         public string Header
         {
             set => header = value;
@@ -30,8 +29,14 @@ namespace Ui.ToolTip
             ToolTipSystem.Instance.HideToolTip(true);
         }
 
-        public void OnPointerEnter(PointerEventData eventData) => ToolTipSystem.Instance.ShowToolTip(content, header);
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            ToolTipSystem.Instance.ShowToolTip(content, header);
+        }
 
-        public void OnPointerExit(PointerEventData eventData) => ToolTipSystem.Instance.HideToolTip(true);
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            ToolTipSystem.Instance.HideToolTip(true);
+        }
     }
 }

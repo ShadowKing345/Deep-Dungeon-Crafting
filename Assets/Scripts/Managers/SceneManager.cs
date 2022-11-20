@@ -10,6 +10,8 @@ namespace Managers
     public class SceneManager : MonoBehaviour
     {
         private static SceneManager _instance;
+        private readonly List<AsyncOperation> loadingProgressList = new();
+
         public static SceneManager Instance
         {
             get
@@ -24,41 +26,46 @@ namespace Managers
                     Destroy(value);
                     return;
                 }
+
                 _instance = value;
                 DontDestroyOnLoad(value);
             }
         }
-        public event Action<SceneIndexes> OnBeginSceneChange;
-        public event Action<SceneIndexes> OnEndSceneChange;
-        
-        private void Awake() => Instance = this;
 
         public SceneIndexes CurrentScene { get; private set; }
-        private readonly List<AsyncOperation> loadingProgressList = new List<AsyncOperation>();
-        
+
+        private void Awake()
+        {
+            Instance = this;
+        }
+
+        public event Action<SceneIndexes> OnBeginSceneChange;
+        public event Action<SceneIndexes> OnEndSceneChange;
+
         public void ChangeScene(SceneIndexes index, Action onCompleteCallBack = null)
         {
             if (index == CurrentScene) return;
-         
+
             OnBeginSceneChange?.Invoke(CurrentScene);
-            
-            if(CurrentScene != SceneIndexes.Persistent)
+
+            if (CurrentScene != SceneIndexes.Persistent)
                 loadingProgressList.Add(UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync((int) CurrentScene));
-            loadingProgressList.Add(UnityEngine.SceneManagement.SceneManager.LoadSceneAsync((int) index, LoadSceneMode.Additive));
+            loadingProgressList.Add(
+                UnityEngine.SceneManagement.SceneManager.LoadSceneAsync((int) index, LoadSceneMode.Additive));
 
             CurrentScene = index;
             StartCoroutine(GetLoadingProgress(onCompleteCallBack));
         }
 
-        IEnumerator GetLoadingProgress(Action onCompleteCallBack = null)
+        private IEnumerator GetLoadingProgress(Action onCompleteCallBack = null)
         {
             LoadingScreenManager.HideScreen();
             yield return new WaitForEndOfFrame();
-            
-            foreach(var i in loadingProgressList)
+
+            foreach (var i in loadingProgressList)
                 while (!i.isDone)
                     yield return null;
-            
+
             LoadingScreenManager.ShowScreen();
             OnEndSceneChange?.Invoke(CurrentScene);
             onCompleteCallBack?.Invoke();

@@ -11,6 +11,10 @@ namespace Managers
     {
         private static ItemManager _instance;
 
+        [SerializeField] private Item[] items;
+        private readonly Dictionary<int, Item> idItem = new();
+        private readonly Dictionary<Item, int> itemId = new();
+
         public static ItemManager Instance
         {
             get
@@ -30,48 +34,44 @@ namespace Managers
                 DontDestroyOnLoad(value);
             }
         }
-        
-        [SerializeField] private Item[] items;
-        private readonly Dictionary<Item, int> itemId = new Dictionary<Item, int>();
-        private readonly Dictionary<int, Item> idItem = new Dictionary<int, Item>();
 
-        private void Awake() => Instance = this;
+        private void Awake()
+        {
+            Instance = this;
+        }
 
-        public void OnBeforeSerialize() { }
-        public void OnAfterDeserialize() 
+        public void OnBeforeSerialize()
+        {
+        }
+
+        public void OnAfterDeserialize()
         {
             itemId.Clear();
             idItem.Clear();
-            
+
             var i = 0;
 
-            foreach (Item item in items)
+            foreach (var item in items)
             {
                 itemId.Add(item, i);
                 idItem.Add(i++, item);
             }
         }
-        
-        [Serializable]
-        private class ConvertedItemStack
-        {
-            public int id = -1;
-            public int amount;
-        }
-        
+
         public static bool TryItemStacksToJson(ItemStack[] stacks, out string json)
         {
             json = "";
 
-            List<ConvertedItemStack> convertedStacks = new List<ConvertedItemStack>();
+            var convertedStacks = new List<ConvertedItemStack>();
 
-            foreach (ItemStack stack in stacks)
+            foreach (var stack in stacks)
             {
                 if (stack.IsEmpty)
                 {
                     convertedStacks.Add(new ConvertedItemStack());
                     continue;
                 }
+
                 if (!Instance.items.Contains(stack.Item)) return false;
 
                 convertedStacks.Add(new ConvertedItemStack
@@ -89,7 +89,7 @@ namespace Managers
         {
             try
             {
-                ConvertedItemStack[] convertedItemStacks = JsonConvert.DeserializeObject<ConvertedItemStack[]>(json);
+                var convertedItemStacks = JsonConvert.DeserializeObject<ConvertedItemStack[]>(json);
 
                 stacks = convertedItemStacks
                     .Select(stack => new ItemStack
@@ -102,6 +102,13 @@ namespace Managers
                 stacks = null;
                 return false;
             }
+        }
+
+        [Serializable]
+        private class ConvertedItemStack
+        {
+            public int id = -1;
+            public int amount;
         }
     }
 }

@@ -11,17 +11,24 @@ namespace Utils
         E = 1,
         N = 2,
         W = 3,
-        
+
         SW = 4,
         SE = 5,
         NW = 6,
         NE = 7
     }
-    
+
     public static class DirectionUtils
     {
-        public static Direction GetDirectionFromInterCardinal(this Direction direction) =>
-            direction switch
+        public static IEnumerable<Direction> Cardinals =>
+            new[] {Direction.S, Direction.E, Direction.N, Direction.W};
+
+        public static Direction[] InterCardinals =>
+            new[] {Direction.SW, Direction.SE, Direction.NW, Direction.NE};
+
+        public static Direction GetDirectionFromInterCardinal(this Direction direction)
+        {
+            return direction switch
             {
                 Direction.SW => Direction.S,
                 Direction.SE => Direction.W,
@@ -29,6 +36,7 @@ namespace Utils
                 Direction.NE => Direction.E,
                 _ => direction
             };
+        }
 
         public static Vector2 AsVector(this Direction direction)
         {
@@ -46,23 +54,20 @@ namespace Utils
             };
         }
 
-        public static Direction GetOpposite(this Direction direction) => direction switch
+        public static Direction GetOpposite(this Direction direction)
         {
-            Direction.S => Direction.N,
-            Direction.E => Direction.W,
-            Direction.N => Direction.S,
-            Direction.W => Direction.E,
-            Direction.SW => Direction.NE,
-            Direction.SE => Direction.NW,
-            Direction.NW => Direction.SE,
-            Direction.NE => Direction.SW,
-            _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
-        };
-        
-        public static IEnumerable<Direction> Cardinals =>
-            new[] {Direction.S, Direction.E, Direction.N, Direction.W};
-
-        public static Direction[] InterCardinals =>
-            new[] {Direction.SW, Direction.SE, Direction.NW, Direction.NE};
+            return direction switch
+            {
+                Direction.S => Direction.N,
+                Direction.E => Direction.W,
+                Direction.N => Direction.S,
+                Direction.W => Direction.E,
+                Direction.SW => Direction.NE,
+                Direction.SE => Direction.NW,
+                Direction.NW => Direction.SE,
+                Direction.NE => Direction.SW,
+                _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
+            };
+        }
     }
 }

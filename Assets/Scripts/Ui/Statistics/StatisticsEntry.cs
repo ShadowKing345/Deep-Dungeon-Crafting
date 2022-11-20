@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using Utils;
 
@@ -13,12 +11,6 @@ namespace Ui.Statistics
         [SerializeField] private TextMeshProUGUI valueText;
         [SerializeField] private Transform subContent;
 
-        private void OnEnable()
-        {
-            GameObjectUtils.ClearChildren(subContent);
-            valueText.enabled = false;
-        }
-
         public KeyValuePair<string, object> Init
         {
             set
@@ -27,9 +19,9 @@ namespace Ui.Statistics
 
                 if (value.Value is IDictionary<string, object> dictionary)
                 {
-                    foreach (KeyValuePair<string, object> kvPair in new SortedDictionary<string, object>(dictionary))
+                    foreach (var kvPair in new SortedDictionary<string, object>(dictionary))
                     {
-                        GameObject sub = Instantiate(gameObject, subContent);
+                        var sub = Instantiate(gameObject, subContent);
                         if (sub.TryGetComponent(out StatisticsEntry entry)) entry.Init = kvPair;
                     }
                 }
@@ -39,6 +31,12 @@ namespace Ui.Statistics
                     valueText.text = value.Value.ToString();
                 }
             }
+        }
+
+        private void OnEnable()
+        {
+            GameObjectUtils.ClearChildren(subContent);
+            valueText.enabled = false;
         }
     }
 }

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Systems;
 using TMPro;
 using Ui.ToolTip;
@@ -18,8 +17,8 @@ namespace Ui.ContextMenu
 
         public void SetUp(string content, Action callBack)
         {
-                text.text = trigger.Content = content;
-                callback = callBack;
+            text.text = trigger.Content = content;
+            callback = callBack;
         }
 
         public override void OnPointerClick(PointerEventData eventData)

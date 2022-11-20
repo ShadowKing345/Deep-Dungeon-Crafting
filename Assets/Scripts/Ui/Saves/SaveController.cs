@@ -5,25 +5,18 @@ namespace Ui.Saves
 {
     public class SaveController : MonoBehaviour
     {
-        private SaveManager _saveManager;
-        private GameManager _gameManager;
-
         [SerializeField] private GameObject entryPreFab;
         [SerializeField] private Transform content;
-
-        private enum State
-        {
-            LoadExisting,
-            NewSave
-        }
         [SerializeField] private State state;
+        private GameManager _gameManager;
+        private SaveManager _saveManager;
 
         private void OnEnable()
         {
             _saveManager = SaveManager.Instance;
             _gameManager = GameManager.Instance;
         }
-        
+
         public void OnButtonClick(int index)
         {
             if (state == State.NewSave)
@@ -37,7 +30,20 @@ namespace Ui.Saves
             _gameManager.LoadHub();
         }
 
-        public void Load() => state = State.LoadExisting;
-        public void New() => state = State.NewSave;
+        public void Load()
+        {
+            state = State.LoadExisting;
+        }
+
+        public void New()
+        {
+            state = State.NewSave;
+        }
+
+        private enum State
+        {
+            LoadExisting,
+            NewSave
+        }
     }
 }

@@ -1,5 +1,4 @@
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Board.Tiles
 {
@@ -8,7 +7,10 @@ namespace Board.Tiles
         public Sprite[] textures;
         public SpriteRenderer spriteRenderer;
 
-        private void OnEnable() => UpdateLook();
+        private void OnEnable()
+        {
+            UpdateLook();
+        }
 
         public void UpdateLook()
         {

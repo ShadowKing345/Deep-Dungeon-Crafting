@@ -9,7 +9,10 @@ namespace Items
         [SerializeField] private float potency;
 
         public float Potency => potency;
-        
-        public override bool Use(PlayerEntity playerEntity) => playerEntity.Heal(potency);
+
+        public override bool Use(PlayerEntity playerEntity)
+        {
+            return playerEntity.Heal(potency);
+        }
     }
 }

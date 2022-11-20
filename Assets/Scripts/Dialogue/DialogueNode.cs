@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Dialogue
 {
@@ -18,6 +17,7 @@ namespace Dialogue
         public string OptionName => string.IsNullOrEmpty(optionName) || string.IsNullOrWhiteSpace(optionName)
             ? name
             : optionName;
+
         public string Body => body;
         public DialogueNode[] NextNodes => nextNodes;
     }

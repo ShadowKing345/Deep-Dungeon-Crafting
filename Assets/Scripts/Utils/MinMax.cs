@@ -8,8 +8,17 @@ namespace Utils
     {
         [SerializeField] private T min;
         [SerializeField] private T max;
-        
-        public T Min { get => min; set => min = value; }
-        public T Max { get => max; set => max = value; }
+
+        public T Min
+        {
+            get => min;
+            set => min = value;
+        }
+
+        public T Max
+        {
+            get => max;
+            set => max = value;
+        }
     }
 }

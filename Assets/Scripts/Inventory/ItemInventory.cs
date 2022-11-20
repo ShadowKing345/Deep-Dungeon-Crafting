@@ -10,13 +10,19 @@ namespace Inventory
     {
         [SerializeField] private ItemStack[] itemStacks = new ItemStack[99];
 
-        public ItemStack AddStackAtSlot(ItemStack stack, int index) => index >= itemStacks.Length ? stack : itemStacks[index].AddItem(stack);
+        public ItemStack AddStackAtSlot(ItemStack stack, int index)
+        {
+            return index >= itemStacks.Length ? stack : itemStacks[index].AddItem(stack);
+        }
 
-        public ItemStack GetStackAtSlot(int index) => itemStacks[index];
+        public ItemStack GetStackAtSlot(int index)
+        {
+            return itemStacks[index];
+        }
 
         public ItemStack RemoveStackAtSlot(int index)
         {
-            ItemStack result = itemStacks[index].Copy;
+            var result = itemStacks[index].Copy;
             itemStacks[index].Clear();
             return result;
         }
@@ -26,8 +32,8 @@ namespace Inventory
             foreach (var stack in stacks)
             {
                 if (stack.IsEmpty) continue;
-                
-                foreach (ItemStack inventoryStack in itemStacks)
+
+                foreach (var inventoryStack in itemStacks)
                 {
                     if (combine && inventoryStack.Item == stack.Item)
                         stack.RemoveItem(stack.Amount - inventoryStack.AddItem(stack.Item, stack.Amount));
@@ -43,17 +49,15 @@ namespace Inventory
 
         public ItemStack[] RemoveItemStacks(ItemStack[] stacks)
         {
-            foreach (ItemStack stack in stacks)
+            foreach (var stack in stacks)
+            foreach (var inventoryStack in itemStacks)
             {
-                foreach (ItemStack inventoryStack in itemStacks)
-                {
-                    if (inventoryStack.Item == stack.Item)
-                        stack.RemoveItem(inventoryStack.RemoveItem(stack.Amount));
+                if (inventoryStack.Item == stack.Item)
+                    stack.RemoveItem(inventoryStack.RemoveItem(stack.Amount));
 
-                    if (stack.IsEmpty) break;
-                }
+                if (stack.IsEmpty) break;
             }
-            
+
             return stacks;
         }
 
@@ -64,28 +68,34 @@ namespace Inventory
 
         public ItemStack[] GetAndClearItemStacks()
         {
-            ItemStack[] result = GetItemStacks();
+            var result = GetItemStacks();
             ResetInventory();
             return result;
         }
 
-        public bool Contains(ItemStack stack) => itemStacks.FirstOrDefault(s => s.Item == stack.Item) != null;
+        public bool Contains(ItemStack stack)
+        {
+            return itemStacks.FirstOrDefault(s => s.Item == stack.Item) != null;
+        }
 
-        public bool ContainsExact(ItemStack stack) => itemStacks.FirstOrDefault(s => s.Item == stack.Item && s.Amount >= stack.Amount) != null;
+        public bool ContainsExact(ItemStack stack)
+        {
+            return itemStacks.FirstOrDefault(s => s.Item == stack.Item && s.Amount >= stack.Amount) != null;
+        }
 
         public bool CanFitInSlot(ItemStack stack, int index)
         {
-            ItemStack itemStack = itemStacks[index];
+            var itemStack = itemStacks[index];
             if (itemStack.IsEmpty) return true;
             return stack.Item == itemStack.Item;
         }
 
         public bool CanFit(ItemStack stack)
         {
-            for (int i = 0; i < itemStacks.Length; i++)
+            for (var i = 0; i < itemStacks.Length; i++)
                 if (CanFitInSlot(stack, i))
                     return true;
-            
+
             return false;
         }
 
@@ -107,7 +117,7 @@ namespace Inventory
                 toStack = ItemStack.Empty;
                 return;
             }
-            
+
             toStack = RemoveStackAtSlot(toIndex);
 
             AddStackAtSlot(toStack.Copy, fromIndex);
@@ -116,12 +126,15 @@ namespace Inventory
 
         public void SplitStack(int index, int amount)
         {
-            ItemStack stack = itemStacks[index].Copy;
+            var stack = itemStacks[index].Copy;
             stack.Amount = itemStacks[index].RemoveItem(amount);
 
             AddItemStacks(new[] {stack}, false);
         }
 
-        public void CombineStacks(int fromIndex, int toIndex) => itemStacks[toIndex].AddItem(itemStacks[fromIndex]);
+        public void CombineStacks(int fromIndex, int toIndex)
+        {
+            itemStacks[toIndex].AddItem(itemStacks[fromIndex]);
+        }
     }
 }

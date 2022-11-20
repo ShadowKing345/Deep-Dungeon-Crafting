@@ -1,4 +1,5 @@
-using Combat;
+using Entity.Combat;
+using Entity.Combat.Abilities;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -27,6 +28,16 @@ namespace Ui.HudElements
 
                 SetAbility(0);
             }
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            // if (abilities.Length > 0) ToolTipSystem.Instance?.ShowToolTip(abilities[currentAbility]);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            // ToolTipSystem.Instance?.HideToolTip(ability: true);
         }
 
         public void SetAbility(int comboIndex)
@@ -65,16 +76,6 @@ namespace Ui.HudElements
             keybindingText.text = "";
 
             coolDownProgressBar.Current = 0;
-        }
-
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            // if (abilities.Length > 0) ToolTipSystem.Instance?.ShowToolTip(abilities[currentAbility]);
-        }
-
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            // ToolTipSystem.Instance?.HideToolTip(ability: true);
         }
     }
 }

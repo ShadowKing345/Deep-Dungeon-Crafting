@@ -7,72 +7,73 @@ namespace Entity
     [RequireComponent(typeof(Animator))]
     public class EntityAnimator : MonoBehaviour
     {
-        private static readonly string[] Directions = {"South", "East", "North", "West"};
+        [Header("General Data")] [SerializeField]
+        protected EntityData entityData;
 
         [SerializeField] protected Animator animator;
-        [SerializeField] protected string attackName;
 
-        [SerializeField] protected Direction currentDirection;
+        [Header("State")] [SerializeField] protected Direction currentDirection;
         [SerializeField] protected State state;
-        [SerializeField] protected bool ignoreDirection;
+        [SerializeField] protected AnimationClip attackAnimationClip;
+        private float attackCoolDown;
 
         private bool isAttacking;
-        private float attackCoolDown;
+        private bool isEntityDataNull;
+
+        public Direction CurrentDirection => currentDirection;
+
+        public float GetAnimationLength => animator.GetCurrentAnimatorStateInfo(0).length;
 
         protected virtual void Awake()
         {
             animator = GetComponent<Animator>();
         }
 
-        protected virtual void FixedUpdate()
+        private void Start()
         {
-            if (isAttacking && attackCoolDown < Time.time)
-            {
-                isAttacking = false;
-            }
+            isEntityDataNull = entityData == null;
         }
 
         protected virtual void Update()
         {
-            if (isAttacking)
-            {
-                state = State.Attacking;
-            }
+            if (isEntityDataNull) return;
 
+            if (isAttacking) state = State.Attacking;
 
-            var animationName = state switch
+            animator.Play((state switch
             {
-                State.Idle => "Idle",
-                State.Moving => "Run",
-                State.Attacking => attackName,
+                State.Idle => entityData.IdleAnimationData.GetDirection(currentDirection),
+                State.Moving => entityData.MovingAnimationData.GetDirection(currentDirection),
+                State.Attacking => attackAnimationClip,
                 _ => throw new ArgumentOutOfRangeException()
-            };
+            }).name);
+        }
 
-            animator.Play(animationName + (ignoreDirection ? "" : "-" + Directions[(int) currentDirection]));
+        protected virtual void FixedUpdate()
+        {
+            if (isAttacking && attackCoolDown < Time.time) isAttacking = false;
         }
 
         protected static Direction GetDirectionIndex(Vector2 direction)
         {
             var normPos = direction.normalized;
 
-            const float step = 90;
-            const float offset = step / 2;
-            float angle = Vector2.SignedAngle(Vector2.down, normPos);
+            const float step = 90f;
+            const float offset = step / 2f;
+            var angle = Vector2.SignedAngle(Vector2.down, normPos);
 
             angle += offset;
-            if (angle < 0) angle += 360;
+            if (angle < 0) angle += 360f;
 
             return (Direction) Mathf.FloorToInt(angle / step);
         }
 
         public void PlayAttackAnimation(AnimationClip clip)
         {
-            attackName = clip.name;
+            attackAnimationClip = clip;
             attackCoolDown = Time.time + clip.length;
             isAttacking = true;
         }
-
-        public float GetAnimationLength => animator.GetCurrentAnimatorStateInfo(0).length;
 
         protected enum State
         {

@@ -9,8 +9,10 @@ namespace Utils
         public T west;
         public T north;
         public T east;
-        public T GetDirection(Direction direction) =>
-            direction switch
+
+        public T GetDirection(Direction direction)
+        {
+            return direction switch
             {
                 Direction.S => south,
                 Direction.W => west,
@@ -18,7 +20,8 @@ namespace Utils
                 Direction.E => east,
                 _ => south
             };
-        
+        }
+
         public void SetDirection(Direction direction, T obj)
         {
             switch (direction)
@@ -38,7 +41,10 @@ namespace Utils
             }
         }
 
-        public override string ToString() => $"DirectionalObj:\nSouth: {south}\nWest: {west}\nNorth: {north}\nEast: {east}\n";
+        public override string ToString()
+        {
+            return $"DirectionalObj:\nSouth: {south}\nWest: {west}\nNorth: {north}\nEast: {east}\n";
+        }
     }
 
     [Serializable]

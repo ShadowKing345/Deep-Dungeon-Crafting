@@ -1,7 +1,7 @@
-using Ai.BehaviorTree;
+using Entity.Ai.BehaviorTree;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using Node = Ai.BehaviorTree.Node;
+using Node = Entity.Ai.BehaviorTree.Node;
 
 namespace Editor
 {

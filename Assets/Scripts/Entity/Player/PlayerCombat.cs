@@ -1,30 +1,40 @@
 using System.Linq;
-using Combat;
+using Entity.Combat.Abilities;
 using Managers;
 using UnityEngine;
-using Utils;
 
 namespace Entity.Player
 {
+    using Combat;
+
     [RequireComponent(typeof(PlayerMovement))]
+    [RequireComponent(typeof(PlayerInventory))]
     public class PlayerCombat : MonoBehaviour
     {
+        public delegate void WeaponClassChange(WeaponClass weaponClass);
+
+        public Player player;
+
         [Header("Class")] [SerializeField] private WeaponClass currentWeaponClass;
 
         [Space] private float actionCoolDown;
 
-        public Player player;
+        public WeaponClassChange onChangeWeaponClass;
         private PlayerInventory playerInventory;
-        private PlayerEntity playerEntity;
         private PlayerMovement playerMovement;
 
-        public delegate void OnWeaponClassChange(WeaponClass weaponClass);
-
-        public OnWeaponClassChange onChangeWeaponClass;
+        public WeaponClass CurrentWeaponClass
+        {
+            get => currentWeaponClass;
+            private set
+            {
+                currentWeaponClass = value ? value : GameManager.Instance.noWeaponClass;
+                onChangeWeaponClass?.Invoke(currentWeaponClass);
+            }
+        }
 
         private void Start()
         {
-            playerEntity = player.playerEntity;
             playerMovement = player.playerMovement;
             playerInventory = player.playerInventory;
             playerInventory.WeaponInventory.OnWeaponChanged += ChangeClass;
@@ -37,45 +47,36 @@ namespace Entity.Player
             playerInventory.WeaponInventory.OnWeaponChanged -= ChangeClass;
         }
 
-        public void Attack(WeaponClass.AbilityIndex index)
+        public void UseAbility(WeaponClass.AbilityIndex index)
         {
+            if (Time.time <= actionCoolDown)
+            {
+                return;
+            }
+
             var ability = currentWeaponClass.GetAbility(index).FirstOrDefault();
 
-            if (!ability) return;
+            if (!ability)
+            {
+                return;
+            }
 
-            playerMovement.PlayAttackAnimation(ability.AnimationClip);
+            if (!ability.CanExecute(player.playerEntity))
+            {
+                return;
+            }
+
+            if (ability is AreaOfEffectAbility aoeAbility)
+            {
+                aoeAbility.Execute(player.playerEntity, playerMovement.CurrentDirection);
+            }
+            actionCoolDown = Time.time + ability.Cooldown;
+            playerMovement.PlayAttackAnimation(ability.AnimationData.GetDirection(playerMovement.CurrentDirection));
         }
 
         private void ChangeClass(WeaponClass weaponClass)
         {
-            currentWeaponClass = weaponClass;
-        }
-
-        public WeaponClass CurrentWeaponClass
-        {
-            get => currentWeaponClass;
-            private set
-            {
-                currentWeaponClass = value ?? GameManager.Instance.noWeaponClass;
-                onChangeWeaponClass?.Invoke(currentWeaponClass);
-            }
-        }
-
-        [Space] [Header("Attack Point Gizmos Helper")]
-        public float abilityRange;
-
-        public float attackOffset;
-        public Vector2 centerOffset;
-        public Direction direction;
-
-        private void OnDrawGizmosSelected()
-        {
-            if (playerEntity == null) return;
-            if (abilityRange <= 0) return;
-
-            Gizmos.DrawWireSphere(
-                (Vector2) transform.position + playerEntity.Stats.GetCenterPos + centerOffset +
-                direction.AsVector() * attackOffset, abilityRange);
+            CurrentWeaponClass = weaponClass;
         }
     }
 }

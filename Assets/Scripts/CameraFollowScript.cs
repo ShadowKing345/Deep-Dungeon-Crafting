@@ -6,6 +6,8 @@ public class CameraFollowScript : MonoBehaviour
     [Range(0, 1f)] [SerializeField] private float smoothSpeed = 0.125f;
     [SerializeField] private Vector3 offset;
 
-    private void FixedUpdate() =>
+    private void FixedUpdate()
+    {
         transform.position = Vector3.Lerp(transform.position, target.position + offset, smoothSpeed);
+    }
 }

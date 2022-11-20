@@ -1,7 +1,6 @@
 using Items;
 using UnityEngine;
 using UnityEngine.UI;
-using Utils;
 using Utils.Ui;
 
 namespace Ui.Inventories
@@ -22,6 +21,10 @@ namespace Ui.Inventories
                 image.sprite = stack.Item.Icon;
             }
         }
-        private void Awake() => image ??= GetComponent<Image>();
+
+        private void Awake()
+        {
+            image ??= GetComponent<Image>();
+        }
     }
 }

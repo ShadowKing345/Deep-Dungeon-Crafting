@@ -1,9 +1,8 @@
-using System;
 using Enums;
-using Interfaces;
 using Managers;
 using UnityEngine;
 using Utils;
+using Utils.Interfaces;
 
 namespace Ui.Menu
 {
@@ -16,15 +15,16 @@ namespace Ui.Menu
         {
             _uiManager = UiManager.Instance;
             cg = GetComponent<CanvasGroup>();
-            
+
             _uiManager.RegisterWindow(WindowReference.CompleteScreen, gameObject);
-            
+
             gameObject.SetActive(false);
         }
 
-        private void OnDestroy() => _uiManager.UnregisterWindow(WindowReference.CompleteScreen, gameObject);
-
-        public void OnContinue() => SceneManager.Instance.ChangeScene(SceneIndexes.Hub);
+        private void OnDestroy()
+        {
+            _uiManager.UnregisterWindow(WindowReference.CompleteScreen, gameObject);
+        }
 
         public void Show()
         {
@@ -37,6 +37,11 @@ namespace Ui.Menu
             GameManager.PlayerMovement = true;
             cg.interactable = cg.blocksRaycasts = false;
             // LeanTween.alphaCanvas(cg, 1, 0.5f);
+        }
+
+        public void OnContinue()
+        {
+            SceneManager.Instance.ChangeScene(SceneIndexes.Hub);
         }
     }
 }

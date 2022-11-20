@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
-using Ai.BehaviorTree;
+using Entity.Ai.BehaviorTree;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Utils;
-using Node = Ai.BehaviorTree.Node;
+using Node = Entity.Ai.BehaviorTree.Node;
 
 namespace Editor
 {

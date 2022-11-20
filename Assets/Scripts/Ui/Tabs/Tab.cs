@@ -9,10 +9,11 @@ namespace Ui.Tabs
     {
         [SerializeField] private TabController controller;
         [SerializeField] private Sprite sprite;
-        [Space]
-        [SerializeField] private Image iconImage;
+
+        [Space] [SerializeField] private Image iconImage;
+
         [SerializeField] private ToolTipTrigger toolTipTrigger;
-        
+
         public Sprite Sprite
         {
             get => sprite;
@@ -34,6 +35,9 @@ namespace Ui.Tabs
             toolTipTrigger ??= GetComponent<ToolTipTrigger>();
         }
 
-        public void OnPointerClick(PointerEventData eventData) => controller.ChangePage(this);
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            controller.ChangePage(this);
+        }
     }
 }

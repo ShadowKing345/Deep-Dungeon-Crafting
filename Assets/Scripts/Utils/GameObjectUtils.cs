@@ -7,6 +7,6 @@ namespace Utils
         public static void ClearChildren(Transform transform)
         {
             foreach (Transform child in transform) Object.Destroy(child.gameObject);
-        } 
+        }
     }
 }

@@ -1,43 +1,58 @@
 using System.Collections;
 using Dialogue;
 using Enums;
-using Interfaces;
 using Managers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
+using Utils.Interfaces;
 
 namespace Ui
 {
     public class DialogueController : MonoBehaviour, IUiWindow
     {
-        private UiManager _uiManager;
-        
-        [Space] [Header("Components")] 
-        [SerializeField] private CanvasGroup canvasGroup;
+        [Space] [Header("Components")] [SerializeField]
+        private CanvasGroup canvasGroup;
+
         [SerializeField] private TextMeshProUGUI youDialogueName;
         [SerializeField] private Image youImage;
         [SerializeField] private TextMeshProUGUI themDialogueName;
         [SerializeField] private Image themImage;
         [SerializeField] private TextMeshProUGUI bodyText;
         [SerializeField] private GameObject continueButton;
-        [Space] 
-        [SerializeField] private GameObject optionsObj;
+
+        [Space] [SerializeField] private GameObject optionsObj;
+
         [SerializeField] private Transform content;
         [SerializeField] private GameObject optionPreFab;
+        private UiManager _uiManager;
 
         private void Awake()
         {
             _uiManager = UiManager.Instance;
             _uiManager.RegisterWindow(WindowReference.Dialogue, gameObject);
-            
+
             gameObject.SetActive(false);
-            
+
             continueButton.GetComponent<Button>().onClick.AddListener(DialogueManager.Instance.NextDialogue);
         }
 
-        private void OnDestroy() => _uiManager.UnregisterWindow(WindowReference.Dialogue, gameObject);
+        private void OnDestroy()
+        {
+            _uiManager.UnregisterWindow(WindowReference.Dialogue, gameObject);
+        }
+
+        public void Show()
+        {
+        }
+        // LeanTween.alphaCanvas(canvasGroup, 1f, 0.3f).setOnComplete(_ => canvasGroup.interactable = canvasGroup.blocksRaycasts = true);
+
+        public void Hide()
+        {
+            canvasGroup.interactable = canvasGroup.blocksRaycasts = false;
+            canvasGroup.alpha = 0;
+        }
 
         public void RenderNode(DialogueNode node)
         {
@@ -55,8 +70,8 @@ namespace Ui
 
         private IEnumerator ChangeColorForYouAndThem(bool youGray, bool themGray)
         {
-            Color you = youGray ? Color.gray : Color.white;
-            Color them = themGray ? Color.gray : Color.white;
+            var you = youGray ? Color.gray : Color.white;
+            var them = themGray ? Color.gray : Color.white;
 
             while (youImage.color != you || themImage.color != them)
             {
@@ -76,25 +91,17 @@ namespace Ui
             youImage.color = youDialogueName.color =
                 themImage.color = themDialogueName.color = Color.gray;
 
-            for (int i = 0; i < node.NextNodes.Length; i++)
+            for (var i = 0; i < node.NextNodes.Length; i++)
             {
-                int index = i;
-                GameObject button = Instantiate(optionPreFab, content);
-                if (button.TryGetComponent(out Button b)) b.onClick.AddListener(() => DialogueManager.Instance.SelectNode(index));
-                TextMeshProUGUI text = button.GetComponentInChildren<TextMeshProUGUI>();
+                var index = i;
+                var button = Instantiate(optionPreFab, content);
+                if (button.TryGetComponent(out Button b))
+                    b.onClick.AddListener(() => DialogueManager.Instance.SelectNode(index));
+                var text = button.GetComponentInChildren<TextMeshProUGUI>();
                 if (text != null) text.text = node.NextNodes[i].OptionName;
             }
 
             content.GetComponentInChildren<Selectable>().Select();
-        }
-
-        public void Show() {}
-        // LeanTween.alphaCanvas(canvasGroup, 1f, 0.3f).setOnComplete(_ => canvasGroup.interactable = canvasGroup.blocksRaycasts = true);
-
-        public void Hide()
-        {
-            canvasGroup.interactable = canvasGroup.blocksRaycasts = false;
-            canvasGroup.alpha = 0;
         }
     }
 }

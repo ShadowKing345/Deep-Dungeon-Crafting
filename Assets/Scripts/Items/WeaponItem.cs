@@ -1,4 +1,4 @@
-using Combat;
+using Entity.Combat;
 using UnityEngine;
 
 namespace Items

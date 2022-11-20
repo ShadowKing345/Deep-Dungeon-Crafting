@@ -28,8 +28,9 @@ namespace Settings
 
         public string[] Selection => selection;
         public int SelectionValue => selectionValue;
-        
-        public object Value => type switch {
+
+        public object Value => type switch
+        {
             SettingEntryValueType.Toggle => toggleValue,
             SettingEntryValueType.Range => rangeValue,
             SettingEntryValueType.Selection => selectionValue,

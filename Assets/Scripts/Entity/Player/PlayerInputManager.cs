@@ -1,9 +1,9 @@
 using System;
-using Combat;
-using Interfaces;
+using Entity.Combat;
 using Managers;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Utils.Interfaces;
 
 namespace Entity.Player
 {
@@ -11,10 +11,10 @@ namespace Entity.Player
     {
         public Player player;
 
-        private InputManager inputManager;
-
         public float aoeSize;
         public Vector2 aoeOffset;
+
+        private InputManager inputManager;
 
         private void OnEnable()
         {
@@ -27,11 +27,39 @@ namespace Entity.Player
             inputManager.Player.Enable();
         }
 
-        private void OnDisable() => inputManager.Player.Disable();
+        private void OnDisable()
+        {
+            inputManager.Player.Disable();
+        }
+
+        public void OnMove(InputAction.CallbackContext context)
+        {
+            if (player.playerMovement != null) player.playerMovement.Move(context.ReadValue<Vector2>());
+        }
+
+        public void OnInteract(InputAction.CallbackContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnAbility1(InputAction.CallbackContext context)
+        {
+            if (player.playerCombat != null) player.playerCombat.UseAbility(WeaponClass.AbilityIndex.Abilities1);
+        }
+
+        public void OnAbility2(InputAction.CallbackContext context)
+        {
+            if (player.playerCombat != null) player.playerCombat.UseAbility(WeaponClass.AbilityIndex.Abilities2);
+        }
+
+        public void OnAbility3(InputAction.CallbackContext context)
+        {
+            if (player.playerCombat != null) player.playerCombat.UseAbility(WeaponClass.AbilityIndex.Abilities3);
+        }
 
         private void SelectInteractable()
         {
-            var currentPos = (Vector2)transform.position + aoeOffset;
+            var currentPos = (Vector2) transform.position + aoeOffset;
             var hits = new Collider2D[] { };
             Physics2D.OverlapCircleNonAlloc(currentPos, aoeSize, hits);
 
@@ -51,43 +79,6 @@ namespace Entity.Player
             }
 
             closest?.Interact(gameObject);
-        }
-
-        public void OnMove(InputAction.CallbackContext context)
-        {
-            if (player.playerMovement != null)
-            {
-                player.playerMovement.Move(context.ReadValue<Vector2>());
-            }
-        }
-
-        public void OnInteract(InputAction.CallbackContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnAbility1(InputAction.CallbackContext context)
-        {
-            if (player.playerCombat != null)
-            {
-                player.playerCombat.Attack(WeaponClass.AbilityIndex.Abilities1);
-            }
-        }
-
-        public void OnAbility2(InputAction.CallbackContext context)
-        {
-            if (player.playerCombat != null)
-            {
-                player.playerCombat.Attack(WeaponClass.AbilityIndex.Abilities2);
-            }
-        }
-
-        public void OnAbility3(InputAction.CallbackContext context)
-        {
-            if (player.playerCombat != null)
-            {
-                player.playerCombat.Attack(WeaponClass.AbilityIndex.Abilities3);
-            }
         }
     }
 }

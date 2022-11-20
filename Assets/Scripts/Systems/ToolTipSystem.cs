@@ -1,4 +1,5 @@
-using Combat;
+using Entity.Combat;
+using Entity.Combat.Abilities;
 using Items;
 using Managers;
 using Ui.Inventories;
@@ -10,6 +11,20 @@ namespace Systems
     public class ToolTipSystem : MonoBehaviour
     {
         private static ToolTipSystem _instance;
+
+        [Header("Toll Tip Game Objects")] [SerializeField]
+        private ItemToolTip itemToolTip;
+
+        [SerializeField] private AbilityToolTip abilityToolTip;
+        [SerializeField] private TextToolTip textToolTip;
+
+        [Space] [SerializeField] private bool hideAdvanceToolTips;
+
+        [Space] [Header("Hover Item Stack")] [SerializeField]
+        private HoverItem hoverItem;
+
+        private InputManager _inputManager;
+
         public static ToolTipSystem Instance
         {
             get
@@ -31,17 +46,6 @@ namespace Systems
             }
         }
 
-        private InputManager _inputManager;
-
-        [Header("Toll Tip Game Objects")]
-        [SerializeField] private ItemToolTip itemToolTip;
-        [SerializeField] private AbilityToolTip abilityToolTip;
-        [SerializeField] private TextToolTip textToolTip;
-        [Space] 
-        [SerializeField] private bool hideAdvanceToolTips;
-        [Space] [Header("Hover Item Stack")]
-        [SerializeField] private HoverItem hoverItem;
-
 
         public bool HideAdvanceToolTips => hideAdvanceToolTips;
 
@@ -55,14 +59,17 @@ namespace Systems
             _inputManager.ToolTip.HideAdvancedToolTips.canceled += _ => hideAdvanceToolTips = false;
         }
 
-        private void OnDisable() => _inputManager.ToolTip.Disable();
+        private void OnDisable()
+        {
+            _inputManager.ToolTip.Disable();
+        }
 
         public void ShowToolTIp(ItemStack stack)
         {
             itemToolTip.gameObject.SetActive(true);
             itemToolTip.ItemStack = stack;
         }
-        
+
         public void ShowToolTip(AbilityBase abilityBase)
         {
             abilityToolTip.gameObject.SetActive(true);
@@ -81,7 +88,7 @@ namespace Systems
             if (item) itemToolTip.gameObject.SetActive(false);
             if (ability) abilityToolTip.gameObject.SetActive(false);
         }
-        
+
         public void BeginItemHover(ItemStack stack)
         {
             if (!hoverItem.Stack.IsEmpty) EndItemHover();

@@ -1,4 +1,3 @@
-using System;
 using Managers;
 using TMPro;
 using UnityEngine;
@@ -10,19 +9,15 @@ namespace Ui.KeybindingUi
     public class KeyBindingEntry : MonoBehaviour
     {
         private static GameManager _gameManager;
-        
+
         [SerializeField] private TextMeshProUGUI nameText;
         [SerializeField] private TextMeshProUGUI keyText;
         [SerializeField] private Image image;
         [SerializeField] private Button rebindButton;
 
+        private InputActionRebindingExtensions.RebindingOperation _rebindingOperation;
+
         private InputActionReference action;
-        
-        private void OnEnable()
-        {
-            _gameManager ??= GameManager.Instance;
-            rebindButton.onClick.AddListener(RebindKey);
-        }
 
         public InputActionReference Action
         {
@@ -33,16 +28,20 @@ namespace Ui.KeybindingUi
             }
         }
 
+        private void OnEnable()
+        {
+            _gameManager ??= GameManager.Instance;
+            rebindButton.onClick.AddListener(RebindKey);
+        }
+
         private void UpdateUi()
         {
             if (action == null) return;
 
             nameText.text = action.name;
-            
+
             UpdateBinding();
         }
-
-        private InputActionRebindingExtensions.RebindingOperation _rebindingOperation;
 
         private void RebindKey()
         {
@@ -56,16 +55,16 @@ namespace Ui.KeybindingUi
         private void RebindComplete()
         {
             UpdateBinding();
-            
+
             _rebindingOperation.Dispose();
         }
 
         private void UpdateBinding()
         {
-            InputControl currentControl = action.action.controls[0];
-            int bindingIndex = action.action.GetBindingIndexForControl(action.action.controls[0]);
+            var currentControl = action.action.controls[0];
+            var bindingIndex = action.action.GetBindingIndexForControl(action.action.controls[0]);
 
-            InputBinding inputAction = action.action.bindings[bindingIndex];
+            var inputAction = action.action.bindings[bindingIndex];
         }
     }
 }

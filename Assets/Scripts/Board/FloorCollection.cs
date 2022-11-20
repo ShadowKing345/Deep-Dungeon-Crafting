@@ -7,6 +7,10 @@ namespace Board
     [CreateAssetMenu(fileName = "new Floor Collection", menuName = "SO/Floor Collection")]
     public class FloorCollection : ScriptableObject
     {
+        [SerializeField] private List<FloorItem> items;
+
+        public List<FloorItem> Items => items;
+
         [Serializable]
         public struct FloorItem
         {
@@ -14,9 +18,5 @@ namespace Board
             public int completedFloorIndex;
             public FloorSettings settings;
         }
-
-        [SerializeField] private List<FloorItem> items;
-        
-        public List<FloorItem> Items => items;
     }
 }

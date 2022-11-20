@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Ui.Inventories.ItemSlot
@@ -12,7 +11,7 @@ namespace Ui.Inventories.ItemSlot
             base.UpdateUi();
 
             if (!ItemStack.IsEmpty) return;
-            
+
             icon.sprite = defaultImage;
             icon.color = Color.white;
         }

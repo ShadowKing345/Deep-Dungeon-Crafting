@@ -1,7 +1,5 @@
-using System.Text.RegularExpressions;
-using InGameHelp;
 using TMPro;
-using UnityEditor;
+using Ui.InGameHelp;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,19 +9,20 @@ namespace Ui.Help
     {
         [SerializeField] public Tab tab;
         public HelpController controller;
-        [Space]
-        [SerializeField] private TextMeshProUGUI text;
-        [Space]
-        [Header("Sub Tab")]
-        [SerializeField] private GameObject subTabObj;
-        [Space]
-        [Header("Expansion Button")]
-        [SerializeField] private Selectable dropDownPointerChanger;
+
+        [Space] [SerializeField] private TextMeshProUGUI text;
+
+        [Space] [Header("Sub Tab")] [SerializeField]
+        private GameObject subTabObj;
+
+        [Space] [Header("Expansion Button")] [SerializeField]
+        private Selectable dropDownPointerChanger;
+
         [SerializeField] private Image dropDownImage;
         [SerializeField] private Sprite arrowDown;
         [SerializeField] private Sprite arrowUp;
         public GameObject SubTabObj => subTabObj;
-        
+
         public Tab Tab
         {
             get => tab;
@@ -53,7 +52,7 @@ namespace Ui.Help
                 OnButtonClick();
                 return;
             }
-            
+
             dropDownImage.sprite = value ? arrowDown : arrowUp;
             if (subTabObj.TryGetComponent(out ContentSizeFitter contentSizeFitter))
                 contentSizeFitter.enabled = value;

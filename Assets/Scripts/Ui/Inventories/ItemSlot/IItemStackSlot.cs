@@ -11,7 +11,7 @@ namespace Ui.Inventories.ItemSlot
         IInventoryController Controller { get; set; }
         int InventoryIndex { get; set; }
         IInventory Inventory { get; set; }
-        
+
         void Init(int id, ItemStack stack, IInventoryController controller, int inventoryIndex, IInventory inventory);
         void UpdateUi();
         void ResetSlot();

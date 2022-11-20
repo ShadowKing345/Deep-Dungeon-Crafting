@@ -16,10 +16,12 @@ namespace Inventory
 
         ItemStack[] AddItemStacks(ItemStack[] stacks, bool combine = true);
         ItemStack[] GetItemStacks();
+
         ItemStack[] RemoveItemStacks(ItemStack[] stacks);
+
         // Clears Everything.
         ItemStack[] GetAndClearItemStacks();
-        
+
         #endregion
 
         #region Utils
@@ -29,7 +31,7 @@ namespace Inventory
         bool CanFitInSlot(ItemStack stack, int index);
         bool CanFit(ItemStack stack);
         void ResetInventory();
-        
+
         int Size { get; }
 
         #endregion
@@ -42,6 +44,5 @@ namespace Inventory
         void CombineStacks(int fromIndex, int toIndex);
 
         #endregion
-
     }
 }

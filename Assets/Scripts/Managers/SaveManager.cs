@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using UnityEngine;
 using Utils;
 
@@ -11,13 +10,13 @@ namespace Managers
     public class Save
     {
         [SerializeField] private string name;
-        
-        private Dictionary<string, object> statistics = new Dictionary<string, object>();
         [SerializeField] private string chestInventory = "";
         [SerializeField] private string playerItemInventory = "";
         [SerializeField] private string playerWeaponInventory = "";
         [SerializeField] private string playerArmorInventory = "";
-        [SerializeField] private List<int> completedLevels = new List<int>();
+        [SerializeField] private List<int> completedLevels = new();
+
+        private Dictionary<string, object> statistics = new();
 
         public string Name
         {
@@ -30,7 +29,7 @@ namespace Managers
             get => statistics;
             set => statistics = value;
         }
-        
+
         public string ChestInventory
         {
             get => chestInventory;
@@ -65,6 +64,12 @@ namespace Managers
     public class SaveManager : MonoBehaviour
     {
         private static SaveManager _instance;
+
+        [SerializeField] private Save[] saves = new Save[3];
+#if UNITY_EDITOR
+        public int currentSaveIndex;
+#endif
+
         public static SaveManager Instance
         {
             get
@@ -85,14 +90,10 @@ namespace Managers
             }
         }
 
-        [SerializeField] private Save[] saves = new Save[3];
-        private Save currentSave;
-#if UNITY_EDITOR
-        public int currentSaveIndex;
-#endif
-
         public Save[] Saves => saves;
-        
+
+        public Save GetCurrentSave { get; private set; }
+
         private void Awake()
         {
             Instance = this;
@@ -104,11 +105,14 @@ namespace Managers
             GameManager.Instance.OnApplicationClose += Save;
         }
 
-        private void OnDisable() => Save();
+        private void OnDisable()
+        {
+            Save();
+        }
 
         public void Save()
         {
-            SaveSystem.SaveObj(Path.Combine(Application.persistentDataPath, "saves.dat"),saves);
+            SaveSystem.SaveObj(Path.Combine(Application.persistentDataPath, "saves.dat"), saves);
         }
 
         public void Load()
@@ -121,19 +125,17 @@ namespace Managers
         {
             if (0 > index || index >= saves.Length) return;
 
-            currentSave = saves[index] = new Save {Name = $"Save {index + 1}"};
+            GetCurrentSave = saves[index] = new Save {Name = $"Save {index + 1}"};
         }
 
         public void LoadSave(int index)
         {
             if (0 > index || index >= saves.Length) return;
 
-            currentSave = saves[index];
+            GetCurrentSave = saves[index];
 #if UNITY_EDITOR
             currentSaveIndex = index;
 #endif
         }
-
-        public Save GetCurrentSave => currentSave;
     }
 }

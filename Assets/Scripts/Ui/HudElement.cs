@@ -1,5 +1,5 @@
 using System;
-using Combat;
+using Entity.Combat;
 using Entity.Player;
 using TMPro;
 using Ui.HudElements;
@@ -49,14 +49,10 @@ namespace Ui
                 playerEntity.onEntityEvent += OnPlayerEntityEvent;
 
                 if (healthProgressBar != null)
-                {
                     healthProgressBar.Current = playerEntity.RelativeHealth * healthProgressBar.Max;
-                }
 
                 if (manaProgressBar != null)
-                {
-                    manaProgressBar.Current = playerEntity.RelativeHealth * manaProgressBar.Max;
-                }
+                    manaProgressBar.Current = playerEntity.RelativeMana * manaProgressBar.Max;
             }
 
             if (playerCombat == null) return;
@@ -66,20 +62,11 @@ namespace Ui
 
         private void OnChangeWeaponClass(WeaponClass weaponClass)
         {
-            if (abilityUi1)
-            {
-                abilityUi1.Abilities = weaponClass.GetAbility(WeaponClass.AbilityIndex.Abilities1);
-            }
+            if (abilityUi1) abilityUi1.Abilities = weaponClass.GetAbility(WeaponClass.AbilityIndex.Abilities1);
 
-            if (abilityUi2)
-            {
-                abilityUi2.Abilities = weaponClass.GetAbility(WeaponClass.AbilityIndex.Abilities2);
-            }
+            if (abilityUi2) abilityUi2.Abilities = weaponClass.GetAbility(WeaponClass.AbilityIndex.Abilities2);
 
-            if (abilityUi3)
-            {
-                abilityUi3.Abilities = weaponClass.GetAbility(WeaponClass.AbilityIndex.Abilities3);
-            }
+            if (abilityUi3) abilityUi3.Abilities = weaponClass.GetAbility(WeaponClass.AbilityIndex.Abilities3);
         }
 
         private void OnPlayerEntityEvent(EntityEvent @event)
@@ -87,7 +74,7 @@ namespace Ui
             switch (@event.Type)
             {
                 case EntityEventType.Damage:
-                    healthProgressBar.Current = (float)(@event.Value * healthProgressBar.Max);
+                    healthProgressBar.Current = (float) (@event.Value * healthProgressBar.Max);
                     break;
                 case EntityEventType.Death:
                 case EntityEventType.Healing:

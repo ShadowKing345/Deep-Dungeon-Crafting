@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using Interfaces;
 using Settings;
 using TMPro;
 using Ui.KeybindingUi;
@@ -10,75 +9,91 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 using Utils;
+using Utils.Interfaces;
 
 namespace Ui.Menu
 {
     public class SettingsController : MonoBehaviour, IUiWindow
     {
-        [Header("Asset")]
-        [SerializeField] private SettingAsset asset;
+        [Header("Asset")] [SerializeField] private SettingAsset asset;
 
-        [Space] [Header("PreFabs")]
-        [SerializeField] private GameObject navigationEntryPreFab;
-        [Space]
-        [SerializeField] private GameObject pagePreFab;
-        [Space]
-        [SerializeField] private GameObject togglePreFab;
+        [Space] [Header("PreFabs")] [SerializeField]
+        private GameObject navigationEntryPreFab;
+
+        [Space] [SerializeField] private GameObject pagePreFab;
+
+        [Space] [SerializeField] private GameObject togglePreFab;
+
         [SerializeField] private GameObject rangePreFab;
         [SerializeField] private GameObject selectionPreFab;
 
-        [Space] [Header("Components")] 
-        [SerializeField] private GameObject navigationContent;
+        [Space] [Header("Components")] [SerializeField]
+        private GameObject navigationContent;
+
         [SerializeField] private GameObject bodyContent;
         [SerializeField] private CanvasGroup cg;
 
         [Space] [SerializeField] private TabController tabController;
 
-        [Space] [Header("Settings Variables")] 
-        [SerializeField] private AudioMixer audioMixer;
-        private Resolution[] resolutions; 
-        
-        [Space] [Header("Key Bindings")]
-        [SerializeField] private KeyBindings[] keyBindingsArray;
+        [Space] [Header("Settings Variables")] [SerializeField]
+        private AudioMixer audioMixer;
+
+        [Space] [Header("Key Bindings")] [SerializeField]
+        private KeyBindings[] keyBindingsArray;
+
         [SerializeField] private GameObject keybindingEntryPreFab;
+        private Resolution[] resolutions;
 
         // private LTDescr _transition;
 
         private void OnEnable()
         {
-            if(navigationEntryPreFab != null) navigationEntryPreFab.SetActive(false);
-            if(togglePreFab != null) togglePreFab.SetActive(false);
-            if(rangePreFab != null) rangePreFab.SetActive(false);
-            if(selectionPreFab != null) selectionPreFab.SetActive(false);
-            
+            if (navigationEntryPreFab != null) navigationEntryPreFab.SetActive(false);
+            if (togglePreFab != null) togglePreFab.SetActive(false);
+            if (rangePreFab != null) rangePreFab.SetActive(false);
+            if (selectionPreFab != null) selectionPreFab.SetActive(false);
+
             GameObjectUtils.ClearChildren(navigationContent.transform);
             GameObjectUtils.ClearChildren(bodyContent.transform);
             SetupSettings();
             tabController.ChangePage(tabController.TabPageDict.FirstOrDefault().Key);
-            
+
             tabController ??= GetComponent<TabController>();
         }
-        
+
+        public void Show()
+        {
+            gameObject.SetActive(true);
+            // _transition = LeanTween.alphaCanvas(cg, 1, 0.1f).setOnComplete(_ => cg.interactable = cg.blocksRaycasts = true).setIgnoreTimeScale(true);
+        }
+
+        public void Hide()
+        {
+            // if(_transition != null) LeanTween.cancel(_transition.uniqueId);
+            cg.interactable = cg.blocksRaycasts = false;
+            // LeanTween.alphaCanvas(cg, 0, 0.1f).setOnComplete(_ => gameObject.SetActive(false)).setIgnoreTimeScale(true);
+        }
+
         public void SaveSettings()
         {
-            using StreamWriter file = new StreamWriter(Path.Combine(Application.persistentDataPath, "Settings.json"));
+            using var file = new StreamWriter(Path.Combine(Application.persistentDataPath, "Settings.json"));
             file.Write(JsonUtility.ToJson(asset, true));
         }
 
         private void SetupSettings()
         {
-            foreach (SettingPage page in asset.Pages)
+            foreach (var page in asset.Pages)
             {
-                GameObject navEntry = Instantiate(navigationEntryPreFab, navigationContent.transform);
+                var navEntry = Instantiate(navigationEntryPreFab, navigationContent.transform);
                 navEntry.name = page.Name + "_NavEntry";
                 navEntry.SetActive(true);
-                Tab navTab = navEntry.GetComponent<Tab>();
+                var navTab = navEntry.GetComponent<Tab>();
                 navTab.ToolTipText = page.Name;
                 navTab.Sprite = page.Image;
-                
-                GameObject pageObj = Instantiate(pagePreFab, bodyContent.transform);
+
+                var pageObj = Instantiate(pagePreFab, bodyContent.transform);
                 pageObj.name = page.Name + "_Page";
-                TabPage tabPage = pageObj.GetComponent<TabPage>();
+                var tabPage = pageObj.GetComponent<TabPage>();
 
                 tabController.AddPage(navTab, pageObj);
 
@@ -88,9 +103,9 @@ namespace Ui.Menu
                     continue;
                 }
 
-                foreach (SettingEntry entry in page.Settings)
+                foreach (var entry in page.Settings)
                 {
-                    GameObject entryObj = Instantiate(entry.Type switch
+                    var entryObj = Instantiate(entry.Type switch
                     {
                         SettingEntryValueType.Toggle => togglePreFab,
                         SettingEntryValueType.Range => rangePreFab,
@@ -119,7 +134,7 @@ namespace Ui.Menu
                                         slider.maxValue = entry.RangeRanges.Max;
                                         slider.value = entry.RangeValue;
                                     }
-                            
+
                                     break;
                                 case SettingEntryValueType.Selection:
                                     if (entryObj.TryGetComponent(out TMP_Dropdown dropdown))
@@ -128,12 +143,13 @@ namespace Ui.Menu
                                             .ToList();
                                         dropdown.value = entry.SelectionValue;
                                     }
-                            
+
                                     ;
                                     break;
                                 default:
                                     throw new ArgumentOutOfRangeException();
                             }
+
                             break;
                     }
                 }
@@ -143,12 +159,12 @@ namespace Ui.Menu
         private void ResolutionSetup(SettingEntry entry, GameObject entryObj)
         {
             resolutions = Screen.resolutions;
-            TMP_Dropdown resolutionDropDown = entryObj.GetComponentInChildren<TMP_Dropdown>();
-            
+            var resolutionDropDown = entryObj.GetComponentInChildren<TMP_Dropdown>();
+
             resolutionDropDown.options.AddRange(resolutions.Select(res =>
                 new TMP_Dropdown.OptionData($"{res.width}x{res.height}")));
 
-            for (int i = 0; i < resolutions.Length; i++)
+            for (var i = 0; i < resolutions.Length; i++)
                 if (resolutions[i].Equals(Screen.currentResolution))
                     resolutionDropDown.value = i;
         }
@@ -156,27 +172,14 @@ namespace Ui.Menu
         private void KeyBindingSetup(GameObject page)
         {
             page.SetActive(true);
-            
-            KeyBindingController keyBindingController = page.AddComponent<KeyBindingController>();
+
+            var keyBindingController = page.AddComponent<KeyBindingController>();
             keyBindingController.content = page.GetComponent<TabPage>().content;
             keyBindingController.entryCollection = keyBindingsArray;
             keyBindingController.entryPreFab = keybindingEntryPreFab;
             keyBindingController.GenerateKeyBindings();
-            
+
             page.SetActive(false);
-        }
-
-        public void Show()
-        {
-            gameObject.SetActive(true);
-            // _transition = LeanTween.alphaCanvas(cg, 1, 0.1f).setOnComplete(_ => cg.interactable = cg.blocksRaycasts = true).setIgnoreTimeScale(true);
-        }
-
-        public void Hide()
-        {
-            // if(_transition != null) LeanTween.cancel(_transition.uniqueId);
-            cg.interactable = cg.blocksRaycasts = false;
-            // LeanTween.alphaCanvas(cg, 0, 0.1f).setOnComplete(_ => gameObject.SetActive(false)).setIgnoreTimeScale(true);
         }
     }
 }

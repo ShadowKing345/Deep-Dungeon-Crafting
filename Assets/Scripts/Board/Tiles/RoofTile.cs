@@ -6,7 +6,10 @@ namespace Board.Tiles
     {
         [SerializeField] private Sprite[] textures;
         [SerializeField] private SpriteRenderer spriteRenderer;
-        
-        public void UpdateLook() => spriteRenderer.sprite = textures[Random.Range(0, textures.Length)];
+
+        public void UpdateLook()
+        {
+            spriteRenderer.sprite = textures[Random.Range(0, textures.Length)];
+        }
     }
 }

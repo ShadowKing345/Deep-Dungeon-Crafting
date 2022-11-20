@@ -1,30 +1,25 @@
 using System;
 using System.Linq;
-using Interfaces;
 using Managers;
 using UnityEngine;
 using UnityEngine.Events;
+using Utils.Interfaces;
 
 namespace Dialogue
 {
     public class DialogueTrigger : MonoBehaviour, IInteractable
     {
-        private DialogueManager manager;
-        
-        [Serializable]
-        private struct EventNode
-        {
-            public DialogueNode node;
-            public UnityEvent events;
-        }
-
-        
         [SerializeField] private DialogueTree tree;
 
         [SerializeField] private UnityEvent onDialogueFinished;
         [SerializeField] private EventNode[] nodeEvents;
+        private DialogueManager manager;
 
-        private void Awake() => manager = DialogueManager.Instance;
+        private void Awake()
+        {
+            manager = DialogueManager.Instance;
+        }
+
         private void OnDestroy()
         {
             manager.OnDialogueFinished -= OnDialogueFinished;
@@ -37,23 +32,30 @@ namespace Dialogue
 
             manager.OnDialogueFinished += OnDialogueFinished;
             manager.OnDialogueNodeFinished += OnDialogueNodeFinished;
-            
+
             manager.StartDialogue(tree);
             return true;
         }
 
         private void OnDialogueNodeFinished(DialogueNode node)
         {
-            EventNode[] events = nodeEvents.Where(e => e.node == node).ToArray();
-            foreach (EventNode eventNode in events) eventNode.events?.Invoke();
+            var events = nodeEvents.Where(e => e.node == node).ToArray();
+            foreach (var eventNode in events) eventNode.events?.Invoke();
         }
-        
+
         private void OnDialogueFinished()
         {
             manager.OnDialogueFinished -= OnDialogueFinished;
             manager.OnDialogueNodeFinished -= OnDialogueNodeFinished;
-            
+
             onDialogueFinished?.Invoke();
+        }
+
+        [Serializable]
+        private struct EventNode
+        {
+            public DialogueNode node;
+            public UnityEvent events;
         }
     }
 }

@@ -1,5 +1,3 @@
-using System;
-
 namespace Ui.Notifications
 {
     public enum NotificationLevel
@@ -11,12 +9,15 @@ namespace Ui.Notifications
 
     public static class NotificationLevelsExtension
     {
-        public static float GetStandardDuration(this NotificationLevel level) => level switch
+        public static float GetStandardDuration(this NotificationLevel level)
         {
-            NotificationLevel.Log => 5f,
-            NotificationLevel.Warning => 10f,
-            NotificationLevel.Error => float.MaxValue,
-            _ => 0
-        };
+            return level switch
+            {
+                NotificationLevel.Log => 5f,
+                NotificationLevel.Warning => 10f,
+                NotificationLevel.Error => float.MaxValue,
+                _ => 0
+            };
+        }
     }
 }

@@ -1,18 +1,17 @@
 using System.Collections.Generic;
-using Interfaces;
 using Ui.Statistics;
 using UnityEngine;
 using Utils;
+using Utils.Interfaces;
 
 namespace Statistics
 {
     public class StatisticsController : MonoBehaviour, IUiWindow
     {
-        private StatisticsManager statisticsManager;
-        
         [SerializeField] private Transform content;
         [SerializeField] private GameObject entryPreFab;
         [SerializeField] private CanvasGroup canvasGroup;
+        private StatisticsManager statisticsManager;
 
         private void OnEnable()
         {
@@ -20,20 +19,7 @@ namespace Statistics
             GameObjectUtils.ClearChildren(content);
             SetUpStatEntries(new SortedDictionary<string, object>(statisticsManager.Dictionary), content);
         }
-        
-        private void SetUpStatEntries(IDictionary<string, object> dictionary, Transform parent)
-        {
-            if (dictionary == null) return;
-            
-            foreach (KeyValuePair<string,object> kvPair in dictionary)
-            {
-                GameObject entryObj = Instantiate(entryPreFab, parent);
-                if (entryObj.TryGetComponent(out StatisticsEntry entry)) entry.Init = kvPair;
-            }
-            
-            Canvas.ForceUpdateCanvases();
-        }
-        
+
         public void Show()
         {
             gameObject.SetActive(true);
@@ -44,6 +30,19 @@ namespace Statistics
         {
             // if(_transition != null) LeanTween.cancel(_transition.uniqueId);
             // LeanTween.alphaCanvas(canvasGroup, 0, 0.1f).setOnComplete(_ => gameObject.SetActive(false)).setIgnoreTimeScale(true);
+        }
+
+        private void SetUpStatEntries(IDictionary<string, object> dictionary, Transform parent)
+        {
+            if (dictionary == null) return;
+
+            foreach (var kvPair in dictionary)
+            {
+                var entryObj = Instantiate(entryPreFab, parent);
+                if (entryObj.TryGetComponent(out StatisticsEntry entry)) entry.Init = kvPair;
+            }
+
+            Canvas.ForceUpdateCanvases();
         }
     }
 }

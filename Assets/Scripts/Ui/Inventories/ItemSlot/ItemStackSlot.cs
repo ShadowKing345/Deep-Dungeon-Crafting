@@ -11,13 +11,21 @@ namespace Ui.Inventories.ItemSlot
     public class ItemStackSlot : MonoBehaviour, IItemStackSlot
     {
         [SerializeField] private ItemStack stack;
-        [Space]
-        [SerializeField] protected Image icon;
+
+        [Space] [SerializeField] protected Image icon;
+
         [SerializeField] protected TextMeshProUGUI amount;
+
+
+        private void Start()
+        {
+            UpdateUi();
+        }
 
         public IInventoryController Controller { get; set; }
 
         public int Id { get; set; }
+
         public ItemStack ItemStack
         {
             get => stack;
@@ -27,16 +35,12 @@ namespace Ui.Inventories.ItemSlot
                 UpdateUi();
             }
         }
+
         public int InventoryIndex { get; set; }
-        public IInventory Inventory { get; set; }        
+        public IInventory Inventory { get; set; }
 
-
-        private void Start()
-        {
-            UpdateUi();
-        }
-
-        public void Init(int id, ItemStack stack, IInventoryController controller, int inventoryIndex, IInventory inventory)
+        public void Init(int id, ItemStack stack, IInventoryController controller, int inventoryIndex,
+            IInventory inventory)
         {
             Id = id;
             ItemStack = stack;
@@ -44,7 +48,7 @@ namespace Ui.Inventories.ItemSlot
             InventoryIndex = inventoryIndex;
             Inventory = inventory;
         }
-        
+
         public virtual void UpdateUi()
         {
             if (ItemStack.IsEmpty)
@@ -61,11 +65,17 @@ namespace Ui.Inventories.ItemSlot
             }
         }
 
-        public void ResetSlot() => ItemStack = ItemStack.Empty;
+        public void ResetSlot()
+        {
+            ItemStack = ItemStack.Empty;
+        }
 
-        public bool CanFit(ItemStack stack) => Inventory.CanFitInSlot(stack, InventoryIndex);
+        public bool CanFit(ItemStack stack)
+        {
+            return Inventory.CanFitInSlot(stack, InventoryIndex);
+        }
     }
-    
+
     [Serializable]
     public struct SlotSprites
     {

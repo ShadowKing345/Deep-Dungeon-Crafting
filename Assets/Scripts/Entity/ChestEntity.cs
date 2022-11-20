@@ -1,7 +1,7 @@
 using Enums;
-using Interfaces;
 using Managers;
 using UnityEngine;
+using Utils.Interfaces;
 
 namespace Entity
 {

@@ -9,6 +9,9 @@ namespace Systems
     {
         private static NotificationSystem _instance;
 
+        [SerializeField] private Transform notificationContainer;
+        [SerializeField] private GameObject notificationPreFab;
+
         public static NotificationSystem Instance
         {
             get
@@ -22,9 +25,6 @@ namespace Systems
                 _instance = value;
             }
         }
-        
-        [SerializeField] private Transform notificationContainer;
-        [SerializeField] private GameObject notificationPreFab;
 
         private void OnEnable()
         {
@@ -36,7 +36,7 @@ namespace Systems
         public void Notify(NotificationLevel level, string content, float timerOverride = -1f,
             bool overrideTimer = false, UnityAction callback = null)
         {
-            GameObject obj = GetObj();
+            var obj = GetObj();
             if (obj.TryGetComponent(out Notification notification))
                 notification.Setup(level, content, timerOverride, overrideTimer, callback);
         }
@@ -44,7 +44,7 @@ namespace Systems
         public void Log(string content, float timerOverride = -1f, bool overrideTimer = false,
             UnityAction callback = null)
         {
-            GameObject obj = GetObj();
+            var obj = GetObj();
             if (obj.TryGetComponent(out Notification notification))
                 notification.Setup(NotificationLevel.Log, content, timerOverride, overrideTimer, callback);
         }
@@ -52,7 +52,7 @@ namespace Systems
         public void Warning(string content, float timerOverride = -1f, bool overrideTimer = false,
             UnityAction callback = null)
         {
-            GameObject obj = GetObj();
+            var obj = GetObj();
             if (obj.TryGetComponent(out Notification notification))
                 notification.Setup(NotificationLevel.Log, content, timerOverride, overrideTimer, callback);
         }
@@ -60,14 +60,14 @@ namespace Systems
         public void Error(string content, float timerOverride = -1f, bool overrideTimer = false,
             UnityAction callback = null)
         {
-            GameObject obj = GetObj();
+            var obj = GetObj();
             if (obj.TryGetComponent(out Notification notification))
                 notification.Setup(NotificationLevel.Log, content, timerOverride, overrideTimer, callback);
         }
 
         private GameObject GetObj()
         {
-            GameObject obj = Instantiate(notificationPreFab, notificationContainer);
+            var obj = Instantiate(notificationPreFab, notificationContainer);
             obj.SetActive(true);
             return obj;
         }

@@ -1,6 +1,4 @@
 using Systems;
-using Items;
-using Ui.ToolTip;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;

@@ -1,16 +1,20 @@
 using System.Collections.Generic;
-using Systems;
 using Enums;
-using Interfaces;
-using Ui;
-using Ui.Notifications;
 using UnityEngine;
+using Utils.Interfaces;
 
 namespace Managers
 {
     public class UiManager : MonoBehaviour
     {
         private static UiManager _instance;
+
+        [Space] [SerializeField] private WindowReference currentActive;
+
+        private readonly Dictionary<WindowReference, GameObject> windowLookUp = new();
+
+        private InputManager inputManager;
+
         public static UiManager Instance
         {
             get
@@ -32,13 +36,6 @@ namespace Managers
                 _instance = value;
             }
         }
-        
-        private InputManager inputManager;
-
-        [Space]
-        [SerializeField] private WindowReference currentActive;
-
-        private readonly Dictionary<WindowReference, GameObject> windowLookUp = new Dictionary<WindowReference, GameObject>();
 
         private void Awake()
         {
@@ -46,14 +43,12 @@ namespace Managers
             SceneManager.Instance.OnEndSceneChange += _ => currentActive = WindowReference.None;
         }
 
-        private void OnDestroy() => _instance = null;
-
         private void OnEnable()
         {
             inputManager ??= new InputManager();
 
-            InputManager.WindowsActions windowsActions = inputManager.Windows;
-            
+            var windowsActions = inputManager.Windows;
+
             windowsActions.PauseMenu.canceled += _ => ToggleUiElement(WindowReference.PauseMenu);
             windowsActions.Crafting.canceled += _ => ToggleUiElement(WindowReference.CraftingMenu);
             windowsActions.PlayerInventory.canceled += _ => ToggleUiElement(WindowReference.PlayerInventory);
@@ -61,10 +56,18 @@ namespace Managers
             windowsActions.Enable();
         }
 
-        private void OnDisable() => inputManager.Windows.Disable();
-        
+        private void OnDisable()
+        {
+            inputManager.Windows.Disable();
+        }
+
+        private void OnDestroy()
+        {
+            _instance = null;
+        }
+
         #region Window Management
-        
+
         public bool ToggleUiElement(WindowReference element)
         {
             if (element == WindowReference.PauseMenu && currentActive != WindowReference.PauseMenu &&
@@ -77,25 +80,25 @@ namespace Managers
         public bool ShowUiElement(WindowReference element)
         {
             if (currentActive != WindowReference.None) return false;
-            if (!TryGetWindow(element, out GameObject windowObj)) return false;
-            
+            if (!TryGetWindow(element, out var windowObj)) return false;
+
             windowObj.SetActive(true);
             currentActive = element;
-            
+
             if (windowObj.TryGetComponent(out IUiWindow uiWindow))
                 uiWindow.Show();
-            
+
             return true;
         }
 
         public bool HideUiElement(WindowReference element)
         {
             if (currentActive == WindowReference.None || currentActive != element) return false;
-            if (!TryGetWindow(element, out GameObject windowObj)) return false;
+            if (!TryGetWindow(element, out var windowObj)) return false;
 
             if (windowObj.TryGetComponent(out IUiWindow uiWindow))
                 uiWindow.Hide();
-            
+
             windowObj.SetActive(false);
             currentActive = WindowReference.None;
 
@@ -115,9 +118,15 @@ namespace Managers
             if (windowLookUp.ContainsKey(element) && windowLookUp[element] == obj) windowLookUp.Remove(element);
         }
 
-        private bool IsUiElementShown(WindowReference element) => TryGetWindow(element, out GameObject obj) && obj.activeSelf;
+        private bool IsUiElementShown(WindowReference element)
+        {
+            return TryGetWindow(element, out var obj) && obj.activeSelf;
+        }
 
-        private bool TryGetWindow(WindowReference element, out GameObject obj) => windowLookUp.TryGetValue(element, out obj);
+        private bool TryGetWindow(WindowReference element, out GameObject obj)
+        {
+            return windowLookUp.TryGetValue(element, out obj);
+        }
 
         #endregion
     }

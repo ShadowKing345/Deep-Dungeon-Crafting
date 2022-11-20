@@ -20,4 +20,18 @@ MonoBehaviour:
     element: 0
     attackType: 2
     amount: -0.3
+  idleAnimationData:
+    useDirection: 0
+    clip: {fileID: 7400000, guid: 8063d00145bccb9bf96812ad9969c801, type: 2}
+    north: {fileID: 0}
+    south: {fileID: 0}
+    east: {fileID: 0}
+    west: {fileID: 0}
+  movingAnimationData:
+    useDirection: 0
+    clip: {fileID: 7400000, guid: 1495d8881cd32c40588769eb5f56b166, type: 2}
+    north: {fileID: 0}
+    south: {fileID: 0}
+    east: {fileID: 0}
+    west: {fileID: 0}
   centerPos: {x: 0, y: 0}

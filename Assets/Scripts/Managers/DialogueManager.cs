@@ -1,7 +1,7 @@
 using System;
-using Systems;
 using Dialogue;
 using Enums;
+using Systems;
 using Ui;
 using Ui.Notifications;
 using UnityEngine;
@@ -11,6 +11,16 @@ namespace Managers
     public class DialogueManager : MonoBehaviour
     {
         private static DialogueManager _instance;
+
+        [Header("Tree stuff")] [SerializeField]
+        private DialogueTree currentTree;
+
+        [SerializeField] private DialogueNode currentNode;
+
+        [Space] [SerializeField] private DialogueController dialogueController;
+
+        private UiManager _uiManager;
+
         public static DialogueManager Instance
         {
             get
@@ -30,30 +40,23 @@ namespace Managers
             }
         }
 
-        private UiManager _uiManager;
-
-        [Header("Tree stuff")] 
-        [SerializeField] private DialogueTree currentTree;
-        [SerializeField] private DialogueNode currentNode;
-        [Space] 
-        [SerializeField] private DialogueController dialogueController;
-        
-        public event Action OnDialogueFinished;
-        public event Action<DialogueNode> OnDialogueNodeFinished;
-
 
         private void Awake()
         {
             Instance = this;
             _uiManager = UiManager.Instance;
         }
-        
+
+        public event Action OnDialogueFinished;
+        public event Action<DialogueNode> OnDialogueNodeFinished;
+
         public void StartDialogue(DialogueTree tree)
         {
             GameManager.PlayerMovement = false;
             if (!_uiManager.ShowUiElement(WindowReference.Dialogue))
             {
-                NotificationSystem.Instance.Notify(NotificationLevel.Error, "Error: Dialogue UI Element was not opened.");
+                NotificationSystem.Instance.Notify(NotificationLevel.Error,
+                    "Error: Dialogue UI Element was not opened.");
                 return;
             }
 
@@ -99,7 +102,7 @@ namespace Managers
 
         public void StopDialogue()
         {
-            if(!_uiManager.HideUiElement(WindowReference.Dialogue)) return;
+            if (!_uiManager.HideUiElement(WindowReference.Dialogue)) return;
 
             GameManager.PlayerMovement = true;
             OnDialogueFinished?.Invoke();

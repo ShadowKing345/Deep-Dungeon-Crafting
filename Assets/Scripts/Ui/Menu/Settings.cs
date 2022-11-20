@@ -1,29 +1,30 @@
 using System;
 using System.Linq;
-using Interfaces;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using Utils.Interfaces;
 
 namespace Ui.Menu
 {
     public class Settings : MonoBehaviour, IUiWindow
     {
+        private static Resolution[] _resolutions;
         // private LTDescr _transition;
 
-        [Header("Components")] 
-        [SerializeField] private CanvasGroup canvasGroup;
-        [Space]
-        [Header("Controls")]
-        [SerializeField] private TMP_Dropdown resolutionDropDown;
+        [Header("Components")] [SerializeField]
+        private CanvasGroup canvasGroup;
+
+        [Space] [Header("Controls")] [SerializeField]
+        private TMP_Dropdown resolutionDropDown;
+
         [SerializeField] private TMP_Dropdown qualityDropDown;
         [SerializeField] private Toggle fullScreenToggle;
         [SerializeField] private Slider volumeSlider;
-        [Space]
-        [Header("External Assets")]
-        [SerializeField] private AudioMixer audioMixer;
-        private static Resolution[] _resolutions;
+
+        [Space] [Header("External Assets")] [SerializeField]
+        private AudioMixer audioMixer;
 
         private void OnEnable()
         {
@@ -36,7 +37,7 @@ namespace Ui.Menu
                 resolutionDropDown.options.AddRange(_resolutions.Select(res =>
                     new TMP_Dropdown.OptionData($"{res.width}x{res.height}")));
 
-                for (int i = 0; i < _resolutions.Length; i++)
+                for (var i = 0; i < _resolutions.Length; i++)
                     if (_resolutions[i].Equals(Screen.currentResolution))
                         resolutionDropDown.value = i;
             }
@@ -58,28 +59,11 @@ namespace Ui.Menu
                 volumeSlider.onValueChanged.AddListener(SetVolume);
                 volumeSlider.minValue = -80;
                 volumeSlider.maxValue = 0;
-                if(audioMixer.GetFloat("Volume", out var volumeLevel))
+                if (audioMixer.GetFloat("Volume", out var volumeLevel))
                     volumeSlider.value = volumeLevel;
             }
         }
 
-        private static void SetQuality(int index) => QualitySettings.SetQualityLevel(index);
-
-        private static void SetResolution(int index)
-        {
-            Resolution resolution = _resolutions[index];
-            Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
-        }
-        
-        private static void SetFullScreen(bool value) => Screen.fullScreen = value;
-
-        private void SetVolume(float level)
-        {
-            if(audioMixer == null) return;
-            audioMixer.SetFloat("Volume", level);
-        }
-
-        public void Back() => Hide();
         public void Show()
         {
             throw new NotImplementedException();
@@ -88,6 +72,33 @@ namespace Ui.Menu
         public void Hide()
         {
             throw new NotImplementedException();
+        }
+
+        private static void SetQuality(int index)
+        {
+            QualitySettings.SetQualityLevel(index);
+        }
+
+        private static void SetResolution(int index)
+        {
+            var resolution = _resolutions[index];
+            Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+        }
+
+        private static void SetFullScreen(bool value)
+        {
+            Screen.fullScreen = value;
+        }
+
+        private void SetVolume(float level)
+        {
+            if (audioMixer == null) return;
+            audioMixer.SetFloat("Volume", level);
+        }
+
+        public void Back()
+        {
+            Hide();
         }
     }
 }
