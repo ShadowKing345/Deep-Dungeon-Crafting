@@ -19,6 +19,7 @@ namespace Entity.Player
         private PlayerMovement playerMovement;
 
         public delegate void OnWeaponClassChange(WeaponClass weaponClass);
+
         public OnWeaponClassChange onChangeWeaponClass;
 
         private void Start()
@@ -38,13 +39,11 @@ namespace Entity.Player
 
         public void Attack(WeaponClass.AbilityIndex index)
         {
-            Debug.Log(index);
-
             var ability = currentWeaponClass.GetAbility(index).FirstOrDefault();
 
             if (!ability) return;
-            
-            playerMovement.PlayAttackAnimation(ability.AnimationName);
+
+            playerMovement.PlayAttackAnimation(ability.AnimationClip);
         }
 
         private void ChangeClass(WeaponClass weaponClass)
@@ -57,7 +56,7 @@ namespace Entity.Player
             get => currentWeaponClass;
             private set
             {
-                currentWeaponClass = value == null ? GameManager.Instance.noWeaponClass : value;
+                currentWeaponClass = value ?? GameManager.Instance.noWeaponClass;
                 onChangeWeaponClass?.Invoke(currentWeaponClass);
             }
         }
@@ -68,14 +67,14 @@ namespace Entity.Player
         public float attackOffset;
         public Vector2 centerOffset;
         public Direction direction;
-        
+
         private void OnDrawGizmosSelected()
         {
             if (playerEntity == null) return;
             if (abilityRange <= 0) return;
 
             Gizmos.DrawWireSphere(
-                (Vector2)transform.position + playerEntity.Stats.GetCenterPos + centerOffset +
+                (Vector2) transform.position + playerEntity.Stats.GetCenterPos + centerOffset +
                 direction.AsVector() * attackOffset, abilityRange);
         }
     }

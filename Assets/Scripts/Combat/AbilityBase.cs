@@ -1,47 +1,27 @@
+using System.Diagnostics.CodeAnalysis;
 using Interfaces;
 using UnityEngine;
 
 namespace Combat
 {
-    public abstract class AbilityBase : ScriptableObject, IAbility
+    public abstract class AbilityBase : ScriptableObject
     {
-        [Multiline]
+        [SerializeField] private new string name;
         [SerializeField] private string description;
         [SerializeField] private Sprite icon;
+        [SerializeField] private AnimationClip animationClip;
+        [SerializeField] private AbilityBase next;
 
         public string Name => name;
         public string Description => description;
         public Sprite Icon => icon;
+        public AnimationClip AnimationClip => animationClip;
+        public AbilityBase Next => next;
 
-        [SerializeField] private float coolDown = 2.5f;
-        public float CoolDown => coolDown;
+        public abstract bool Execute(IDamageable self, IDamageable[] targets);
 
-        [SerializeField] private AbilityProperty[] properties;
-        [SerializeField] private float manaCost;
-        public AbilityProperty[] Properties => properties;
-        public float ManaCost => manaCost;
-
-        [SerializeField] private bool isProjectile;
-        [SerializeField] private GameObject projectilePreFab;
-
-        public bool IsProjectile => isProjectile;
-        public GameObject ProjectilePreFab => projectilePreFab;
-        
-        [SerializeField] private Vector2 attackPoint = new Vector2(0,0);
-        [SerializeField] private float attackDistance = 0.5f;
-        [SerializeField] private float attackRange = 0.5f;
-
-        public Vector2 AttackPoint => attackPoint;
-        public float AttackDistance => attackDistance;
-        public float AttackRange => attackRange;
-        
-        [SerializeField] private string animationName = string.Empty;
-
-        public string AnimationName => animationName;
-
-        public virtual bool Execute(IDamageable self, IDamageable[] targets)
+        public virtual bool CanExecute(IDamageable self)
         {
-            if (self is Entity.Entity entity) return entity.ChargeMana(manaCost);
             return true;
         }
     }

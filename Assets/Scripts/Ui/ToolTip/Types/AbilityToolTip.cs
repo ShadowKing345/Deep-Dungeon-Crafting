@@ -1,6 +1,7 @@
 using System;
 using Systems;
 using Combat;
+using Combat.Abilities;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -24,8 +25,7 @@ namespace Ui.ToolTip.Types
             }
         }
 
-        [Space]
-        [SerializeField] private Image headerImage;
+        [Space] [SerializeField] private Image headerImage;
         [SerializeField] private TextMeshProUGUI nameText;
         [SerializeField] private TextMeshProUGUI descriptionText;
 
@@ -43,10 +43,17 @@ namespace Ui.ToolTip.Types
             nameText.text = abilityBase.Name;
 
             descriptionText.text = abilityBase.Description;
-            
+
             ClearChildren();
-            if(abilityBase.Properties.Length > 0)
-                CreateProperties(abilityBase.Properties);
+            switch (abilityBase)
+            {
+                case AttackAbility attackAbility:
+                    CreateProperties(attackAbility.Properties);
+                    break;
+                case ProjectileAbility projectileAbility:
+                    CreateProperties(projectileAbility.Properties);
+                    break;
+            }
         }
 
         private void CreateProperties(AbilityProperty[] abilityProperties)
@@ -83,7 +90,7 @@ namespace Ui.ToolTip.Types
             {
                 Destroy(childObj.gameObject);
             }
-            
+
             propertiesContainer.SetActive(false);
             spacer.SetActive(false);
         }

@@ -7,7 +7,7 @@ namespace Entity
     [RequireComponent(typeof(Animator))]
     public class EntityAnimator : MonoBehaviour
     {
-        private static readonly string[] Directions = { "South", "East", "North", "West" };
+        private static readonly string[] Directions = {"South", "East", "North", "West"};
 
         [SerializeField] protected Animator animator;
         [SerializeField] protected string attackName;
@@ -47,7 +47,7 @@ namespace Entity
                 _ => throw new ArgumentOutOfRangeException()
             };
 
-            animator.Play(animationName + (ignoreDirection ? "" : "-" + Directions[(int)currentDirection]));
+            animator.Play(animationName + (ignoreDirection ? "" : "-" + Directions[(int) currentDirection]));
         }
 
         protected static Direction GetDirectionIndex(Vector2 direction)
@@ -61,13 +61,13 @@ namespace Entity
             angle += offset;
             if (angle < 0) angle += 360;
 
-            return (Direction)Mathf.FloorToInt(angle / step);
+            return (Direction) Mathf.FloorToInt(angle / step);
         }
 
-        public void PlayAttackAnimation(string animationName)
+        public void PlayAttackAnimation(AnimationClip clip)
         {
-            attackName = animationName;
-            attackCoolDown = Time.time + 10;
+            attackName = clip.name;
+            attackCoolDown = Time.time + clip.length;
             isAttacking = true;
         }
 

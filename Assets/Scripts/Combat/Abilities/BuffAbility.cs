@@ -12,19 +12,26 @@ namespace Combat.Abilities
 
         public BuffBase[] Buffs => buffs;
         public float[] Durations => durations;
-    
+
         public override bool Execute(IDamageable self, IDamageable[] targets)
         {
-            if(!base.Execute(self, targets)) return false;
-            bool flag = false;
+            // if(!base.Execute(self, targets)) return false;
+            var flag = false;
 
             for (int i = 0; i < buffs.Length; i++)
             {
                 if (buffs[i].ForSelf)
+                {
                     flag = self.Buff(buffs[i], durations[i]);
+                }
                 else
-                    foreach (IDamageable target in targets)
-                        if(target.Buff(buffs[i], durations[i])) flag = true;
+                {
+                    foreach (var target in targets)
+                    {
+                        if (target.Buff(buffs[i], durations[i]))
+                            flag = true;
+                    }
+                }
             }
 
             return flag;

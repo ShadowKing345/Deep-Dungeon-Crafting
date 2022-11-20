@@ -11,7 +11,8 @@ namespace Combat.Abilities
         
         public override bool Execute(IDamageable self, IDamageable[] targets)
         {
-            return base.Execute(self, targets) && self.Heal(potency);
+            // return base.Execute(self, targets) && self.Heal(potency);
+            return true;
         }
     }
 }
