@@ -39,7 +39,8 @@ namespace Entity
                 state = State.Attacking;
             }
 
-            string animationName = state switch
+
+            var animationName = state switch
             {
                 State.Idle => "Idle",
                 State.Moving => "Run",

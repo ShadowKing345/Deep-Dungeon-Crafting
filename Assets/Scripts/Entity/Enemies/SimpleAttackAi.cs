@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Combat;
 using Interfaces;
@@ -17,7 +18,7 @@ namespace Entity.Enemies
             // yield return animator.PlayAttackAnimation(abilityBase.Ani);
 
             float animationLenght = animator.GetAnimationLength;
-            attackCoolDown = Time.time + Mathf.Max(animationLenght, abilityBase.CoolDown);
+            // attackCoolDown = Time.time + Mathf.Max(animationLenght, abilityBase.CoolDown);
 
             yield return new WaitForSeconds(animator.GetAnimationLength);
             DoAttackCalculations();
@@ -25,8 +26,8 @@ namespace Entity.Enemies
 
         private void DoAttackCalculations()
         {
-            Collider2D[] hitList = 
-                Physics2D.OverlapCircleAll((Vector2) transform.position + abilityBase.AttackPoint, abilityBase.AttackRange);
+            Collider2D[] hitList = Array.Empty<Collider2D>();
+                // Physics2D.OverlapCircleAll((Vector2) transform.position + abilityBase.AttackPoint, abilityBase.AttackRange);
 
             foreach (Collider2D hit in hitList)
             {
@@ -34,8 +35,8 @@ namespace Entity.Enemies
 
                 if (!hit.TryGetComponent(out IDamageable playerIDamageable)) continue;
                 
-                if (!playerIDamageable.IsDead)
-                    playerIDamageable.Damage(abilityBase.Properties);
+                // if (!playerIDamageable.IsDead)
+                    // playerIDamageable.Damage(abilityBase.Properties);
             }
 
             isAttacking = false;

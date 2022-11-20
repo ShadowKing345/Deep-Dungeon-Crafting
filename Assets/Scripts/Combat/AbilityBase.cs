@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using Entity.Animations;
 using Interfaces;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ namespace Combat
         [SerializeField] private string description;
         [SerializeField] private Sprite icon;
         [SerializeField] private AnimationClip animationClip;
+        [SerializeField] private EntityAnimationClip entityAnimationClip = new EntityAnimationClip();
         [SerializeField] private AbilityBase next;
 
         public string Name => name;

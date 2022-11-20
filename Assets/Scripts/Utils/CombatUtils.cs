@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Combat;
 using Entity;
@@ -12,9 +13,9 @@ namespace Utils
         {
             List<IDamageable> hitList = new List<IDamageable>();
 
-            Collider2D[] entityHitList =
-                Physics2D.OverlapCircleAll(GetAttackDirection(abilityBase, transform, offSet, direction),
-                    abilityBase.AttackRange);
+            Collider2D[] entityHitList = Array.Empty<Collider2D>();
+                // Physics2D.OverlapCircleAll(GetAttackDirection(abilityBase, transform, offSet, direction),
+                    // abilityBase.AttackRange);
 
             foreach (Collider2D hit in entityHitList)
             {
@@ -28,6 +29,6 @@ namespace Utils
         }
 
         public static Vector2 GetAttackDirection(AbilityBase abilityBase, Transform origin, Vector2 offset,
-            Direction direction) => (Vector2) origin.position + offset + abilityBase.AttackPoint + direction.AsVector() * abilityBase.AttackDistance;
+            Direction direction) => Vector2.zero; //(Vector2) origin.position + offset + abilityBase.AttackPoint + direction.AsVector() * abilityBase.AttackDistance;
     }
 }
