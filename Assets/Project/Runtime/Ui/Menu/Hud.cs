@@ -1,7 +1,7 @@
-using Managers;
+using Project.Runtime.Managers;
 using UnityEngine;
 
-namespace Ui.Menu
+namespace Project.Runtime.Ui.Menu
 {
     public class Hud : MonoBehaviour
     {

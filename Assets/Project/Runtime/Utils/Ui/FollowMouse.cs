@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Utils.Ui
+namespace Project.Runtime.Utils.Ui
 {
     public abstract class FollowMouse : MonoBehaviour
     {

@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using Board;
+using Project.Runtime.Board;
+using Project.Runtime.Utils;
 using UnityEngine;
-using Utils;
 
-namespace Managers
+namespace Project.Runtime.Managers
 {
     public class BoardManager : MonoBehaviour
     {

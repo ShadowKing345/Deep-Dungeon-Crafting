@@ -1,8 +1,8 @@
 using System;
+using Project.Runtime.Utils;
 using UnityEngine;
-using Utils;
 
-namespace Entity
+namespace Project.Runtime.Entity
 {
     [RequireComponent(typeof(Animator))]
     public class EntityAnimator : MonoBehaviour

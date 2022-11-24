@@ -1,6 +1,6 @@
-using Items;
+using Project.Runtime.Items;
 
-namespace Inventory
+namespace Project.Runtime.Inventory
 {
     public interface IEntityInventoryController
     {

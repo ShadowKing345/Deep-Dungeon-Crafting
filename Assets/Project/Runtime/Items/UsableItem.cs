@@ -1,6 +1,6 @@
-using Entity.Player;
+using Project.Runtime.Entity.Player;
 
-namespace Items
+namespace Project.Runtime.Items
 {
     public abstract class UsableItem : Item
     {

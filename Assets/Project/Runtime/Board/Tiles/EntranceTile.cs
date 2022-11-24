@@ -1,7 +1,7 @@
-using Entity.Player;
+using Project.Runtime.Entity.Player;
 using UnityEngine;
 
-namespace Board.Tiles
+namespace Project.Runtime.Board.Tiles
 {
     public class EntranceTile : MonoBehaviour, ITile
     {

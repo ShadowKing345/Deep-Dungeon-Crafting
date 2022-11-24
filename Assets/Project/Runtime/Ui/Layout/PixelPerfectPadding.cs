@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Ui.Layout
+namespace Project.Runtime.Ui.Layout
 {
     [ExecuteInEditMode]
     public class PixelPerfectPadding : LayoutGroup

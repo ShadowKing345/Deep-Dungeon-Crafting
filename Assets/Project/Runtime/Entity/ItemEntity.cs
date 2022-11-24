@@ -1,8 +1,8 @@
-using Inventory;
-using Items;
+using Project.Runtime.Inventory;
+using Project.Runtime.Items;
 using UnityEngine;
 
-namespace Entity
+namespace Project.Runtime.Entity
 {
     [RequireComponent(typeof(SpriteRenderer), typeof(CircleCollider2D))]
     public class ItemEntity : MonoBehaviour

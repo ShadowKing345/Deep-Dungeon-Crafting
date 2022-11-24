@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Entity.Ai.BehaviorTree
+namespace Project.Runtime.Entity.Ai.BehaviorTree
 {
     public class BehaviorTreeRunner : MonoBehaviour
     {

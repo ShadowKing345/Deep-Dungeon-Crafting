@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Ui.Layout
+namespace Project.Runtime.Ui.Layout
 {
     public class InventoryLayout : LayoutGroup
     {

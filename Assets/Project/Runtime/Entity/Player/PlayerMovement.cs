@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Entity.Player
+namespace Project.Runtime.Entity.Player
 {
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerMovement : EntityAnimator

@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Ui.Notifications
+namespace Project.Runtime.Ui.Notifications
 {
     public class Notification : Button
     {

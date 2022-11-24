@@ -1,6 +1,6 @@
-using Entity.Combat;
+using Project.Runtime.Entity.Combat;
 
-namespace Utils.Interfaces
+namespace Project.Runtime.Utils.Interfaces
 {
     public interface IDamageable
     {

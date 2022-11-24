@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using Items;
+using Project.Runtime.Items;
+using Project.Runtime.Utils.Interfaces;
 using UnityEngine;
-using Utils.Interfaces;
 
-namespace Entity
+namespace Project.Runtime.Entity
 {
     public class EntityLootDrop : MonoBehaviour
     {

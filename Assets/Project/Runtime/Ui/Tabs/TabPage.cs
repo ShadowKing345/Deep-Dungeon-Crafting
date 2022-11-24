@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Ui.Tabs
+namespace Project.Runtime.Ui.Tabs
 {
     public class TabPage : MonoBehaviour
     {

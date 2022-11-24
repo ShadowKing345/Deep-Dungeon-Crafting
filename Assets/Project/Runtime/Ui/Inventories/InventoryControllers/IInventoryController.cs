@@ -1,7 +1,7 @@
-using Inventory;
-using Ui.Inventories.ItemSlot;
+using Project.Runtime.Inventory;
+using Project.Runtime.Ui.Inventories.ItemSlot;
 
-namespace Ui.Inventories.InventoryControllers
+namespace Project.Runtime.Ui.Inventories.InventoryControllers
 {
     public interface IInventoryController
     {

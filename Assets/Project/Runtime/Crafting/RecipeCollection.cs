@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Crafting
+namespace Project.Runtime.Crafting
 {
     [CreateAssetMenu(fileName = "New Recipe Collection", menuName = "SO/Recipe/Collection")]
     public class RecipeCollection : ScriptableObject

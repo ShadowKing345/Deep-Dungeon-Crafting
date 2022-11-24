@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Managers
+namespace Project.Runtime.Managers
 {
     public class LoadingScreenManager : MonoBehaviour
     {

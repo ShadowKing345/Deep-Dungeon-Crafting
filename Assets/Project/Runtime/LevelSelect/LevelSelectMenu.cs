@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
-using Board;
-using Enums;
-using Managers;
+using Project.Runtime.Board;
+using Project.Runtime.Enums;
+using Project.Runtime.Managers;
+using Project.Runtime.Utils;
+using Project.Runtime.Utils.Interfaces;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Utils;
-using Utils.Interfaces;
 
-namespace LevelSelect
+namespace Project.Runtime.LevelSelect
 {
     public class LevelSelectMenu : MonoBehaviour, IUiWindow
     {

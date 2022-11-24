@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using ContextMenu = Ui.ContextMenu.ContextMenu;
+using ContextMenu = Project.Runtime.Ui.ContextMenu.ContextMenu;
 
-namespace Systems
+namespace Project.Runtime.Systems
 {
     public class ContextMenuSystem : MonoBehaviour
     {

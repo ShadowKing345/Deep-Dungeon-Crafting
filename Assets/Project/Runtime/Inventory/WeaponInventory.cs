@@ -1,10 +1,10 @@
 using System;
-using Entity.Combat;
-using Items;
-using Managers;
+using Project.Runtime.Entity.Combat;
+using Project.Runtime.Items;
+using Project.Runtime.Managers;
 using UnityEngine;
 
-namespace Inventory
+namespace Project.Runtime.Inventory
 {
     [Serializable]
     public class WeaponInventory : IInventory

@@ -1,6 +1,6 @@
 using System;
 
-namespace Entity.Combat.Buffs
+namespace Project.Runtime.Entity.Combat.Buffs
 {
     [Serializable]
     public class ActiveBuff

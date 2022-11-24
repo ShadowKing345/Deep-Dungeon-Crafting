@@ -1,7 +1,8 @@
+using Project.Runtime.Managers;
 using UnityEditor;
 using UnityEngine;
 
-namespace Managers
+namespace Project.Editor.GameObjects
 {
     [CustomEditor(typeof(BoardManager))]
     public class BoardManagerEditor : UnityEditor.Editor

@@ -1,9 +1,9 @@
 using System.Collections.Generic;
+using Project.Runtime.Utils;
 using TMPro;
 using UnityEngine;
-using Utils;
 
-namespace Ui.Statistics
+namespace Project.Runtime.Ui.Statistics
 {
     public class StatisticsEntry : MonoBehaviour
     {

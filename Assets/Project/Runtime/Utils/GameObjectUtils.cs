@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Utils
+namespace Project.Runtime.Utils
 {
     public static class GameObjectUtils
     {

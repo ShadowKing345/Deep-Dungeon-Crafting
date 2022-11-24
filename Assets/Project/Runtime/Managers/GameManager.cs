@@ -1,14 +1,14 @@
 using System;
 using System.Collections;
 using System.Linq;
-using Board;
-using Entity.Combat;
-using Entity.Player;
-using Enums;
+using Project.Runtime.Board;
+using Project.Runtime.Entity.Combat;
+using Project.Runtime.Entity.Player;
+using Project.Runtime.Enums;
+using Project.Runtime.Utils;
 using UnityEngine;
-using Utils;
 
-namespace Managers
+namespace Project.Runtime.Managers
 {
     public class GameManager : MonoBehaviour
     {

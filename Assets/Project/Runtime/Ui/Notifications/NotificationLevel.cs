@@ -1,4 +1,4 @@
-namespace Ui.Notifications
+namespace Project.Runtime.Ui.Notifications
 {
     public enum NotificationLevel
     {

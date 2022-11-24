@@ -1,9 +1,9 @@
-using Ui.Menu;
-using Ui.Saves;
+using Project.Runtime.Ui.Menu;
+using Project.Runtime.Ui.Saves;
+using Project.Runtime.Utils.Interfaces;
 using UnityEngine;
-using Utils.Interfaces;
 
-namespace Managers
+namespace Project.Runtime.Managers
 {
     public class MainMenu : MonoBehaviour
     {

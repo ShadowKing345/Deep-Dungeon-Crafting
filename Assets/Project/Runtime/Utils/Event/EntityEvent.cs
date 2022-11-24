@@ -1,6 +1,6 @@
 using System;
 
-namespace Utils.Event
+namespace Project.Runtime.Utils.Event
 {
     [Serializable]
     public class EntityEvent

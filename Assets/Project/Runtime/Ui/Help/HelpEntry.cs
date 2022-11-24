@@ -1,9 +1,9 @@
+using Project.Runtime.Ui.InGameHelp;
 using TMPro;
-using Ui.InGameHelp;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Ui.Help
+namespace Project.Runtime.Ui.Help
 {
     public class HelpEntry : MonoBehaviour
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Settings
+namespace Project.Runtime.Settings
 {
     [Serializable]
     public enum SettingEntryValueType

@@ -1,9 +1,9 @@
-using Systems;
+using Project.Runtime.Systems;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Ui.Inventories.ItemSlot.Utils
+namespace Project.Runtime.Ui.Inventories.ItemSlot.Utils
 {
     [RequireComponent(typeof(IItemStackSlot))]
     public class ItemStackSlotHover : Selectable

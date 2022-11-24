@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Ui
+namespace Project.Runtime.Ui
 {
     [ExecuteInEditMode]
     public class ProgressBar : MonoBehaviour

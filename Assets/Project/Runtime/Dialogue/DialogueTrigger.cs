@@ -1,11 +1,11 @@
 using System;
 using System.Linq;
-using Managers;
+using Project.Runtime.Managers;
+using Project.Runtime.Utils.Interfaces;
 using UnityEngine;
 using UnityEngine.Events;
-using Utils.Interfaces;
 
-namespace Dialogue
+namespace Project.Runtime.Dialogue
 {
     public class DialogueTrigger : MonoBehaviour, IInteractable
     {

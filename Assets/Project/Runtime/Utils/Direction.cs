@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Utils
+namespace Project.Runtime.Utils
 {
     // ReSharper disable InconsistentNaming
     public enum Direction

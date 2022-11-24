@@ -1,12 +1,12 @@
 using System;
-using Dialogue;
-using Enums;
-using Systems;
-using Ui;
-using Ui.Notifications;
+using Project.Runtime.Dialogue;
+using Project.Runtime.Enums;
+using Project.Runtime.Systems;
+using Project.Runtime.Ui;
+using Project.Runtime.Ui.Notifications;
 using UnityEngine;
 
-namespace Managers
+namespace Project.Runtime.Managers
 {
     public class DialogueManager : MonoBehaviour
     {

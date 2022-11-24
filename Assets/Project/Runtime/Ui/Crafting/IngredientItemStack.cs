@@ -1,7 +1,7 @@
-using Ui.Inventories.ItemSlot;
+using Project.Runtime.Ui.Inventories.ItemSlot;
 using UnityEngine;
 
-namespace Ui.Crafting
+namespace Project.Runtime.Ui.Crafting
 {
     public class IngredientItemStack : ItemStackSlot
     {

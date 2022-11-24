@@ -1,7 +1,7 @@
-using Entity.Player;
+using Project.Runtime.Entity.Player;
 using UnityEngine;
 
-namespace Items
+namespace Project.Runtime.Items
 {
     [CreateAssetMenu(fileName = "New Mana Regen Item", menuName = "SO/Item/Mana Regen")]
     public class ManaRegenItem : UsableItem

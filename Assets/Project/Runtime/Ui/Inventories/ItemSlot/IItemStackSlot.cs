@@ -1,8 +1,8 @@
-using Inventory;
-using Items;
-using Ui.Inventories.InventoryControllers;
+using Project.Runtime.Inventory;
+using Project.Runtime.Items;
+using Project.Runtime.Ui.Inventories.InventoryControllers;
 
-namespace Ui.Inventories.ItemSlot
+namespace Project.Runtime.Ui.Inventories.ItemSlot
 {
     public interface IItemStackSlot
     {

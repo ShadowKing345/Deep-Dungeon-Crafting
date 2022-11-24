@@ -1,8 +1,8 @@
 using System;
-using Entity.Combat.Abilities;
+using Project.Runtime.Entity.Combat.Abilities;
 using UnityEngine;
 
-namespace Entity.Combat
+namespace Project.Runtime.Entity.Combat
 {
     [CreateAssetMenu(menuName = "SO/Weapon Class", fileName = "New Weapon Class SO")]
     [Serializable]

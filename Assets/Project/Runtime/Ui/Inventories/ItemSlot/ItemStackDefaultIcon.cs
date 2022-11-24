@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Ui.Inventories.ItemSlot
+namespace Project.Runtime.Ui.Inventories.ItemSlot
 {
     public class ItemStackDefaultIcon : ItemStackSlot
     {

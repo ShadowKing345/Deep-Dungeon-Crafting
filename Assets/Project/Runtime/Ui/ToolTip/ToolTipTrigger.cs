@@ -1,8 +1,8 @@
-using Systems;
+using Project.Runtime.Systems;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Ui.ToolTip
+namespace Project.Runtime.Ui.ToolTip
 {
     public class ToolTipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {

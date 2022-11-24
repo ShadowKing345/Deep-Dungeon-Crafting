@@ -1,4 +1,4 @@
-namespace Utils.Interfaces
+namespace Project.Runtime.Utils.Interfaces
 {
     public interface IUsesMana
     {

@@ -1,10 +1,10 @@
 using System.Linq;
-using Board.Tiles;
+using Project.Runtime.Board.Tiles;
+using Project.Runtime.Utils;
+using Project.Runtime.Utils.Interfaces;
 using UnityEngine;
-using Utils;
-using Utils.Interfaces;
 
-namespace Board
+namespace Project.Runtime.Board
 {
     public class Room : MonoBehaviour
     {

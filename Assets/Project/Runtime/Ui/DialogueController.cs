@@ -1,14 +1,14 @@
 using System.Collections;
-using Dialogue;
-using Enums;
-using Managers;
+using Project.Runtime.Dialogue;
+using Project.Runtime.Enums;
+using Project.Runtime.Managers;
+using Project.Runtime.Utils;
+using Project.Runtime.Utils.Interfaces;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Utils;
-using Utils.Interfaces;
 
-namespace Ui
+namespace Project.Runtime.Ui
 {
     public class DialogueController : MonoBehaviour, IUiWindow
     {

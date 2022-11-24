@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Entity.Player;
-using Items;
-using Systems;
+using Project.Runtime.Entity.Player;
+using Project.Runtime.Items;
+using Project.Runtime.Systems;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Ui.Inventories.ItemSlot.Utils
+namespace Project.Runtime.Ui.Inventories.ItemSlot.Utils
 {
     [RequireComponent(typeof(ItemStackSlot))]
     public class ItemStackSlotContextMenu : MonoBehaviour, IPointerClickHandler

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine.InputSystem;
 
-namespace Settings
+namespace Project.Runtime.Settings
 {
     [Serializable]
     public class KeyBindings

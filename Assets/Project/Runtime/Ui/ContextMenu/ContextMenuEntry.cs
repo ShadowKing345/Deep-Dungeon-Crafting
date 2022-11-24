@@ -1,12 +1,12 @@
 using System;
-using Systems;
+using Project.Runtime.Systems;
+using Project.Runtime.Ui.ToolTip;
 using TMPro;
-using Ui.ToolTip;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Ui.ContextMenu
+namespace Project.Runtime.Ui.ContextMenu
 {
     public class ContextMenuEntry : Button
     {

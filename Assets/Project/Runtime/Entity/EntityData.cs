@@ -1,8 +1,8 @@
-using Entity.Animations;
-using Entity.Combat;
+using Project.Runtime.Entity.Animations;
+using Project.Runtime.Entity.Combat;
 using UnityEngine;
 
-namespace Entity
+namespace Project.Runtime.Entity
 {
     [CreateAssetMenu(fileName = "New Entity Stats", menuName = "SO/Entity", order = 0)]
     public class EntityData : ScriptableObject

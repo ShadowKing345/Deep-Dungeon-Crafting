@@ -1,10 +1,10 @@
-using Managers;
+using Project.Runtime.Managers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-namespace Ui.KeybindingUi
+namespace Project.Runtime.Ui.KeybindingUi
 {
     public class KeyBindingEntry : MonoBehaviour
     {

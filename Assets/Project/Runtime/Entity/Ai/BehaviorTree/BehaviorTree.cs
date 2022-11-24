@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Entity.Ai.BehaviorTree
+namespace Project.Runtime.Entity.Ai.BehaviorTree
 {
     [CreateAssetMenu(fileName = "Behavior Tree", menuName = "SO/Behavior Tree")]
     public class BehaviorTree : ScriptableObject

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Board.Tiles
+namespace Project.Runtime.Board.Tiles
 {
     public class RoofTile : MonoBehaviour, ITile
     {

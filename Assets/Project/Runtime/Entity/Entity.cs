@@ -1,14 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
+using Project.Runtime.Entity.Combat;
+using Project.Runtime.Entity.Combat.Buffs;
+using Project.Runtime.Utils.Event;
+using Project.Runtime.Utils.Interfaces;
 using UnityEngine;
-using Utils.Event;
-using Utils.Interfaces;
 
-namespace Entity
+namespace Project.Runtime.Entity
 {
-    using Combat;
-    using Combat.Buffs;
-    
     public class Entity : MonoBehaviour, IDamageable, IUsesMana
     {
         public delegate void EntityEvent(Utils.Event.EntityEvent @event);

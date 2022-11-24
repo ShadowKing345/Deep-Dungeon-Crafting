@@ -1,7 +1,7 @@
-using Settings;
+using Project.Runtime.Settings;
 using UnityEngine;
 
-namespace Ui.KeybindingUi
+namespace Project.Runtime.Ui.KeybindingUi
 {
     public class KeyBindingController : MonoBehaviour
     {

@@ -1,7 +1,7 @@
+using Project.Runtime.Utils;
 using UnityEngine;
-using Utils;
 
-namespace Board
+namespace Project.Runtime.Board
 {
     [CreateAssetMenu(menuName = "SO/Floor", fileName = "New Floor")]
     public class FloorSettings : ScriptableObject

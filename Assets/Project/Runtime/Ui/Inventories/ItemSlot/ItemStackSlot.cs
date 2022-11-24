@@ -1,12 +1,12 @@
 using System;
-using Inventory;
-using Items;
+using Project.Runtime.Inventory;
+using Project.Runtime.Items;
+using Project.Runtime.Ui.Inventories.InventoryControllers;
 using TMPro;
-using Ui.Inventories.InventoryControllers;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Ui.Inventories.ItemSlot
+namespace Project.Runtime.Ui.Inventories.ItemSlot
 {
     public class ItemStackSlot : MonoBehaviour, IItemStackSlot
     {

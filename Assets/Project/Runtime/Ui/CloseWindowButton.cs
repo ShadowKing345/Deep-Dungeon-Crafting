@@ -1,9 +1,9 @@
-using Enums;
-using Managers;
+using Project.Runtime.Enums;
+using Project.Runtime.Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Ui
+namespace Project.Runtime.Ui
 {
     public class CloseWindowButton : Button
     {

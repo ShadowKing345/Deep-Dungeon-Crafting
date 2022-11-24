@@ -1,8 +1,8 @@
+using Project.Runtime.Utils;
+using Project.Runtime.Utils.Interfaces;
 using UnityEngine;
-using Utils;
-using Utils.Interfaces;
 
-namespace Board.Tiles
+namespace Project.Runtime.Board.Tiles
 {
     public class CornerTile : MonoBehaviour, ITile, IDirectional
     {

@@ -1,8 +1,8 @@
-using Managers;
+using Project.Runtime.Managers;
+using Project.Runtime.Utils.Interfaces;
 using UnityEngine;
-using Utils.Interfaces;
 
-namespace Board.Tiles
+namespace Project.Runtime.Board.Tiles
 {
     public class ExitTile : MonoBehaviour, ITile, IInteractable
     {

@@ -1,17 +1,17 @@
 using System;
 using System.IO;
 using System.Linq;
-using Settings;
+using Project.Runtime.Settings;
+using Project.Runtime.Ui.KeybindingUi;
+using Project.Runtime.Ui.Tabs;
+using Project.Runtime.Utils;
+using Project.Runtime.Utils.Interfaces;
 using TMPro;
-using Ui.KeybindingUi;
-using Ui.Tabs;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
-using Utils;
-using Utils.Interfaces;
 
-namespace Ui.Menu
+namespace Project.Runtime.Ui.Menu
 {
     public class SettingsController : MonoBehaviour, IUiWindow
     {

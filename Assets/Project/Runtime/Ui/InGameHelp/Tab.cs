@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Ui.InGameHelp
+namespace Project.Runtime.Ui.InGameHelp
 {
     [CreateAssetMenu(fileName = "New Journal Tab", menuName = "SO/Help/Tab")]
     public class Tab : ScriptableObject

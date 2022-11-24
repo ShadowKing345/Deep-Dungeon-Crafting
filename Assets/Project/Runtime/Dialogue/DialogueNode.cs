@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Dialogue
+namespace Project.Runtime.Dialogue
 {
     [CreateAssetMenu(fileName = "New Dialogue Node", menuName = "SO/Dialogue Node")]
     public class DialogueNode : ScriptableObject

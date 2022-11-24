@@ -1,11 +1,11 @@
-using Entity.Combat.Abilities;
-using Items;
-using Ui.Inventories;
-using Ui.ToolTip.Types;
-using UnityEngine;
 using Inputs;
+using Project.Runtime.Entity.Combat.Abilities;
+using Project.Runtime.Items;
+using Project.Runtime.Ui.Inventories;
+using Project.Runtime.Ui.ToolTip.Types;
+using UnityEngine;
 
-namespace Systems
+namespace Project.Runtime.Systems
 {
     public class ToolTipSystem : MonoBehaviour
     {

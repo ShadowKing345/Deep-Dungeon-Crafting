@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using Ui.Statistics;
+using Project.Runtime.Ui.Statistics;
+using Project.Runtime.Utils;
+using Project.Runtime.Utils.Interfaces;
 using UnityEngine;
-using Utils;
-using Utils.Interfaces;
 
-namespace Statistics
+namespace Project.Runtime.Statistics
 {
     public class StatisticsController : MonoBehaviour, IUiWindow
     {

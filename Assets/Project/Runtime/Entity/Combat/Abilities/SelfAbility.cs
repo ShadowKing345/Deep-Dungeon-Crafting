@@ -1,7 +1,7 @@
+using Project.Runtime.Utils.Interfaces;
 using UnityEngine;
-using Utils.Interfaces;
 
-namespace Entity.Combat.Abilities
+namespace Project.Runtime.Entity.Combat.Abilities
 {
     [CreateAssetMenu(fileName = "New Buff Ability", menuName = "SO/Combat/Ability/Buff Ability")]
     public class BuffAbility : AbilityBase

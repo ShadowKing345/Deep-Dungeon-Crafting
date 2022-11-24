@@ -1,9 +1,9 @@
-using Ui.ToolTip;
+using Project.Runtime.Ui.ToolTip;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Ui.Tabs
+namespace Project.Runtime.Ui.Tabs
 {
     public class Tab : Selectable, IPointerClickHandler
     {

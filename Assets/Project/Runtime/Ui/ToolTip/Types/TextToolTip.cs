@@ -1,9 +1,9 @@
+using Project.Runtime.Utils.Ui;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Utils.Ui;
 
-namespace Ui.ToolTip.Types
+namespace Project.Runtime.Ui.ToolTip.Types
 {
     public class TextToolTip : FollowMouse
     {

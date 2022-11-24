@@ -1,12 +1,11 @@
 using System.Linq;
-using Entity.Combat.Abilities;
-using Managers;
+using Project.Runtime.Entity.Combat;
+using Project.Runtime.Entity.Combat.Abilities;
+using Project.Runtime.Managers;
 using UnityEngine;
 
-namespace Entity.Player
+namespace Project.Runtime.Entity.Player
 {
-    using Combat;
-
     [RequireComponent(typeof(PlayerMovement))]
     [RequireComponent(typeof(PlayerInventory))]
     public class PlayerCombat : MonoBehaviour

@@ -1,11 +1,10 @@
 using System;
 using System.Linq;
+using Project.Runtime.Entity.Combat.Abilities;
 using UnityEngine;
 
-namespace Entity.Combat
+namespace Project.Runtime.Entity.Combat
 {
-    using Abilities;
-
     [Serializable]
     public class AbilityProperty
     {

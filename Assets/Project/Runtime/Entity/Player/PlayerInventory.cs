@@ -1,9 +1,9 @@
-using Inventory;
-using Items;
-using Managers;
+using Project.Runtime.Inventory;
+using Project.Runtime.Items;
+using Project.Runtime.Managers;
 using UnityEngine;
 
-namespace Entity.Player
+namespace Project.Runtime.Entity.Player
 {
     public class PlayerInventory : MonoBehaviour, IEntityInventoryController
     {

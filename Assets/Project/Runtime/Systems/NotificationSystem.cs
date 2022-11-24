@@ -1,9 +1,9 @@
-using Ui.Notifications;
+using Project.Runtime.Ui.Notifications;
+using Project.Runtime.Utils;
 using UnityEngine;
 using UnityEngine.Events;
-using Utils;
 
-namespace Systems
+namespace Project.Runtime.Systems
 {
     public class NotificationSystem : MonoBehaviour
     {

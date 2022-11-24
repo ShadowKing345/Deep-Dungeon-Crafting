@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Entity
+namespace Project.Runtime.Entity
 {
     public class EntityCollision : MonoBehaviour
     {

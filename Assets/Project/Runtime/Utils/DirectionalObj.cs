@@ -1,6 +1,6 @@
 using System;
 
-namespace Utils
+namespace Project.Runtime.Utils
 {
     [Serializable]
     public class DirectionalObj<T>

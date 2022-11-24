@@ -1,11 +1,11 @@
 using System;
-using Entity.Combat;
-using Managers;
+using Inputs;
+using Project.Runtime.Entity.Combat;
+using Project.Runtime.Utils.Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Utils.Interfaces;
 
-namespace Entity.Player
+namespace Project.Runtime.Entity.Player
 {
     public class PlayerInputManager : MonoBehaviour, InputManager.IPlayerActions
     {

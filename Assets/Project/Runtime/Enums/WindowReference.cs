@@ -1,4 +1,4 @@
-namespace Enums
+namespace Project.Runtime.Enums
 {
     public enum WindowReference
     {

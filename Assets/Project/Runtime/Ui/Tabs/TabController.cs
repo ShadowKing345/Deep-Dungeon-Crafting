@@ -1,9 +1,9 @@
 using System.Collections.Generic;
+using Project.Runtime.Utils;
 using UnityEngine;
 using UnityEngine.UI;
-using Utils;
 
-namespace Ui.Tabs
+namespace Project.Runtime.Ui.Tabs
 {
     public class TabController : MonoBehaviour
     {

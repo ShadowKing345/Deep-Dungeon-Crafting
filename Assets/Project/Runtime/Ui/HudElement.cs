@@ -1,13 +1,13 @@
 using System;
-using Entity.Combat;
-using Entity.Player;
+using Project.Runtime.Entity.Combat;
+using Project.Runtime.Entity.Player;
+using Project.Runtime.Ui.HudElements;
+using Project.Runtime.Utils;
+using Project.Runtime.Utils.Event;
 using TMPro;
-using Ui.HudElements;
 using UnityEngine;
-using Utils;
-using Utils.Event;
 
-namespace Ui
+namespace Project.Runtime.Ui
 {
     [Serializable]
     public class HudElement : MonoBehaviour

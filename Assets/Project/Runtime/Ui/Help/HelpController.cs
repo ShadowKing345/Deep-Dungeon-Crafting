@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Project.Runtime.Ui.InGameHelp;
 using TMPro;
-using Ui.InGameHelp;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Ui.Help
+namespace Project.Runtime.Ui.Help
 {
     //todo: Dear god why the actual f did i not come back and completely redo this system
     public class HelpController : MonoBehaviour

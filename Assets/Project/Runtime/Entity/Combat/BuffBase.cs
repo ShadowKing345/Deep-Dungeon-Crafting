@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Entity.Combat
+namespace Project.Runtime.Entity.Combat
 {
     public abstract class BuffBase : ScriptableObject
     {

@@ -1,8 +1,8 @@
 using System;
+using Project.Runtime.Utils;
 using UnityEngine;
-using Utils;
 
-namespace Entity.Animations
+namespace Project.Runtime.Entity.Animations
 {
     [Serializable]
     public class EntityAnimation

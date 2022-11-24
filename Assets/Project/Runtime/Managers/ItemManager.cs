@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Items;
 using Newtonsoft.Json;
+using Project.Runtime.Items;
 using UnityEngine;
 
-namespace Managers
+namespace Project.Runtime.Managers
 {
     public class ItemManager : MonoBehaviour, ISerializationCallbackReceiver
     {

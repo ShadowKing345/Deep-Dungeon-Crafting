@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Utils
+namespace Project.Runtime.Utils
 {
     [Serializable]
     public class ControllerAsset

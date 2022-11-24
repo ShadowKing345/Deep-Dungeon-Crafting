@@ -1,11 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Project.Runtime.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Utils;
 
-namespace Managers
+namespace Project.Runtime.Managers
 {
     public class SceneManager : MonoBehaviour
     {

@@ -1,7 +1,7 @@
-using Entity.Combat;
+using Project.Runtime.Entity.Combat;
 using UnityEngine;
 
-namespace Items
+namespace Project.Runtime.Items
 {
     [CreateAssetMenu(menuName = "SO/Item/Armor Item", fileName = "New Armor Item")]
     public class ArmorItem : Item

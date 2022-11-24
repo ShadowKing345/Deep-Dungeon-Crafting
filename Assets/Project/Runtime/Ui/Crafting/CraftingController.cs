@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
-using Crafting;
-using Entity.Player;
-using Enums;
-using Managers;
-using Ui.Inventories.ItemSlot;
+using Project.Runtime.Crafting;
+using Project.Runtime.Entity.Player;
+using Project.Runtime.Enums;
+using Project.Runtime.Managers;
+using Project.Runtime.Ui.Inventories.ItemSlot;
+using Project.Runtime.Utils.Interfaces;
 using UnityEngine;
 using UnityEngine.UI;
-using Utils.Interfaces;
 
-namespace Ui.Crafting
+namespace Project.Runtime.Ui.Crafting
 {
     public class CraftingController : MonoBehaviour, IUiWindow
     {

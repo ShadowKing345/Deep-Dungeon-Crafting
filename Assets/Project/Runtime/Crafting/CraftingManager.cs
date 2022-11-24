@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using Inventory;
-using Items;
+using Project.Runtime.Inventory;
+using Project.Runtime.Items;
 using UnityEngine;
 
-namespace Crafting
+namespace Project.Runtime.Crafting
 {
     public class CraftingManager : MonoBehaviour
     {

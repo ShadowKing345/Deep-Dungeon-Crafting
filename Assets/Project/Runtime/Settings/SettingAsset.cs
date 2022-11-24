@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Settings
+namespace Project.Runtime.Settings
 {
     [CreateAssetMenu(fileName = "New Setting Asset", menuName = "SO/settingAsset")]
     public class SettingAsset : ScriptableObject

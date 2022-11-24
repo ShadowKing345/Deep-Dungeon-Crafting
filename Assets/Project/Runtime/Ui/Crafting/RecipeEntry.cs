@@ -1,9 +1,9 @@
-using Crafting;
+using Project.Runtime.Crafting;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Ui.Crafting
+namespace Project.Runtime.Ui.Crafting
 {
     public class RecipeEntry : Button
     {

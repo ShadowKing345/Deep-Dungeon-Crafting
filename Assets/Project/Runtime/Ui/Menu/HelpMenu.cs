@@ -1,10 +1,10 @@
-using Entity.Player;
-using Enums;
-using Managers;
+using Project.Runtime.Entity.Player;
+using Project.Runtime.Enums;
+using Project.Runtime.Managers;
+using Project.Runtime.Utils.Interfaces;
 using UnityEngine;
-using Utils.Interfaces;
 
-namespace Ui.Menu
+namespace Project.Runtime.Ui.Menu
 {
     public class HelpMenu : MonoBehaviour, IUiWindow
     {

@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
-using Items;
+using Project.Runtime.Items;
 using UnityEngine;
 
-namespace Inventory
+namespace Project.Runtime.Inventory
 {
     [Serializable]
     public class ItemInventory : IInventory

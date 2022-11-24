@@ -1,12 +1,11 @@
 using System.Linq;
-using Items;
+using Project.Runtime.Entity.Combat;
+using Project.Runtime.Entity.Combat.Buffs;
+using Project.Runtime.Items;
 using UnityEngine;
 
-namespace Entity.Player
+namespace Project.Runtime.Entity.Player
 {
-    using Combat;
-    using Combat.Buffs;
-
     [RequireComponent(typeof(PlayerInventory))]
     public class PlayerEntity : Entity
     {

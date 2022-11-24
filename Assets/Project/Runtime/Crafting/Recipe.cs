@@ -1,8 +1,8 @@
 using System.Linq;
-using Items;
+using Project.Runtime.Items;
 using UnityEngine;
 
-namespace Crafting
+namespace Project.Runtime.Crafting
 {
     [CreateAssetMenu(fileName = "New Recipe", menuName = "SO/Recipe/Recipe")]
     public class Recipe : ScriptableObject

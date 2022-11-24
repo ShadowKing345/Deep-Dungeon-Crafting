@@ -2,23 +2,26 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class DialogueSystemEditor : EditorWindow
+namespace Project.Editor.Dialogue
 {
-    [MenuItem("Window/UI Toolkit/DialogueSystemEditor")]
-    public static void ShowExample()
+    public class DialogueSystemEditor : EditorWindow
     {
-        DialogueSystemEditor wnd = GetWindow<DialogueSystemEditor>();
-        wnd.titleContent = new GUIContent("DialogueSystemEditor");
-    }
+        [MenuItem("Window/UI Toolkit/DialogueSystemEditor")]
+        public static void ShowExample()
+        {
+            DialogueSystemEditor wnd = GetWindow<DialogueSystemEditor>();
+            wnd.titleContent = new GUIContent("DialogueSystemEditor");
+        }
 
-    public void CreateGUI()
-    {
-        // Each editor window contains a root VisualElement object
-        VisualElement root = rootVisualElement;
+        public void CreateGUI()
+        {
+            // Each editor window contains a root VisualElement object
+            VisualElement root = rootVisualElement;
 
-        // VisualElements objects can contain other VisualElement following a tree hierarchy.
-        VisualElement label = new Label("Hello World! From C#");
-        root.Add(label);
+            // VisualElements objects can contain other VisualElement following a tree hierarchy.
+            VisualElement label = new Label("Hello World! From C#");
+            root.Add(label);
 
+        }
     }
 }

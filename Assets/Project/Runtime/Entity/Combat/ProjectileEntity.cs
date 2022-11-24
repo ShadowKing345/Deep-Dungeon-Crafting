@@ -1,9 +1,9 @@
-using Entity.Combat.Abilities;
+using Project.Runtime.Entity.Combat.Abilities;
+using Project.Runtime.Utils;
+using Project.Runtime.Utils.Interfaces;
 using UnityEngine;
-using Utils;
-using Utils.Interfaces;
 
-namespace Entity.Combat
+namespace Project.Runtime.Entity.Combat
 {
     public class ProjectileEntity : MonoBehaviour
     {

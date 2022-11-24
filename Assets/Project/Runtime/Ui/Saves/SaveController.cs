@@ -1,7 +1,7 @@
-using Managers;
+using Project.Runtime.Managers;
 using UnityEngine;
 
-namespace Ui.Saves
+namespace Project.Runtime.Ui.Saves
 {
     public class SaveController : MonoBehaviour
     {

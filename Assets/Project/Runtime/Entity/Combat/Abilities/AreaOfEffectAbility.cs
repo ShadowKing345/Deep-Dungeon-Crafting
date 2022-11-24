@@ -1,8 +1,8 @@
+using Project.Runtime.Utils;
+using Project.Runtime.Utils.Interfaces;
 using UnityEngine;
-using Utils;
-using Utils.Interfaces;
 
-namespace Entity.Combat.Abilities
+namespace Project.Runtime.Entity.Combat.Abilities
 {
     [CreateAssetMenu(fileName = "New Attack Ability", menuName = "SO/Combat/Ability/Attack Ability")]
     public class AreaOfEffectAbility : AbilityBase

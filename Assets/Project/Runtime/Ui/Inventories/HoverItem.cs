@@ -1,9 +1,9 @@
-using Items;
+using Project.Runtime.Items;
+using Project.Runtime.Utils.Ui;
 using UnityEngine;
 using UnityEngine.UI;
-using Utils.Ui;
 
-namespace Ui.Inventories
+namespace Project.Runtime.Ui.Inventories
 {
     public class HoverItem : FollowMouse
     {

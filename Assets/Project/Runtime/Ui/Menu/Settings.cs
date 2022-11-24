@@ -1,12 +1,12 @@
 using System;
 using System.Linq;
+using Project.Runtime.Utils.Interfaces;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
-using Utils.Interfaces;
 
-namespace Ui.Menu
+namespace Project.Runtime.Ui.Menu
 {
     public class Settings : MonoBehaviour, IUiWindow
     {

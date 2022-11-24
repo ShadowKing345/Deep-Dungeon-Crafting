@@ -1,8 +1,8 @@
-using Managers;
+using Project.Runtime.Managers;
+using Project.Runtime.Utils.Interfaces;
 using UnityEngine;
-using Utils.Interfaces;
 
-namespace Level0
+namespace Project.Runtime.Level0
 {
     public class ExitLevel0 : MonoBehaviour, IInteractable
     {

@@ -1,10 +1,10 @@
-using Enums;
-using Managers;
+using Project.Runtime.Enums;
+using Project.Runtime.Managers;
+using Project.Runtime.Utils;
+using Project.Runtime.Utils.Interfaces;
 using UnityEngine;
-using Utils;
-using Utils.Interfaces;
 
-namespace Ui.Menu
+namespace Project.Runtime.Ui.Menu
 {
     public class LevelComplete : MonoBehaviour, IUiWindow
     {

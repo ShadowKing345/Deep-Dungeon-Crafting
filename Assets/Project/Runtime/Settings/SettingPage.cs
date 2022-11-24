@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Settings
+namespace Project.Runtime.Settings
 {
     [Serializable]
     public class SettingPage

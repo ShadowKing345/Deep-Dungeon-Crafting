@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Board
+namespace Project.Runtime.Board
 {
     [CreateAssetMenu(fileName = "new Floor Collection", menuName = "SO/Floor Collection")]
     public class FloorCollection : ScriptableObject

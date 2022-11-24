@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Items
+namespace Project.Runtime.Items
 {
     [Serializable]
     public class ItemStack

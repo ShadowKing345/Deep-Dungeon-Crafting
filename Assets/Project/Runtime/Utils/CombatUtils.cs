@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Entity.Combat;
-using Entity.Combat.Abilities;
+using Project.Runtime.Entity.Combat.Abilities;
+using Project.Runtime.Utils.Interfaces;
 using UnityEngine;
-using Utils.Interfaces;
 
-namespace Utils
+namespace Project.Runtime.Utils
 {
     public static class CombatUtils
     {

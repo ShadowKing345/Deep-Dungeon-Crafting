@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using Enums;
+using Project.Runtime.Enums;
+using Project.Runtime.Utils.Interfaces;
 using UnityEngine;
-using Utils.Interfaces;
 
-namespace Managers
+namespace Project.Runtime.Managers
 {
     public class UiManager : MonoBehaviour
     {
@@ -12,8 +12,6 @@ namespace Managers
         [Space] [SerializeField] private WindowReference currentActive;
 
         private readonly Dictionary<WindowReference, GameObject> windowLookUp = new();
-
-        private InputManager inputManager;
 
         public static UiManager Instance
         {
@@ -41,24 +39,6 @@ namespace Managers
         {
             Instance = this;
             SceneManager.Instance.OnEndSceneChange += _ => currentActive = WindowReference.None;
-        }
-
-        private void OnEnable()
-        {
-            inputManager ??= new InputManager();
-
-            var windowsActions = inputManager.Windows;
-
-            windowsActions.PauseMenu.canceled += _ => ToggleUiElement(WindowReference.PauseMenu);
-            windowsActions.Crafting.canceled += _ => ToggleUiElement(WindowReference.CraftingMenu);
-            windowsActions.PlayerInventory.canceled += _ => ToggleUiElement(WindowReference.PlayerInventory);
-
-            windowsActions.Enable();
-        }
-
-        private void OnDisable()
-        {
-            inputManager.Windows.Disable();
         }
 
         private void OnDestroy()

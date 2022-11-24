@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Managers;
+using Project.Runtime.Managers;
+using Project.Runtime.Utils;
 using UnityEngine;
-using Utils;
 
-namespace Statistics
+namespace Project.Runtime.Statistics
 {
     public class StatisticsManager : MonoBehaviour
     {

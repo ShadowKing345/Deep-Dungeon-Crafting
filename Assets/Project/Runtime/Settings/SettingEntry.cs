@@ -1,8 +1,8 @@
 using System;
+using Project.Runtime.Utils;
 using UnityEngine;
-using Utils;
 
-namespace Settings
+namespace Project.Runtime.Settings
 {
     [Serializable]
     public class SettingEntry

@@ -1,7 +1,7 @@
-using Entity.Player;
+using Project.Runtime.Entity.Player;
 using UnityEngine;
 
-namespace Items
+namespace Project.Runtime.Items
 {
     [CreateAssetMenu(fileName = "New Healing Item", menuName = "SO/Item/Healing Item")]
     public class HealingItems : UsableItem

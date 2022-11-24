@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
-using Entity.Player;
-using Enums;
-using Inventory;
-using Managers;
-using Ui.Inventories.ItemSlot;
+using Project.Runtime.Entity.Player;
+using Project.Runtime.Enums;
+using Project.Runtime.Inventory;
+using Project.Runtime.Managers;
+using Project.Runtime.Ui.Inventories.ItemSlot;
+using Project.Runtime.Utils;
+using Project.Runtime.Utils.Interfaces;
 using UnityEngine;
-using Utils;
-using Utils.Interfaces;
 
-namespace Ui.Inventories.InventoryControllers
+namespace Project.Runtime.Ui.Inventories.InventoryControllers
 {
     public class ChestController : MonoBehaviour, IInventoryController, IUiWindow
     {

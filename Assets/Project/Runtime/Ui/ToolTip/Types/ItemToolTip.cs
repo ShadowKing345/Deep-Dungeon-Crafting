@@ -1,15 +1,15 @@
 using System;
 using System.Globalization;
-using Entity.Combat;
-using Entity.Combat.Abilities;
-using Items;
-using Systems;
+using Project.Runtime.Entity.Combat;
+using Project.Runtime.Entity.Combat.Abilities;
+using Project.Runtime.Items;
+using Project.Runtime.Systems;
+using Project.Runtime.Utils.Ui;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Utils.Ui;
 
-namespace Ui.ToolTip.Types
+namespace Project.Runtime.Ui.ToolTip.Types
 {
     public class ItemToolTip : FollowMouse
     {

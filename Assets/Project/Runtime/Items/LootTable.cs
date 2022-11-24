@@ -1,8 +1,8 @@
 using System;
+using Project.Runtime.Utils;
 using UnityEngine;
-using Utils;
 
-namespace Items
+namespace Project.Runtime.Items
 {
     [CreateAssetMenu(menuName = "SO/Entity Drop Loot Table", fileName = "New Loot Table")]
     public class LootTable : ScriptableObject

@@ -1,6 +1,6 @@
 using System;
 
-namespace Entity.Ai.BehaviorTree
+namespace Project.Runtime.Entity.Ai.BehaviorTree
 {
     public class SequenceNode : CompositeNode
     {

@@ -1,8 +1,8 @@
+using Project.Runtime.Utils;
 using UnityEditor;
 using UnityEngine;
-using Utils;
 
-namespace Editor.GameObjects
+namespace Project.Editor.GameObjects
 {
     [CustomEditor(typeof(LoadOrder))]
     

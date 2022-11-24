@@ -1,11 +1,10 @@
-using Entity.Combat;
-using Entity.Combat.Abilities;
+using Project.Runtime.Entity.Combat.Abilities;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Ui.HudElements
+namespace Project.Runtime.Ui.HudElements
 {
     [ExecuteInEditMode]
     public class AbilityUi : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler

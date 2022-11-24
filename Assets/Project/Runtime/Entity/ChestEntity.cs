@@ -1,9 +1,9 @@
-using Enums;
-using Managers;
+using Project.Runtime.Enums;
+using Project.Runtime.Managers;
+using Project.Runtime.Utils.Interfaces;
 using UnityEngine;
-using Utils.Interfaces;
 
-namespace Entity
+namespace Project.Runtime.Entity
 {
     public class ChestEntity : MonoBehaviour, IInteractable
     {

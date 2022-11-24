@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using Systems;
+using Project.Runtime.Systems;
+using Project.Runtime.Utils;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using Utils;
 
-namespace Ui.ContextMenu
+namespace Project.Runtime.Ui.ContextMenu
 {
     public class ContextMenu : MonoBehaviour, IPointerExitHandler, IMoveHandler
     {

@@ -1,10 +1,9 @@
+using Project.Runtime.Entity.Animations;
+using Project.Runtime.Utils.Interfaces;
 using UnityEngine;
-using Utils.Interfaces;
 
-namespace Entity.Combat.Abilities
+namespace Project.Runtime.Entity.Combat.Abilities
 {
-    using Animations;
-
     public abstract class AbilityBase : ScriptableObject
     {
         [SerializeField] private new string name;

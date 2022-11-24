@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine.UIElements;
 
-namespace Editor.EntityData
+namespace Project.Editor.EntityData
 {
     public class EntityDataEditor : EditorWindow
     {
