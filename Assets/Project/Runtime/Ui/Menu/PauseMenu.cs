@@ -1,7 +1,6 @@
 using Entity.Player;
 using Enums;
 using Managers;
-using Statistics;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils.Interfaces;
@@ -11,7 +10,6 @@ namespace Ui.Menu
     public class PauseMenu : MonoBehaviour, IUiWindow
     {
         [SerializeField] private SettingsController settingsMenu;
-        [SerializeField] private StatisticsController statisticsMenu;
 
         private GameManager _gameManager;
         private UiManager _uiManager;
@@ -49,7 +47,6 @@ namespace Ui.Menu
         {
             if (playerCombat != null && playerMovement != null) playerCombat.enabled = playerMovement.enabled = true;
             if (settingsMenu.gameObject.activeSelf) settingsMenu.Hide();
-            if (statisticsMenu.gameObject.activeSelf) statisticsMenu.Hide();
             Time.timeScale = 1;
         }
 
@@ -71,15 +68,7 @@ namespace Ui.Menu
             else
                 settingsMenu.Show();
         }
-
-        public void Statistics()
-        {
-            if (statisticsMenu.gameObject.activeSelf)
-                statisticsMenu.Hide();
-            else
-                statisticsMenu.Show();
-        }
-
+        
         public void EndRun()
         {
             _uiManager.HideUiElement(WindowReference.PauseMenu);

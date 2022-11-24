@@ -5,7 +5,6 @@ using Board;
 using Entity.Combat;
 using Entity.Player;
 using Enums;
-using Statistics;
 using UnityEngine;
 using Utils;
 
@@ -156,8 +155,8 @@ namespace Managers
 
         public void FinishRun()
         {
-            StatisticsManager.Instance.AddIntValue($"Floors.{floorSettings.name}.Cleared", 1);
-            StatisticsManager.Instance.AddIntValue($"Floors.{floorSettings.name}.Total", 1);
+            // StatisticsManager.Instance.AddIntValue($"Floors.{floorSettings.name}.Cleared", 1);
+            // StatisticsManager.Instance.AddIntValue($"Floors.{floorSettings.name}.Total", 1);
             var saveManager = SaveManager.Instance;
 
             if (saveManager != null)
@@ -174,8 +173,8 @@ namespace Managers
 
         public void EndRun()
         {
-            StatisticsManager.Instance.AddIntValue($"Floors.{floorSettings.name}.Failed", 1);
-            StatisticsManager.Instance.AddIntValue($"Floors.{floorSettings.name}.Total", 1);
+            // StatisticsManager.Instance.AddIntValue($"Floors.{floorSettings.name}.Failed", 1);
+            // StatisticsManager.Instance.AddIntValue($"Floors.{floorSettings.name}.Total", 1);
             FindObjectOfType<PlayerInventory>().SaveInventory = false;
             sceneManager.ChangeScene(SceneIndexes.Hub);
         }
