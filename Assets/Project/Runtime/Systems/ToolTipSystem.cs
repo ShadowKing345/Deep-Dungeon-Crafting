@@ -1,10 +1,9 @@
-using Entity.Combat;
 using Entity.Combat.Abilities;
 using Items;
-using Managers;
 using Ui.Inventories;
 using Ui.ToolTip.Types;
 using UnityEngine;
+using Inputs;
 
 namespace Systems
 {
@@ -54,14 +53,14 @@ namespace Systems
             Instance ??= this;
             _inputManager ??= new InputManager();
 
-            _inputManager.ToolTip.Enable();
-            _inputManager.ToolTip.HideAdvancedToolTips.started += _ => hideAdvanceToolTips = true;
-            _inputManager.ToolTip.HideAdvancedToolTips.canceled += _ => hideAdvanceToolTips = false;
+            // _inputManager.ToolTip.Enable();
+            // _inputManager.ToolTip.HideAdvancedToolTips.started += _ => hideAdvanceToolTips = true;
+            // _inputManager.ToolTip.HideAdvancedToolTips.canceled += _ => hideAdvanceToolTips = false;
         }
 
         private void OnDisable()
         {
-            _inputManager.ToolTip.Disable();
+            // _inputManager.ToolTip.Disable();
         }
 
         public void ShowToolTIp(ItemStack stack)
