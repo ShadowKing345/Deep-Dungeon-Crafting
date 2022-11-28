@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: 
   description: You.
-  <MovementSpeed>k__BackingField: 7.5
+  <MovementSpeed>k__BackingField: 5.5
   maxHealth: 1000
   maxMana: 500
   resistances:

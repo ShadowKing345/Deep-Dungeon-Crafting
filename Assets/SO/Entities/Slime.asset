@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Slime
   m_EditorClassIdentifier: 
   description: Basic Slime Enemie
+  <MovementSpeed>k__BackingField: 7.5
   maxHealth: 300
   maxMana: 0
   resistances:
@@ -20,18 +21,18 @@ MonoBehaviour:
     element: 0
     attackType: 2
     amount: -0.3
-  idleAnimationData:
-    useDirection: 0
-    clip: {fileID: 7400000, guid: 8063d00145bccb9bf96812ad9969c801, type: 2}
-    north: {fileID: 0}
-    south: {fileID: 0}
-    east: {fileID: 0}
-    west: {fileID: 0}
-  movingAnimationData:
-    useDirection: 0
-    clip: {fileID: 7400000, guid: 1495d8881cd32c40588769eb5f56b166, type: 2}
-    north: {fileID: 0}
-    south: {fileID: 0}
-    east: {fileID: 0}
-    west: {fileID: 0}
   centerPos: {x: 0, y: 0}
+  idleAnimationData:
+    <UseDirection>k__BackingField: 0
+    <Clip>k__BackingField: {fileID: 7400000, guid: 8063d00145bccb9bf96812ad9969c801, type: 2}
+    <North>k__BackingField: {fileID: 0}
+    <South>k__BackingField: {fileID: 0}
+    <East>k__BackingField: {fileID: 0}
+    <West>k__BackingField: {fileID: 0}
+  movingAnimationData:
+    <UseDirection>k__BackingField: 0
+    <Clip>k__BackingField: {fileID: 7400000, guid: 1495d8881cd32c40588769eb5f56b166, type: 2}
+    <North>k__BackingField: {fileID: 0}
+    <South>k__BackingField: {fileID: 0}
+    <East>k__BackingField: {fileID: 0}
+    <West>k__BackingField: {fileID: 0}
