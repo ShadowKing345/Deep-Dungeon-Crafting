@@ -1,20 +1,29 @@
 using System;
 using System.Collections;
 using System.Linq;
-using Project.Runtime.Board;
-using Project.Runtime.Entity.Combat;
-using Project.Runtime.Entity.Player;
-using Project.Runtime.Enums;
-using Project.Runtime.Utils;
 using UnityEngine;
 
 namespace Project.Runtime.Managers
 {
+    using Board;
+    using Entity.Combat;
+    using Entity.Player;
+    using Enums;
+    using Utils;
+
+    [RequireComponent(typeof(InputManager))]
+    [RequireComponent(typeof(SceneManager))]
     public class GameManager : MonoBehaviour
     {
         public static GameManager Instance { get; private set; }
 
-        public string savePath;
+        [field: Header("Manager Instances")]
+        [field: SerializeField]
+        public InputManager InputManager { get; private set; }
+
+        [field: SerializeField] public SceneManager SceneManager { get; private set; }
+
+        [Header("Game State Data")] public string savePath;
         [SerializeField] private int currentFloor;
         [SerializeField] private FloorSettings floorSettings;
         [SerializeField] private FloorCollection floorCollection;
@@ -22,9 +31,6 @@ namespace Project.Runtime.Managers
         public WeaponClass noWeaponClass;
         public ControllerAsset controllerAsset;
 
-        private BoardManager boardManager;
-
-        private SceneManager sceneManager;
 
         public int CurrentFloor
         {
@@ -52,24 +58,19 @@ namespace Project.Runtime.Managers
 
         private void Awake()
         {
-            if (Instance == null)
+            if (Instance != null)
+            {
+                if (Instance == this) return;
+                Destroy(this);
+            }
+            else
             {
                 Instance = this;
                 DontDestroyOnLoad(this);
-                return;
             }
 
-            if (Instance == this)
-            {
-                return;
-            }
-
-            Destroy(this);
-        }
-
-        private void Start()
-        {
-            sceneManager = SceneManager.Instance;
+            InputManager = GetComponent<InputManager>();
+            SceneManager = GetComponent<SceneManager>();
         }
 
         private void OnEnable()
@@ -109,38 +110,39 @@ namespace Project.Runtime.Managers
 
         private IEnumerator GenRoom()
         {
-            LoadingScreenManager.HideScreen();
-            yield return new WaitForEndOfFrame();
-            boardManager.ResetLists();
-            boardManager.InitializeVariables();
-            boardManager.GenerateLayout();
-            boardManager.CreateRooms();
-            boardManager.ConnectRooms();
-            boardManager.FillInRoof();
-            yield return new WaitForFixedUpdate();
-            boardManager.Scan();
-            boardManager.PlacePlayer();
-            yield return new WaitForFixedUpdate();
-            yield return new WaitForEndOfFrame();
-            LoadingScreenManager.ShowScreen();
+            // LoadingScreenManager.HideScreen();
+            // yield return new WaitForEndOfFrame();
+            // boardManager.ResetLists();
+            // boardManager.InitializeVariables();
+            // boardManager.GenerateLayout();
+            // boardManager.CreateRooms();
+            // boardManager.ConnectRooms();
+            // boardManager.FillInRoof();
+            // yield return new WaitForFixedUpdate();
+            // boardManager.Scan();
+            // boardManager.PlacePlayer();
+            // yield return new WaitForFixedUpdate();
+            // yield return new WaitForEndOfFrame();
+            // LoadingScreenManager.ShowScreen();
+            yield return null;
         }
 
         public void LoadLevel(FloorSettings scheme)
         {
             floorSettings = scheme;
 
-            sceneManager.ChangeScene(SceneIndexes.Level, () =>
+            SceneManager.ChangeScene(SceneIndexes.Level, () =>
             {
                 currentFloor = 0;
-                boardManager = BoardManager.Instance;
-                boardManager.FloorSettings = floorSettings;
+                // boardManager = BoardManager.Instance;
+                // boardManager.FloorSettings = floorSettings;
                 StartLevel();
             });
         }
 
         public void LoadHub()
         {
-            sceneManager.ChangeScene(SceneIndexes.Hub);
+            SceneManager.ChangeScene(SceneIndexes.Hub);
         }
 
         public void FinishRun()
@@ -166,15 +168,15 @@ namespace Project.Runtime.Managers
             // StatisticsManager.Instance.AddIntValue($"Floors.{floorSettings.name}.Failed", 1);
             // StatisticsManager.Instance.AddIntValue($"Floors.{floorSettings.name}.Total", 1);
             FindObjectOfType<PlayerInventory>().SaveInventory = false;
-            sceneManager.ChangeScene(SceneIndexes.Hub);
+            SceneManager.ChangeScene(SceneIndexes.Hub);
         }
 
         public void QuitGame()
         {
-            if (sceneManager.CurrentScene == SceneIndexes.Level)
+            if (SceneManager.CurrentScene == SceneIndexes.Level)
                 FindObjectOfType<PlayerInventory>().SaveInventory = false;
 
-            sceneManager.ChangeScene(SceneIndexes.MainMenu);
+            SceneManager.ChangeScene(SceneIndexes.MainMenu);
         }
 
         public void ExitGame()
@@ -219,7 +221,7 @@ namespace Project.Runtime.Managers
 
         public void NewGame()
         {
-            sceneManager.ChangeScene(SceneIndexes.Level0);
+            SceneManager.ChangeScene(SceneIndexes.Level0);
         }
 
         private void PlayerDeath()

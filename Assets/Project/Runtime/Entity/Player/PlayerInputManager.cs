@@ -1,9 +1,10 @@
 using System;
-using Inputs;
 using Project.Runtime.Entity.Combat;
+using Project.Runtime.Managers;
 using Project.Runtime.Utils.Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using InputManager = Inputs.InputManager;
 
 namespace Project.Runtime.Entity.Player
 {
@@ -18,13 +19,13 @@ namespace Project.Runtime.Entity.Player
 
         private void Start()
         {
-            var inputManager = Managers.InputManager.Instance;
-            if (Managers.InputManager.Instance == null)
+            var gameManager = GameManager.Instance;
+            if (gameManager == null || gameManager.InputManager == null)
             {
                 return;
             }
 
-            manager = inputManager.Manager;
+            manager = gameManager.InputManager.Manager;
             manager.Player.SetCallbacks(this);
             manager.Player.Enable();
         }
