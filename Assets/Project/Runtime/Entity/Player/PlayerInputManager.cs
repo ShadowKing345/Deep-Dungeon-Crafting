@@ -9,32 +9,32 @@ namespace Project.Runtime.Entity.Player
 {
     public class PlayerInputManager : MonoBehaviour, InputManager.IPlayerActions
     {
-        public PlayerEntity player;
+        [field: SerializeField] public PlayerEntity Entity { get; set; }
 
-        public float aoeSize;
+        [Space] public float aoeSize;
         public Vector2 aoeOffset;
 
-        private InputManager inputManager;
+        private InputManager manager;
 
-        private void OnEnable()
+        private void Start()
         {
-            if (inputManager == null)
+            var inputManager = Managers.InputManager.Instance;
+            if (Managers.InputManager.Instance == null)
             {
-                inputManager = new InputManager();
-                inputManager.Player.SetCallbacks(this);
+                return;
             }
 
-            inputManager.Player.Enable();
+            manager = inputManager.Manager;
+            manager.Player.SetCallbacks(this);
+            manager.Player.Enable();
         }
 
-        private void OnDisable()
-        {
-            inputManager.Player.Disable();
-        }
+        private void OnEnable() => manager?.Player.Enable();
+        private void OnDisable() => manager?.Player.Disable();
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            if (player.playerMovement != null) player.playerMovement.Move(context.ReadValue<Vector2>());
+            if (Entity.Movement != null) Entity.Movement.Move(context.ReadValue<Vector2>());
         }
 
         public void OnInteract(InputAction.CallbackContext context)
@@ -44,17 +44,17 @@ namespace Project.Runtime.Entity.Player
 
         public void OnAbility1(InputAction.CallbackContext context)
         {
-            if (player.playerCombat != null) player.playerCombat.UseAbility(WeaponClass.AbilityIndex.Abilities1);
+            if (Entity.Combat != null) Entity.Combat.UseAbility(WeaponClass.AbilityIndex.Abilities1);
         }
 
         public void OnAbility2(InputAction.CallbackContext context)
         {
-            if (player.playerCombat != null) player.playerCombat.UseAbility(WeaponClass.AbilityIndex.Abilities2);
+            if (Entity.Combat != null) Entity.Combat.UseAbility(WeaponClass.AbilityIndex.Abilities2);
         }
 
         public void OnAbility3(InputAction.CallbackContext context)
         {
-            if (player.playerCombat != null) player.playerCombat.UseAbility(WeaponClass.AbilityIndex.Abilities3);
+            if (Entity.Combat != null) Entity.Combat.UseAbility(WeaponClass.AbilityIndex.Abilities3);
         }
 
         private void SelectInteractable()

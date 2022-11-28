@@ -24,23 +24,17 @@ namespace Project.Runtime.Ui
 
         public TextMeshProUGUI floorNumber;
 
-        public void OnEnable()
-        {
-            LoadOrder.init += Init;
-        }
-
         private void OnDisable()
         {
-            LoadOrder.init -= Init;
             if (playerEntity != null) playerEntity.onEntityEvent -= OnPlayerEntityEvent;
         }
 
-        private void Init()
+        private void Start()
         {
             playerEntity = FindObjectOfType<PlayerEntity>();
             if (playerEntity != null)
             {
-                playerCombat = playerEntity.playerCombat;
+                playerCombat = playerEntity.Combat;
             }
 
             if (playerEntity != null)

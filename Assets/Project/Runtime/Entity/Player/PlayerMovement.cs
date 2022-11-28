@@ -5,7 +5,9 @@ namespace Project.Runtime.Entity.Player
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerMovement : EntityAnimator
     {
-        public PlayerEntity playerEntity;
+        [field: Header("Player Movement Information")]
+        [field: SerializeField] public PlayerEntity Entity { get; set; }
+
         private float movementSpeed = 7.5f;
         private Vector2 movementDirection;
 
@@ -19,9 +21,9 @@ namespace Project.Runtime.Entity.Player
 
         protected override void Start()
         {
-            if (playerEntity == null) return;
+            if (Entity == null) return;
 
-            entityData = playerEntity.Data;
+            entityData = Entity.Data;
             movementSpeed = entityData.MovementSpeed;
 
             base.Start();

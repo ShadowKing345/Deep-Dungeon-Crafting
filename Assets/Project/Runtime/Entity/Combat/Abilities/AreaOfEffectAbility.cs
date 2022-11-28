@@ -21,15 +21,16 @@ namespace Project.Runtime.Entity.Combat.Abilities
             }
 
             var o = (Vector2) entity.transform.position + entity.Data.CenterPos + offset * facing.AsVector();
-            Collider2D[] collisions = { };
-            Physics2D.OverlapCircleNonAlloc(o, size.magnitude, collisions);
 
             var hit = false;
-            foreach (var collision in collisions)
+            // ReSharper disable once Unity.PreferNonAllocApi
+            foreach (var collision in Physics2D.OverlapCircleAll(o, size.magnitude))
             {
-                Debug.Log(collision);
-
                 if (!collision.TryGetComponent(out IDamageable damageable)) continue;
+                if (damageable == self)
+                {
+                    continue;
+                }
 
                 if (damageable.Damage(properties))
                 {

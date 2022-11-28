@@ -12,7 +12,7 @@ namespace Project.Runtime.Managers
 {
     public class GameManager : MonoBehaviour
     {
-        private static GameManager _instance;
+        public static GameManager Instance { get; private set; }
 
         public string savePath;
         [SerializeField] private int currentFloor;
@@ -22,29 +22,9 @@ namespace Project.Runtime.Managers
         public WeaponClass noWeaponClass;
         public ControllerAsset controllerAsset;
 
-#if UNITY_EDITOR
-        [SerializeField] private bool loadMainMenu;
-#endif
-
         private BoardManager boardManager;
 
         private SceneManager sceneManager;
-
-        public static GameManager Instance
-        {
-            get => _instance ??= FindObjectOfType<GameManager>();
-            private set
-            {
-                if (_instance != null && _instance != value)
-                {
-                    Destroy(value);
-                    return;
-                }
-
-                _instance = value;
-                DontDestroyOnLoad(value);
-            }
-        }
 
         public int CurrentFloor
         {
@@ -72,14 +52,24 @@ namespace Project.Runtime.Managers
 
         private void Awake()
         {
-            Instance = this;
-            sceneManager = SceneManager.Instance;
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(this);
+                return;
+            }
 
-#if UNITY_EDITOR
-            if (loadMainMenu) sceneManager.ChangeScene(SceneIndexes.MainMenu);
-#else
-            // _sceneManager.ChangeScene(SceneIndexes.MainMenu);
-#endif
+            if (Instance == this)
+            {
+                return;
+            }
+
+            Destroy(this);
+        }
+
+        private void Start()
+        {
+            sceneManager = SceneManager.Instance;
         }
 
         private void OnEnable()

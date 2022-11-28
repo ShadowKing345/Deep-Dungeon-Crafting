@@ -1,4 +1,5 @@
 using System;
+using Project.Runtime.Entity.Animations;
 using Project.Runtime.Utils;
 using UnityEngine;
 
@@ -14,16 +15,23 @@ namespace Project.Runtime.Entity
 
         [Header("State")] [SerializeField] protected Direction currentDirection;
         [SerializeField] protected State state;
-        [SerializeField] protected AnimationClip attackAnimationClip;
+        [SerializeField] protected EntityAnimation attackAnimation;
         private float attackCoolDown;
 
         private bool isAttacking;
         private bool isEntityDataNull;
 
         public Direction CurrentDirection => currentDirection;
-        
+        public float AttackAnimationClipLength => attackAnimation?.GetDirection(currentDirection)?.length ?? 0f;
+
         protected virtual void Awake()
         {
+            if (entityData == null)
+            {
+                enabled = false;
+                return;
+            }
+
             animator = GetComponent<Animator>();
         }
 
@@ -40,11 +48,11 @@ namespace Project.Runtime.Entity
 
             animator.Play((state switch
             {
-                State.Idle => entityData.IdleAnimationData.GetDirection(currentDirection),
-                State.Moving => entityData.MovingAnimationData.GetDirection(currentDirection),
-                State.Attacking => attackAnimationClip,
+                State.Idle => entityData.IdleAnimationData,
+                State.Moving => entityData.MovingAnimationData,
+                State.Attacking => attackAnimation,
                 _ => throw new ArgumentOutOfRangeException()
-            }).name);
+            }).GetDirection(currentDirection).name);
         }
 
         protected virtual void FixedUpdate()
@@ -66,10 +74,10 @@ namespace Project.Runtime.Entity
             return (Direction) Mathf.FloorToInt(angle / step);
         }
 
-        public void PlayAttackAnimation(AnimationClip clip)
+        public void PlayAttackAnimation(EntityAnimation animationData)
         {
-            attackAnimationClip = clip;
-            attackCoolDown = Time.time + clip.length;
+            attackAnimation = animationData;
+            attackCoolDown = Time.time + animationData.GetDirection(currentDirection).length;
             isAttacking = true;
         }
 

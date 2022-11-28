@@ -9,36 +9,39 @@ namespace Project.Runtime.Entity.Player
     [RequireComponent(typeof(PlayerInventory))]
     public class PlayerEntity : Entity
     {
-        public PlayerInputManager playerInputManager;
-        public PlayerMovement playerMovement;
-        public PlayerInventory playerInventory;
-        public PlayerCombat playerCombat;
+        [field: Header("Player Entity Information")]
+        [field: SerializeField]
+        public PlayerInputManager InputManager { get; set; }
+
+        [field: SerializeField] public PlayerMovement Movement { get; set; }
+        [field: SerializeField] public PlayerInventory Inventory { get; set; }
+        [field: SerializeField] public PlayerCombat Combat { get; set; }
 
         private void Awake()
         {
-            if (playerInputManager == null)
+            if (InputManager == null)
             {
-                playerInputManager = GetComponentInChildren<PlayerInputManager>();
-                if (playerInputManager != null) playerInputManager.player = this;
+                InputManager = GetComponentInChildren<PlayerInputManager>();
+                if (InputManager != null) InputManager.Entity = this;
             }
 
-            if (playerMovement == null)
+            if (Movement == null)
             {
-                playerMovement = GetComponentInChildren<PlayerMovement>();
-                if (playerMovement != null) playerMovement.playerEntity = this;
+                Movement = GetComponentInChildren<PlayerMovement>();
+                if (Movement != null) Movement.Entity = this;
             }
 
-            if (playerInventory == null)
+            if (Inventory == null)
             {
-                playerInventory = GetComponentInChildren<PlayerInventory>();
-                if (playerInventory != null) playerInventory.player = this;
+                Inventory = GetComponentInChildren<PlayerInventory>();
+                if (Inventory != null) Inventory.Entity = this;
             }
 
             // ReSharper disable once InvertIf
-            if (playerCombat == null)
+            if (Combat == null)
             {
-                playerCombat = GetComponentInChildren<PlayerCombat>();
-                if (playerCombat != null) playerCombat.player = this;
+                Combat = GetComponentInChildren<PlayerCombat>();
+                if (Combat != null) Combat.Entity = this;
             }
         }
 
@@ -57,7 +60,7 @@ namespace Project.Runtime.Entity.Player
                     (current, property1) => current - current * property1.Amount);
 
                 // Armor resistances
-                var armorResistance = playerInventory?.ArmorInventory.GetItemStacks()
+                var armorResistance = Inventory?.ArmorInventory.GetItemStacks()
                     .Where(stack =>
                         !stack.IsEmpty && stack.Item is ArmorItem ai && ai.properties.HasResistanceTo(property))
                     .Select(stack => ((ArmorItem) stack.Item).properties).ToArray() ?? null;

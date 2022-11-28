@@ -47,24 +47,7 @@ namespace Project.Runtime.Entity
 
         public virtual bool Damage(AbilityProperty[] properties)
         {
-            var damageTaken = 0f;
-
-            foreach (var property in properties)
-            {
-                var buffResistance = buffs
-                    .Where(buff => buff.buff is DefensiveBuff dfb && dfb.Properties.HasResistanceTo(property))
-                    .Select(buff => ((DefensiveBuff) buff.buff).Properties).ToArray();
-
-                var damage = buffResistance.SelectMany(abilityProperties => abilityProperties)
-                    .Aggregate(property.Amount, (current, p) => current - current * p.Amount);
-
-                var resistance = data.Resistances.FirstOrDefault(p =>
-                    property.IsElemental ? p.Element == property.Element : p.AttackType == property.AttackType);
-
-                damage -= property.Amount * (resistance?.Amount ?? 0);
-
-                damageTaken += damage;
-            }
+            var damageTaken = properties.Sum(property => property.Amount);
 
             currentHealth -= Mathf.Max(Random.Range(0, 100) <= 30 ? damageTaken * 2 : damageTaken, 0);
 

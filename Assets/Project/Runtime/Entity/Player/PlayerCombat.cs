@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Project.Runtime.Entity.Combat;
 using Project.Runtime.Entity.Combat.Abilities;
@@ -10,15 +11,13 @@ namespace Project.Runtime.Entity.Player
     [RequireComponent(typeof(PlayerInventory))]
     public class PlayerCombat : MonoBehaviour
     {
+        [field: SerializeField] public PlayerEntity Entity { get; set; }
+        [Space] [SerializeField] private WeaponClass currentWeaponClass;
+
         public delegate void WeaponClassChange(WeaponClass weaponClass);
-
-        public PlayerEntity player;
-
-        [Header("Class")] [SerializeField] private WeaponClass currentWeaponClass;
-
-        [Space] private float actionCoolDown;
-
         public WeaponClassChange onChangeWeaponClass;
+
+        private float actionCoolDown;
         private PlayerInventory playerInventory;
         private PlayerMovement playerMovement;
 
@@ -34,8 +33,8 @@ namespace Project.Runtime.Entity.Player
 
         private void Start()
         {
-            playerMovement = player.playerMovement;
-            playerInventory = player.playerInventory;
+            playerMovement = Entity.Movement;
+            playerInventory = Entity.Inventory;
             playerInventory.WeaponInventory.OnWeaponChanged += ChangeClass;
 
             CurrentWeaponClass = null;
@@ -60,17 +59,18 @@ namespace Project.Runtime.Entity.Player
                 return;
             }
 
-            if (!ability.CanExecute(player))
+            if (!ability.CanExecute(Entity))
             {
                 return;
             }
 
             if (ability is AreaOfEffectAbility aoeAbility)
             {
-                aoeAbility.Execute(player, playerMovement.CurrentDirection);
+                aoeAbility.Execute(Entity, playerMovement.CurrentDirection);
             }
-            actionCoolDown = Time.time + ability.Cooldown;
-            playerMovement.PlayAttackAnimation(ability.AnimationData.GetDirection(playerMovement.CurrentDirection));
+
+            playerMovement.PlayAttackAnimation(ability.AnimationData);
+            actionCoolDown = Time.time + Math.Max(ability.Cooldown, playerMovement.AttackAnimationClipLength);
         }
 
         private void ChangeClass(WeaponClass weaponClass)
