@@ -37,11 +37,10 @@ namespace Project.Runtime.Ui
 
         private void Init()
         {
-            var player = FindObjectOfType<Player>();
-            if (player != null)
+            playerEntity = FindObjectOfType<PlayerEntity>();
+            if (playerEntity != null)
             {
-                playerEntity = player.playerEntity;
-                playerCombat = player.playerCombat;
+                playerCombat = playerEntity.playerCombat;
             }
 
             if (playerEntity != null)

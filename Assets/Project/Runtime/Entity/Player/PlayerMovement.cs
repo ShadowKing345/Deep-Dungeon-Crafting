@@ -5,10 +5,8 @@ namespace Project.Runtime.Entity.Player
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerMovement : EntityAnimator
     {
-        [SerializeField] private float moveSpeed = 7.5f;
-
-        // ReSharper disable once NotAccessedField.Global
-        public Player player;
+        public PlayerEntity playerEntity;
+        private float movementSpeed = 7.5f;
         private Vector2 movementDirection;
 
         private Rigidbody2D rb;
@@ -17,6 +15,16 @@ namespace Project.Runtime.Entity.Player
         {
             base.Awake();
             rb = GetComponent<Rigidbody2D>();
+        }
+
+        protected override void Start()
+        {
+            if (playerEntity == null) return;
+
+            entityData = playerEntity.Data;
+            movementSpeed = entityData.MovementSpeed;
+
+            base.Start();
         }
 
         protected override void Update()
@@ -39,7 +47,7 @@ namespace Project.Runtime.Entity.Player
             base.FixedUpdate();
 
             if (movementDirection.magnitude == 0) return;
-            rb.MovePosition(rb.position + movementDirection * (moveSpeed * Time.fixedDeltaTime));
+            rb.MovePosition(rb.position + movementDirection * (movementSpeed * Time.fixedDeltaTime));
         }
 
         public void Move(Vector2 direction)

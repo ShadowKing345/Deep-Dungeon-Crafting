@@ -21,15 +21,13 @@ namespace Project.Runtime.Entity
         private bool isEntityDataNull;
 
         public Direction CurrentDirection => currentDirection;
-
-        public float GetAnimationLength => animator.GetCurrentAnimatorStateInfo(0).length;
-
+        
         protected virtual void Awake()
         {
             animator = GetComponent<Animator>();
         }
 
-        private void Start()
+        protected virtual void Start()
         {
             isEntityDataNull = entityData == null;
         }

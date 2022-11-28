@@ -9,7 +9,7 @@ namespace Project.Runtime.Entity.Player
 {
     public class PlayerInputManager : MonoBehaviour, InputManager.IPlayerActions
     {
-        public Player player;
+        public PlayerEntity player;
 
         public float aoeSize;
         public Vector2 aoeOffset;

@@ -10,7 +10,7 @@ namespace Project.Runtime.Entity.Player
         [SerializeField] private ItemInventory itemInventory;
         [SerializeField] private WeaponInventory weaponInventory;
         [SerializeField] private ArmorInventory armorInventory;
-        public Player player;
+        public PlayerEntity player;
 
         public ItemInventory ItemInventory => itemInventory;
         public WeaponInventory WeaponInventory => weaponInventory;

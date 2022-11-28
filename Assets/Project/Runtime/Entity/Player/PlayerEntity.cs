@@ -9,7 +9,38 @@ namespace Project.Runtime.Entity.Player
     [RequireComponent(typeof(PlayerInventory))]
     public class PlayerEntity : Entity
     {
-        public Player player;
+        public PlayerInputManager playerInputManager;
+        public PlayerMovement playerMovement;
+        public PlayerInventory playerInventory;
+        public PlayerCombat playerCombat;
+
+        private void Awake()
+        {
+            if (playerInputManager == null)
+            {
+                playerInputManager = GetComponentInChildren<PlayerInputManager>();
+                if (playerInputManager != null) playerInputManager.player = this;
+            }
+
+            if (playerMovement == null)
+            {
+                playerMovement = GetComponentInChildren<PlayerMovement>();
+                if (playerMovement != null) playerMovement.playerEntity = this;
+            }
+
+            if (playerInventory == null)
+            {
+                playerInventory = GetComponentInChildren<PlayerInventory>();
+                if (playerInventory != null) playerInventory.player = this;
+            }
+
+            // ReSharper disable once InvertIf
+            if (playerCombat == null)
+            {
+                playerCombat = GetComponentInChildren<PlayerCombat>();
+                if (playerCombat != null) playerCombat.player = this;
+            }
+        }
 
         public override bool Damage(AbilityProperty[] properties)
         {
@@ -26,7 +57,7 @@ namespace Project.Runtime.Entity.Player
                     (current, property1) => current - current * property1.Amount);
 
                 // Armor resistances
-                var armorResistance = player.playerInventory?.ArmorInventory.GetItemStacks()
+                var armorResistance = playerInventory?.ArmorInventory.GetItemStacks()
                     .Where(stack =>
                         !stack.IsEmpty && stack.Item is ArmorItem ai && ai.properties.HasResistanceTo(property))
                     .Select(stack => ((ArmorItem) stack.Item).properties).ToArray() ?? null;

@@ -12,7 +12,7 @@ namespace Project.Runtime.Entity.Player
     {
         public delegate void WeaponClassChange(WeaponClass weaponClass);
 
-        public Player player;
+        public PlayerEntity player;
 
         [Header("Class")] [SerializeField] private WeaponClass currentWeaponClass;
 
@@ -60,14 +60,14 @@ namespace Project.Runtime.Entity.Player
                 return;
             }
 
-            if (!ability.CanExecute(player.playerEntity))
+            if (!ability.CanExecute(player))
             {
                 return;
             }
 
             if (ability is AreaOfEffectAbility aoeAbility)
             {
-                aoeAbility.Execute(player.playerEntity, playerMovement.CurrentDirection);
+                aoeAbility.Execute(player, playerMovement.CurrentDirection);
             }
             actionCoolDown = Time.time + ability.Cooldown;
             playerMovement.PlayAttackAnimation(ability.AnimationData.GetDirection(playerMovement.CurrentDirection));
