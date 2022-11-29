@@ -8,6 +8,14 @@ namespace Project.Runtime
         [Range(0, 1f)] [SerializeField] private float smoothSpeed = 0.125f;
         [SerializeField] private Vector3 offset;
 
+        private void Awake()
+        {
+            if (target == null)
+            {
+                enabled = false;
+            }
+        }
+
         private void FixedUpdate()
         {
             transform.position = Vector3.Lerp(transform.position, target.position + offset, smoothSpeed);
