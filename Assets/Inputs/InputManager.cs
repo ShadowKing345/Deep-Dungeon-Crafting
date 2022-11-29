@@ -73,6 +73,15 @@ namespace Inputs
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Open Debug Menu"",
+                    ""type"": ""Button"",
+                    ""id"": ""2050d463-db3d-43fb-b152-ad5fcc4fbfb5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -271,6 +280,17 @@ namespace Inputs
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Ability 3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""09f1308e-7bb3-4a77-912e-620a1cabc64c"",
+                    ""path"": ""<Keyboard>/backquote"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Open Debug Menu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -776,6 +796,54 @@ namespace Inputs
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Debug"",
+            ""id"": ""fbb683b0-be3d-403c-9152-cd0f65efe2fe"",
+            ""actions"": [
+                {
+                    ""name"": ""Open Debug Menu"",
+                    ""type"": ""Button"",
+                    ""id"": ""3088b105-ba87-4147-89ff-b5d188e3d366"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Enter"",
+                    ""type"": ""Button"",
+                    ""id"": ""4e07d383-4a2c-45d4-8bdf-0e8a7762b255"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""0bf43f8c-8d21-4590-9c15-4c385963d8e9"",
+                    ""path"": ""<Keyboard>/backquote"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Open Debug Menu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ccb411b3-d750-4895-bcf8-90adb63a84cd"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Enter"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -815,6 +883,7 @@ namespace Inputs
             m_Player_Ability1 = m_Player.FindAction("Ability 1", throwIfNotFound: true);
             m_Player_Ability2 = m_Player.FindAction("Ability 2", throwIfNotFound: true);
             m_Player_Ability3 = m_Player.FindAction("Ability 3", throwIfNotFound: true);
+            m_Player_OpenDebugMenu = m_Player.FindAction("Open Debug Menu", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -829,6 +898,10 @@ namespace Inputs
             m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
             m_UI_NextTab = m_UI.FindAction("NextTab", throwIfNotFound: true);
             m_UI_PreviousTab = m_UI.FindAction("PreviousTab", throwIfNotFound: true);
+            // Debug
+            m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
+            m_Debug_OpenDebugMenu = m_Debug.FindAction("Open Debug Menu", throwIfNotFound: true);
+            m_Debug_Enter = m_Debug.FindAction("Enter", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -893,6 +966,7 @@ namespace Inputs
         private readonly InputAction m_Player_Ability1;
         private readonly InputAction m_Player_Ability2;
         private readonly InputAction m_Player_Ability3;
+        private readonly InputAction m_Player_OpenDebugMenu;
         public struct PlayerActions
         {
             private @InputManager m_Wrapper;
@@ -902,6 +976,7 @@ namespace Inputs
             public InputAction @Ability1 => m_Wrapper.m_Player_Ability1;
             public InputAction @Ability2 => m_Wrapper.m_Player_Ability2;
             public InputAction @Ability3 => m_Wrapper.m_Player_Ability3;
+            public InputAction @OpenDebugMenu => m_Wrapper.m_Player_OpenDebugMenu;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -926,6 +1001,9 @@ namespace Inputs
                     @Ability3.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbility3;
                     @Ability3.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbility3;
                     @Ability3.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbility3;
+                    @OpenDebugMenu.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenDebugMenu;
+                    @OpenDebugMenu.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenDebugMenu;
+                    @OpenDebugMenu.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenDebugMenu;
                 }
                 m_Wrapper.m_PlayerActionsCallbackInterface = instance;
                 if (instance != null)
@@ -945,6 +1023,9 @@ namespace Inputs
                     @Ability3.started += instance.OnAbility3;
                     @Ability3.performed += instance.OnAbility3;
                     @Ability3.canceled += instance.OnAbility3;
+                    @OpenDebugMenu.started += instance.OnOpenDebugMenu;
+                    @OpenDebugMenu.performed += instance.OnOpenDebugMenu;
+                    @OpenDebugMenu.canceled += instance.OnOpenDebugMenu;
                 }
             }
         }
@@ -1070,6 +1151,47 @@ namespace Inputs
             }
         }
         public UIActions @UI => new UIActions(this);
+
+        // Debug
+        private readonly InputActionMap m_Debug;
+        private IDebugActions m_DebugActionsCallbackInterface;
+        private readonly InputAction m_Debug_OpenDebugMenu;
+        private readonly InputAction m_Debug_Enter;
+        public struct DebugActions
+        {
+            private @InputManager m_Wrapper;
+            public DebugActions(@InputManager wrapper) { m_Wrapper = wrapper; }
+            public InputAction @OpenDebugMenu => m_Wrapper.m_Debug_OpenDebugMenu;
+            public InputAction @Enter => m_Wrapper.m_Debug_Enter;
+            public InputActionMap Get() { return m_Wrapper.m_Debug; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(DebugActions set) { return set.Get(); }
+            public void SetCallbacks(IDebugActions instance)
+            {
+                if (m_Wrapper.m_DebugActionsCallbackInterface != null)
+                {
+                    @OpenDebugMenu.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnOpenDebugMenu;
+                    @OpenDebugMenu.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnOpenDebugMenu;
+                    @OpenDebugMenu.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnOpenDebugMenu;
+                    @Enter.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnEnter;
+                    @Enter.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnEnter;
+                    @Enter.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnEnter;
+                }
+                m_Wrapper.m_DebugActionsCallbackInterface = instance;
+                if (instance != null)
+                {
+                    @OpenDebugMenu.started += instance.OnOpenDebugMenu;
+                    @OpenDebugMenu.performed += instance.OnOpenDebugMenu;
+                    @OpenDebugMenu.canceled += instance.OnOpenDebugMenu;
+                    @Enter.started += instance.OnEnter;
+                    @Enter.performed += instance.OnEnter;
+                    @Enter.canceled += instance.OnEnter;
+                }
+            }
+        }
+        public DebugActions @Debug => new DebugActions(this);
         private int m_KeyboardMouseSchemeIndex = -1;
         public InputControlScheme KeyboardMouseScheme
         {
@@ -1095,6 +1217,7 @@ namespace Inputs
             void OnAbility1(InputAction.CallbackContext context);
             void OnAbility2(InputAction.CallbackContext context);
             void OnAbility3(InputAction.CallbackContext context);
+            void OnOpenDebugMenu(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {
@@ -1110,6 +1233,11 @@ namespace Inputs
             void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
             void OnNextTab(InputAction.CallbackContext context);
             void OnPreviousTab(InputAction.CallbackContext context);
+        }
+        public interface IDebugActions
+        {
+            void OnOpenDebugMenu(InputAction.CallbackContext context);
+            void OnEnter(InputAction.CallbackContext context);
         }
     }
 }
