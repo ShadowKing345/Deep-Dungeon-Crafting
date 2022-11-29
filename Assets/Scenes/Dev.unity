@@ -306,6 +306,8 @@ GameObject:
   - component: {fileID: 890787439}
   - component: {fileID: 890787441}
   - component: {fileID: 890787442}
+  - component: {fileID: 890787443}
+  - component: {fileID: 890787444}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -352,6 +354,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8b86d91f43a43189a0a5572d82ad1ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <InputManager>k__BackingField: {fileID: 0}
+  <SceneManager>k__BackingField: {fileID: 0}
   savePath: 
   currentFloor: 0
   floorSettings: {fileID: 0}
@@ -401,6 +405,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc9fe79ed2344a8699420e6475dbc4bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &890787443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 890787438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a425d560205b427e9ebd8b41f287bfe0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &890787444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 890787438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31fac9418b14275b1b7b4cbe87beaad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1393244396
