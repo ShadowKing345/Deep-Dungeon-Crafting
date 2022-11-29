@@ -223,10 +223,5 @@ namespace Project.Runtime.Managers
         {
             SceneManager.ChangeScene(SceneIndexes.Level0);
         }
-
-        private void PlayerDeath()
-        {
-            UiManager.Instance.ShowUiElement(WindowReference.DeathScreen);
-        }
     }
 }
