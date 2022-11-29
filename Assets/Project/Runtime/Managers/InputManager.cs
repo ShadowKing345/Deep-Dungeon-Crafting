@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Project.Runtime.Managers
@@ -8,6 +9,8 @@ namespace Project.Runtime.Managers
 
         private Inputs.InputManager manager;
         public Inputs.InputManager Manager => manager ??= new Inputs.InputManager();
+
+        [field: SerializeField] public Context InputContext { get; private set; } = Context.Player;
 
         private void Awake()
         {
@@ -24,6 +27,53 @@ namespace Project.Runtime.Managers
             }
 
             Destroy(this);
+        }
+
+        public void SwitchContext(Context context)
+        {
+            if (context == InputContext)
+            {
+                return;
+            }
+
+            if (manager.Player.enabled)
+            {
+                manager.Player.Disable();
+            }
+
+            if (manager.Debug.enabled)
+            {
+                manager.Debug.Disable();
+            }
+
+            if (manager.UI.enabled)
+            {
+                manager.UI.Disable();
+            }
+
+            switch (context)
+            {
+                case Context.Player:
+                    manager.Player.Enable();
+                    break;
+                case Context.Debug:
+                    manager.Debug.Enable();
+                    break;
+                case Context.Ui:
+                    manager.UI.Enable();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(context), context, "Context must be valid.");
+            }
+
+            InputContext = context;
+        }
+
+        public enum Context
+        {
+            Player,
+            Debug,
+            Ui
         }
     }
 }
