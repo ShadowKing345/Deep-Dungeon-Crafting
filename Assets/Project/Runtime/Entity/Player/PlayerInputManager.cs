@@ -1,26 +1,48 @@
-using System;
-using Project.Runtime.Entity.Combat;
-using Project.Runtime.Managers;
-using Project.Runtime.Utils.Interfaces;
+using Project.Runtime.Utils.Debug;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using InputManager = Inputs.InputManager;
 
 namespace Project.Runtime.Entity.Player
 {
-    public class PlayerInputManager : MonoBehaviour, InputManager.IPlayerActions
+    using Combat;
+    using Managers;
+    using Utils.Interfaces;
+
+    public class PlayerInputManager : MonoBehaviour, Inputs.InputManager.IPlayerActions
     {
         [field: SerializeField] public PlayerEntity Entity { get; set; }
 
         [Space] public float aoeSize;
         public Vector2 aoeOffset;
 
-        private InputManager manager;
+        private bool isCombatNotNull;
+        private PlayerCombat combat;
+        private bool isMovementNotNull;
+        private PlayerMovement movement;
+
+        private Inputs.InputManager manager;
 
         private void Start()
         {
             var gameManager = GameManager.Instance;
-            if (gameManager == null || gameManager.InputManager == null)
+            if (gameManager == null)
+            {
+                return;
+            }
+
+            if (Entity.Combat != null)
+            {
+                isCombatNotNull = true;
+                combat = Entity.Combat;
+            }
+
+            if (Entity.Movement != null)
+            {
+                isMovementNotNull = true;
+                movement = Entity.Movement;
+            }
+
+            if (gameManager.InputManager == null)
             {
                 return;
             }
@@ -35,39 +57,61 @@ namespace Project.Runtime.Entity.Player
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            if (Entity.Movement != null) Entity.Movement.Move(context.ReadValue<Vector2>());
+            if (isMovementNotNull)
+            {
+                movement.Move(context.ReadValue<Vector2>());
+            }
         }
 
         public void OnInteract(InputAction.CallbackContext context)
         {
-            throw new NotImplementedException();
+            if (context.performed)
+            {
+                SelectInteractable();
+            }
         }
 
         public void OnAbility1(InputAction.CallbackContext context)
         {
-            if (Entity.Combat != null) Entity.Combat.UseAbility(WeaponClass.AbilityIndex.Abilities1);
+            if (isCombatNotNull && context.performed)
+            {
+                combat.UseAbility(WeaponClass.AbilityIndex.Abilities1);
+            }
         }
 
         public void OnAbility2(InputAction.CallbackContext context)
         {
-            if (Entity.Combat != null) Entity.Combat.UseAbility(WeaponClass.AbilityIndex.Abilities2);
+            if (isCombatNotNull && context.performed)
+            {
+                combat.UseAbility(WeaponClass.AbilityIndex.Abilities2);
+            }
         }
 
         public void OnAbility3(InputAction.CallbackContext context)
         {
-            if (Entity.Combat != null) Entity.Combat.UseAbility(WeaponClass.AbilityIndex.Abilities3);
+            if (isCombatNotNull && context.performed)
+            {
+                combat.UseAbility(WeaponClass.AbilityIndex.Abilities3);
+            }
+        }
+
+        public void OnOpenDebugMenu(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                DebugController.Instance.OpenDebugMenu();
+            }
         }
 
         private void SelectInteractable()
         {
             var currentPos = (Vector2) transform.position + aoeOffset;
-            var hits = new Collider2D[] { };
-            Physics2D.OverlapCircleNonAlloc(currentPos, aoeSize, hits);
 
             IInteractable closest = null;
             var smallestPos = Vector2.positiveInfinity;
 
-            foreach (var hit in hits)
+            // ReSharper disable once Unity.PreferNonAllocApi
+            foreach (var hit in Physics2D.OverlapCircleAll(currentPos, aoeSize))
             {
                 if (hit.gameObject == gameObject) continue;
                 if (!hit.TryGetComponent(out IInteractable interactable)) continue;
