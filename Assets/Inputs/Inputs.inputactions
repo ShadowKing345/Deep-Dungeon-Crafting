@@ -51,9 +51,36 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Open Debug Menu",
+                    "name": "Open Console",
                     "type": "Button",
                     "id": "2050d463-db3d-43fb-b152-ad5fcc4fbfb5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Open Inventory Screen",
+                    "type": "Button",
+                    "id": "044a8152-7dab-474b-b7e3-04dcd826aef6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Open Crafting Screen",
+                    "type": "Button",
+                    "id": "013ced82-b8c2-4c72-b98b-42566f5b0903",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Open Journal",
+                    "type": "Button",
+                    "id": "b6bca7a3-a885-48af-b4c5-36f043c8ec89",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -266,7 +293,40 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Open Debug Menu",
+                    "action": "Open Console",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9c6b8ce2-6c16-422d-b132-fe557e15b6cd",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Open Inventory Screen",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e3b6a327-8d5d-484d-8704-e1daff0a913c",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Open Crafting Screen",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1d1a3a20-b985-4cd7-9803-04874b7976ba",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Open Journal",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

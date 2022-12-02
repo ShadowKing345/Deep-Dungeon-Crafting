@@ -16,7 +16,6 @@ namespace Project.Runtime.Board.Tiles
 
         public bool Interact(GameObject target)
         {
-            GameManager.Instance.NextFloor();
             return true;
         }
 

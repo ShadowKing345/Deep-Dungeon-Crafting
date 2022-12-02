@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.17, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3658507624095691943}
   m_RootOrder: 1
@@ -55,6 +56,7 @@ MonoBehaviour:
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
   m_OverlapOperation: 0
   m_NormalMapDistance: 3
   m_NormalMapQuality: 2
@@ -121,8 +123,6 @@ GameObject:
   - component: {fileID: 3658507624095691940}
   - component: {fileID: 3658507624095691942}
   - component: {fileID: 3658507624095691946}
-  - component: {fileID: 3658507624095691937}
-  - component: {fileID: 5874706435854319267}
   - component: {fileID: 3658507624095691936}
   - component: {fileID: 3658507624095691938}
   - component: {fileID: 1452273214156598086}
@@ -144,6 +144,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.7607, y: -0.45335445, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2730959066611701359}
   - {fileID: 5002205621477184734}
@@ -204,7 +205,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 0
 --- !u!95 &3658507624095691942
 Animator:
-  serializedVersion: 3
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -217,6 +218,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -233,59 +235,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1e507ab9ec0e7dc68735ff3ef79b520, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityData: {fileID: 11400000, guid: c18cc75fb47e43e479dcf2dcb470ba40, type: 2}
   animator: {fileID: 3658507624095691942}
-  attackName: 
   currentDirection: 0
   state: 0
-  ignoreDirection: 1
---- !u!114 &3658507624095691937
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3658507624095691947}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f374dfcf246649b78a40842c987ad0d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentTarget: {fileID: 0}
-  currentlyThinking: 0
-  movementSpeed: 3
-  agroRadius: 5
-  attackRange: 1
-  nextWaypointDistance: 0.1
-  roamingDelay: 1.5
-  abilityBase: {fileID: 11400000, guid: fa8aeac45894f620f9b9368a44ffcd6d, type: 2}
---- !u!114 &5874706435854319267
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3658507624095691947}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 1
-  drawGizmos: 1
-  detailedGizmos: 0
-  startEndModifier:
-    addPoints: 0
-    exactStartPoint: 3
-    exactEndPoint: 3
-    useRaycasting: 0
-    mask:
-      serializedVersion: 2
-      m_Bits: 4294967295
-    useGraphRaycasting: 0
-  traversableTags: -1
-  tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  graphMask:
-    value: -1
+  attackAnimation:
+    <UseDirection>k__BackingField: 0
+    <Clip>k__BackingField: {fileID: 0}
+    <North>k__BackingField: {fileID: 0}
+    <South>k__BackingField: {fileID: 0}
+    <East>k__BackingField: {fileID: 0}
+    <West>k__BackingField: {fileID: 0}
 --- !u!50 &3658507624095691936
 Rigidbody2D:
   serializedVersion: 4
@@ -319,7 +279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 004df3d1c5094b57bf93328cfba9efb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 11400000, guid: c18cc75fb47e43e479dcf2dcb470ba40, type: 2}
+  data: {fileID: 11400000, guid: c18cc75fb47e43e479dcf2dcb470ba40, type: 2}
   currentHealth: 0
   currentMana: 0
   godMode: 0
@@ -382,6 +342,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3658507624095691943}
   m_RootOrder: 0

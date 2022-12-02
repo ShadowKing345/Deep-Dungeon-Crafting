@@ -1,4 +1,4 @@
-using Project.Runtime.Utils.Debug;
+using Project.Runtime.Console;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -94,12 +94,27 @@ namespace Project.Runtime.Entity.Player
                 combat.UseAbility(WeaponClass.AbilityIndex.Abilities3);
             }
         }
+        
+        public void OnOpenInventoryScreen(InputAction.CallbackContext context)
+        {
+            throw new System.NotImplementedException();
+        }
 
-        public void OnOpenDebugMenu(InputAction.CallbackContext context)
+        public void OnOpenCraftingScreen(InputAction.CallbackContext context)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void OnOpenJournal(InputAction.CallbackContext context)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void OnOpenConsole(InputAction.CallbackContext context)
         {
             if (context.performed)
             {
-                DebugController.Instance.OpenDebugMenu();
+                ConsoleBehaviour.Instance.OpenDebugMenu();
             }
         }
 

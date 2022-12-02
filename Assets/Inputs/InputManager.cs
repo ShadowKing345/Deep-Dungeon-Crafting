@@ -75,9 +75,36 @@ namespace Inputs
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Open Debug Menu"",
+                    ""name"": ""Open Console"",
                     ""type"": ""Button"",
                     ""id"": ""2050d463-db3d-43fb-b152-ad5fcc4fbfb5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Open Inventory Screen"",
+                    ""type"": ""Button"",
+                    ""id"": ""044a8152-7dab-474b-b7e3-04dcd826aef6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Open Crafting Screen"",
+                    ""type"": ""Button"",
+                    ""id"": ""013ced82-b8c2-4c72-b98b-42566f5b0903"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Open Journal"",
+                    ""type"": ""Button"",
+                    ""id"": ""b6bca7a3-a885-48af-b4c5-36f043c8ec89"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -290,7 +317,40 @@ namespace Inputs
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Open Debug Menu"",
+                    ""action"": ""Open Console"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9c6b8ce2-6c16-422d-b132-fe557e15b6cd"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Open Inventory Screen"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e3b6a327-8d5d-484d-8704-e1daff0a913c"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Open Crafting Screen"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1d1a3a20-b985-4cd7-9803-04874b7976ba"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Open Journal"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -883,7 +943,10 @@ namespace Inputs
             m_Player_Ability1 = m_Player.FindAction("Ability 1", throwIfNotFound: true);
             m_Player_Ability2 = m_Player.FindAction("Ability 2", throwIfNotFound: true);
             m_Player_Ability3 = m_Player.FindAction("Ability 3", throwIfNotFound: true);
-            m_Player_OpenDebugMenu = m_Player.FindAction("Open Debug Menu", throwIfNotFound: true);
+            m_Player_OpenConsole = m_Player.FindAction("Open Console", throwIfNotFound: true);
+            m_Player_OpenInventoryScreen = m_Player.FindAction("Open Inventory Screen", throwIfNotFound: true);
+            m_Player_OpenCraftingScreen = m_Player.FindAction("Open Crafting Screen", throwIfNotFound: true);
+            m_Player_OpenJournal = m_Player.FindAction("Open Journal", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -966,7 +1029,10 @@ namespace Inputs
         private readonly InputAction m_Player_Ability1;
         private readonly InputAction m_Player_Ability2;
         private readonly InputAction m_Player_Ability3;
-        private readonly InputAction m_Player_OpenDebugMenu;
+        private readonly InputAction m_Player_OpenConsole;
+        private readonly InputAction m_Player_OpenInventoryScreen;
+        private readonly InputAction m_Player_OpenCraftingScreen;
+        private readonly InputAction m_Player_OpenJournal;
         public struct PlayerActions
         {
             private @InputManager m_Wrapper;
@@ -976,7 +1042,10 @@ namespace Inputs
             public InputAction @Ability1 => m_Wrapper.m_Player_Ability1;
             public InputAction @Ability2 => m_Wrapper.m_Player_Ability2;
             public InputAction @Ability3 => m_Wrapper.m_Player_Ability3;
-            public InputAction @OpenDebugMenu => m_Wrapper.m_Player_OpenDebugMenu;
+            public InputAction @OpenConsole => m_Wrapper.m_Player_OpenConsole;
+            public InputAction @OpenInventoryScreen => m_Wrapper.m_Player_OpenInventoryScreen;
+            public InputAction @OpenCraftingScreen => m_Wrapper.m_Player_OpenCraftingScreen;
+            public InputAction @OpenJournal => m_Wrapper.m_Player_OpenJournal;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1001,9 +1070,18 @@ namespace Inputs
                     @Ability3.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbility3;
                     @Ability3.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbility3;
                     @Ability3.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbility3;
-                    @OpenDebugMenu.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenDebugMenu;
-                    @OpenDebugMenu.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenDebugMenu;
-                    @OpenDebugMenu.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenDebugMenu;
+                    @OpenConsole.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenConsole;
+                    @OpenConsole.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenConsole;
+                    @OpenConsole.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenConsole;
+                    @OpenInventoryScreen.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenInventoryScreen;
+                    @OpenInventoryScreen.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenInventoryScreen;
+                    @OpenInventoryScreen.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenInventoryScreen;
+                    @OpenCraftingScreen.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenCraftingScreen;
+                    @OpenCraftingScreen.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenCraftingScreen;
+                    @OpenCraftingScreen.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenCraftingScreen;
+                    @OpenJournal.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenJournal;
+                    @OpenJournal.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenJournal;
+                    @OpenJournal.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenJournal;
                 }
                 m_Wrapper.m_PlayerActionsCallbackInterface = instance;
                 if (instance != null)
@@ -1023,9 +1101,18 @@ namespace Inputs
                     @Ability3.started += instance.OnAbility3;
                     @Ability3.performed += instance.OnAbility3;
                     @Ability3.canceled += instance.OnAbility3;
-                    @OpenDebugMenu.started += instance.OnOpenDebugMenu;
-                    @OpenDebugMenu.performed += instance.OnOpenDebugMenu;
-                    @OpenDebugMenu.canceled += instance.OnOpenDebugMenu;
+                    @OpenConsole.started += instance.OnOpenConsole;
+                    @OpenConsole.performed += instance.OnOpenConsole;
+                    @OpenConsole.canceled += instance.OnOpenConsole;
+                    @OpenInventoryScreen.started += instance.OnOpenInventoryScreen;
+                    @OpenInventoryScreen.performed += instance.OnOpenInventoryScreen;
+                    @OpenInventoryScreen.canceled += instance.OnOpenInventoryScreen;
+                    @OpenCraftingScreen.started += instance.OnOpenCraftingScreen;
+                    @OpenCraftingScreen.performed += instance.OnOpenCraftingScreen;
+                    @OpenCraftingScreen.canceled += instance.OnOpenCraftingScreen;
+                    @OpenJournal.started += instance.OnOpenJournal;
+                    @OpenJournal.performed += instance.OnOpenJournal;
+                    @OpenJournal.canceled += instance.OnOpenJournal;
                 }
             }
         }
@@ -1217,7 +1304,10 @@ namespace Inputs
             void OnAbility1(InputAction.CallbackContext context);
             void OnAbility2(InputAction.CallbackContext context);
             void OnAbility3(InputAction.CallbackContext context);
-            void OnOpenDebugMenu(InputAction.CallbackContext context);
+            void OnOpenConsole(InputAction.CallbackContext context);
+            void OnOpenInventoryScreen(InputAction.CallbackContext context);
+            void OnOpenCraftingScreen(InputAction.CallbackContext context);
+            void OnOpenJournal(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

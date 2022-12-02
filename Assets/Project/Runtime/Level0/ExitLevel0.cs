@@ -8,7 +8,6 @@ namespace Project.Runtime.Level0
     {
         public bool Interact(GameObject target)
         {
-            GameManager.Instance.LoadHub();
             return true;
         }
     }

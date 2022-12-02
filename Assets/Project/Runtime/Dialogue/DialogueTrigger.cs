@@ -20,19 +20,10 @@ namespace Project.Runtime.Dialogue
             manager = DialogueManager.Instance;
         }
 
-        private void OnDestroy()
-        {
-            manager.OnDialogueFinished -= OnDialogueFinished;
-            manager.OnDialogueNodeFinished -= OnDialogueNodeFinished;
-        }
-
         public bool Interact(GameObject target)
         {
             if (manager == null) return false;
-
-            manager.OnDialogueFinished += OnDialogueFinished;
-            manager.OnDialogueNodeFinished += OnDialogueNodeFinished;
-
+            
             manager.StartDialogue(tree);
             return true;
         }
@@ -45,9 +36,6 @@ namespace Project.Runtime.Dialogue
 
         private void OnDialogueFinished()
         {
-            manager.OnDialogueFinished -= OnDialogueFinished;
-            manager.OnDialogueNodeFinished -= OnDialogueNodeFinished;
-
             onDialogueFinished?.Invoke();
         }
 

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Project.Runtime.Board;
-using Project.Runtime.Enums;
 using Project.Runtime.Managers;
 using Project.Runtime.Utils;
 using Project.Runtime.Utils.Interfaces;
@@ -27,7 +26,6 @@ namespace Project.Runtime.LevelSelect
         {
             _gameManager = GameManager.Instance;
             _uiManager = UiManager.Instance;
-            _uiManager.RegisterWindow(WindowReference.LevelSelector, gameObject);
 
             gameObject.SetActive(false);
         }
@@ -45,12 +43,7 @@ namespace Project.Runtime.LevelSelect
 
             SetupToggles();
         }
-
-        private void OnDestroy()
-        {
-            _uiManager.UnregisterWindow(WindowReference.LevelSelector, gameObject);
-        }
-
+        
         public void Show()
         {
             GameManager.PlayerMovement = false;
@@ -93,7 +86,6 @@ namespace Project.Runtime.LevelSelect
 
             if (!toggles.TryGetValue(toggle, out var settings)) return;
             _gameManager.LoadLevel(settings);
-            _uiManager.HideUiElement(WindowReference.LevelSelector);
         }
     }
 }

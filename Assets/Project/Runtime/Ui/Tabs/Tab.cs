@@ -1,4 +1,3 @@
-using Project.Runtime.Ui.ToolTip;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -12,8 +11,6 @@ namespace Project.Runtime.Ui.Tabs
 
         [Space] [SerializeField] private Image iconImage;
 
-        [SerializeField] private ToolTipTrigger toolTipTrigger;
-
         public Sprite Sprite
         {
             get => sprite;
@@ -24,15 +21,9 @@ namespace Project.Runtime.Ui.Tabs
             }
         }
 
-        public string ToolTipText
-        {
-            set => toolTipTrigger.Content = value;
-        }
-
         protected override void OnEnable()
         {
             controller ??= GetComponentInParent<TabController>();
-            toolTipTrigger ??= GetComponent<ToolTipTrigger>();
         }
 
         public void OnPointerClick(PointerEventData eventData)

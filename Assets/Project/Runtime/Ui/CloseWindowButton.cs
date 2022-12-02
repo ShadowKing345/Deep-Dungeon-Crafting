@@ -1,5 +1,4 @@
 using Project.Runtime.Enums;
-using Project.Runtime.Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +11,6 @@ namespace Project.Runtime.Ui
         protected override void OnEnable()
         {
             base.OnEnable();
-            onClick.AddListener(() => UiManager.Instance.HideUiElement(uiElement));
         }
     }
 }

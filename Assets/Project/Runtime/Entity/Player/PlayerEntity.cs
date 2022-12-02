@@ -3,6 +3,7 @@ using Project.Runtime.Entity.Combat;
 using Project.Runtime.Entity.Combat.Buffs;
 using Project.Runtime.Items;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Project.Runtime.Entity.Player
 {
@@ -54,7 +55,7 @@ namespace Project.Runtime.Entity.Player
                 // buff resistances
                 var buffResistance = buffs
                     .Where(buff => buff.buff is DefensiveBuff dfb && dfb.Properties.HasResistanceTo(property))
-                    .Select(buff => ((DefensiveBuff) buff.buff).Properties).ToArray();
+                    .Select(buff => ((DefensiveBuff)buff.buff).Properties).ToArray();
 
                 var damage = buffResistance.SelectMany(abilityProperty => abilityProperty).Aggregate(property.Amount,
                     (current, property1) => current - current * property1.Amount);
@@ -63,7 +64,7 @@ namespace Project.Runtime.Entity.Player
                 var armorResistance = Inventory?.ArmorInventory.GetItemStacks()
                     .Where(stack =>
                         !stack.IsEmpty && stack.Item is ArmorItem ai && ai.properties.HasResistanceTo(property))
-                    .Select(stack => ((ArmorItem) stack.Item).properties).ToArray() ?? null;
+                    .Select(stack => ((ArmorItem)stack.Item).properties).ToArray() ?? null;
 
                 damage = armorResistance.SelectMany(abilityProperty => abilityProperty).Aggregate(damage,
                     (current, property1) => current - current * property1.Amount);

@@ -102,7 +102,6 @@ namespace Project.Runtime.Managers
         private void OnEnable()
         {
             Load();
-            GameManager.Instance.OnApplicationClose += Save;
         }
 
         private void OnDisable()

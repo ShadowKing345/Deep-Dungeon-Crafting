@@ -9,8 +9,6 @@ namespace Project.Runtime.Ui.Menu
 {
     public class PauseMenu : MonoBehaviour, IUiWindow
     {
-        [SerializeField] private SettingsController settingsMenu;
-
         private GameManager _gameManager;
         private UiManager _uiManager;
         private PlayerCombat playerCombat;
@@ -21,7 +19,6 @@ namespace Project.Runtime.Ui.Menu
             _gameManager ??= GameManager.Instance;
             _uiManager ??= UiManager.Instance;
 
-            _uiManager.RegisterWindow(WindowReference.PauseMenu, gameObject);
             gameObject.SetActive(false);
         }
 
@@ -33,7 +30,6 @@ namespace Project.Runtime.Ui.Menu
 
         private void OnDestroy()
         {
-            _uiManager.UnregisterWindow(WindowReference.PauseMenu, gameObject);
         }
 
         public void Show()
@@ -46,45 +42,16 @@ namespace Project.Runtime.Ui.Menu
         public void Hide()
         {
             if (playerCombat != null && playerMovement != null) playerCombat.enabled = playerMovement.enabled = true;
-            if (settingsMenu.gameObject.activeSelf) settingsMenu.Hide();
             Time.timeScale = 1;
         }
 
         public void Resume()
         {
-            _uiManager.HideUiElement(WindowReference.PauseMenu);
         }
 
         public void OpenHelp()
         {
             Resume();
-            _uiManager.ToggleUiElement(WindowReference.Help);
-        }
-
-        public void Settings()
-        {
-            if (settingsMenu.gameObject.activeSelf)
-                settingsMenu.Hide();
-            else
-                settingsMenu.Show();
-        }
-        
-        public void EndRun()
-        {
-            _uiManager.HideUiElement(WindowReference.PauseMenu);
-            _gameManager.EndRun();
-        }
-
-        public void QuitGame()
-        {
-            _uiManager.HideUiElement(WindowReference.PauseMenu);
-            _gameManager.QuitGame();
-        }
-
-        public void ExitGame()
-        {
-            _uiManager.HideUiElement(WindowReference.PauseMenu);
-            _gameManager.ExitGame();
         }
     }
 }
